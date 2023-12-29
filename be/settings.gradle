@@ -1,0 +1,9 @@
+rootProject.name = 'recycle'
+// server
+include 'member'
+include 'review'
+include 'notification'
+
+// module
+include 'flyway'
+include 'security'
