@@ -1,0 +1,12 @@
+dependencies {
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // swagger & restdocs
+    implementation "org.springdoc:springdoc-openapi-ui:${springDocOpenApiUiVersion}"
+    swaggerUI "org.webjars:swagger-ui:${swaggerUIVersion}"
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation "com.epages:restdocs-api-spec-mockmvc:${epagesRestDocsApiSpecVersion}"
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
