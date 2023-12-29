@@ -1,0 +1,8 @@
+apply from: '../dependencies/web-dependencies.gradle'
+apply from: '../dependencies/database-dependencies.gradle'
+apply from: '../tasks/docs-task.gradle'
+
+dependencies {
+    implementation project(':flyway')
+    implementation project(':security')
+}
