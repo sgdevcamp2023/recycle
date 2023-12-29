@@ -1,0 +1,60 @@
+tasks.create(name: 'assembleDocs')  {
+    dependsOn 'member:openapi3', 'notification:openapi3', 'review:openapi3'
+    doFirst {
+        def member = file(getFilePath("member"))
+        def review = file(getFilePath("review"))
+        def notification = file(getFilePath("notification"))
+        makeAPI(rootProject.rootDir.toString(), member, notification, review)
+    }
+
+}
+
+def getFilePath(String server) {
+    return "${rootProject.rootDir}" + "/" + server + "/src/main/resources/static/openapi3.yaml"
+}
+
+def makeAPI(String targetPath, File ...files) {
+    def path = "paths: \n"
+    def schema = "components:\n" +
+            "  schemas:"
+    def header = getHeader(files[0])
+    for (File file : files) {
+        path += getPath(file)
+        schema += getSchema(file)
+    }
+
+    def securitySchemesContent = "  securitySchemes:\n" +    \
+                                    "    APIKey:\n" +    \
+                                    "      type: apiKey\n" +    \
+                                    "      name: Authorization\n" +    \
+                                    "      in: header\n" +   \
+                                    "security:\n" +
+            "  - APIKey: []  # Apply the security scheme here"
+    def api = header + path + schema + securitySchemesContent
+    def apiFile = new File(targetPath + '/zzaugApi.yaml')
+    if (apiFile.exists()) {
+        apiFile.delete()
+        apiFile.write(api)
+        apiFile.createNewFile()
+    } else {
+        apiFile.write(api)
+        apiFile.createNewFile()
+    }
+}
+
+def getHeader(File file) {
+    def header = file.text.split("paths:")
+    return header[0]
+}
+
+def getPath(File file) {
+    def source = file.text.split("paths:")
+    def info = source[1].split("schemas:")
+    return info[0].split("components:")[0]
+}
+
+def getSchema(File file) {
+    def source = file.text.split("paths:")
+    def info = source[1].split("schemas:")
+    return info[1]
+}
