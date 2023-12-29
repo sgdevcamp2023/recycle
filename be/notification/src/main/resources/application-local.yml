@@ -1,0 +1,13 @@
+server:
+  port: 8083
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - mysql-local
+      - security-local
+
+logging:
+  level:
+    root: DEBUG
