@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer;
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,8 +31,7 @@ public class EntityFlywayConfig {
 	private static final String FLYWAY_CONFIGURATION = BASE_BEAN_NAME_PREFIX + "Configuration";
 
 	@Bean(name = FLYWAY)
-	public Flyway flyway(
-					org.flywaydb.core.api.configuration.Configuration configuration) {
+	public Flyway flyway(org.flywaydb.core.api.configuration.Configuration configuration) {
 		return new Flyway(configuration);
 	}
 
@@ -45,8 +43,7 @@ public class EntityFlywayConfig {
 
 	@Profile({"!local"})
 	@Bean(name = FLYWAY_MIGRATION_INITIALIZER)
-	public FlywayMigrationInitializer flywayMigrationInitializer(
-			Flyway flyway) {
+	public FlywayMigrationInitializer flywayMigrationInitializer(Flyway flyway) {
 		return new FlywayMigrationInitializer(flyway, Flyway::migrate);
 	}
 
@@ -58,11 +55,11 @@ public class EntityFlywayConfig {
 
 	@Bean(name = FLYWAY_CONFIGURATION)
 	public org.flywaydb.core.api.configuration.Configuration configuration(
-		ObjectProvider<DataSource> dataSource) {
+			ObjectProvider<DataSource> dataSource) {
 		FluentConfiguration configuration = new FluentConfiguration();
 		configuration.dataSource(dataSource.getIfAvailable());
 		flywayProperties().getSchemas().forEach(configuration::schemas);
-//		flywayProperties.getLocations().forEach(configuration::locations);
+		//		flywayProperties.getLocations().forEach(configuration::locations);
 		return configuration;
 	}
 }

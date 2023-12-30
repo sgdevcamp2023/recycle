@@ -24,8 +24,7 @@ public class NotificationController {
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.SuccessBody<NotificationResponse>> notification(
-		@AuthenticationPrincipal TokenUserDetails userDetails,
-			NotificationRequest request) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, NotificationRequest request) {
 		NotificationUseCaseRequest useCaseRequest = NotificationUseCaseRequestConverter.from(request);
 		//		NotificationResponse res = notificationUseCase.execute(useCaseRequest);
 		NotificationResponse res = NotificationResponse.builder().name("name").build();

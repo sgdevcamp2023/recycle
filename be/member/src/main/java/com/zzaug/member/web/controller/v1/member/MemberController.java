@@ -25,21 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberUseCase MemberUseCase;
-    private final TokenGenerator tokenGenerator;
+	private final MemberUseCase MemberUseCase;
+	private final TokenGenerator tokenGenerator;
 
-    @PostMapping()
-    public ApiResponse<ApiResponse.SuccessBody<MemberResponse>> member(
-        @AuthenticationPrincipal TokenUserDetails userDetails, MemberRequest request) {
-        MemberUseCaseRequest useCaseRequest = MemberUseCaseRequestConverter.from(request);
-        //		MemberResponse res = MemberUseCase.execute(useCaseRequest);
-        MemberResponse res = MemberResponse.builder().name("name").build();
-        return ApiResponseGenerator.success(res, HttpStatus.OK);
-    }
+	@PostMapping()
+	public ApiResponse<ApiResponse.SuccessBody<MemberResponse>> member(
+			@AuthenticationPrincipal TokenUserDetails userDetails, MemberRequest request) {
+		MemberUseCaseRequest useCaseRequest = MemberUseCaseRequestConverter.from(request);
+		//		MemberResponse res = MemberUseCase.execute(useCaseRequest);
+		MemberResponse res = MemberResponse.builder().name("name").build();
+		return ApiResponseGenerator.success(res, HttpStatus.OK);
+	}
 
-    @GetMapping("token")
-    public ApiResponse<ApiResponse.SuccessBody<AuthToken>> token() {
-        AuthToken res = tokenGenerator.generateAuthToken(1L, List.of(Roles.ROLE_USER));
-        return ApiResponseGenerator.success(res, HttpStatus.OK);
-    }
+	@GetMapping("token")
+	public ApiResponse<ApiResponse.SuccessBody<AuthToken>> token() {
+		AuthToken res = tokenGenerator.generateAuthToken(1L, List.of(Roles.ROLE_USER));
+		return ApiResponseGenerator.success(res, HttpStatus.OK);
+	}
 }
