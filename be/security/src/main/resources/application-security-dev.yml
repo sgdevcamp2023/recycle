@@ -1,0 +1,7 @@
+security:
+  jwt:
+    token:
+      validtime:
+        access: 21600000
+        refresh: 2073600000
+      secretkey: ${TOKEN_SECRETKEY}

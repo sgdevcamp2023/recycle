@@ -1,0 +1,10 @@
+server:
+  port: 8081
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - mysql
+      - flyway-member
+      - security

@@ -1,0 +1,26 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+apply from: '../dependencies/web-dependencies.gradle'
+
+dependencies {
+    // security
+    api 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: "${jsr305Version}"
+
+    //jwt
+    implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-impl:${jsonwebtokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jsonwebtokenVersion}"
+}

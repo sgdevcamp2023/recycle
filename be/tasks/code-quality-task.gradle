@@ -1,0 +1,44 @@
+apply plugin: 'org.asciidoctor.jvm.convert'
+apply plugin: 'com.epages.restdocs-api-spec'
+apply plugin: 'org.sonarqube'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+    reports {
+        html.required = true
+        csv.required = true
+        xml.required = true
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "" // TODO: Add exclusions
+            ])
+        }))
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.00
+            }
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.00
+            }
+        }
+    }
+}

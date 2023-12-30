@@ -1,0 +1,21 @@
+apply plugin: 'org.asciidoctor.jvm.convert'
+apply plugin: 'com.epages.restdocs-api-spec'
+apply plugin: 'org.hidetake.swagger.generator'
+
+openapi3 {
+    servers = [ { url = "https://recycle.com" } , { url = "http://localhost:8080" }]
+    title = "${projectName}"
+    version = "${projectVersion}"
+    format = 'yaml'
+    snippetsDirectory = "build/generated-snippets/"
+    outputDirectory = "src/main/resources/static/"
+    outputFileNamePrefix = 'openapi3'
+}
+
+postman {
+    title = "${projectName}"
+    version = "${projectVersion}"
+    baseUrl = 'http://localhost:8080'
+    outputDirectory = "src/main/resources/static/"
+    outputFileNamePrefix = 'postman'
+}
