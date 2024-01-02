@@ -46,11 +46,11 @@ plugins {
 }
 
 apply from: './tasks/install-git-hooks.gradle'
-apply from: './tasks/formatting-task.gradle'
 apply from: './tasks/assemble-docs-task.gradle'
 
 allprojects {
-    plugins.apply("com.diffplug.spotless")
+    apply plugin: 'com.diffplug.spotless'
+    apply from: rootProject.rootDir.toString() + '/tasks/formatting-task.gradle'
 
     repositories {
         mavenCentral()

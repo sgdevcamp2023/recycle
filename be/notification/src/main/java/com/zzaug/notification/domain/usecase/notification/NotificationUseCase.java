@@ -29,7 +29,7 @@ public class NotificationUseCase {
 
 		List<Notification> all =
 				notificationRepository.findAll().stream()
-						.map(notificationConverter::to)
+						.map(notificationConverter::from)
 						.collect(Collectors.toList());
 
 		UtilSomething.a("a");

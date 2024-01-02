@@ -28,7 +28,7 @@ public class MemberUseCase {
 		memberRepository.save(MemberEntityConverter.from(member));
 
 		List<Member> all =
-				memberRepository.findAll().stream().map(memberConverter::to).collect(Collectors.toList());
+				memberRepository.findAll().stream().map(memberConverter::from).collect(Collectors.toList());
 
 		UtilSomething.a("a");
 		UtilSomething.b("b");

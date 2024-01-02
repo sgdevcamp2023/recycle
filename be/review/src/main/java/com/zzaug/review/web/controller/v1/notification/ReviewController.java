@@ -24,7 +24,7 @@ public class ReviewController {
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.SuccessBody<ReviewResponse>> foo(
-		@AuthenticationPrincipal TokenUserDetails userDetails, ReviewRequest request) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, ReviewRequest request) {
 		ReviewUseCaseRequest useCaseRequest = ReviewUseCaseRequestConverter.from(request);
 		//		ReviewResponse res= ReviewResponse.builder().name("name").build();
 		ReviewResponse res = ReviewResponse.builder().name("name").build();
