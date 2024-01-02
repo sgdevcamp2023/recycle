@@ -12,7 +12,7 @@ public class MemberConverter {
 		return Member.builder().name(source.getName()).build();
 	}
 
-	public Member to(MemberEntity source) {
+	public Member from(MemberEntity source) {
 		return Member.builder().name(source.getId().toString()).build();
 	}
 }

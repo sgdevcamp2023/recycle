@@ -12,7 +12,7 @@ public class NotificationConverter {
 		return Notification.builder().name(source.getName()).build();
 	}
 
-	public Notification to(NotificationEntity source) {
+	public Notification from(NotificationEntity source) {
 		return Notification.builder().name(source.getId().toString()).build();
 	}
 }

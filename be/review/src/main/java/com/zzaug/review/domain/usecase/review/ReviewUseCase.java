@@ -28,7 +28,7 @@ public class ReviewUseCase {
 		reviewRepository.save(ReviewEntityConverter.from(review));
 
 		List<Review> all =
-				reviewRepository.findAll().stream().map(reviewConverter::to).collect(Collectors.toList());
+				reviewRepository.findAll().stream().map(reviewConverter::from).collect(Collectors.toList());
 
 		UtilSomething.a("a");
 		UtilSomething.b("b");

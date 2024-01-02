@@ -12,7 +12,7 @@ public class ReviewConverter {
 		return Review.builder().name(source.getName()).build();
 	}
 
-	public Review to(ReviewEntity source) {
+	public Review from(ReviewEntity source) {
 		return Review.builder().name(source.getId().toString()).build();
 	}
 }
