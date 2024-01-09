@@ -29,8 +29,8 @@ import org.springframework.test.web.servlet.MockMvc;
 class NotificationControllerTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
-	private static final String TAG = "Notification";
-	private static final String BASE_URL = "/api/v1/notification";
+	private static final String TAG = "NotificationController";
+	private static final String BASE_URL = "/api/v1/notifications";
 
 	@Test
 	@DisplayName(BASE_URL)

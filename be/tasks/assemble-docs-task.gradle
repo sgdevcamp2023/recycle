@@ -1,10 +1,11 @@
 tasks.create(name: 'assembleDocs')  {
-    dependsOn 'member:openapi3', 'notification:openapi3', 'review:openapi3'
+    dependsOn 'member-api:openapi3', 'notification-api:openapi3', 'review-api:openapi3', 'review-query-api:openapi3'
     doFirst {
-        def member = file(getFilePath("member"))
-        def review = file(getFilePath("review"))
-        def notification = file(getFilePath("notification"))
-        makeAPI(rootProject.rootDir.toString(), member, notification, review)
+        def member = file(getFilePath("member-api"))
+        def notification = file(getFilePath("notification-api"))
+        def review = file(getFilePath("review-api"))
+        def reviewQuery = file(getFilePath("review-query-api"))
+        makeAPI(rootProject.rootDir.toString(), member, notification, review, reviewQuery)
     }
 
 }

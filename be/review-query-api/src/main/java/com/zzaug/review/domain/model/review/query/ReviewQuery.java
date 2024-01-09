@@ -1,4 +1,4 @@
-package com.zzaug.review.domain.model.review;
+package com.zzaug.review.domain.model.review.query;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class Review {
+public class ReviewQuery {
 
 	private String name;
 }

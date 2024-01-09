@@ -1,4 +1,4 @@
-package com.zzaug.review.entity.review;
+package com.zzaug.review.entity.review.query;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class ReviewEntity {
+public class ReviewQueryEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
