@@ -2,7 +2,7 @@ package com.zzaug.review.web.controller.v1;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,11 +26,11 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest(classes = ReviewApp.class)
-class ReviewControllerTest {
+class ReviewQueryControllerTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
-	private static final String TAG = "ReviewController";
-	private static final String BASE_URL = "/api/v1/review";
+	private static final String TAG = "ReviewQueryController";
+	private static final String BASE_URL = "/api/v1/reviews-query";
 
 	@Test
 	@DisplayName(BASE_URL)
@@ -38,7 +38,7 @@ class ReviewControllerTest {
 		// set service mock
 
 		mockMvc
-				.perform(post(BASE_URL, 0).contentType(MediaType.APPLICATION_JSON))
+				.perform(get(BASE_URL, 0).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
