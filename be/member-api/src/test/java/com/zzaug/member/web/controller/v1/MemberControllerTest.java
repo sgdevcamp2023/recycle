@@ -30,7 +30,7 @@ class MemberControllerTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
 	private static final String TAG = "MemberController";
-	private static final String BASE_URL = "/api/v1/member";
+	private static final String BASE_URL = "/api/v1/members";
 
 	@Test
 	@DisplayName(BASE_URL)
