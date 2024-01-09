@@ -1,4 +1,4 @@
-package com.zzaug.review.web.dto.notification;
+package com.zzaug.review.web.dto.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
