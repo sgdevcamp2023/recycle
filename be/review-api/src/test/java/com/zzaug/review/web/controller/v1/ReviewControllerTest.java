@@ -30,7 +30,7 @@ class ReviewControllerTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
 	private static final String TAG = "ReviewController";
-	private static final String BASE_URL = "/api/v1/review";
+	private static final String BASE_URL = "/api/v1/reviews";
 
 	@Test
 	@DisplayName(BASE_URL)

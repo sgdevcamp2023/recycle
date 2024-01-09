@@ -1,11 +1,11 @@
-package com.zzaug.review.web.controller.v1.notification;
+package com.zzaug.review.web.controller.v1.review;
 
 import com.zzaug.review.domain.dto.review.ReviewResponse;
 import com.zzaug.review.domain.dto.review.ReviewUseCaseRequest;
 import com.zzaug.review.domain.usecase.review.ReviewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
-import com.zzaug.review.web.dto.notification.ReviewRequest;
+import com.zzaug.review.web.dto.review.ReviewRequest;
 import com.zzaug.review.web.support.usecase.ReviewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/review")
+@RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
