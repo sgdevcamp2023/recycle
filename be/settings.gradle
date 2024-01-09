@@ -1,8 +1,9 @@
 rootProject.name = 'recycle'
-// server
-include 'member'
-include 'review'
-include 'notification'
+// api
+include 'member-api'
+include 'review-api'
+include 'review-query-api'
+include 'notification-api'
 
 // module
 include 'flyway'
