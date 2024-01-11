@@ -1,20 +1,15 @@
 package com.zzaug.review.domain.dto.review;
 
 import java.sql.Timestamp;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class ReviewResponse {
-
-	private Long review_id;
+public class ReviewTempResponse {
+	private String t_id;
 	private Long question_id;
 	private String content;
 	private String author;
@@ -22,4 +17,5 @@ public class ReviewResponse {
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	private String tag;
+
 }
