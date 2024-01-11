@@ -41,11 +41,7 @@ public class QuestionDescription {
 			fieldWithPath("data[].author_id")
 					.type(JsonFieldType.NUMBER)
 					.description("임시 저장된 질문 글 작성자 id"),
-			fieldWithPath("data[].review_cnt")
-					.type(JsonFieldType.NUMBER)
-					.description("임시 저장된 질문 글에 달린 리뷰 갯수"),
 			fieldWithPath("data[].created_at").type(JsonFieldType.STRING).description("임시 저장된 질문 글 작성일자"),
-			fieldWithPath("data[].updated_at").type(JsonFieldType.STRING).description("임시 저장된 질문 글 수정일자"),
 		};
 	}
 }

@@ -41,7 +41,8 @@ class ReviewControllerTest {
 	@DisplayName("[POST] " + BASE_URL + "/questions/{question_id}/reviews")
 	void createReview() throws Exception {
 
-		ReviewRequest request = ReviewRequest.builder().content("content").build();
+		ReviewRequest request =
+				ReviewRequest.builder().content("content").location("location").tag("tag").build();
 
 		String content = objectMapper.writeValueAsString(request);
 		// set service mock
@@ -85,7 +86,12 @@ class ReviewControllerTest {
 	void createTempReview() throws Exception {
 
 		ReviewTempRequest request =
-				ReviewTempRequest.builder().t_id("{UUID}").content("{content}").tag("{tag}").build();
+				ReviewTempRequest.builder()
+						.t_id("{UUID}")
+						.content("{content}")
+						.location("{location}")
+						.tag("{tag}")
+						.build();
 
 		String content = objectMapper.writeValueAsString(request);
 		// set service mock
