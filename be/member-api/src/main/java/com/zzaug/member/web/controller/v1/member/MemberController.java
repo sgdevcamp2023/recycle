@@ -12,8 +12,6 @@ import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
 import com.zzaug.member.support.ApiResponse;
 import com.zzaug.member.support.ApiResponseGenerator;
-import com.zzaug.member.support.CookieGenerator;
-import com.zzaug.member.support.CookieSameSite;
 import com.zzaug.member.support.MessageCode;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
@@ -21,9 +19,7 @@ import com.zzaug.member.web.dto.member.MemberUpdateRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-	private final CookieGenerator cookieGenerator;
+	//	private final CookieGenerator cookieGenerator;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -87,9 +83,6 @@ public class MemberController {
 						.build();
 		MemberAuthToken response =
 				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
-		ResponseCookie cookie =
-				cookieGenerator.createCookie(CookieSameSite.NONE, "refresh_token", "refreshToken");
-		httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
