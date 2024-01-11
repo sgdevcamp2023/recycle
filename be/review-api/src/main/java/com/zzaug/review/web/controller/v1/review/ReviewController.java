@@ -11,11 +11,7 @@ import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.zzaug.security.exception.AccessTokenInvalidException;
-import com.zzaug.security.token.TokenResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +59,7 @@ public class ReviewController {
 						.review_id(1L)
 						.question_id(1L)
 						.content("content")
+						.location("location")
 						.author("author")
 						.author_id(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
@@ -83,6 +80,7 @@ public class ReviewController {
 						.review_id(1L)
 						.question_id(1L)
 						.content("content")
+						.location("location")
 						.author("author")
 						.author_id(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
@@ -105,6 +103,7 @@ public class ReviewController {
 						.t_id("UUID")
 						.question_id(1L)
 						.content("content")
+						.location("location")
 						.author("author")
 						.author_id(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
