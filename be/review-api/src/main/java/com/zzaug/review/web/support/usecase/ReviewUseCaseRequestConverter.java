@@ -8,6 +8,6 @@ import lombok.experimental.UtilityClass;
 public class ReviewUseCaseRequestConverter {
 
 	public static ReviewUseCaseRequest from(ReviewRequest request) {
-		return ReviewUseCaseRequest.builder().name(request.getName()).build();
+		return ReviewUseCaseRequest.builder().build();
 	}
 }
