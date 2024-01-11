@@ -17,6 +17,7 @@ public class ReviewResponse {
 	private Long review_id;
 	private Long question_id;
 	private String content;
+	private String location;
 	private String author;
 	private Long author_id;
 	private Timestamp created_at;
