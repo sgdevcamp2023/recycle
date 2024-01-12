@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.dto.review;
 
+import com.zzaug.review.domain.model.review.ReviewType;
 import java.sql.Timestamp;
 import lombok.*;
 
@@ -17,5 +18,5 @@ public class ReviewTempResponse {
 	private Long author_id;
 	private Timestamp created_at;
 	private Timestamp updated_at;
-	private String tag;
+	private ReviewType tag;
 }

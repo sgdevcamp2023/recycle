@@ -1,5 +1,6 @@
 package com.zzaug.review.web.dto.review;
 
+import com.zzaug.review.domain.model.review.ReviewType;
 import lombok.*;
 
 @Getter
@@ -11,5 +12,5 @@ public class ReviewTempRequest {
 	private String t_id;
 	private String content;
 	private String location;
-	private String tag;
+	private ReviewType tag;
 }

@@ -87,7 +87,8 @@ class QuestionControllerTest {
 		mockMvc
 				.perform(
 						post(BASE_URL + "/questions/temp", 0)
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
+								.content(content)
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(

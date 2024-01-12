@@ -11,6 +11,7 @@ import com.epages.restdocs.apispec.Schema;
 import com.epages.restdocs.apispec.SimpleType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.review.ReviewApp;
+import com.zzaug.review.domain.model.review.ReviewType;
 import com.zzaug.review.web.controller.v1.description.Description;
 import com.zzaug.review.web.controller.v1.description.ReviewDescription;
 import com.zzaug.review.web.dto.review.ReviewRequest;
@@ -42,7 +43,11 @@ class ReviewControllerTest {
 	void createReview() throws Exception {
 
 		ReviewRequest request =
-				ReviewRequest.builder().content("content").location("location").tag("tag").build();
+				ReviewRequest.builder()
+						.content("content")
+						.location("location")
+						.tag(ReviewType.CODE)
+						.build();
 
 		String content = objectMapper.writeValueAsString(request);
 		// set service mock
@@ -90,7 +95,7 @@ class ReviewControllerTest {
 						.t_id("{UUID}")
 						.content("{content}")
 						.location("{location}")
-						.tag("{tag}")
+						.tag(ReviewType.CODE)
 						.build();
 
 		String content = objectMapper.writeValueAsString(request);
@@ -217,10 +222,21 @@ class ReviewControllerTest {
 	@Test
 	@DisplayName("[PUT] " + BASE_URL + "/questions/{question_id}/reviews/{review_id}")
 	void editReview() throws Exception {
+
+		ReviewRequest request =
+				ReviewRequest.builder()
+						.content("content")
+						.location("location")
+						.tag(ReviewType.CODE)
+						.build();
+
+		String content = objectMapper.writeValueAsString(request);
+
 		mockMvc
 				.perform(
 						put(BASE_URL + "/questions/{question_id}/reviews/{review_id}", 1, 1)
 								.header("Authorization", "{{accessToken}}")
+								.content(content)
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -239,6 +255,7 @@ class ReviewControllerTest {
 														parameterWithName("review_id")
 																.description("수정 할 리뷰 id")
 																.type(SimpleType.NUMBER))
+												.requestSchema(Schema.schema("ReviewRequest"))
 												.responseSchema(Schema.schema("EditReviewResponse"))
 												.responseFields(
 														new FieldDescriptor[] {

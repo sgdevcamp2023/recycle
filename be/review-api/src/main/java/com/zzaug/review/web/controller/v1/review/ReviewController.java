@@ -2,6 +2,7 @@ package com.zzaug.review.web.controller.v1.review;
 
 import com.zzaug.review.domain.dto.review.ReviewResponse;
 import com.zzaug.review.domain.dto.review.ReviewTempResponse;
+import com.zzaug.review.domain.model.review.ReviewType;
 import com.zzaug.review.domain.usecase.review.ReviewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
@@ -64,7 +65,7 @@ public class ReviewController {
 						.author_id(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
 						.updated_at(new Timestamp(System.currentTimeMillis()))
-						.tag("tag")
+						.tag(ReviewType.CODE)
 						.build();
 		responses.add(res);
 		return ApiResponseGenerator.success(responses, HttpStatus.OK);
@@ -85,7 +86,7 @@ public class ReviewController {
 						.author_id(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
 						.updated_at(new Timestamp(System.currentTimeMillis()))
-						.tag("tag")
+						.tag(ReviewType.CODE)
 						.build();
 		responses.add(res);
 		return ApiResponseGenerator.success(responses, HttpStatus.OK);
@@ -108,7 +109,7 @@ public class ReviewController {
 						.author_id(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
 						.updated_at(new Timestamp(System.currentTimeMillis()))
-						.tag("tag")
+						.tag(ReviewType.CODE)
 						.build();
 		responses.add(res);
 		return ApiResponseGenerator.success(responses, HttpStatus.OK);
