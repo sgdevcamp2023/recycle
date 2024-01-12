@@ -37,7 +37,6 @@ public class ReviewController {
 			@PathVariable Long question_id,
 			@RequestBody ReviewRequest request) {
 
-
 		return ApiResponseGenerator.success(HttpStatus.OK);
 	}
 
