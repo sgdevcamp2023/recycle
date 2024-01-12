@@ -13,5 +13,6 @@ import lombok.ToString;
 @Builder(toBuilder = true)
 public class ReviewRequest {
 	private String content;
+	private String location;
 	private String tag;
 }

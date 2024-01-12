@@ -34,8 +34,9 @@ public class ReviewController {
 	@PostMapping("/questions/{question_id}/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<Void>> createReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestParam Long question_id,
-			ReviewRequest request) {
+			@PathVariable Long question_id,
+			@RequestBody ReviewRequest request) {
+
 
 		return ApiResponseGenerator.success(HttpStatus.OK);
 	}
@@ -43,8 +44,8 @@ public class ReviewController {
 	@PostMapping("/questions/{question_id}/reviews/temp")
 	public ApiResponse<ApiResponse.SuccessBody<Void>> createTempReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestParam Long question_id,
-			ReviewTempRequest request) {
+			@PathVariable Long question_id,
+			@RequestBody ReviewTempRequest request) {
 
 		return ApiResponseGenerator.success(HttpStatus.OK);
 	}
@@ -72,7 +73,7 @@ public class ReviewController {
 
 	@GetMapping("/questions/{question_id}/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<List<ReviewResponse>>> viewQuestionReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam Long question_id) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
 
 		List<ReviewResponse> responses = new ArrayList<>();
 		ReviewResponse res =
@@ -118,7 +119,8 @@ public class ReviewController {
 	public ApiResponse<ApiResponse.SuccessBody<Void>> editReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable Long question_id,
-			@PathVariable Long review_id) {
+			@PathVariable Long review_id,
+			@RequestBody ReviewRequest request) {
 
 		return ApiResponseGenerator.success(HttpStatus.OK);
 	}

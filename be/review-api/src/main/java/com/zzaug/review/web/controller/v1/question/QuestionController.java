@@ -28,7 +28,7 @@ public class QuestionController {
 
 	@PostMapping
 	public ApiResponse<ApiResponse.SuccessBody<Void>> createQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails, QuestionRequest request) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestBody QuestionRequest request) {
 		QuestionUseCaseRequest useCaseRequest = QuestionUseCaseRequestConverter.from(request);
 
 		return ApiResponseGenerator.success(HttpStatus.OK);
@@ -36,7 +36,7 @@ public class QuestionController {
 
 	@PostMapping("/temp")
 	public ApiResponse<ApiResponse.SuccessBody<Void>> createTempQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails, QuestionTempRequest request) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestBody QuestionTempRequest request) {
 		QuestionTempUseCaseRequest useCaseRequest = QuestionTempUseCaseRequestConverter.from(request);
 
 		return ApiResponseGenerator.success(HttpStatus.OK);
