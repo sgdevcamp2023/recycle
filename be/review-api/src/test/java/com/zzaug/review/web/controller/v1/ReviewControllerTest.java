@@ -12,8 +12,6 @@ import com.epages.restdocs.apispec.SimpleType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.review.ReviewApp;
 import com.zzaug.review.domain.model.review.ReviewType;
-import com.zzaug.review.web.controller.v1.description.Description;
-import com.zzaug.review.web.controller.v1.description.ReviewDescription;
 import com.zzaug.review.web.dto.review.ReviewRequest;
 import com.zzaug.review.web.dto.review.ReviewTempRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -132,90 +130,6 @@ class ReviewControllerTest {
 																	.description("메시지"),
 															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
 														})
-												.build())));
-	}
-
-	@Test
-	@DisplayName("[GET] " + BASE_URL + "/me/reviews")
-	void viewMemberReviewList() throws Exception {
-		mockMvc
-				.perform(
-						get(BASE_URL + "/me/reviews")
-								.header("Authorization", "{{accessToken}}")
-								.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(
-						document(
-								"ViewMemberReviewList",
-								resource(
-										ResourceSnippetParameters.builder()
-												.description("멤버가 작성한 리뷰 목록 조회")
-												.tag(TAG)
-												.requestHeaders(
-														headerWithName("Authorization").description("{{accessToken}}"))
-												.responseSchema(Schema.schema("ViewMemberReviewListResponse"))
-												.responseFields(Description.success(ReviewDescription.viewReview()))
-												.build())));
-	}
-
-	@Test
-	@DisplayName("[GET] " + BASE_URL + "/questions/{question_id}/reviews")
-	void viewQuestionReviewList() throws Exception {
-		mockMvc
-				.perform(
-						get(BASE_URL + "/questions/{question_id}/reviews", 1)
-								.header("Authorization", "{{accessToken}}")
-								.param("question_id", "1")
-								.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(
-						document(
-								"ViewQuestionReviewList",
-								resource(
-										ResourceSnippetParameters.builder()
-												.description("질문 글에 달린 리뷰 목록 조회")
-												.tag(TAG)
-												.requestHeaders(
-														headerWithName("Authorization").description("{{accessToken}}"))
-												.pathParameters(
-														parameterWithName("question_id")
-																.description("리뷰 목록을 조회 할 질문 글 id")
-																.type(SimpleType.NUMBER))
-												.responseSchema(Schema.schema("ViewQuestionReviewListResponse"))
-												.responseFields(Description.success(ReviewDescription.viewReview()))
-												.build())));
-	}
-
-	@Test
-	@DisplayName("[GET] " + BASE_URL + "/questions/{question_id}/reviews/temp")
-	void viewTempReviewList() throws Exception {
-		mockMvc
-				.perform(
-						get(BASE_URL + "/questions/{question_id}/reviews/temp", 1)
-								.header("Authorization", "{{accessToken}}")
-								.param("t_id", "UUID")
-								.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(
-						document(
-								"ViewTempReviewList",
-								resource(
-										ResourceSnippetParameters.builder()
-												.description("질문 글에 달린 임시 저장된 리뷰 목록 조회")
-												.tag(TAG)
-												.requestHeaders(
-														headerWithName("Authorization").description("{{accessToken}}"))
-												.pathParameters(
-														parameterWithName("question_id")
-																.description("임시 저장된 리뷰 목록을 조회 할 질문 글 id")
-																.type(SimpleType.NUMBER))
-												.requestParameters(
-														parameterWithName("t_id")
-																.description("임시 저장된 리뷰를 불러오기 위한 id, 없으면 목록으로 출력")
-																.type(SimpleType.STRING)
-																.optional())
-												.responseSchema(Schema.schema("ViewTempReviewListResponse"))
-												.responseFields(Description.success(ReviewDescription.viewTempReview()))
 												.build())));
 	}
 

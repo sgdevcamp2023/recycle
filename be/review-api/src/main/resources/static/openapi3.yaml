@@ -1,0 +1,1158 @@
+openapi: 3.0.1
+info:
+  title: recycle
+  version: 1.0.0
+servers:
+- url: https://recycle.com
+- url: http://localhost:8080
+tags: []
+paths:
+  /api/v1/questions:
+    post:
+      tags:
+      - QuestionController
+      summary: 질문 글 생성
+      description: 질문 글 생성
+      operationId: CreateQuestionQuestion
+      parameters:
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionRequest'
+            examples:
+              CreateQuestion:
+                value: "{\"content\":\"content\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api-v1-questions-temp607407739'
+              examples:
+                CreateQuestion:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+                Question:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/me/questions:
+    get:
+      tags:
+      - QuestionController
+      summary: 질문 글 목록 조회
+      description: 질문 글 목록 조회
+      operationId: ViewQuestionList
+      parameters:
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewQuestionListResponse'
+              examples:
+                ViewQuestionList:
+                  value: "{\"data\":[{\"question_id\":1,\"content\":\"content\",\"\
+                    author\":\"author\",\"author_id\":1,\"review_cnt\":1,\"created_at\"\
+                    :\"2024-01-12T04:00:09.314+00:00\",\"updated_at\":\"2024-01-12T04:00:09.314+00:00\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/me/reviews:
+    get:
+      tags:
+      - ReviewController
+      summary: 멤버가 작성한 리뷰 목록 조회
+      description: 멤버가 작성한 리뷰 목록 조회
+      operationId: ViewMemberReviewList
+      parameters:
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewMemberReviewListResponse'
+              examples:
+                ViewMemberReviewList:
+                  value: "{\"data\":[{\"review_id\":1,\"question_id\":1,\"content\"\
+                    :\"content\",\"location\":\"location\",\"author\":\"author\",\"\
+                    author_id\":1,\"created_at\":\"2024-01-12T04:00:09.463+00:00\"\
+                    ,\"updated_at\":\"2024-01-12T04:00:09.463+00:00\",\"tag\":\"CODE\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/search:
+    get:
+      tags:
+      - QuestionController
+      summary: 멤버의 질문 글 목록에서 검색
+      description: 멤버의 질문 글 목록에서 검색
+      operationId: SearchQuestionList
+      parameters:
+      - name: me
+        in: query
+        description: "true면 멤버의 질문 글 조회, false면 전체 조회 (Default : true)"
+        required: true
+        schema:
+          type: boolean
+          default: true
+      - name: query
+        in: query
+        description: 검색 내용
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: 요청 할 페이지
+        required: true
+        schema:
+          type: number
+      - name: size
+        in: query
+        description: 페이지 안의 갯수
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchQuestionListResponse'
+              examples:
+                SearchQuestionList:
+                  value: "{\"data\":[{\"question_id\":1,\"content\":\"content\",\"\
+                    author\":\"author\",\"author_id\":1,\"review_cnt\":1,\"created_at\"\
+                    :\"2024-01-12T04:00:09.339+00:00\",\"updated_at\":\"2024-01-12T04:00:09.339+00:00\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/temp:
+    post:
+      tags:
+      - QuestionController
+      summary: 질문 글 임시 저장
+      description: 질문 글 임시 저장
+      operationId: CreateTempQuestion
+      parameters:
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionTempRequest'
+            examples:
+              CreateTempQuestion:
+                value: "{\"t_id\":\"UUID\",\"content\":\"content\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api-v1-questions-temp607407739'
+              examples:
+                CreateTempQuestion:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/{question_id}:
+    get:
+      tags:
+      - QuestionController
+      summary: 질문 글 조회
+      description: 질문 글 조회
+      operationId: ViewQuestion
+      parameters:
+      - name: question_id
+        in: path
+        description: 조회 할 질문 글 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionResponse'
+              examples:
+                ViewQuestion:
+                  value: "{\"data\":{\"question_id\":1,\"content\":\"content\",\"\
+                    author\":\"author\",\"author_id\":1,\"review_cnt\":1,\"created_at\"\
+                    :\"2024-01-12T04:00:09.274+00:00\",\"updated_at\":\"2024-01-12T04:00:09.274+00:00\"\
+                    },\"message\":\"성공\",\"code\":\"success\"}"
+    delete:
+      tags:
+      - QuestionController
+      summary: 질문 글 삭제
+      description: 질문 글 삭제
+      operationId: DeleteQuestion
+      parameters:
+      - name: question_id
+        in: path
+        description: 삭제 할 질문 글 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionResponse'
+              examples:
+                DeleteQuestion:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/me/questions/reviewers:
+    get:
+      tags:
+      - QuestionController
+      summary: 리뷰를 달아준 리뷰어 목록 조회
+      description: 리뷰를 달아준 리뷰어 목록 조회
+      operationId: ViewReviewerList
+      parameters:
+      - name: question_id
+        in: query
+        description: 해당 글에 리뷰를 단 리뷰어 목록을 알기 위한 질문 글 id
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewQuestionRequestListResponse'
+              examples:
+                ViewReviewerList:
+                  value: "{\"data\":[{\"question_id\":1,\"author\":\"author\",\"author_id\"\
+                    :1}],\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/me/questions/temp:
+    get:
+      tags:
+      - QuestionController
+      summary: 임시 저장된 질문 글 목록 조회
+      description: 임시 저장된 질문 글 목록 조회
+      operationId: ViewTempQuestionList
+      parameters:
+      - name: t_id
+        in: query
+        description: "조회 할 임시 저장된 질문 글 id, null이면 목록 조회"
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewTempQuestionListResponse'
+              examples:
+                ViewTempQuestionList:
+                  value: "{\"data\":[{\"t_id\":\"UUID\",\"content\":\"content\",\"\
+                    author\":\"author\",\"author_id\":1,\"created_at\":\"2024-01-12T04:00:09.374+00:00\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/me/requests/reviews:
+    get:
+      tags:
+      - QuestionController
+      summary: 리뷰 요청 목록 조회
+      description: 리뷰 요청 목록 조회
+      operationId: ViewQuestionRequestList
+      parameters:
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewQuestionRequestListResponse'
+              examples:
+                ViewQuestionRequestList:
+                  value: "{\"data\":[{\"question_id\":1,\"content\":\"content\",\"\
+                    author\":\"author\",\"author_id\":1,\"review_cnt\":1,\"created_at\"\
+                    :\"2024-01-12T04:00:09.326+00:00\",\"updated_at\":\"2024-01-12T04:00:09.326+00:00\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/{question_id}/comments:
+    get:
+      tags:
+      - CommentController
+      summary: 질문 글에 달린 댓글 코멘트 조회
+      description: 질문 글에 달린 댓글 코멘트 조회
+      operationId: ViewQuestionComment
+      parameters:
+      - name: question_id
+        in: path
+        description: 댓글을 볼 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewQuestionCommentResponse'
+              examples:
+                ViewQuestionComment:
+                  value: "{\"data\":[{\"comment_id\":1,\"question_id\":1,\"content\"\
+                    :\"content\",\"author\":\"author\",\"author_id\":1,\"parent_id\"\
+                    :1,\"created_at\":\"2024-01-12T06:53:36.115+00:00\",\"updated_at\"\
+                    :\"2024-01-12T06:53:36.115+00:00\"}],\"message\":\"성공\",\"code\"\
+                    :\"success\"}"
+    post:
+      tags:
+      - CommentController
+      summary: 댓글 / 대댓글 생성
+      description: 댓글 / 대댓글 생성
+      operationId: CreateComment
+      parameters:
+      - name: question_id
+        in: path
+        description: 댓글을 달 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentRequest'
+            examples:
+              CreateComment:
+                value: "{\"question_id\":1,\"content\":\"content\",\"parent_id\":1}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentResponse'
+              examples:
+                CreateComment:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/{question_id}/reviews:
+    get:
+      tags:
+      - ReviewController
+      summary: 질문 글에 달린 리뷰 목록 조회
+      description: 질문 글에 달린 리뷰 목록 조회
+      operationId: ViewQuestionReviewList
+      parameters:
+      - name: question_id
+        in: path
+        description: 리뷰 목록을 조회 할 질문 글 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewQuestionReviewListResponse'
+              examples:
+                ViewQuestionReviewList:
+                  value: "{\"data\":[{\"review_id\":1,\"question_id\":1,\"content\"\
+                    :\"content\",\"location\":\"location\",\"author\":\"author\",\"\
+                    author_id\":1,\"created_at\":\"2024-01-12T04:00:09.437+00:00\"\
+                    ,\"updated_at\":\"2024-01-12T04:00:09.437+00:00\",\"tag\":\"CODE\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+    post:
+      tags:
+      - ReviewController
+      summary: 리뷰 생성
+      description: 리뷰 생성
+      operationId: CreateReviewReview
+      parameters:
+      - name: question_id
+        in: path
+        description: 리뷰를 달 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewRequest'
+            examples:
+              CreateReview:
+                value: "{\"content\":\"content\",\"location\":\"location\",\"tag\"\
+                  :\"CODE\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResponse'
+              examples:
+                CreateReview:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+                Review:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/{question_id}/comments/{comment_id}:
+    put:
+      tags:
+      - CommentController
+      summary: 댓글 수정
+      description: 댓글 수정
+      operationId: EditComment
+      parameters:
+      - name: question_id
+        in: path
+        description: 댓글이 달린 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: comment_id
+        in: path
+        description: 수정 할 댓글 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCommentRequest'
+            examples:
+              EditComment:
+                value: "{\"question_id\":1,\"content\":\"content\",\"parent_id\":1}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditCommentResponse'
+              examples:
+                EditComment:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+    delete:
+      tags:
+      - CommentController
+      summary: 댓글 삭제
+      description: 댓글 삭제
+      operationId: DeleteComment
+      parameters:
+      - name: question_id
+        in: path
+        description: 댓글이 달린 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: comment_id
+        in: path
+        description: 삭제 할 댓글 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCommentResponse'
+              examples:
+                DeleteComment:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/{question_id}/reviews/temp:
+    get:
+      tags:
+      - ReviewController
+      summary: 질문 글에 달린 임시 저장된 리뷰 목록 조회
+      description: 질문 글에 달린 임시 저장된 리뷰 목록 조회
+      operationId: ViewTempReviewList
+      parameters:
+      - name: question_id
+        in: path
+        description: 임시 저장된 리뷰 목록을 조회 할 질문 글 id
+        required: true
+        schema:
+          type: number
+      - name: t_id
+        in: query
+        description: "임시 저장된 리뷰를 불러오기 위한 id, 없으면 목록으로 출력"
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewTempReviewListResponse'
+              examples:
+                ViewTempReviewList:
+                  value: "{\"data\":[{\"t_id\":\"UUID\",\"question_id\":1,\"content\"\
+                    :\"content\",\"location\":\"location\",\"author\":\"author\",\"\
+                    author_id\":1,\"created_at\":\"2024-01-12T04:00:09.451+00:00\"\
+                    ,\"updated_at\":\"2024-01-12T04:00:09.451+00:00\",\"tag\":\"CODE\"\
+                    }],\"message\":\"성공\",\"code\":\"success\"}"
+    post:
+      tags:
+      - ReviewController
+      summary: 리뷰 임시 저장
+      description: 리뷰 임시 저장
+      operationId: CreateTempReview
+      parameters:
+      - name: question_id
+        in: path
+        description: 리뷰를 달 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewRequest'
+            examples:
+              CreateTempReview:
+                value: "{\"t_id\":\"{UUID}\",\"content\":\"{content}\",\"location\"\
+                  :\"{location}\",\"tag\":\"CODE\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResponse'
+              examples:
+                CreateTempReview:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+  /api/v1/questions/{question_id}/reviews/{review_id}:
+    put:
+      tags:
+      - ReviewController
+      summary: 리뷰 수정
+      description: 리뷰 수정
+      operationId: EditReview
+      parameters:
+      - name: question_id
+        in: path
+        description: 리뷰가 달린 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: review_id
+        in: path
+        description: 수정 할 리뷰 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewRequest'
+            examples:
+              EditReview:
+                value: "{\"content\":\"content\",\"location\":\"location\",\"tag\"\
+                  :\"CODE\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditReviewResponse'
+              examples:
+                EditReview:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+    delete:
+      tags:
+      - ReviewController
+      summary: 리뷰 삭제
+      description: 리뷰 삭제
+      operationId: DeleteReview
+      parameters:
+      - name: question_id
+        in: path
+        description: 리뷰가 달린 질문 글의 id
+        required: true
+        schema:
+          type: number
+      - name: review_id
+        in: path
+        description: 삭제 할 리뷰 id
+        required: true
+        schema:
+          type: number
+      - name: Authorization
+        in: header
+        description: "{{accessToken}}"
+        required: true
+        schema:
+          type: string
+        example: "{{accessToken}}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditReviewResponse'
+              examples:
+                DeleteReview:
+                  value: "{\"data\":null,\"message\":\"성공\",\"code\":\"success\"}"
+components:
+  schemas:
+    ViewMemberReviewListResponse:
+      title: ViewMemberReviewListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 리뷰
+          items:
+            type: object
+            properties:
+              review_id:
+                type: number
+                description: 질문 글에 달린 리뷰 id
+              updated_at:
+                type: string
+                description: 리뷰 수정일자
+              author:
+                type: string
+                description: 리뷰 작성자
+              created_at:
+                type: string
+                description: 리뷰 작성일자
+              location:
+                type: string
+                description: 리뷰 위치
+              tag:
+                type: string
+                description: 리뷰 태그
+              author_id:
+                type: number
+                description: 리뷰 작성자 id
+              question_id:
+                type: number
+                description: 질문 글 id
+              content:
+                type: string
+                description: 리뷰 본문
+        message:
+          type: string
+          description: 성공
+    EditReviewResponse:
+      title: EditReviewResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: 코드
+        message:
+          type: string
+          description: 메시지
+    ViewQuestionReviewListResponse:
+      title: ViewQuestionReviewListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 리뷰
+          items:
+            type: object
+            properties:
+              review_id:
+                type: number
+                description: 질문 글에 달린 리뷰 id
+              updated_at:
+                type: string
+                description: 리뷰 수정일자
+              author:
+                type: string
+                description: 리뷰 작성자
+              created_at:
+                type: string
+                description: 리뷰 작성일자
+              location:
+                type: string
+                description: 리뷰 위치
+              tag:
+                type: string
+                description: 리뷰 태그
+              author_id:
+                type: number
+                description: 리뷰 작성자 id
+              question_id:
+                type: number
+                description: 질문 글 id
+              content:
+                type: string
+                description: 리뷰 본문
+        message:
+          type: string
+          description: 성공
+    QuestionResponse:
+      title: QuestionResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: object
+          properties:
+            review_cnt:
+              type: number
+              description: 질문 글에 달린 리뷰 갯수
+            updated_at:
+              type: string
+              description: 질문 글 수정일자
+            author:
+              type: string
+              description: 질문 글 작성자
+            created_at:
+              type: string
+              description: 질문 글 작성일자
+            author_id:
+              type: number
+              description: 질문 글 작성자 id
+            question_id:
+              type: number
+              description: 질문 글 id
+            content:
+              type: string
+              description: 질문 글 본문
+          description: 질문
+        message:
+          type: string
+          description: 성공
+    ReviewRequest:
+      title: ReviewRequest
+      type: object
+    ViewQuestionRequestListResponse:
+      title: ViewQuestionRequestListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 질문
+          items:
+            type: object
+            properties:
+              review_cnt:
+                type: number
+                description: 질문 글에 달린 리뷰 갯수
+              updated_at:
+                type: string
+                description: 질문 글 수정일자
+              author:
+                type: string
+                description: 질문 글 작성자
+              created_at:
+                type: string
+                description: 질문 글 작성일자
+              author_id:
+                type: number
+                description: 질문 글 작성자 id
+              question_id:
+                type: number
+                description: 질문 글 id
+              content:
+                type: string
+                description: 질문 글 본문
+        message:
+          type: string
+          description: 성공
+    ViewQuestionListResponse:
+      title: ViewQuestionListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 질문
+          items:
+            type: object
+            properties:
+              review_cnt:
+                type: number
+                description: 질문 글에 달린 리뷰 갯수
+              updated_at:
+                type: string
+                description: 질문 글 수정일자
+              author:
+                type: string
+                description: 질문 글 작성자
+              created_at:
+                type: string
+                description: 질문 글 작성일자
+              author_id:
+                type: number
+                description: 질문 글 작성자 id
+              question_id:
+                type: number
+                description: 질문 글 id
+              content:
+                type: string
+                description: 질문 글 본문
+        message:
+          type: string
+          description: 성공
+    QuestionRequest:
+      title: QuestionRequest
+      type: object
+    EditCommentResponse:
+      title: EditCommentResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: 코드
+        message:
+          type: string
+          description: 메시지
+    ViewTempQuestionListResponse:
+      title: ViewTempQuestionListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 임시 저장된 질문
+          items:
+            type: object
+            properties:
+              t_id:
+                type: string
+                description: 임시 저장된 질문 글 id
+              author:
+                type: string
+                description: 임시 저장된 질문 글 작성자
+              created_at:
+                type: string
+                description: 임시 저장된 질문 글 작성일자
+              author_id:
+                type: number
+                description: 임시 저장된 질문 글 작성자 id
+              content:
+                type: string
+                description: 임시 저장된 질문 글 본문
+        message:
+          type: string
+          description: 성공
+    ViewTempReviewListResponse:
+      title: ViewTempReviewListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 리뷰
+          items:
+            type: object
+            properties:
+              t_id:
+                type: string
+                description: 질문 글에 달린 리뷰 임시 id
+              updated_at:
+                type: string
+                description: 리뷰 수정일자
+              author:
+                type: string
+                description: 리뷰 작성자
+              created_at:
+                type: string
+                description: 리뷰 작성일자
+              location:
+                type: string
+                description: 리뷰 위치
+              tag:
+                type: string
+                description: 리뷰에 달린 리뷰 갯수
+              author_id:
+                type: number
+                description: 리뷰 작성자 id
+              question_id:
+                type: number
+                description: 질문 글 id
+              content:
+                type: string
+                description: 리뷰 본문
+        message:
+          type: string
+          description: 성공
+    api-v1-questions-temp607407739:
+      type: object
+      properties:
+        code:
+          type: string
+          description: 코드
+        message:
+          type: string
+          description: 메시지
+    CommentRequest:
+      title: CommentRequest
+      type: object
+    QuestionTempRequest:
+      title: QuestionTempRequest
+      type: object
+    SearchQuestionListResponse:
+      title: SearchQuestionListResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 질문
+          items:
+            type: object
+            properties:
+              review_cnt:
+                type: number
+                description: 질문 글에 달린 리뷰 갯수
+              updated_at:
+                type: string
+                description: 질문 글 수정일자
+              author:
+                type: string
+                description: 질문 글 작성자
+              created_at:
+                type: string
+                description: 질문 글 작성일자
+              author_id:
+                type: number
+                description: 질문 글 작성자 id
+              question_id:
+                type: number
+                description: 질문 글 id
+              content:
+                type: string
+                description: 질문 글 본문
+        message:
+          type: string
+          description: 성공
+    CommentResponse:
+      title: CommentResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: 코드
+        message:
+          type: string
+          description: 메시지
+    DeleteCommentResponse:
+      title: DeleteCommentResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: 코드
+        message:
+          type: string
+          description: 메시지
+    EditCommentRequest:
+      title: EditCommentRequest
+      type: object
+    ReviewResponse:
+      title: ReviewResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: 코드
+        message:
+          type: string
+          description: 메시지
+    ViewQuestionCommentResponse:
+      title: ViewQuestionCommentResponse
+      type: object
+      properties:
+        code:
+          type: string
+          description: success
+        data:
+          type: array
+          description: 댓글
+          items:
+            type: object
+            properties:
+              updated_at:
+                type: string
+                description: 댓글 수정일자
+              parent_id:
+                type: number
+                description: 대댓글의 부모 댓글 고유번호
+              author:
+                type: string
+                description: 댓글 작성자
+              created_at:
+                type: string
+                description: 댓글 작성일자
+              author_id:
+                type: number
+                description: 댓글 작성자 id
+              comment_id:
+                type: number
+                description: 댓글 id
+              question_id:
+                type: number
+                description: 댓글이 달린 질문 글 id
+              content:
+                type: string
+                description: 댓글 본문
+        message:
+          type: string
+          description: 성공
