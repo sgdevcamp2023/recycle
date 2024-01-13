@@ -1,12 +1,12 @@
 package com.zzaug.review.web.controller.v1.description;
 
+import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+
 import com.epages.restdocs.apispec.HeaderDescriptorWithType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
-
-import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 public class Description {
 	private static FieldDescriptor getSuccessCodeDescriptor() {

@@ -1,9 +1,9 @@
 package com.zzaug.review.web.controller.v1.description;
 
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
-
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 public class QuestionDescription {
 	public static FieldDescriptor[] viewQuestion() {

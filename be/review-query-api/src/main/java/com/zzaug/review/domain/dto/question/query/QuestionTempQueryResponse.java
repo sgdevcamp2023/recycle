@@ -1,8 +1,7 @@
 package com.zzaug.review.domain.dto.question.query;
 
-import lombok.*;
-
 import java.sql.Timestamp;
+import lombok.*;
 
 @Getter
 @ToString
@@ -10,11 +9,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempQueryResponse {
-    private String t_id;
-    private String content;
-    private String author;
-    private Long author_id;
-    private int review_cnt;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+	private String t_id;
+	private String content;
+	private String author;
+	private Long author_id;
+	private Timestamp created_at;
 }

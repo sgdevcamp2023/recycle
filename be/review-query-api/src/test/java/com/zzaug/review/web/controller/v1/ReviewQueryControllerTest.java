@@ -4,7 +4,6 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
@@ -21,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,7 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
 class ReviewQueryControllerTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
-	private static final String TAG = "QuestionQueryController";
+	private static final String TAG = "ReviewQueryController";
 	private static final String BASE_URL = "/api/v1";
 
 	@Test
@@ -69,7 +66,7 @@ class ReviewQueryControllerTest {
 	void viewTempReviewList() throws Exception {
 		mockMvc
 				.perform(
-						get(BASE_URL + "/questions/{question_id}/reviews/temp", 1)
+						get(BASE_URL + "/question-query/{question_id}/reviews/temp", 1)
 								.header("Authorization", "{{accessToken}}")
 								.param("t_id", "UUID")
 								.contentType(MediaType.APPLICATION_JSON))
