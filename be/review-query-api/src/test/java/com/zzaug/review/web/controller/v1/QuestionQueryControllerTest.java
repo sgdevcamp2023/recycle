@@ -12,7 +12,7 @@ import com.epages.restdocs.apispec.SimpleType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.review.ReviewApp;
 import com.zzaug.review.web.controller.v1.description.Description;
-import com.zzaug.review.web.controller.v1.description.ReviewDescription;
+import com.zzaug.review.web.controller.v1.description.QuestionDescription;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,70 +27,78 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest(classes = ReviewApp.class)
-class ReviewQueryControllerTest {
+public class QuestionQueryControllerTest {
+
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
-	private static final String TAG = "ReviewQueryController";
-	private static final String BASE_URL = "/api/v1";
+	private static final String TAG = "QuestionQueryController";
+	private static final String BASE_URL = "/api/v1/question-query";
 
 	@Test
-	@DisplayName("[GET] " + BASE_URL + "/question-query/{question_id}/reviews")
-	void viewQuestionReviewList() throws Exception {
+	@DisplayName("[GET] " + BASE_URL + "/{question_id}")
+	void viewQuestion() throws Exception {
+
 		mockMvc
 				.perform(
-						get(BASE_URL + "/question-query/{question_id}/reviews", 1)
-								.header("Authorization", "{{accessToken}}")
+						get(BASE_URL + "/{question_id}", 1)
 								.param("question_id", "1")
+								.header("Authorization", "{{accessToken")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
-								"ViewQuestionReviewList",
+								"ViewQuestion",
 								resource(
 										ResourceSnippetParameters.builder()
-												.description("질문 글에 달린 리뷰 목록 조회")
+												.description("질문 글 조회")
 												.tag(TAG)
+												.responseSchema(Schema.schema("QuestionResponse"))
 												.requestHeaders(
 														headerWithName("Authorization").description("{{accessToken}}"))
 												.pathParameters(
 														parameterWithName("question_id")
-																.description("리뷰 목록을 조회 할 질문 글 id")
+																.description("조회 할 질문 글 id")
 																.type(SimpleType.NUMBER))
-												.responseSchema(Schema.schema("ViewQuestionReviewListResponse"))
-												.responseFields(Description.success(ReviewDescription.viewReview()))
+												.responseFields(Description.success(QuestionDescription.viewQuestion()))
 												.build())));
 	}
 
 	@Test
-	@DisplayName("[GET] " + BASE_URL + "/question-query/{question_id}/reviews/temp")
-	void viewTempReviewList() throws Exception {
+	@DisplayName("[GET] " + BASE_URL + "/search")
+	void searchQuestionList() throws Exception {
 		mockMvc
 				.perform(
-						get(BASE_URL + "/question-query/{question_id}/reviews/temp", 1)
-								.header("Authorization", "{{accessToken}}")
-								.param("t_id", "UUID")
+						get(BASE_URL + "/search")
+								.header("Authorization", "{{accessToken")
+								.param("me", "true")
+								.param("query", "target")
+								.param("page", "1")
+								.param("size", "16")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
-								"ViewTempReviewList",
+								"SearchQuestionList",
 								resource(
 										ResourceSnippetParameters.builder()
-												.description("질문 글에 달린 임시 저장된 리뷰 목록 조회")
+												.description("멤버의 질문 글 목록에서 검색")
 												.tag(TAG)
 												.requestHeaders(
 														headerWithName("Authorization").description("{{accessToken}}"))
-												.pathParameters(
-														parameterWithName("question_id")
-																.description("임시 저장된 리뷰 목록을 조회 할 질문 글 id")
-																.type(SimpleType.NUMBER))
 												.requestParameters(
-														parameterWithName("t_id")
-																.description("임시 저장된 리뷰를 불러오기 위한 id, 없으면 목록으로 출력")
-																.type(SimpleType.STRING)
-																.optional())
-												.responseSchema(Schema.schema("ViewTempReviewListResponse"))
-												.responseFields(Description.success(ReviewDescription.viewTempReview()))
+														parameterWithName("me")
+																.description("true면 멤버의 질문 글 조회, false면 전체 조회 (Default : true)")
+																.defaultValue(true)
+																.type(SimpleType.BOOLEAN),
+														parameterWithName("query").description("검색 내용"),
+														parameterWithName("page")
+																.description("요청 할 페이지")
+																.type(SimpleType.NUMBER),
+														parameterWithName("size")
+																.description("페이지 안의 갯수")
+																.type(SimpleType.NUMBER))
+												.responseSchema(Schema.schema("SearchQuestionListResponse"))
+												.responseFields(Description.success(QuestionDescription.viewQuestionList()))
 												.build())));
 	}
 }

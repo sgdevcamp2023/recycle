@@ -1,4 +1,4 @@
-package com.zzaug.review.web.controller.v1.Comment;
+package com.zzaug.review.web.controller.v1.comment;
 
 import com.zzaug.review.domain.dto.comment.CommentResponse;
 import com.zzaug.review.support.ApiResponse;

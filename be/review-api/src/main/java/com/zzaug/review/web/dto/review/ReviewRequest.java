@@ -1,5 +1,6 @@
 package com.zzaug.review.web.dto.review;
 
+import com.zzaug.review.domain.model.review.ReviewType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +15,5 @@ import lombok.ToString;
 public class ReviewRequest {
 	private String content;
 	private String location;
-	private String tag;
+	private ReviewType tag;
 }
