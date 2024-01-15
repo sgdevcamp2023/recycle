@@ -76,7 +76,7 @@ public class CommentControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored(),
 														})
 												.build())));
 	}
@@ -87,7 +87,7 @@ public class CommentControllerTest {
 		mockMvc
 				.perform(
 						get(BASE_URL + "/questions/{question_id}/comments", 1)
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -148,7 +148,7 @@ public class CommentControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored(),
 														})
 												.build())));
 	}
@@ -186,7 +186,7 @@ public class CommentControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored(),
 														})
 												.build())));
 	}
