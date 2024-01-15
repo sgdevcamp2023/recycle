@@ -42,7 +42,7 @@ public class QuestionQueryControllerTest {
 				.perform(
 						get(BASE_URL + "/{question_id}", 1)
 								.param("question_id", "1")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -69,7 +69,7 @@ public class QuestionQueryControllerTest {
 		mockMvc
 				.perform(
 						get(BASE_URL + "/search")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.param("me", "true")
 								.param("query", "target")
 								.param("page", "1")

@@ -39,7 +39,7 @@ public class MeQueryControllerTest {
 		mockMvc
 				.perform(
 						get(BASE_URL + "/questions")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -62,7 +62,7 @@ public class MeQueryControllerTest {
 		mockMvc
 				.perform(
 						get(BASE_URL + "/questions/temp")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.param("t_id", "UUID:nullable")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
@@ -113,7 +113,7 @@ public class MeQueryControllerTest {
 		mockMvc
 				.perform(
 						get(BASE_URL + "/requests/reviews")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
