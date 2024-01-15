@@ -1,0 +1,34 @@
+import { DefaultTheme } from "styled-components";
+
+export type FontSizeType = "xs" | "sm" | "base" | "lg" | "xl" | "xxl" | "xxxl";
+
+export type BackgroundColorType = "green1" | "green2" | "green3" | "grey1" | "grey2" | "black" | "white";
+
+export type ColorType = "black" | "white";
+
+const theme: DefaultTheme = {
+  fontSize: {
+    xxs: "0.625rem",
+    xs: "0.75rem",
+    sm: "0.875rem",
+    base: "1rem",
+    lg: "1.25rem",
+    xl: "2rem",
+    xxl: "2.5rem",
+  },
+  backgroundColor: {
+    white: "#FFFFFF",
+    black: "#000000",
+    green1: "#1EB649",
+    green2: "#26DE81",
+    green3: "#AEE5BE",
+    grey1: "#8A8A8A",
+    grey2: "#939393",
+  },
+  color: {
+    white: "#FFFFFF",
+    black: "#000000",
+  },
+};
+
+export default theme;
