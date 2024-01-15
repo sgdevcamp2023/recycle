@@ -22,3 +22,56 @@ services:
       - ADMINER_DEFAULT_SERVER=recycle-mysql8
       - ADMINER_DESIGN=nette
       - ADMINER_PLUGINS=tables-filter tinymce
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2-arm64
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./elasticsearch:/usr/share/elasticsearch/data:rw
+    # Elastic search 계정정보
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+      discovery.type: single-node
+      ELASTIC_USERNAME: "elastic"
+      ELASTIC_PASSWORD: "MyPw123"
+    networks:
+      - elk
+
+  # Logstash 설정
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:7.10.1
+    platform: linux/amd64
+    ports:
+      - 5000:5000
+      - 9600:9600
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  # Kibana 설정
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana-oss:7.9.3
+    platform: linux/amd64
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge
