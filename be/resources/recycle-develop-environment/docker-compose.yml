@@ -39,6 +39,10 @@ services:
       ELASTIC_PASSWORD: "MyPw123"
     networks:
       - elk
+    command: >
+      bash -c "
+      bin/elasticsearch-plugin install analysis-nori;
+      exec /usr/local/bin/docker-entrypoint.sh "
 
   # Logstash 설정
   logstash:
