@@ -1,4 +1,4 @@
-package com.zzaug.member.support;
+package com.zzaug.web.support;
 
 import java.util.Locale;
 import org.springframework.context.MessageSource;

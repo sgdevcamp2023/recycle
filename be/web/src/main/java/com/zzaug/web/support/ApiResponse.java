@@ -1,4 +1,4 @@
-package com.zzaug.member.support;
+package com.zzaug.web.support;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
