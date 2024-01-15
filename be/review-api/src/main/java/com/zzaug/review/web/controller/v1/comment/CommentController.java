@@ -3,6 +3,7 @@ package com.zzaug.review.web.controller.v1.comment;
 import com.zzaug.review.domain.dto.comment.CommentResponse;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
+import com.zzaug.review.support.MessageCode;
 import com.zzaug.review.web.dto.comment.CommentRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
@@ -24,7 +25,7 @@ public class CommentController {
 			@PathVariable Long question_id,
 			CommentRequest request) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 
 	@GetMapping("/{question_id}/comments")
@@ -47,7 +48,7 @@ public class CommentController {
 						.build();
 
 		responses.add(res);
-		return ApiResponseGenerator.success(responses, HttpStatus.OK);
+		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@PutMapping("/{question_id}/comments/{commnet_id}")
@@ -57,7 +58,7 @@ public class CommentController {
 			@PathVariable Long commnet_id,
 			CommentRequest request) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
 	}
 
 	@DeleteMapping("/{question_id}/comments/{commnet_id}")
@@ -66,6 +67,6 @@ public class CommentController {
 			@PathVariable Long question_id,
 			@PathVariable Long commnet_id) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 	}
 }

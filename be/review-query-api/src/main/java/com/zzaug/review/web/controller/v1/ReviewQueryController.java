@@ -6,6 +6,7 @@ import com.zzaug.review.domain.model.review.ReviewType;
 import com.zzaug.review.domain.usecase.review.query.ReviewQueryUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
+import com.zzaug.review.support.MessageCode;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,15 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewQueryController {
 
 	private final ReviewQueryUseCase reviewUseCase;
-
-	//	@GetMapping()
-	//	public ApiResponse<ApiResponse.SuccessBody<ReviewQueryResponse>> foo(
-	//			@AuthenticationPrincipal TokenUserDetails userDetails, ReviewQueryRequest request) {
-	//		ReviewQueryUseCaseRequest useCaseRequest = ReviewUseCaseRequestConverter.from(request);
-	//		//		ReviewResponse res= ReviewResponse.builder().name("name").build();
-	//		ReviewQueryResponse res = ReviewQueryResponse.builder().name("name").build();
-	//		return ApiResponseGenerator.success(res, HttpStatus.OK);
-	//	}
 
 	@GetMapping("/{question_id}/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<List<ReviewQueryResponse>>> viewQuestionReviewList(
@@ -49,7 +41,7 @@ public class ReviewQueryController {
 						.tag(ReviewType.CODE)
 						.build();
 		responses.add(res);
-		return ApiResponseGenerator.success(responses, HttpStatus.OK);
+		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@GetMapping("/{question_id}/reviews/temp")
@@ -72,6 +64,6 @@ public class ReviewQueryController {
 						.tag(ReviewType.CODE)
 						.build();
 		responses.add(res);
-		return ApiResponseGenerator.success(responses, HttpStatus.OK);
+		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }

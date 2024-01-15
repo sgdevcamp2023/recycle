@@ -3,6 +3,7 @@ package com.zzaug.review.web.controller.v1;
 import com.zzaug.review.domain.dto.question.query.QuestionQueryResponse;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
+import com.zzaug.review.support.MessageCode;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class QuestionQueryController {
 						.created_at(new Timestamp(System.currentTimeMillis()))
 						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
-		return ApiResponseGenerator.success(res, HttpStatus.OK);
+		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@GetMapping("/search")
@@ -53,6 +54,6 @@ public class QuestionQueryController {
 						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		responses.add(res);
-		return ApiResponseGenerator.success(responses, HttpStatus.OK);
+		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }

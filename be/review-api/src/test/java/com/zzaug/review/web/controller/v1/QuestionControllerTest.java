@@ -49,7 +49,7 @@ class QuestionControllerTest {
 		mockMvc
 				.perform(
 						post(BASE_URL + "/questions", 0)
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.content(content)
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
@@ -69,7 +69,7 @@ class QuestionControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored()
 														})
 												.build())));
 	}
@@ -106,7 +106,7 @@ class QuestionControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored()
 														})
 												.build())));
 	}
@@ -119,7 +119,7 @@ class QuestionControllerTest {
 				.perform(
 						delete(BASE_URL + "/questions/{question_id}", 1)
 								.param("question_id", "1")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -142,7 +142,7 @@ class QuestionControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored()
 														})
 												.build())));
 	}
@@ -154,7 +154,7 @@ class QuestionControllerTest {
 				.perform(
 						get(BASE_URL + "/me/questions/reviewers")
 								.param("question_id", "1")
-								.header("Authorization", "{{accessToken")
+								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(

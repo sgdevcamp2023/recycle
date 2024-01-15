@@ -3,6 +3,7 @@ package com.zzaug.review.web.controller.v1.review;
 import com.zzaug.review.domain.usecase.review.ReviewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
+import com.zzaug.review.support.MessageCode;
 import com.zzaug.review.web.dto.review.ReviewRequest;
 import com.zzaug.review.web.dto.review.ReviewTempRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
@@ -23,7 +24,7 @@ public class ReviewController {
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable Long question_id,
 			@RequestBody ReviewRequest request) {
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 
 	@PostMapping("/questions/{question_id}/reviews/temp")
@@ -32,7 +33,7 @@ public class ReviewController {
 			@PathVariable Long question_id,
 			@RequestBody ReviewTempRequest request) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 	@PutMapping("/questions/{question_id}/reviews/{review_id}")
 	public ApiResponse<ApiResponse.SuccessBody<Void>> editReview(
@@ -41,7 +42,7 @@ public class ReviewController {
 			@PathVariable Long review_id,
 			@RequestBody ReviewRequest request) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
 	}
 
 	@DeleteMapping("/questions/{question_id}/reviews/{review_id}")
@@ -50,6 +51,6 @@ public class ReviewController {
 			@PathVariable Long question_id,
 			@PathVariable Long review_id) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 	}
 }

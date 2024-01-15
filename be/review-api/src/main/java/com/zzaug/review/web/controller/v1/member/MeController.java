@@ -3,6 +3,7 @@ package com.zzaug.review.web.controller.v1.member;
 import com.zzaug.review.domain.dto.member.MemberResponse;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
+import com.zzaug.review.support.MessageCode;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,6 @@ public class MeController {
 		MemberResponse element =
 				MemberResponse.builder().question_id(1L).author("author").author_id(1L).build();
 		res.add(element);
-		return ApiResponseGenerator.success(res, HttpStatus.OK);
+		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }

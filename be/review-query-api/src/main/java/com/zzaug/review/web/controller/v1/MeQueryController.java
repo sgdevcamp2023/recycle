@@ -6,6 +6,7 @@ import com.zzaug.review.domain.dto.review.query.ReviewQueryResponse;
 import com.zzaug.review.domain.model.review.ReviewType;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
+import com.zzaug.review.support.MessageCode;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class MeQueryController {
 						.tag(ReviewType.CODE)
 						.build();
 		responses.add(res);
-		return ApiResponseGenerator.success(responses, HttpStatus.OK);
+		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@GetMapping("/questions")
@@ -59,7 +60,7 @@ public class MeQueryController {
 						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		res.add(element);
-		return ApiResponseGenerator.success(res, HttpStatus.OK);
+		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@GetMapping("/questions/temp")
@@ -76,7 +77,7 @@ public class MeQueryController {
 						.created_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		res.add(element);
-		return ApiResponseGenerator.success(res, HttpStatus.OK);
+		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@GetMapping("/requests/reviews")
@@ -95,6 +96,6 @@ public class MeQueryController {
 						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		res.add(element);
-		return ApiResponseGenerator.success(res, HttpStatus.OK);
+		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
