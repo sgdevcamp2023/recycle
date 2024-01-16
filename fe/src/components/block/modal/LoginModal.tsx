@@ -9,8 +9,8 @@ import { useState } from 'react';
 const LoginBox = styled.div`
   box-sizing: border-box;
   width: 29.25rem;
-  height: 27.5rem; /* 높이를 자동으로 조정 */
-  padding: 4px 16px;
+  height: 27.5rem;
+  padding: 0.25rem 16px;
   background-color: white;
   color: black;
   border: 1px solid #1eb649;
@@ -43,8 +43,8 @@ const Logo = styled.img`
 `;
 
 const TextBox = styled.div`
-  width: 200px;
-  height: 20px;
+  width: 12.5rem;
+  height: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +66,7 @@ const LoginModal = () => {
           fontSize='xxl'
           fontWeight='bold'
           style={{
-            marginTop: '3.5625rem',
+            marginTop: '3rem',
             marginBottom: '2.375rem',
           }}
         >
