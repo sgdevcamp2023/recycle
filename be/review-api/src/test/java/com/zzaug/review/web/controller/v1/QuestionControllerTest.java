@@ -11,9 +11,10 @@ import com.epages.restdocs.apispec.Schema;
 import com.epages.restdocs.apispec.SimpleType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.review.ReviewApp;
-import com.zzaug.review.domain.model.review.ReviewType;
-import com.zzaug.review.web.dto.review.ReviewRequest;
-import com.zzaug.review.web.dto.review.ReviewTempRequest;
+import com.zzaug.review.web.controller.v1.description.Description;
+import com.zzaug.review.web.controller.v1.description.MemberDescription;
+import com.zzaug.review.web.dto.question.QuestionRequest;
+import com.zzaug.review.web.dto.question.QuestionTempRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,48 +31,110 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest(classes = ReviewApp.class)
-class ReviewControllerTest {
+class QuestionControllerTest {
+
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
-	private static final String TAG = "ReviewController";
+
+	private static final String TAG = "QuestionController";
 	private static final String BASE_URL = "/api/v1";
 
 	@Test
-	@DisplayName("[POST] " + BASE_URL + "/questions/{question_id}/reviews")
-	void createReview() throws Exception {
-
-		ReviewRequest request =
-				ReviewRequest.builder()
-						.content("content")
-						.location("location")
-						.tag(ReviewType.CODE)
-						.build();
+	@DisplayName("[POST] " + BASE_URL + "/questions")
+	void createQuestion() throws Exception {
+		QuestionRequest request = QuestionRequest.builder().content("content").build();
 
 		String content = objectMapper.writeValueAsString(request);
-		// set service mock
 
 		mockMvc
 				.perform(
-						post(BASE_URL + "/questions/{question_id}/reviews", 1)
+						post(BASE_URL + "/questions", 0)
+								.header("Authorization", "{{accessToken}}")
 								.content(content)
+								.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(
+						document(
+								"CreateQuestion",
+								resource(
+										ResourceSnippetParameters.builder()
+												.description("질문 글 생성")
+												.tag(TAG)
+												.requestSchema(Schema.schema("QuestionRequest"))
+												.requestHeaders(
+														headerWithName("Authorization").description("{{accessToken}}"))
+												.responseFields(
+														new FieldDescriptor[] {
+															fieldWithPath("code").type(JsonFieldType.STRING).description("코드"),
+															fieldWithPath("message")
+																	.type(JsonFieldType.STRING)
+																	.description("메시지"),
+															fieldWithPath("data").ignored()
+														})
+												.build())));
+	}
+
+	@Test
+	@DisplayName("[POST] " + BASE_URL + "/questions/temp")
+	void createTempQuestion() throws Exception {
+
+		QuestionTempRequest request =
+				QuestionTempRequest.builder().t_id("UUID").content("content").build();
+
+		String content = objectMapper.writeValueAsString(request);
+
+		mockMvc
+				.perform(
+						post(BASE_URL + "/questions/temp", 0)
+								.header("Authorization", "{{accessToken}}")
+								.content(content)
+								.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(
+						document(
+								"CreateTempQuestion",
+								resource(
+										ResourceSnippetParameters.builder()
+												.description("질문 글 임시 저장")
+												.tag(TAG)
+												.requestSchema(Schema.schema("QuestionTempRequest"))
+												.requestHeaders(
+														headerWithName("Authorization").description("{{accessToken}}"))
+												.responseFields(
+														new FieldDescriptor[] {
+															fieldWithPath("code").type(JsonFieldType.STRING).description("코드"),
+															fieldWithPath("message")
+																	.type(JsonFieldType.STRING)
+																	.description("메시지"),
+															fieldWithPath("data").ignored()
+														})
+												.build())));
+	}
+
+	@Test
+	@DisplayName("[DELETE] " + BASE_URL + "/questions/{question_id}")
+	void deleteQuestion() throws Exception {
+
+		mockMvc
+				.perform(
+						delete(BASE_URL + "/questions/{question_id}", 1)
 								.param("question_id", "1")
 								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
-								"CreateReview",
+								"DeleteQuestion",
 								resource(
 										ResourceSnippetParameters.builder()
-												.description("리뷰 생성")
+												.description("질문 글 삭제")
 												.tag(TAG)
-												.requestSchema(Schema.schema("ReviewRequest"))
-												.responseSchema(Schema.schema("ReviewResponse"))
 												.requestHeaders(
 														headerWithName("Authorization").description("{{accessToken}}"))
+												.responseSchema(Schema.schema("QuestionResponse"))
 												.pathParameters(
 														parameterWithName("question_id")
-																.description("리뷰를 달 질문 글의 id")
+																.description("삭제 할 질문 글 id")
 																.type(SimpleType.NUMBER))
 												.responseFields(
 														new FieldDescriptor[] {
@@ -79,143 +142,35 @@ class ReviewControllerTest {
 															fieldWithPath("message")
 																	.type(JsonFieldType.STRING)
 																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
+															fieldWithPath("data").ignored()
 														})
 												.build())));
 	}
 
 	@Test
-	@DisplayName("[POST] " + BASE_URL + "/questions/{question_id}/reviews/temp")
-	void createTempReview() throws Exception {
-
-		ReviewTempRequest request =
-				ReviewTempRequest.builder()
-						.t_id("{UUID}")
-						.content("{content}")
-						.location("{location}")
-						.tag(ReviewType.CODE)
-						.build();
-
-		String content = objectMapper.writeValueAsString(request);
-		// set service mock
-
+	@DisplayName("[GET] " + BASE_URL + "/me/questions/reviewers")
+	void viewReviewerList() throws Exception {
 		mockMvc
 				.perform(
-						post(BASE_URL + "/questions/{question_id}/reviews/temp", 1)
-								.content(content)
+						get(BASE_URL + "/me/questions/reviewers")
 								.param("question_id", "1")
 								.header("Authorization", "{{accessToken}}")
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
-								"CreateTempReview",
+								"ViewReviewerList",
 								resource(
 										ResourceSnippetParameters.builder()
-												.description("리뷰 임시 저장")
-												.tag(TAG)
-												.requestSchema(Schema.schema("ReviewRequest"))
-												.responseSchema(Schema.schema("ReviewResponse"))
-												.requestHeaders(
-														headerWithName("Authorization").description("{{accessToken}}"))
-												.pathParameters(
-														parameterWithName("question_id")
-																.description("리뷰를 달 질문 글의 id")
-																.type(SimpleType.NUMBER))
-												.responseFields(
-														new FieldDescriptor[] {
-															fieldWithPath("code").type(JsonFieldType.STRING).description("코드"),
-															fieldWithPath("message")
-																	.type(JsonFieldType.STRING)
-																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
-														})
-												.build())));
-	}
-
-	@Test
-	@DisplayName("[PUT] " + BASE_URL + "/questions/{question_id}/reviews/{review_id}")
-	void editReview() throws Exception {
-
-		ReviewRequest request =
-				ReviewRequest.builder()
-						.content("content")
-						.location("location")
-						.tag(ReviewType.CODE)
-						.build();
-
-		String content = objectMapper.writeValueAsString(request);
-
-		mockMvc
-				.perform(
-						put(BASE_URL + "/questions/{question_id}/reviews/{review_id}", 1, 1)
-								.header("Authorization", "{{accessToken}}")
-								.content(content)
-								.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(
-						document(
-								"EditReview",
-								resource(
-										ResourceSnippetParameters.builder()
-												.description("리뷰 수정")
+												.description("리뷰를 달아준 리뷰어 목록 조회")
 												.tag(TAG)
 												.requestHeaders(
 														headerWithName("Authorization").description("{{accessToken}}"))
-												.pathParameters(
+												.requestParameters(
 														parameterWithName("question_id")
-																.description("리뷰가 달린 질문 글의 id")
-																.type(SimpleType.NUMBER),
-														parameterWithName("review_id")
-																.description("수정 할 리뷰 id")
-																.type(SimpleType.NUMBER))
-												.requestSchema(Schema.schema("ReviewRequest"))
-												.responseSchema(Schema.schema("EditReviewResponse"))
-												.responseFields(
-														new FieldDescriptor[] {
-															fieldWithPath("code").type(JsonFieldType.STRING).description("코드"),
-															fieldWithPath("message")
-																	.type(JsonFieldType.STRING)
-																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
-														})
-												.build())));
-	}
-
-	@Test
-	@DisplayName("[DELETE] " + BASE_URL + "/questions/{question_id}/reviews/{review_id}")
-	void deleteReview() throws Exception {
-		mockMvc
-				.perform(
-						delete(BASE_URL + "/questions/{question_id}/reviews/{review_id}", 1, 1)
-								.header("Authorization", "{{accessToken}}")
-								.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(
-						document(
-								"DeleteReview",
-								resource(
-										ResourceSnippetParameters.builder()
-												.description("리뷰 삭제")
-												.tag(TAG)
-												.requestHeaders(
-														headerWithName("Authorization").description("{{accessToken}}"))
-												.pathParameters(
-														parameterWithName("question_id")
-																.description("리뷰가 달린 질문 글의 id")
-																.type(SimpleType.NUMBER),
-														parameterWithName("review_id")
-																.description("삭제 할 리뷰 id")
-																.type(SimpleType.NUMBER))
-												.responseSchema(Schema.schema("EditReviewResponse"))
-												.responseFields(
-														new FieldDescriptor[] {
-															fieldWithPath("code").type(JsonFieldType.STRING).description("코드"),
-															fieldWithPath("message")
-																	.type(JsonFieldType.STRING)
-																	.description("메시지"),
-															fieldWithPath("data").type(JsonFieldType.NULL).description("null"),
-														})
+																.description("해당 글에 리뷰를 단 리뷰어 목록을 알기 위한 질문 글 id"))
+												.responseSchema(Schema.schema("ViewQuestionRequestListResponse"))
+												.responseFields(Description.success(MemberDescription.reviewerList()))
 												.build())));
 	}
 }
