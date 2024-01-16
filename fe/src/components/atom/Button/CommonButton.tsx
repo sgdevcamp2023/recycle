@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const CommonStyleButton = styled.button`
-  width: 22rem;
+  width: 22.375rem;
   height: 3rem;
   padding: 1rem;
   background-color: #1eb649;

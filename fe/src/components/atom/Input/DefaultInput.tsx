@@ -1,4 +1,3 @@
-import { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
 
 interface CustomInputProps {
@@ -10,10 +9,10 @@ interface CustomInputProps {
   color?: string;
   backgroundColor?: string;
   value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
   borderRadius?: string;
   padding?: number | string;
   border?: number | string;
+  marginBottom?: number | string;
 }
 
 const DefaultInput = ({
@@ -25,16 +24,15 @@ const DefaultInput = ({
   color = 'black',
   backgroundColor = 'white',
   value,
-  onChange,
   borderRadius = '0.25rem',
   border = '0.063rem solid #AAAAAA',
   padding = '',
+  marginBottom = '',
 }: CustomInputProps) => {
   return (
     <StyledInput
       type='text'
       value={value}
-      onChange={onChange}
       width={width}
       height={height}
       placeholder={placeholder}
@@ -45,6 +43,7 @@ const DefaultInput = ({
       borderRadius={borderRadius}
       border={border}
       padding={padding}
+      marginBottom={marginBottom}
     />
   );
 };

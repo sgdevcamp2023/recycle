@@ -1,22 +1,31 @@
-import React, { ChangeEventHandler } from 'react';
 import DefaultInput from './DefaultInput'; // DefaultInput 컴포넌트를 가져옵니다.
 
 interface CommonInputProps {
   value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  placeholder: string;
+  color?: string;
+  border?: number | string;
+  marginBottom?: number | string;
 }
 
-const CommonInput: React.FC<CommonInputProps> = ({ value, onChange }) => {
+const CommonInput: React.FC<CommonInputProps> = ({
+  value,
+  placeholder,
+  color,
+  border,
+  marginBottom,
+}) => {
   return (
     <DefaultInput
-      width='22.25rem'
+      width='22rem'
       height='3rem'
-      placeholder='아무거나 입력하세요'
+      placeholder={placeholder}
       fontSize='1rem'
-      color='#939393'
-      backgroundColor='#f0f0f0'
+      color={color}
+      backgroundColor='white'
       value={value}
-      onChange={onChange}
+      border={border}
+      marginBottom={marginBottom}
     />
   );
 };

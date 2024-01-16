@@ -1,7 +1,9 @@
+import LoginModal from '@components/block/modal/LoginModal';
+
 const Login = () => {
   return (
     <>
-      <h1>Login</h1>
+      <LoginModal></LoginModal>
     </>
   );
 };
