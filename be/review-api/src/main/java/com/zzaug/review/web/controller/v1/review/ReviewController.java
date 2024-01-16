@@ -24,7 +24,6 @@ public class ReviewController {
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable Long question_id,
 			@RequestBody ReviewRequest request) {
-
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 
@@ -36,7 +35,6 @@ public class ReviewController {
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
-
 	@PutMapping("/questions/{question_id}/reviews/{review_id}")
 	public ApiResponse<ApiResponse.SuccessBody<Void>> editReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
