@@ -1,4 +1,4 @@
-package com.zzaug.notification.web.dto.notification;
+package com.zzaug.notification.domain.dto.notification;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class NotificationRequest {
+public class BrowseReviewsUseCase {
 
-	private String name;
+	private Long memberId;
 }
