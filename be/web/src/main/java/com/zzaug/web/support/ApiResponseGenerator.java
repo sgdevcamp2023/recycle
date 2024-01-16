@@ -6,17 +6,15 @@ import org.springframework.http.HttpStatus;
 @UtilityClass
 public class ApiResponseGenerator {
 
-	public static ApiResponse<ApiResponse.SuccessBody<Void>> success(final HttpStatus status) {
+	public static ApiResponse<ApiResponse.Success> success(final HttpStatus status) {
 		return new ApiResponse<>(
-				new ApiResponse.SuccessBody<>(
-						null, MessageCode.SUCCESS.getValue(), MessageCode.SUCCESS.getCode()),
+				new ApiResponse.Success(MessageCode.SUCCESS.getValue(), MessageCode.SUCCESS.getCode()),
 				status);
 	}
 
-	public static ApiResponse<ApiResponse.SuccessBody<Void>> success(
+	public static ApiResponse<ApiResponse.Success> success(
 			final HttpStatus status, MessageCode code) {
-		return new ApiResponse<>(
-				new ApiResponse.SuccessBody<>(null, code.getValue(), code.getCode()), status);
+		return new ApiResponse<>(new ApiResponse.Success(code.getValue(), code.getCode()), status);
 	}
 
 	public static <D> ApiResponse<ApiResponse.SuccessBody<D>> success(
