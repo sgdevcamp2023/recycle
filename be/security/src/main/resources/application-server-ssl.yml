@@ -1,0 +1,6 @@
+server:
+  ssl:
+    key-store: ${KEY_STORE:keystore.p12}
+    key-store-password: ${KEY_STORE_PASSWORD:recycle}
+    keyStoreType: ${KEY_STORE_TYPE:PKCS12}
+    keyAlias: ${KEY_ALIAS:tomcat}
