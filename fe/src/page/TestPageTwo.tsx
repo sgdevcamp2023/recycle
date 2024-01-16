@@ -1,7 +1,9 @@
 import Text from "@components/atom/Text";
 import BackgroundModal from "@components/block/modal/BackgroundModal";
+import SideBar from "@components/block/sideBar/SideBar";
 import useModalStore from "@store/useModalStore";
 import { Suspense } from "react";
+import styled from "styled-components";
 
 const TestPageTwo = () => {
   const { showModal, setShowModal } = useModalStore();
@@ -22,8 +24,17 @@ const TestPageTwo = () => {
           </Suspense>
         )}
       </div>
+      <SidebarWrapper>
+        <SideBar />
+      </SidebarWrapper>
     </>
   );
 };
 
 export default TestPageTwo;
+
+const SidebarWrapper = styled.div`
+  width: 15rem;
+  height: 60rem;
+  border: 1px solid black;
+`;
