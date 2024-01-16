@@ -4,7 +4,9 @@ export type FontSizeType = "xs" | "sm" | "base" | "lg" | "xl" | "xxl" | "xxxl";
 
 export type BackgroundColorType = "green1" | "green2" | "green3" | "grey1" | "grey2" | "black" | "white";
 
-export type ColorType = "black" | "white";
+export type borderColorType = "black" | "grey" | "green";
+
+export type ColorType = "black" | "white" | "inherit";
 
 const theme: DefaultTheme = {
   fontSize: {
@@ -28,6 +30,12 @@ const theme: DefaultTheme = {
   color: {
     white: "#FFFFFF",
     black: "#000000",
+    inherit: "inherit",
+  },
+  borderColor: {
+    black: "#000",
+    white: "#fff",
+    green: "#78C37C",
   },
 };
 
