@@ -1,30 +1,47 @@
-import Text from '@components/atom/Text';
-import { flexCenter } from '@styles/flexCenter';
-import styled from 'styled-components';
+import Text from "@components/atom/Text";
+import useTabStore, { TabType } from "@store/useTabStore";
+import { flexCenter } from "@styles/flexCenter";
+import styled from "styled-components";
 
 const SideBar = () => {
+  const { setTabType, tabType } = useTabStore();
+
+  const handleClickTab = (word: TabType) => {
+    setTabType(word);
+  };
+
   return (
     <SideBarContainer>
       <SideBarHeader></SideBarHeader>
       <SideBarContent>
-        <Text color='black' fontWeight='bold' fontSize='base'>
+        <Text fontSize="lg" color="black" fontWeight="bold">
           Menu
         </Text>
         <MenuTabContainer>
-          <TabButton>
-            <Text fontWeight='bold'>
-              <QuestionIcon />
+          <TabButton isActive={tabType === "question"} onClick={() => handleClickTab("question")}>
+            <Text fontSize="lg" fontWeight="bold">
               Question
             </Text>
           </TabButton>
-          <TabButton>
-            <Text fontWeight='bold'>Review</Text>
+          <TabButton isActive={tabType === "review"} onClick={() => handleClickTab("review")}>
+            <Text fontSize="lg" fontWeight="bold">
+              Review
+            </Text>
           </TabButton>
-          <TabButton>
-            <Text fontWeight='bold'>Setting</Text>
+          <TabButton isActive={tabType === "setting"} onClick={() => handleClickTab("setting")}>
+            <Text fontSize="lg" fontWeight="bold">
+              Setting
+            </Text>
           </TabButton>
-          <TabButton>
-            <Text fontWeight='bold'>SignOut</Text>
+          <TabButton
+            isActive={tabType === null}
+            onClick={() => {
+              handleClickTab(null);
+            }}
+          >
+            <Text fontSize="lg" fontWeight="bold">
+              SignOut
+            </Text>
           </TabButton>
         </MenuTabContainer>
       </SideBarContent>
@@ -61,12 +78,18 @@ const SideBarFooter = styled.div`
 const MenuTabContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 `;
 
-const TabButton = styled.button`
-  background-color: ${({ theme }) => theme.backgroundColor.grey3};
+const TabButton = styled.button<{ isActive: boolean }>`
+  background-color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.green3 : theme.backgroundColor.grey3)};
   border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
   cursor: pointer;
+  color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.white : theme.backgroundColor.black)}; // Change color based on isActive
+  font-weight: ${({ isActive }) => (isActive ? "600" : "normal")}; // Change font-weight based on isActive
+
   &:hover {
     background-color: ${({ theme }) => theme.backgroundColor.green3};
     color: white;
