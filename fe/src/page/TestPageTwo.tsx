@@ -1,4 +1,6 @@
 import Text from "@components/atom/Text";
+import IconBox from "@components/atom/icon/IconBox";
+import QuestionIcon from "@components/atom/icon/QuestionIcon";
 import BackgroundModal from "@components/block/modal/BackgroundModal";
 import SideBar from "@components/block/sideBar/SideBar";
 import useModalStore from "@store/useModalStore";
@@ -13,6 +15,7 @@ const TestPageTwo = () => {
   return (
     <>
       <div>
+        <QuestionIcon />
         <Text>Hello</Text>
         <button onClick={() => handleOnClickModal()}>open</button>
         {showModal && (
@@ -27,6 +30,7 @@ const TestPageTwo = () => {
       <SidebarWrapper>
         <SideBar />
       </SidebarWrapper>
+      <div></div>
     </>
   );
 };
