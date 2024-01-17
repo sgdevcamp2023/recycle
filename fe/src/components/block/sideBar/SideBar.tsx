@@ -8,24 +8,30 @@ const SideBar = () => {
     <SideBarContainer>
       <SideBarHeader></SideBarHeader>
       <SideBarContent>
-        <Text color="black" fontWeight="bold" fontSize="base">
+        <Text fontSize="lg" color="black" fontWeight="bold">
           Menu
         </Text>
         <MenuTabContainer>
           <TabButton>
-            <Text fontWeight="bold">
+            <Text fontSize="lg" fontWeight="bold">
               <QuestionIcon />
               Question
             </Text>
           </TabButton>
           <TabButton>
-            <Text fontWeight="bold">Review</Text>
+            <Text fontSize="lg" fontWeight="bold">
+              Review
+            </Text>
           </TabButton>
           <TabButton>
-            <Text fontWeight="bold">Setting</Text>
+            <Text fontSize="lg" fontWeight="bold">
+              Setting
+            </Text>
           </TabButton>
           <TabButton>
-            <Text fontWeight="bold">SignOut</Text>
+            <Text fontSize="lg" fontWeight="bold">
+              SignOut
+            </Text>
           </TabButton>
         </MenuTabContainer>
       </SideBarContent>
@@ -67,6 +73,8 @@ const MenuTabContainer = styled.div`
 const TabButton = styled.button`
   background-color: ${({ theme }) => theme.backgroundColor.grey3};
   border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.backgroundColor.green3};
