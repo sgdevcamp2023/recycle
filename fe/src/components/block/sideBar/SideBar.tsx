@@ -1,5 +1,4 @@
 import Text from "@components/atom/Text";
-import QuestionIcon from "@components/atom/icon/QuestionIcon";
 import useTabStore, { TabType } from "@store/useTabStore";
 import { flexCenter } from "@styles/flexCenter";
 import styled from "styled-components";
