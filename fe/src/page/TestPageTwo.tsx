@@ -1,11 +1,10 @@
-import Text from "@components/atom/Text";
+import Text from '@components/atom/Text';
 // import IconBox from "@components/atom/icon/IconBox";
-import QuestionIcon from "@components/atom/icon/QuestionIcon";
-import BackgroundModal from "@components/block/modal/BackgroundModal";
-import SideBar from "@components/block/sideBar/SideBar";
-import useModalStore from "@store/useModalStore";
-import { Suspense } from "react";
-import styled from "styled-components";
+import BackgroundModal from '@components/block/modal/BackgroundModal';
+import SideBar from '@components/block/sideBar/SideBar';
+import useModalStore from '@store/useModalStore';
+import { Suspense } from 'react';
+import styled from 'styled-components';
 
 const TestPageTwo = () => {
   const { showModal, setShowModal } = useModalStore();
