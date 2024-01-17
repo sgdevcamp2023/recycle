@@ -1,4 +1,5 @@
 import AskLoginModal from '@components/block/modal/AskLoginModal';
+import SaveModal from '@components/block/modal/SaveModal';
 import styled from 'styled-components';
 
 const CenterModalBox = styled.div`
@@ -13,7 +14,8 @@ const TestPageThree = () => {
   return (
     <>
       <CenterModalBox>
-        <AskLoginModal />
+        {/* <AskLoginModal /> */}
+        <SaveModal />
       </CenterModalBox>
     </>
   );
