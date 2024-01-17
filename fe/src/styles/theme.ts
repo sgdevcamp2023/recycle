@@ -1,6 +1,6 @@
 import { DefaultTheme } from "styled-components";
 
-export type FontSizeType = "xs" | "sm" | "base" | "lg" | "xl" | "xxl" | "xxxl";
+export type FontSizeType = "xxs" | "xs" | "sm" | "base" | "lg" | "xl" | "xxl";
 
 export type BackgroundColorType = "green1" | "green2" | "green3" | "grey1" | "grey2" | "grey3" | "black" | "white";
 
