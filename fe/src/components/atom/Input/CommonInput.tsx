@@ -5,6 +5,8 @@ interface CommonInputProps {
   placeholder: string;
   color?: string;
   border?: number | string;
+  width?: number | string;
+  height?: number | string;
   marginBottom?: number | string;
 }
 
@@ -14,11 +16,12 @@ const CommonInput: React.FC<CommonInputProps> = ({
   color,
   border,
   marginBottom,
+  width,
+  height,
 }) => {
   return (
     <DefaultInput
-      width='22rem'
-      height='3rem'
+      height={height}
       placeholder={placeholder}
       fontSize='1rem'
       color={color}
@@ -26,6 +29,7 @@ const CommonInput: React.FC<CommonInputProps> = ({
       value={value}
       border={border}
       marginBottom={marginBottom}
+      width={width}
     />
   );
 };
