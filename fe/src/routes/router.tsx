@@ -5,6 +5,7 @@ import Index from "@page/Index";
 import { Route, Routes } from "react-router-dom";
 import TestPage from "@page/TestPage";
 import TestPageTwo from "@page/TestPageTwo";
+import GridTemplate from "@components/layout/GridTemplate";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
       <Route path="/*" element={<NotFound />} />
       <Route path="/test" element={<TestPage />} />
       <Route path="/test2" element={<TestPageTwo />} />
+      <Route path="/grid" element={<GridTemplate />} />
     </Routes>
   );
 };
