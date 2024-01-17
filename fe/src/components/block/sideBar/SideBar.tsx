@@ -1,9 +1,16 @@
 import Text from "@components/atom/Text";
 import QuestionIcon from "@components/atom/icon/QuestionIcon";
+import useTabStore, { TabType } from "@store/useTabStore";
 import { flexCenter } from "@styles/flexCenter";
 import styled from "styled-components";
 
 const SideBar = () => {
+  const { setTabType, tabType } = useTabStore();
+
+  const handleClickTab = (word: TabType) => {
+    setTabType(word);
+  };
+
   return (
     <SideBarContainer>
       <SideBarHeader></SideBarHeader>
@@ -12,23 +19,27 @@ const SideBar = () => {
           Menu
         </Text>
         <MenuTabContainer>
-          <TabButton>
+          <TabButton isActive={tabType === "question"} onClick={() => handleClickTab("question")}>
             <Text fontSize="lg" fontWeight="bold">
-              <QuestionIcon />
               Question
             </Text>
           </TabButton>
-          <TabButton>
+          <TabButton isActive={tabType === "review"} onClick={() => handleClickTab("review")}>
             <Text fontSize="lg" fontWeight="bold">
               Review
             </Text>
           </TabButton>
-          <TabButton>
+          <TabButton isActive={tabType === "setting"} onClick={() => handleClickTab("setting")}>
             <Text fontSize="lg" fontWeight="bold">
               Setting
             </Text>
           </TabButton>
-          <TabButton>
+          <TabButton
+            isActive={tabType === null}
+            onClick={() => {
+              handleClickTab(null);
+            }}
+          >
             <Text fontSize="lg" fontWeight="bold">
               SignOut
             </Text>
@@ -68,14 +79,18 @@ const SideBarFooter = styled.div`
 const MenuTabContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 `;
 
-const TabButton = styled.button`
-  background-color: ${({ theme }) => theme.backgroundColor.grey3};
+const TabButton = styled.button<{ isActive: boolean }>`
+  background-color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.green3 : theme.backgroundColor.grey3)};
   border: none;
   border-radius: 4px;
   padding: 0.5rem;
   cursor: pointer;
+  color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.white : theme.backgroundColor.black)}; // Change color based on isActive
+  font-weight: ${({ isActive }) => (isActive ? "600" : "normal")}; // Change font-weight based on isActive
+
   &:hover {
     background-color: ${({ theme }) => theme.backgroundColor.green3};
     color: white;
