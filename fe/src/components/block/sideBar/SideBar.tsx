@@ -1,31 +1,30 @@
-import Text from "@components/atom/Text";
-import QuestionIcon from "@components/atom/icon/QuestionIcon";
-import { flexCenter } from "@styles/flexCenter";
-import styled from "styled-components";
+import Text from '@components/atom/Text';
+import { flexCenter } from '@styles/flexCenter';
+import styled from 'styled-components';
 
 const SideBar = () => {
   return (
     <SideBarContainer>
       <SideBarHeader></SideBarHeader>
       <SideBarContent>
-        <Text color="black" fontWeight="bold" fontSize="base">
+        <Text color='black' fontWeight='bold' fontSize='base'>
           Menu
         </Text>
         <MenuTabContainer>
           <TabButton>
-            <Text fontWeight="bold">
+            <Text fontWeight='bold'>
               <QuestionIcon />
               Question
             </Text>
           </TabButton>
           <TabButton>
-            <Text fontWeight="bold">Review</Text>
+            <Text fontWeight='bold'>Review</Text>
           </TabButton>
           <TabButton>
-            <Text fontWeight="bold">Setting</Text>
+            <Text fontWeight='bold'>Setting</Text>
           </TabButton>
           <TabButton>
-            <Text fontWeight="bold">SignOut</Text>
+            <Text fontWeight='bold'>SignOut</Text>
           </TabButton>
         </MenuTabContainer>
       </SideBarContent>
