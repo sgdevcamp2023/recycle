@@ -21,7 +21,7 @@ const CommonStyleButton = styled.button`
 const CommonButton = () => {
   return (
     <div>
-      <CommonStyleButton>가입하기</CommonStyleButton>
+      <CommonStyleButton>로그인</CommonStyleButton>
     </div>
   );
 };
