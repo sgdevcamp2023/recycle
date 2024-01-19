@@ -1,5 +1,6 @@
 import Text from "@components/atom/Text";
 import DefaultCard from "@components/atom/card/DefaultCard";
+import ReviewCard from "@components/atom/card/ReviewCard";
 // import IconBox from "@components/atom/icon/IconBox";
 import BackgroundModal from "@components/block/modal/BackgroundModal";
 import SideBar from "@components/block/sideBar/SideBar";
@@ -35,6 +36,9 @@ const TestPageTwo = () => {
         <DefaultCard type="question" title="타이틀임" commentCount={32} width={20} height={22} />
         <br />
         <DefaultCard type="review" commentCount={32} title="타이틀임" width={20} height={22} />
+      </div>
+      <div>
+        <ReviewCard></ReviewCard>
       </div>
     </>
   );

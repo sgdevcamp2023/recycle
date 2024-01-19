@@ -27,13 +27,13 @@ const DefaultCard = ({ type, commentCount, title, width, height, content }: Defa
     <CardWrapper height={height} width={width}>
       <ContentContainer type={type}>
         {type == "add" && (
-          <Text fontSize="lg" fontWeight="bold">
+          <Text fontSize="xl" fontWeight="bold">
             new
           </Text>
         )}
         {type == "question" && (
           <>
-            <Text fontSize="lg" fontWeight="bold">
+            <Text fontSize="xl" fontWeight="bold">
               {title}
             </Text>
             {content}
@@ -41,7 +41,7 @@ const DefaultCard = ({ type, commentCount, title, width, height, content }: Defa
         )}
         {type == "review" && (
           <>
-            <Text fontSize="lg" fontWeight="bold">
+            <Text fontSize="xl" fontWeight="bold">
               {title}
             </Text>
             {content}
@@ -100,7 +100,8 @@ const ContentContainer = styled.div<ContentContainerProps>`
   padding: 1rem 0.5rem;
   text-align: center;
   display: flex;
-  align-items: ${({ type }) => (type == "add" ? "center" : "baseline")};
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 `;
 
