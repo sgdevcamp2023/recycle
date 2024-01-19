@@ -6,7 +6,7 @@ export type BackgroundColorType = "green100" | "green200" | "green300" | "grey10
 
 export type borderColorType = "black" | "grey" | "green";
 
-export type ColorType = "black" | "white" | "inherit" | "green";
+export type ColorType = "black" | "white" | "inherit" | "green" | "grey";
 
 const theme: DefaultTheme = {
   fontSize: {
@@ -34,6 +34,7 @@ const theme: DefaultTheme = {
     black: "#000000",
     inherit: "inherit",
     green: "#1EB649",
+    grey: "#858585",
   },
   borderColor: {
     black: "#000",

@@ -3,8 +3,11 @@ import DefaultCard from "@components/atom/card/DefaultCard";
 import ReviewCard from "@components/atom/card/ReviewCard";
 // import IconBox from "@components/atom/icon/IconBox";
 import BackgroundModal from "@components/block/modal/BackgroundModal";
+import ContentTab from "@components/block/navbar/ContentTab";
+import DefaultTab from "@components/block/navbar/DefaultTab";
 import SideBar from "@components/block/sideBar/SideBar";
 import useModalStore from "@store/useModalStore";
+import { DefaultTabType } from "@store/useTabStore";
 import { Suspense } from "react";
 import styled from "styled-components";
 
@@ -13,6 +16,8 @@ const TestPageTwo = () => {
   const handleOnClickModal = () => {
     setShowModal(!showModal);
   };
+
+  const items: Record<string, DefaultTabType> = { "내가 작성한 질문": "myQuestion", "임시 저장": "questionDrafts" };
   return (
     <>
       <div>
@@ -39,6 +44,12 @@ const TestPageTwo = () => {
       </div>
       <div>
         <ReviewCard></ReviewCard>
+      </div>
+      <div>
+        <DefaultTab items={items} />
+      </div>
+      <div>
+        <ContentTab />
       </div>
     </>
   );
