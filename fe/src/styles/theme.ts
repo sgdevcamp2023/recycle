@@ -2,11 +2,11 @@ import { DefaultTheme } from "styled-components";
 
 export type FontSizeType = "xxs" | "xs" | "sm" | "base" | "lg" | "xl" | "xxl";
 
-export type BackgroundColorType = "green1" | "green2" | "green3" | "grey1" | "grey2" | "grey3" | "black" | "white";
+export type BackgroundColorType = "green100" | "green200" | "green300" | "grey100" | "grey200" | "grey300" | "grey400" | "black" | "white";
 
 export type borderColorType = "black" | "grey" | "green";
 
-export type ColorType = "black" | "white" | "inherit";
+export type ColorType = "black" | "white" | "inherit" | "green";
 
 const theme: DefaultTheme = {
   fontSize: {
@@ -21,17 +21,19 @@ const theme: DefaultTheme = {
   backgroundColor: {
     white: "#FFFFFF",
     black: "#000000",
-    green1: "#1EB649",
-    green2: "#26DE81",
-    green3: "#AEE5BE",
-    grey1: "#8A8A8A",
-    grey2: "#939393",
-    grey3: "#F5F5F5",
+    green100: "#1EB649",
+    green200: "#26DE81",
+    green300: "#AEE5BE",
+    grey100: "#8A8A8A",
+    grey200: "#939393",
+    grey300: "#F5F5F5",
+    grey400: "#DCDADA",
   },
   color: {
     white: "#FFFFFF",
     black: "#000000",
     inherit: "inherit",
+    green: "#1EB649",
   },
   borderColor: {
     black: "#000",
