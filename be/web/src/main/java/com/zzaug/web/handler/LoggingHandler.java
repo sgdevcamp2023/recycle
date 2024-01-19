@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.logging.MDC;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
