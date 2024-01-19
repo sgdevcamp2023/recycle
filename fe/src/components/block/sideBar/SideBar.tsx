@@ -57,7 +57,7 @@ const SideBarContainer = styled.div`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: ${({ theme }) => theme.backgroundColor.grey3};
+  background-color: ${({ theme }) => theme.backgroundColor.grey300};
 `;
 const SideBarHeader = styled.div`
   ${flexCenter};
@@ -82,7 +82,7 @@ const MenuTabContainer = styled.div`
 `;
 
 const TabButton = styled.button<{ isActive: boolean }>`
-  background-color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.green3 : theme.backgroundColor.grey3)};
+  background-color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.green300 : theme.backgroundColor.grey300)};
   border: none;
   border-radius: 4px;
   padding: 0.5rem;
@@ -91,7 +91,7 @@ const TabButton = styled.button<{ isActive: boolean }>`
   font-weight: ${({ isActive }) => (isActive ? "600" : "normal")}; // Change font-weight based on isActive
 
   &:hover {
-    background-color: ${({ theme }) => theme.backgroundColor.green3};
+    background-color: ${({ theme }) => theme.backgroundColor.green300};
     color: white;
     font-weight: 600;
   }

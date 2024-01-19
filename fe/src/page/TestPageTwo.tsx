@@ -1,10 +1,11 @@
-import Text from '@components/atom/Text';
+import Text from "@components/atom/Text";
+import DefaultCard from "@components/atom/card/DefaultCard";
 // import IconBox from "@components/atom/icon/IconBox";
-import BackgroundModal from '@components/block/modal/BackgroundModal';
-import SideBar from '@components/block/sideBar/SideBar';
-import useModalStore from '@store/useModalStore';
-import { Suspense } from 'react';
-import styled from 'styled-components';
+import BackgroundModal from "@components/block/modal/BackgroundModal";
+import SideBar from "@components/block/sideBar/SideBar";
+import useModalStore from "@store/useModalStore";
+import { Suspense } from "react";
+import styled from "styled-components";
 
 const TestPageTwo = () => {
   const { showModal, setShowModal } = useModalStore();
@@ -14,7 +15,6 @@ const TestPageTwo = () => {
   return (
     <>
       <div>
-        <QuestionIcon />
         <Text>Hello</Text>
         <button onClick={() => handleOnClickModal()}>open</button>
         {showModal && (
@@ -29,7 +29,13 @@ const TestPageTwo = () => {
       <SidebarWrapper>
         <SideBar />
       </SidebarWrapper>
-      <div></div>
+      <div>
+        <DefaultCard type="add" />
+        <br />
+        <DefaultCard type="question" title="타이틀임" />
+        <br />
+        <DefaultCard type="review" commentCount={32} title="타이틀임" />
+      </div>
     </>
   );
 };
