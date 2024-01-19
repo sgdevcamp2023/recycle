@@ -3,6 +3,7 @@ import DefaultCard from "@components/atom/card/DefaultCard";
 import ReviewCard from "@components/atom/card/ReviewCard";
 // import IconBox from "@components/atom/icon/IconBox";
 import BackgroundModal from "@components/block/modal/BackgroundModal";
+import ContentTab from "@components/block/navbar/ContentTab";
 import DefaultTab from "@components/block/navbar/DefaultTab";
 import SideBar from "@components/block/sideBar/SideBar";
 import useModalStore from "@store/useModalStore";
@@ -46,6 +47,9 @@ const TestPageTwo = () => {
       </div>
       <div>
         <DefaultTab items={items} />
+      </div>
+      <div>
+        <ContentTab />
       </div>
     </>
   );
