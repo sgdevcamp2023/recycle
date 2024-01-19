@@ -1,4 +1,5 @@
 import AskLoginModal from '@components/block/modal/AskLoginModal';
+import LockModal from '@components/block/modal/LockModal';
 import SaveModal from '@components/block/modal/SaveModal';
 import SharingModal from '@components/block/modal/SharingModal';
 import ShowReviewerModal from '@components/block/modal/ShowReviewerModal';
@@ -19,7 +20,8 @@ const TestPageThree = () => {
         {/* <AskLoginModal /> */}
         {/* <SaveModal /> */}
         {/* <ShowReviewerModal /> */}
-        <SharingModal />
+        {/* <SharingModal /> */}
+        <LockModal />
       </CenterModalBox>
     </>
   );

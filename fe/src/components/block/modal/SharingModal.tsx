@@ -16,6 +16,10 @@ const LoginBox = styled.div`
   color: black;
   border: 0.0625rem solid #1eb649;
   border-radius: 1.25rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const UpperBox = styled.div`
