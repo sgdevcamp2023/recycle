@@ -26,26 +26,42 @@ const DefaultCard = ({ type, commentCount, title, width, height, content }: Defa
   return (
     <CardWrapper height={height} width={width}>
       <ContentContainer type={type}>
-        {type == "add" && <></>}
+        {type == "add" && (
+          <Text fontSize="lg" fontWeight="bold">
+            new
+          </Text>
+        )}
         {type == "question" && (
           <>
-            <Text>{title}</Text> {content}
+            <Text fontSize="lg" fontWeight="bold">
+              {title}
+            </Text>
+            {content}
           </>
         )}
         {type == "review" && (
           <>
-            <Text>{title}</Text> {content}
+            <Text fontSize="lg" fontWeight="bold">
+              {title}
+            </Text>
+            {content}
           </>
         )}
       </ContentContainer>
       <Divider />
       <FooterContainer>
-        {type == "add" && <Text>새로운 질문하기</Text>}
+        {type == "add" && (
+          <Text fontSize="lg" fontWeight="bold">
+            새로운 질문하기
+          </Text>
+        )}
         {type == "question" && (
-          <>
-            <Text>{commentCount}</Text>
+          <TextBox>
+            <Text color="green" fontSize="lg">
+              {commentCount}
+            </Text>
             <Text>개의 코멘트가 달렸습니다</Text>
-          </>
+          </TextBox>
         )}
         {type == "review" && (
           <TextBox>
@@ -81,7 +97,7 @@ const Divider = styled.div`
 
 const ContentContainer = styled.div<ContentContainerProps>`
   flex: 4;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   text-align: center;
   display: flex;
   align-items: ${({ type }) => (type == "add" ? "center" : "baseline")};

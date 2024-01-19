@@ -30,11 +30,11 @@ const TestPageTwo = () => {
         <SideBar />
       </SidebarWrapper>
       <div>
-        <DefaultCard type="add" />
+        <DefaultCard type="add" width={20} height={22} />
         <br />
-        <DefaultCard type="question" title="타이틀임" />
+        <DefaultCard type="question" title="타이틀임" commentCount={32} width={20} height={22} />
         <br />
-        <DefaultCard type="review" commentCount={32} title="타이틀임" />
+        <DefaultCard type="review" commentCount={32} title="타이틀임" width={20} height={22} />
       </div>
     </>
   );
