@@ -1,5 +1,6 @@
-package com.zzaug.rabbitmq.config;
+package com.zzaug.rabbitmq.listener;
 
+import com.zzaug.rabbitmq.config.ZRMQProperties;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
