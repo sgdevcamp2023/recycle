@@ -1,6 +1,7 @@
 package com.zzaug.review.web.dto.review;
 
-import com.zzaug.review.domain.model.review.ReviewType;
+import com.zzaug.review.entity.review.ReviewPoint;
+import com.zzaug.review.entity.review.ReviewType;
 import lombok.*;
 
 @Getter
@@ -9,8 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewTempRequest {
-	private String t_id;
+	private String tId;
+	private Long questionId;
 	private String content;
-	private String location;
+	private ReviewPoint startPoint;
+	private ReviewPoint endPoint;
 	private ReviewType tag;
 }
