@@ -1,5 +1,7 @@
 package com.zzaug.rabbitmq.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,4 +14,9 @@ public class ZRabbiMQConfig {
 	public static final String MODULE_NAME = "rabbitmq";
 	public static final String BEAN_NAME_PREFIX = "RabbitMQ";
 	public static final String PROPERTY_PREFIX = SERVICE_NAME + "." + MODULE_NAME;
+
+	@Bean
+	ObjectMapper objectMapper() {
+		return new ObjectMapper();
+	}
 }
