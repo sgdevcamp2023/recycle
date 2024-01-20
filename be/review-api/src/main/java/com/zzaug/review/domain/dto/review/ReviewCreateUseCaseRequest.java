@@ -2,20 +2,23 @@ package com.zzaug.review.domain.dto.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
 import com.zzaug.review.entity.review.ReviewType;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Embedded;
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class ReviewTempResponse {
-	private String tId;
+public class ReviewCreateUseCaseRequest {
+
+	private Long reviewId;
 
 	private Long questionId;
 
@@ -36,4 +39,5 @@ public class ReviewTempResponse {
 	private ReviewPoint endPoint;
 
 	private ReviewType tag;
+
 }

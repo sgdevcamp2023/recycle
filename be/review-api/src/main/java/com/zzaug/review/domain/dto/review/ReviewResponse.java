@@ -1,12 +1,17 @@
 package com.zzaug.review.domain.dto.review;
 
-import com.zzaug.review.domain.model.review.ReviewType;
+import com.zzaug.review.entity.review.ReviewPoint;
+import com.zzaug.review.entity.review.ReviewType;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.Embedded;
 
 @Getter
 @ToString
@@ -15,13 +20,25 @@ import lombok.ToString;
 @Builder(toBuilder = true)
 public class ReviewResponse {
 
-	private Long review_id;
-	private Long question_id;
+	private Long reviewId;
+
+	private Long questionId;
+
 	private String content;
-	private String location;
+
 	private String author;
-	private Long author_id;
-	private Timestamp created_at;
-	private Timestamp updated_at;
+
+	private Long authorId;
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime updatedAt;
+
+	@Embedded
+	private ReviewPoint startPoint;
+
+	@Embedded
+	private ReviewPoint endPoint;
+
 	private ReviewType tag;
 }
