@@ -13,9 +13,9 @@ public class QuestionCreateUseCaseRequestConverter {
 		return QuestionCreateUseCaseRequest.builder()
 				.content(request.getContent())
 				.author(userDetails.getUsername())
-				.author_id(Long.valueOf(userDetails.getId()))
-				.review_cnt(0)
-				.created_at(new Timestamp(System.currentTimeMillis()))
+				.authorId(Long.valueOf(userDetails.getId()))
+				.reviewCnt(0)
+				.createdAt(new Timestamp(System.currentTimeMillis()))
 				.build();
 	}
 }

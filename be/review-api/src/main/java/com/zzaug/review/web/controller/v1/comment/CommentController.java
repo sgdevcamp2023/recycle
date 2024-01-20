@@ -37,12 +37,12 @@ public class CommentController {
 		List<CommentResponse> responses = new ArrayList<>();
 		CommentResponse res =
 				CommentResponse.builder()
-						.comment_id(1L)
-						.question_id(1L)
+						.commentId(1L)
+						.questionId(1L)
 						.content("content")
 						.author("author")
-						.author_id(1L)
-						.parent_id(1L)
+						.authorId(1L)
+						.parentId(1L)
 						.created_at(new Timestamp(System.currentTimeMillis()))
 						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
@@ -51,11 +51,11 @@ public class CommentController {
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
-	@PutMapping("/{question_id}/comments/{commnet_id}")
+	@PutMapping("/{questionId}/comments/{commnetId}")
 	public ApiResponse<ApiResponse.SuccessBody<Void>> editComment(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long question_id,
-			@PathVariable Long commnet_id,
+			@PathVariable Long questionId,
+			@PathVariable Long commnetId,
 			CommentRequest request) {
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);

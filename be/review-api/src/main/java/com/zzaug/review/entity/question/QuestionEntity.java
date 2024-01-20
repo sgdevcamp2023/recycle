@@ -1,10 +1,8 @@
 package com.zzaug.review.entity.question;
 
 import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -17,17 +15,23 @@ public class QuestionEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long question_id;
+	@Column(name = "question_id")
+	private Long questionId;
 
+	@Column(length = 10000)
 	private String content;
 
 	private String author;
 
-	private Long author_id;
+	@Column(name = "author_id")
+	private Long authorId;
 
-	private int review_cnt;
+	@Column(name = "review_cnt")
+	private int reviewCnt;
 
-	private Timestamp created_at;
+	@Column(name = "created_at")
+	private Timestamp createdAt;
 
-	private Timestamp updated_at;
+	@Column(name = "updated_at")
+	private Timestamp updatedAt;
 }

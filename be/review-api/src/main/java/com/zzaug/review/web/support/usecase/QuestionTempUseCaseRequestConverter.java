@@ -11,11 +11,11 @@ public class QuestionTempUseCaseRequestConverter {
 	public static QuestionTempCreateUseCaseRequest from(
 			QuestionTempRequest request, TokenUserDetails userDetails) {
 		return QuestionTempCreateUseCaseRequest.builder()
-				.t_id(request.getT_id())
+				.tId(request.getTId())
 				.content(request.getContent())
 				.author(userDetails.getUsername())
-				.author_id(Long.valueOf(userDetails.getId()))
-				.created_at(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+				.authorId(Long.valueOf(userDetails.getId()))
+				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
 

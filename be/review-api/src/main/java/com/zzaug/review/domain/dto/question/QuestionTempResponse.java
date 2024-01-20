@@ -11,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempResponse {
-	private String t_id;
+	private String tId;
 	private String content;
 	private String author;
-	private Long author_id;
-	private LocalDateTime created_at;
+	private Long authorId;
+	private LocalDateTime createdAt;
 }

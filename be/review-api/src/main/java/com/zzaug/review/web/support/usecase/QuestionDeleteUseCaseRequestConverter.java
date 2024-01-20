@@ -9,8 +9,8 @@ public class QuestionDeleteUseCaseRequestConverter {
     public static QuestionDeleteUseCaseRequest from(
             QuestionDeleteRequest request) {
         return QuestionDeleteUseCaseRequest.builder()
-                .question_id(request.getQuestion_id())
-                .author_id(request.getAuthor_id())
+                .questionId(request.getQuestionId())
+                .authorId(request.getAuthorId())
                 .build();
     }
 }

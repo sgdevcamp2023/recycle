@@ -11,11 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempCreateUseCaseRequest {
-	private String t_id;
+	private String tId;
 	private String content;
 	private String author;
-	private Long author_id;
-	private int review_cnt;
-	private LocalDateTime created_at;
-	private LocalDateTime updated_at;
+	private Long authorId;
+	private int reviewCnt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

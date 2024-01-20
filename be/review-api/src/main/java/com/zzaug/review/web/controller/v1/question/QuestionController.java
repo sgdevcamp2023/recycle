@@ -52,31 +52,48 @@ public class QuestionController {
 		questionTempCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
-}
-
-	@DeleteMapping("/{question_id}")
-	public ApiResponse<?> deleteQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
-
-		QuestionDeleteRequest request = QuestionDeleteRequest.builder()
-				.question_id(question_id)
-				.author_id(Long.valueOf(userDetails.getId()))
-				.build();
-
-		QuestionDeleteUseCaseRequest useCaseRequest =
-				QuestionDeleteUseCaseRequestConverter.from(request);
-
-		try {
-			questionDeleteUseCase.execute(useCaseRequest);
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (DataNotFoundException e){
-			System.out.println("DataNotFoundException 발생: " + e.getMessage());
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		}catch (UnauthorizedAuthorException e){
-			System.out.println("UnauthorizedAuthorException 발생: " + e.getMessage());
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-
-		}
-
 	}
+
+//	@DeleteMapping("/{questionId}")
+//	public ApiResponse<?> deleteQuestion(
+//			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
+//
+//		QuestionDeleteRequest request = QuestionDeleteRequest.builder()
+//				.question_id(questionId)
+//				.author_id(Long.valueOf(userDetails.getId()))
+//				.build();
+//
+//		QuestionDeleteUseCaseRequest useCaseRequest =
+//				QuestionDeleteUseCaseRequestConverter.from(request);
+//
+//		try {
+//			questionDeleteUseCase.execute(useCaseRequest);
+//			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+//		} catch (DataNotFoundException e){
+//			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+//		} catch (UnauthorizedAuthorException e){
+//			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+//		}
+//	}
+@DeleteMapping("/{question_id}")
+public ApiResponse<?> deleteQuestion(
+		@PathVariable Long question_id) {
+
+	QuestionDeleteRequest request = QuestionDeleteRequest.builder()
+			.questionId(question_id)
+			.authorId(1L)
+			.build();
+
+	QuestionDeleteUseCaseRequest useCaseRequest =
+			QuestionDeleteUseCaseRequestConverter.from(request);
+
+	try {
+		questionDeleteUseCase.execute(useCaseRequest);
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+	} catch (DataNotFoundException e){
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+	} catch (UnauthorizedAuthorException e){
+		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+	}
+}
 }
