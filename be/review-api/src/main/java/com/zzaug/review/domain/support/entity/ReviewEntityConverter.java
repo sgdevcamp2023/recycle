@@ -8,6 +8,17 @@ import lombok.experimental.UtilityClass;
 public class ReviewEntityConverter {
 
 	public static ReviewEntity from(Review source) {
-		return ReviewEntity.builder().build();
+		return ReviewEntity.builder()
+				.reviewId(source.getReviewId())
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
+				.startPoint(source.getStartPoint())
+				.endPoint(source.getEndPoint())
+				.tag(source.getTag())
+				.build();
 	}
 }
