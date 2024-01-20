@@ -7,6 +7,7 @@ jar {
 }
 
 dependencies {
-    // todo test가 맞는지 확인
-    implementation 'org.springframework.amqp:spring-rabbit-test'
+    implementation 'org.springframework.amqp:spring-rabbit'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
