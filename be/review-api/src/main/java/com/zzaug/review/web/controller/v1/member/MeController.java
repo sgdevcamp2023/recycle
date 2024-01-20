@@ -22,11 +22,11 @@ public class MeController {
 
 	@GetMapping("/questions/reviewers")
 	public ApiResponse<ApiResponse.SuccessBody<List<MemberResponse>>> viewReviewerList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam Long question_id) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam Long questionId) {
 
 		List<MemberResponse> res = new ArrayList<>();
 		MemberResponse element =
-				MemberResponse.builder().question_id(1L).author("author").author_id(1L).build();
+				MemberResponse.builder().questionId(1L).author("author").authorId(1L).build();
 		res.add(element);
 		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}

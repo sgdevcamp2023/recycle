@@ -11,11 +11,11 @@ public class QuestionTempConverter {
 
     public QuestionTemp from (QuestionTempCreateUseCaseRequest source){
         return QuestionTemp.builder()
-                .t_id(source.getT_id())
+                .tId(source.getTId())
                 .content(source.getContent())
                 .author(source.getAuthor())
-                .author_id(Long.valueOf(source.getAuthor_id()))
-                .created_at(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+                .authorId(Long.valueOf(source.getAuthorId()))
+                .createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
                 .build();
     }
 }

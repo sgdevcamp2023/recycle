@@ -11,7 +11,7 @@ import com.epages.restdocs.apispec.Schema;
 import com.epages.restdocs.apispec.SimpleType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.review.ReviewApp;
-import com.zzaug.review.domain.model.review.ReviewType;
+import com.zzaug.review.entity.review.ReviewType;
 import com.zzaug.review.web.dto.review.ReviewRequest;
 import com.zzaug.review.web.dto.review.ReviewTempRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +43,6 @@ class ReviewControllerTest {
 		ReviewRequest request =
 				ReviewRequest.builder()
 						.content("content")
-						.location("location")
 						.tag(ReviewType.CODE)
 						.build();
 
@@ -92,7 +91,6 @@ class ReviewControllerTest {
 				ReviewTempRequest.builder()
 						.t_id("{UUID}")
 						.content("{content}")
-						.location("{location}")
 						.tag(ReviewType.CODE)
 						.build();
 
@@ -140,7 +138,6 @@ class ReviewControllerTest {
 		ReviewRequest request =
 				ReviewRequest.builder()
 						.content("content")
-						.location("location")
 						.tag(ReviewType.CODE)
 						.build();
 

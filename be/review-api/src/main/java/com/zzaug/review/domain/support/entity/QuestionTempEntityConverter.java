@@ -8,11 +8,11 @@ import lombok.experimental.UtilityClass;
 public class QuestionTempEntityConverter {
     public static QuestionTempEntity from (QuestionTemp source){
         return QuestionTempEntity.builder()
-                .t_id(source.getT_id())
+                .tId(source.getTId())
                 .content(source.getContent())
                 .author(source.getAuthor())
-                .author_id(source.getAuthor_id())
-                .created_at(source.getCreated_at())
+                .authorId(source.getAuthorId())
+                .createdAt(source.getCreatedAt())
                 .build();
     }
 }

@@ -9,17 +9,17 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class Question {
-	private Long question_id;
+	private Long questionId;
 
 	private String content;
 
 	private String author;
 
-	private Long author_id;
+	private Long authorId;
 
-	private int review_cnt;
+	private int reviewCnt;
 
-	private Timestamp created_at;
+	private Timestamp createdAt;
 
-	private Timestamp updated_at;
+	private Timestamp updatedAt;
 }

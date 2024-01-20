@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class MemberResponse {
-	private Long question_id;
+	private Long questionId;
 	private String author;
-	private Long author_id;
+	private Long authorId;
 }

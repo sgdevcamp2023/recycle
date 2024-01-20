@@ -1,10 +1,7 @@
-package com.zzaug.review.domain.model.question;
+package com.zzaug.review.domain.model.comment;
 
 import lombok.*;
-import org.springframework.data.redis.core.RedisHash;
 
-import javax.persistence.Id;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,9 +9,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionTemp {
+public class Comment {
+    private Long commentId;
 
-    private String tId;
+    private Long questionId;
 
     private String content;
 
@@ -22,6 +20,9 @@ public class QuestionTemp {
 
     private Long authorId;
 
+    private Long parentId;
+
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
 }

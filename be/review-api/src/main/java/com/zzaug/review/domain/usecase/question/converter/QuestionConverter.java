@@ -9,13 +9,13 @@ public class QuestionConverter {
 
 	public Question from(QuestionCreateUseCaseRequest source) {
 		return Question.builder()
-				.question_id(source.getQuestion_id())
+				.questionId(source.getQuestionId())
 				.content(source.getContent())
 				.author(source.getAuthor())
-				.author_id(source.getAuthor_id())
-				.review_cnt(source.getReview_cnt())
-				.created_at(source.getCreated_at())
-				.updated_at(source.getUpdated_at())
+				.authorId(source.getAuthorId())
+				.reviewCnt(source.getReviewCnt())
+				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
 				.build();
 	}
 }

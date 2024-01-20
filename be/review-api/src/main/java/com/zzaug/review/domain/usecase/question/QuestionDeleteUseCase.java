@@ -21,14 +21,13 @@ public class QuestionDeleteUseCase {
 
     @Transactional
     public void execute(QuestionDeleteUseCaseRequest request){
-        QuestionEntity question = questionRepository.findById(request.getQuestion_id())
+        QuestionEntity question = questionRepository.findById(request.getQuestionId())
                 .orElseThrow(() -> new DataNotFoundException("요청에 대한 응답을 찾을 수 없습니다."));
 
-        if (!question.getAuthor_id().equals(request.getAuthor_id())){
-            System.out.println("401 오류 발생");
+        if (!question.getAuthorId().equals(request.getAuthorId())){
             throw new UnauthorizedAuthorException("접근 권한이 없습니다.");
         }
 
-        questionRepository.deleteById(request.getQuestion_id());
+        questionRepository.deleteById(request.getQuestionId());
     }
 }

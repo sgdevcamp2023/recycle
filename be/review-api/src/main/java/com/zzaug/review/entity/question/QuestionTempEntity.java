@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
+import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -18,7 +19,8 @@ public class QuestionTempEntity {
 
     @Id
     @Indexed
-    private String t_id;
+    @Column(name = "t_id")
+    private String tId;
 
     @Indexed
     private String content;
@@ -27,8 +29,10 @@ public class QuestionTempEntity {
     private String author;
 
     @Indexed
-    private Long author_id;
+    @Column(name = "author_id")
+    private Long authorId;
 
     @Indexed
-    private LocalDateTime created_at;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }

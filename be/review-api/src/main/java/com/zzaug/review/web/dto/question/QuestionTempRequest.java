@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempRequest {
-	private String t_id;
+	private String tId;
 	private String content;
 }
