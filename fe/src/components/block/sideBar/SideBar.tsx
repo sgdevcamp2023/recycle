@@ -40,6 +40,7 @@ const SideBar = () => {
           </TabButton>
           <TabButton
             onClick={() => {
+              handleClickTab(null);
               alert("logout");
             }}
           >
