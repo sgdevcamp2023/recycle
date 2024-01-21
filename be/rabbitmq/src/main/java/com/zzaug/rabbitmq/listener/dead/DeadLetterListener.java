@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DeadLetterListener implements ChannelAwareMessageListener {
 
-	private final ObjectMapper objectMapper;
+	private final DeadLetterMapper deadLetterMapper;
 
 	@Override
 	public void onMessage(Message message, @Nullable Channel channel) throws Exception {
 		log.info("Received Dead Letter Message : {}", message);
 		byte[] body = message.getBody();
-		DeadLetterMessage deadLetterMessage = objectMapper.readValue(body, DeadLetterMessage.class);
+		DeadLetterMessage deadLetterMessage = deadLetterMapper.map(body);
 		log.info("Dead Letter Message : {}", deadLetterMessage);
 	}
 }
