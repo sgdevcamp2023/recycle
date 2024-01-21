@@ -1,5 +1,6 @@
 import SideBar from "@components/block/sideBar/SideBar";
 import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 
 const GridTemplate = () => {
   return (
@@ -9,7 +10,9 @@ const GridTemplate = () => {
       </div>
       <MainWrapper>
         <TopHeader>Topbar</TopHeader>
-        <MainContent>Main</MainContent>
+        <MainContent>
+          <Outlet />
+        </MainContent>
         <RightContent>RightBar</RightContent>
       </MainWrapper>
     </LayoutWrapper>
@@ -27,8 +30,8 @@ const LayoutWrapper = styled.div`
 `;
 const MainWrapper = styled.div`
   display: grid;
-  grid-template-rows: 1fr 9fr; /* Updated grid-template-rows */
-  grid-template-columns: 10fr;
+  grid-template-rows: 1fr 20fr; /* Updated grid-template-rows */
+  grid-template-columns: 7fr 3fr;
 `;
 
 const TopHeader = styled.div`
@@ -38,11 +41,12 @@ const TopHeader = styled.div`
 
 const MainContent = styled.div`
   display: inline;
-  grid-column: 2 / span 7;
-  grid-row: 2 / 10; /* Updated grid-row */
+  grid-column: 1 / span 7;
+  grid-row: 2 / span 20; /* Updated grid-row */
+  max-width: 70%;
 `;
 
 const RightContent = styled.div`
   grid-column: 2 / span 3; /* Updated grid-column */
-  grid-row: 2 / 10; /* Updated grid-row */
+  grid-row: 2 / span 20; /* Updated grid-row */
 `;
