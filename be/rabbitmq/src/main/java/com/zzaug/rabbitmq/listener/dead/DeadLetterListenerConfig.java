@@ -14,7 +14,7 @@ public class DeadLetterListenerConfig {
 	private final DeadLetterListener deadLetterListener;
 
 	@Bean
-	SimpleMessageListenerContainer testMessageListenerContainer(
+	SimpleMessageListenerContainer deadLetterListenerContainer(
 			SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory) {
 		SimpleMessageListenerContainer container =
 				rabbitListenerContainerFactory.createListenerContainer();
