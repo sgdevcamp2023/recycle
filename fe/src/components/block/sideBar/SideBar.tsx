@@ -28,15 +28,19 @@ const SideBar = () => {
               Review
             </Text>
           </TabButton>
+          <TabButton isActive={tabType === "request"} onClick={() => handleClickTab("request")}>
+            <Text fontSize="lg" fontWeight="bold">
+              Request
+            </Text>
+          </TabButton>
           <TabButton isActive={tabType === "setting"} onClick={() => handleClickTab("setting")}>
             <Text fontSize="lg" fontWeight="bold">
               Setting
             </Text>
           </TabButton>
           <TabButton
-            isActive={tabType === null}
             onClick={() => {
-              handleClickTab(null);
+              alert("logout");
             }}
           >
             <Text fontSize="lg" fontWeight="bold">
@@ -81,7 +85,7 @@ const MenuTabContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const TabButton = styled.button<{ isActive: boolean }>`
+const TabButton = styled.button<{ isActive?: boolean }>`
   background-color: ${({ isActive, theme }) => (isActive ? theme.backgroundColor.green300 : theme.backgroundColor.grey300)};
   border: none;
   border-radius: 4px;
