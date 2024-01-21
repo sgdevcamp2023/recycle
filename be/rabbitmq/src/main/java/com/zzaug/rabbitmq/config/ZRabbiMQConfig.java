@@ -20,12 +20,12 @@ public class ZRabbiMQConfig {
 	public static final String BEAN_NAME_PREFIX = "RabbitMQ";
 	public static final String PROPERTY_PREFIX = SERVICE_NAME + "." + MODULE_NAME;
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "ObjectMapper")
 	ObjectMapper objectMapper() {
 		return new ObjectMapper();
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "MessageConverter")
 	MessageConverter messageConverter() {
 		return new Jackson2JsonMessageConverter();
 	}
