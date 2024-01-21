@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd /Users/sinseung-yong/Desktop/recycle-test/be
+
+./gradlew :review:bootRun --args='--spring.profiles.active=local' &
+./gradlew :member:bootRun --args='--spring.profiles.active=local' &
+./gradlew :notification:bootRun --args='--spring.profiles.active=local' &
+
+
+
