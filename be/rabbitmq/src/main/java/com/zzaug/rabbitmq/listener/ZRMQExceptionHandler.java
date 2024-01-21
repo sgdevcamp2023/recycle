@@ -24,6 +24,6 @@ public class ZRMQExceptionHandler extends RejectAndDontRequeueRecoverer {
 		log.error("===================");
 		log.debug("Send to Dead Letter Queue");
 		rabbitTemplate.convertAndSend(
-				ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME, ZRMQProperties.DEAD_LETTER_QUEUE_NAME, msg);
+				ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME, ZRMQProperties.DEAD_LETTER_KEY_NAME, msg);
 	}
 }
