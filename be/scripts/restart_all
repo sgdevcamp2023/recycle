@@ -30,8 +30,19 @@ else
   echo "포트 8083를 사용중인 프로세스 종료"
 fi
 
-cd /Users/sinseung-yong/Desktop/recycle-test/be
+pid=$(lsof -ti :8084)
 
-./gradlew :review:bootRun --args='--spring.profiles.active=local' &
-./gradlew :member:bootRun --args='--spring.profiles.active=local' &
-./gradlew :notification:bootRun --args='--spring.profiles.active=local' &
+if [ -z "$pid" ]; then
+  echo "사용중인 프로세스 X"
+else
+  # PID를 이용하여 프로세스 종료
+  kill -9 "$pid"
+  echo "포트 8083를 사용중인 프로세스 종료"
+fi
+
+cd ../
+
+./gradlew :review-query-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :review-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :member-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :notification-api:bootRun --args='--spring.profiles.active=local' &
