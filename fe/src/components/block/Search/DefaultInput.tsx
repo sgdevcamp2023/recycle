@@ -54,9 +54,9 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
 );
 
 const DefaultInputContainer = styled.input<Pick<DefaultInputProps, "width" | "height" | "fontSize" | "color" | "backgroundColor">>`
-  width: ${({ width }) => (width === "100%" ? "100%" : `${width}px`)};
+  width: ${({ width }) => (width === "100%" ? "calc(100% - 0.5rem)" : `${width}px`)};
   height: ${({ height }) => (height === "100%" ? "100%" : `${height}px`)};
-  padding: 0.5rem;
+  padding: 0.5rem 0rem 0.5rem 0.5rem;
   border: none;
   border-radius: 4px;
   color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.black)};

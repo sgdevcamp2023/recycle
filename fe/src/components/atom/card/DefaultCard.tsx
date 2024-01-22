@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export type TabType = "question" | "review" | "add" | null;
 
-interface DefaultCardProps {
+export interface DefaultCardProps {
   type: TabType;
   commentCount?: number;
   title?: string;
@@ -79,7 +79,7 @@ const DefaultCard = ({ type, commentCount, title, width, height, content }: Defa
 export default DefaultCard;
 
 const CardWrapper = styled.div<CardWrapperProps>`
-  min-width: 14rem;
+  width: 100%;
   min-height: 16rem;
   background-color: ${({ theme }) => theme.backgroundColor.grey300};
   width: ${({ width }) => width}rem;
