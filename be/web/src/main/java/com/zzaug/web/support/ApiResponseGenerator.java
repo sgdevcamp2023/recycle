@@ -1,4 +1,4 @@
-package com.zzaug.member.support;
+package com.zzaug.web.support;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.zzaug.member.support;
+package com.zzaug.web.support;
 
 public enum MessageCode {
 	SUCCESS("success", "성공"),

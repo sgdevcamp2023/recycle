@@ -1,10 +1,10 @@
-package com.zzaug.member.support;
+package com.zzaug.web.support;
 
-import com.zzaug.member.support.ApiResponse.FailureBody;
+import com.zzaug.web.support.ApiResponse.FailureBody;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
 import lombok.experimental.UtilityClass;
-import org.hibernate.TypeMismatchException;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 @UtilityClass
 public class FailureBodyResolver {
 
-	public static ApiResponse.FailureBody resolveFrom(final ConstraintViolationException ex) {
+	public static FailureBody resolveFrom(final ConstraintViolationException ex) {
 		return ex.getConstraintViolations().stream()
 				.map(
 						v -> {
@@ -26,45 +26,44 @@ public class FailureBodyResolver {
 								fieldName = node.getName();
 							}
 
-							return new ApiResponse.FailureBody(fieldName, v.getMessage());
+							return new FailureBody(fieldName, v.getMessage());
 						})
 				.findFirst()
 				.orElse(null);
 	}
 
-	public static ApiResponse.FailureBody resolveFrom(final ServletRequestBindingException ex) {
+	public static FailureBody resolveFrom(final ServletRequestBindingException ex) {
 		return new FailureBody(ex.getMessage());
 	}
 
-	public static ApiResponse.FailureBody resolveFrom(final TypeMismatchException ex) {
+	public static FailureBody resolveFrom(final TypeMismatchException ex) {
 		return new FailureBody(ex.getMessage());
 	}
 
-	public static ApiResponse.FailureBody resolveFrom(final BindException ex) {
+	public static FailureBody resolveFrom(final BindException ex) {
 		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-			return new ApiResponse.FailureBody(error.getCode(), error.getDefaultMessage());
+			return new FailureBody(error.getCode(), error.getDefaultMessage());
 		}
 		return null;
 	}
 
-	public static ApiResponse.FailureBody resolveFrom(
-			final HttpRequestMethodNotSupportedException ex) {
-		return new ApiResponse.FailureBody(ex.getLocalizedMessage());
+	public static FailureBody resolveFrom(final HttpRequestMethodNotSupportedException ex) {
+		return new FailureBody(ex.getLocalizedMessage());
 	}
 
-	public static ApiResponse.FailureBody resolveFrom(final HttpMediaTypeNotSupportedException ex) {
-		return new ApiResponse.FailureBody(ex.getLocalizedMessage());
+	public static FailureBody resolveFrom(final HttpMediaTypeNotSupportedException ex) {
+		return new FailureBody(ex.getLocalizedMessage());
 	}
 
 	public static FailureBody resolveFrom(final HttpMediaTypeNotAcceptableException ex) {
-		return new ApiResponse.FailureBody(ex.getLocalizedMessage());
+		return new FailureBody(ex.getLocalizedMessage());
 	}
 
 	public static FailureBody resolveFrom(HttpMessageNotReadableException ex) {
-		return new ApiResponse.FailureBody(ex.getLocalizedMessage());
+		return new FailureBody(ex.getLocalizedMessage());
 	}
 
 	public static FailureBody resolveFrom(MissingServletRequestPartException ex) {
-		return new ApiResponse.FailureBody(ex.getLocalizedMessage());
+		return new FailureBody(ex.getLocalizedMessage());
 	}
 }

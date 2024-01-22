@@ -1,6 +1,6 @@
-package com.zzaug.member.exception;
+package com.zzaug.web.exception;
 
-import com.zzaug.member.support.MessageSourceAccessor;
+import com.zzaug.web.support.MessageSourceAccessor;
 import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 
