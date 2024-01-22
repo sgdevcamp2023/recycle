@@ -11,7 +11,7 @@ export interface ReviewCardProps {
 
 const ReviewCard = ({ reviews, type, title, commentCount }: ReviewCardProps) => {
   const Content: ReactNode = <ReviewList reviews={reviews} reviewsPerPage={3} />;
-  return <DefaultCard type={type} width={31.5} height={20} commentCount={commentCount} title={title} content={Content} />;
+  return <DefaultCard type={type} height={20} commentCount={commentCount} title={title} content={Content} />;
 };
 
 export default ReviewCard;
