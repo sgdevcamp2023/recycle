@@ -8,4 +8,4 @@ include 'notification-api'
 // module
 include 'flyway'
 include 'security'
-include 'web'
+include 'rabbitmq'
