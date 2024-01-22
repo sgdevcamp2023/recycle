@@ -5,7 +5,7 @@ import minusImg from '../../../assets/icons/minus.png';
 const ReplyStyleButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 4rem;
   height: 1.5rem;
   color: black;
@@ -13,6 +13,9 @@ const ReplyStyleButton = styled.button`
   cursor: pointer;
   font-size: 0.6rem;
   transition: all 0.5s;
+  border: none;
+  outline: none;
+  background-color: white;
   padding: 0;
 
   &:hover {
@@ -40,10 +43,10 @@ const MinusIcon = styled.img`
 const ReplyOfCommentButton = () => {
   return (
     <div>
-      <ReplyStyleButton>
+      {/* <ReplyStyleButton>
         <PlusIcon src={plusImg} alt='Plus Icon' />
         답글 달기
-      </ReplyStyleButton>
+      </ReplyStyleButton> */}
       <ReplyStyleButton>
         <MinusIcon src={minusImg} alt='Plus Icon' />
         숨기기

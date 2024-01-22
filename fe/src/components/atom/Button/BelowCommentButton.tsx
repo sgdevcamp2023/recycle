@@ -39,7 +39,7 @@ const BelowLongStyleButton = styled.button`
 const BelowCommentButton = () => {
   return (
     <div>
-      <BelowStyleButton>댓글 작성</BelowStyleButton>
+      {/* <BelowStyleButton>댓글 작성</BelowStyleButton> */}
       <BelowLongStyleButton>댓글 작성</BelowLongStyleButton>
     </div>
   );
