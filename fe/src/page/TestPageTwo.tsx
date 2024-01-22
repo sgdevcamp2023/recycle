@@ -1,6 +1,7 @@
 import Text from "@components/atom/Text";
 import DefaultCard from "@components/atom/card/DefaultCard";
 import ReviewCard from "@components/atom/card/ReviewCard";
+import SearchInput from "@components/block/Search/SearchInput";
 // import IconBox from "@components/atom/icon/IconBox";
 import BackgroundModal from "@components/block/modal/BackgroundModal";
 import ContentTab from "@components/block/navbar/ContentTab";
@@ -50,6 +51,9 @@ const TestPageTwo = () => {
       </div>
       <div>
         <ContentTab />
+      </div>
+      <div>
+        <SearchInput />
       </div>
     </>
   );
