@@ -16,7 +16,11 @@ import com.zzaug.member.support.MessageCode;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
+import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.authentication.token.TokenUserDetails;
+import com.zzaug.security.token.AuthToken;
+import com.zzaug.security.token.TokenGenerator;
+import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,6 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
 	//	private final CookieGenerator cookieGenerator;
+	private final TokenGenerator tokenGenerator;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -129,8 +134,14 @@ public class MemberController {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
 		LogOutUseCaseRequest useCaseRequest = LogOutUseCaseRequest.builder().memberId(memberId).build();
+		AuthToken authToken =
+				tokenGenerator.generateAuthToken(
+						1L, List.of(Roles.ROLE_USER), "certification", "email", "github");
 		MemberAuthToken response =
-				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
+				MemberAuthToken.builder()
+						.accessToken(authToken.getAccessToken())
+						.refreshToken(authToken.getRefreshToken())
+						.build();
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
