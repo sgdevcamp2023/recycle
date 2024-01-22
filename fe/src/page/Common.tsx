@@ -14,7 +14,7 @@ const Cotent = {
 };
 
 const Common = () => {
-  const [selectedContent, setSelectedContent] = useState<React.ReactNode | null>(null);
+  const [selectedContent, setSelectedContent] = useState<React.ReactNode | null>("");
   const { tabType } = useTabStore();
   useEffect(() => {
     if (tabType != null) {
@@ -23,8 +23,6 @@ const Common = () => {
   }, [tabType]);
   return (
     <>
-      <h1> Common</h1>
-      {tabType}
       <Suspense fallback={null}>{selectedContent}</Suspense>
     </>
   );

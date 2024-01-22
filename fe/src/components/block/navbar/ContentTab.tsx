@@ -44,6 +44,8 @@ const ContentTabWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 4px;
+  max-height: 2rem;
+  padding: 0.5rem;
 `;
 
 const TabButton = styled.div<{ isActive: boolean }>`
