@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd ../
+
+./gradlew :review-query-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :review-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :member-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :notification-api:bootRun --args='--spring.profiles.active=local' &
+
+
+

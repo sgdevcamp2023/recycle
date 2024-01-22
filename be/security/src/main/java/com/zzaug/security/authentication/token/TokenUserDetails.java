@@ -21,6 +21,7 @@ public class TokenUserDetails implements UserDetails {
 
 	private List<GrantedAuthority> authorities;
 	private String id;
+	private String certification;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -34,7 +35,7 @@ public class TokenUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return id;
+		return certification;
 	}
 
 	@Override
