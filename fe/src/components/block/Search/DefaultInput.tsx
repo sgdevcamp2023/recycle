@@ -13,6 +13,7 @@ interface DefaultInputProps {
   placeholderColor?: ColorType;
   fontSize?: FontSizeType;
   backgroundColor?: BackgroundColorType;
+  disabled?: boolean;
 }
 
 const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
@@ -27,6 +28,7 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
       fontSize = "base",
       color = "black",
       backgroundColor = "grey300",
+      disabled,
     },
     ref
   ) => {
@@ -45,6 +47,7 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
         fontSize={fontSize}
         color={color}
         backgroundColor={backgroundColor}
+        disabled={disabled}
       />
     );
   }
@@ -67,6 +70,10 @@ const DefaultInputContainer = styled.input<Pick<DefaultInputProps, "width" | "he
 
   &:focus {
     outline: none;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
 
