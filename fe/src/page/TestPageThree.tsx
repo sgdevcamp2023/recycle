@@ -1,4 +1,6 @@
 import AskLoginModal from '@components/block/modal/AskLoginModal';
+import BelowCommentModal from '@components/block/modal/BelowCommentModal';
+import BelowCommentReplyModal from '@components/block/modal/BelowCommentReplyModal';
 import LockModal from '@components/block/modal/LockModal';
 import RegisterEmailModal from '@components/block/modal/RegisterEmailModal';
 import ReviewToGitModal from '@components/block/modal/ReviewToGitModal';
@@ -14,6 +16,7 @@ const CenterModalBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 const TestPageThree = () => {
@@ -27,7 +30,9 @@ const TestPageThree = () => {
         {/* <LockModal /> */}
         {/* <RegisterEmailModal /> */}
         {/* <ReviewToGitModal /> */}
-        <SendEmailModal />
+        {/* <SendEmailModal /> */}
+        <BelowCommentModal />
+        <BelowCommentReplyModal />
       </CenterModalBox>
     </>
   );
