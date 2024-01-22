@@ -30,20 +30,20 @@ const LayoutWrapper = styled.div`
 `;
 const MainWrapper = styled.div`
   display: grid;
-  grid-template-rows: 1fr 20fr; /* Updated grid-template-rows */
+  grid-template-rows: 1fr 11fr;
   grid-template-columns: 7fr 3fr;
 `;
 
 const TopHeader = styled.div`
   grid-column: 1 / span 10;
-  grid-row: 1 / 2;
+  grid-row: 1 / span 1;
 `;
 
 const MainContent = styled.div`
   display: inline;
   grid-column: 1 / span 7;
-  grid-row: 2 / span 20; /* Updated grid-row */
-  max-width: 70%;
+  grid-row: 2 / span 11;
+  /* max-width: 70%; */
 `;
 
 const RightContent = styled.div`
