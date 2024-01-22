@@ -3,6 +3,7 @@ import LockModal from '@components/block/modal/LockModal';
 import RegisterEmailModal from '@components/block/modal/RegisterEmailModal';
 import ReviewToGitModal from '@components/block/modal/ReviewToGitModal';
 import SaveModal from '@components/block/modal/SaveModal';
+import SendEmailModal from '@components/block/modal/SendEmailModal';
 import SharingModal from '@components/block/modal/SharingModal';
 import ShowReviewerModal from '@components/block/modal/ShowReviewerModal';
 import styled from 'styled-components';
@@ -25,7 +26,8 @@ const TestPageThree = () => {
         {/* <SharingModal /> */}
         {/* <LockModal /> */}
         {/* <RegisterEmailModal /> */}
-        <ReviewToGitModal />
+        {/* <ReviewToGitModal /> */}
+        <SendEmailModal />
       </CenterModalBox>
     </>
   );
