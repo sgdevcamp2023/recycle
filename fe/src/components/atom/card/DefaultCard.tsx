@@ -2,10 +2,10 @@ import styled from "styled-components";
 import Text from "../Text";
 import { MouseEventHandler, ReactNode } from "react";
 
-export type TabType = "question" | "review" | "add" | null;
+export type DefaultCardType = "question" | "review" | "add" | null;
 
 export interface DefaultCardProps {
-  type: TabType;
+  type: DefaultCardType;
   commentCount?: number;
   title?: string;
   width?: number;
@@ -20,7 +20,7 @@ interface CardWrapperProps {
 }
 
 interface ContentContainerProps {
-  type: TabType;
+  type: DefaultCardType;
 }
 
 const DefaultCard = ({ type, commentCount, title, width, height, content, onClick }: DefaultCardProps) => {

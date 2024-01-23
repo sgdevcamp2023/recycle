@@ -3,7 +3,7 @@ import DefaultTab from "../navbar/DefaultTab";
 import useTabStore, { DefaultTabType } from "@store/useTabStore";
 import { useEffect } from "react";
 import SearchInput from "../Search/SearchInput";
-import DefaultCard, { DefaultCardProps } from "@components/atom/card/DefaultCard";
+import DefaultCard, { DefaultCardProps, DefaultCardType } from "@components/atom/card/DefaultCard";
 import { useNavigate } from "react-router-dom";
 
 const Question = () => {
@@ -40,8 +40,11 @@ const Question = () => {
     },
   ];
 
+  interface handleCardClickProps {
+    type: DefaultCardType;
+  }
   //  "question" | "review" | "add"
-  const handleCardClick = ({ type }: any) => {
+  const handleCardClick = ({ type }: handleCardClickProps) => {
     if (type == "add") {
       navigate("/newQuestion");
     }
