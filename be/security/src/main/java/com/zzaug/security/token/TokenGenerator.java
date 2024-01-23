@@ -27,37 +27,49 @@ public class TokenGenerator {
 	private Long refreshTokenValidTime;
 
 	private static final String MEMBER_ID_CLAIM_KEY = "memberId";
+	private static final String MEMBER_CERTIFICATION_CLAIM_KEY = "certification";
+	public static final String MEMBER_EMAIL_CLAIM_KEY = "email";
+	public static final String MEMBER_GITHUB_CLAIM_KEY = "github";
 	private static final String MEMBER_ROLE_CLAIM_KEY = "memberRole";
 
-	public AuthToken generateAuthToken(Long memberId, List<Roles> memberRoles) {
+	public AuthToken generateAuthToken(
+			Long memberId, List<Roles> memberRoles, String certification, String email, String github) {
 		return AuthToken.builder()
-				.accessToken(generateAccessToken(memberId, memberRoles))
-				.refreshToken(generateRefreshToken(memberId, memberRoles))
+				.accessToken(generateAccessToken(memberId, memberRoles, certification, email, github))
+				.refreshToken(generateRefreshToken(memberId, memberRoles, certification, email, github))
 				.build();
 	}
 
-	public String generateAccessToken(Long memberId, List<Roles> memberRoles) {
+	public String generateAccessToken(
+			Long memberId, List<Roles> memberRoles, String certification, String email, String github) {
 		Date now = new Date();
 		List<String> roles = convertToStringList(memberRoles);
 
 		return Jwts.builder()
 				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
 				.claim(MEMBER_ID_CLAIM_KEY, memberId)
+				.claim(MEMBER_CERTIFICATION_CLAIM_KEY, certification)
 				.claim(MEMBER_ROLE_CLAIM_KEY, roles.toString())
+				.claim(MEMBER_EMAIL_CLAIM_KEY, email)
+				.claim(MEMBER_GITHUB_CLAIM_KEY, github)
 				.setIssuedAt(now)
 				.setExpiration(new Date(now.getTime() + accessTokenValidTime))
 				.signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
 				.compact();
 	}
 
-	String generateRefreshToken(Long memberId, List<Roles> memberRoles) {
+	String generateRefreshToken(
+			Long memberId, List<Roles> memberRoles, String certification, String email, String github) {
 		Date now = new Date();
 		List<String> roles = convertToStringList(memberRoles);
 
 		return Jwts.builder()
 				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
 				.claim(MEMBER_ID_CLAIM_KEY, memberId)
+				.claim(MEMBER_CERTIFICATION_CLAIM_KEY, certification)
 				.claim(MEMBER_ROLE_CLAIM_KEY, roles.toString())
+				.claim(MEMBER_EMAIL_CLAIM_KEY, email)
+				.claim(MEMBER_GITHUB_CLAIM_KEY, github)
 				.setIssuedAt(now)
 				.setExpiration(new Date(now.getTime() + refreshTokenValidTime))
 				.signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
