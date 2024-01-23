@@ -8,3 +8,4 @@ spring:
       - mysql-dev
       - flyway-member
       - security-dev
+      - cookie-dev

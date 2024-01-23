@@ -8,3 +8,4 @@ spring:
       - mysql-prod
       - flyway-member
       - security-prod
+      - cookie-prod

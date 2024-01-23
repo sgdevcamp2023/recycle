@@ -8,6 +8,7 @@ spring:
       - mysql-local
       - flyway-member
       - security-local
+      - cookie-local
 
 logging:
   level:
