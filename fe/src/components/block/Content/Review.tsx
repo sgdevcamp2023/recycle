@@ -59,7 +59,7 @@ const BoxWrapper = styled.div`
 
 const ReviewWrapper = styled.div`
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;

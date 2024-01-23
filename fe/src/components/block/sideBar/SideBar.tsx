@@ -1,13 +1,16 @@
 import Text from "@components/atom/Text";
 import useTabStore, { TabType } from "@store/useTabStore";
 import { flexCenter } from "@styles/flexCenter";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const SideBar = () => {
   const { setTabType, tabType } = useTabStore();
+  const navigate = useNavigate();
 
   const handleClickTab = (word: TabType) => {
     setTabType(word);
+    navigate("/");
   };
 
   return (

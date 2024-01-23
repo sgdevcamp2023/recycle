@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import Text from "../Text";
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
-export type TabType = "question" | "review" | "add" | null;
+export type DefaultCardType = "question" | "review" | "add" | null;
 
 export interface DefaultCardProps {
-  type: TabType;
+  type: DefaultCardType;
   commentCount?: number;
   title?: string;
   width?: number;
   height?: number;
   content?: ReactNode;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 interface CardWrapperProps {
@@ -19,12 +20,12 @@ interface CardWrapperProps {
 }
 
 interface ContentContainerProps {
-  type: TabType;
+  type: DefaultCardType;
 }
 
-const DefaultCard = ({ type, commentCount, title, width, height, content }: DefaultCardProps) => {
+const DefaultCard = ({ type, commentCount, title, width, height, content, onClick }: DefaultCardProps) => {
   return (
-    <CardWrapper height={height} width={width}>
+    <CardWrapper height={height} width={width} onClick={onClick}>
       <ContentContainer type={type}>
         {type == "add" && (
           <Text fontSize="xl" fontWeight="bold">
@@ -79,12 +80,13 @@ const DefaultCard = ({ type, commentCount, title, width, height, content }: Defa
 export default DefaultCard;
 
 const CardWrapper = styled.div<CardWrapperProps>`
+  cursor: pointer;
   width: 100%;
   min-height: 16rem;
   background-color: ${({ theme }) => theme.backgroundColor.grey300};
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
 `;

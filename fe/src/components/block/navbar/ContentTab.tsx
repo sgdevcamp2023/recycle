@@ -46,6 +46,7 @@ const ContentTabWrapper = styled.div`
   gap: 4px;
   max-height: 2rem;
   padding: 0.5rem;
+  margin-top: 0.5rem;
 `;
 
 const TabButton = styled.div<{ isActive: boolean }>`

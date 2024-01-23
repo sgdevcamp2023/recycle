@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
-import DefaultCard, { TabType } from "./DefaultCard";
+import DefaultCard, { DefaultCardType } from "./DefaultCard";
 import ReviewList from "./ReviewList";
 
 export interface ReviewCardProps {
   reviews: string[];
-  type: TabType;
+  type: DefaultCardType;
   title?: string;
   commentCount?: number;
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface CustomInputProps {
   width?: number | string;
@@ -16,22 +16,22 @@ interface CustomInputProps {
 }
 
 const DefaultInput = ({
-  width = '22rem',
-  height = '3rem',
-  placeholder = '',
-  fontSize = '1rem',
-  fontWeight = 'normal',
-  color = 'black',
-  backgroundColor = 'white',
+  width = "22rem",
+  height = "3rem",
+  placeholder = "",
+  fontSize = "1rem",
+  fontWeight = "normal",
+  color = "black",
+  backgroundColor = "white",
   value,
-  borderRadius = '0.25rem',
-  border = '0.063rem solid #AAAAAA',
-  padding = '',
-  marginBottom = '',
+  borderRadius = "0.25rem",
+  border = "0.063rem solid #AAAAAA",
+  padding = "",
+  marginBottom = "",
 }: CustomInputProps) => {
   return (
     <StyledInput
-      type='text'
+      type="text"
       value={value}
       width={width}
       height={height}
@@ -49,11 +49,9 @@ const DefaultInput = ({
 };
 
 const StyledInput = styled.input<CustomInputProps>`
-  width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
-  height: ${({ height }) =>
-    typeof height === 'number' ? `${height}px` : height};
-  padding: ${({ padding }) =>
-    typeof padding === 'number' ? `${padding}px` : padding};
+  width: ${({ width }) => (typeof width === "number" ? `${width}px` : width)};
+  height: ${({ height }) => (typeof height === "number" ? `${height}px` : height)};
+  padding: ${({ padding }) => (typeof padding === "number" ? `${padding}px` : padding)};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
   color: ${({ color }) => color};

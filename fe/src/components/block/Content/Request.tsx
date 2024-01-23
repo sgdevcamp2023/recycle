@@ -57,7 +57,7 @@ const BoxWrapper = styled.div`
 
 const RequestWrapper = styled.div`
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;

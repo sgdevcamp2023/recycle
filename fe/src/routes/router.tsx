@@ -7,14 +7,18 @@ import TestPage from "@page/TestPage";
 import TestPageTwo from "@page/TestPageTwo";
 import TestPageThree from "@page/TestPageThree";
 import GridTemplate from "@components/layout/GridTemplate";
+import BlackNoteTest from "@page/BlackNoteTest";
 
 const Router = () => {
   return (
     <Routes>
       {/* 메인 페이지 */}
-      <Route element={<GridTemplate />}>
-        <Route path="/" element={<Common />} />
-      </Route>
+      {["/", "/newQuestion", "/newReview"].map((path) => (
+        <Route element={<GridTemplate />}>
+          <Route key={path} path={path} element={<Common />} />
+        </Route>
+      ))}
+
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/*" element={<NotFound />} />
@@ -24,6 +28,7 @@ const Router = () => {
       <Route path="/test2" element={<TestPageTwo />} />
       <Route path="/test3" element={<TestPageThree />} />
       <Route path="/grid" element={<GridTemplate />} />
+      <Route path="/Black" element={<BlackNoteTest />} />
     </Routes>
   );
 };
