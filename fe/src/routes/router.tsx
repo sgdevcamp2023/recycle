@@ -12,9 +12,12 @@ const Router = () => {
   return (
     <Routes>
       {/* 메인 페이지 */}
-      <Route element={<GridTemplate />}>
-        <Route path="/" element={<Common />} />
-      </Route>
+      {["/", "/newQuestion", "/newReview"].map((path) => (
+        <Route element={<GridTemplate />}>
+          <Route key={path} path={path} element={<Common />} />
+        </Route>
+      ))}
+
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/*" element={<NotFound />} />
