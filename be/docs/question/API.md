@@ -220,7 +220,7 @@ Error code
 |       400     | request.page.invalid | 잘못된 요청입니다. | page가 없거나 잘못된 경우             |
 |       400     | request.size.invalid | 잘못된 요청입니다. | size가 없거나 잘못된 경우             |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
- 
+
 
 
 ---
@@ -460,5 +460,3 @@ Error code
 |---------------|----------------------|------------|------------------------------|
 |      400     | request.question_id.invalid | 잘못된 요청입니다. | question_id가 없거나 잘못된 경우      |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
- 
-
