@@ -1,3 +1,6 @@
+import DefaultButton from '@components/atom/Button/DefaultButton';
+import GreyButton from '@components/atom/Button/GreyButton';
+import ReverseButton from '@components/atom/Button/ReverseButton';
 import SaveReviewButton from '@components/atom/Button/SaveReviewButton';
 import Text from '@components/atom/Text';
 import ReturnButton from '@components/atom/button/ReturnButton';
@@ -63,10 +66,27 @@ const SaveModal = () => {
           <p>Edited Jan 03. 2024. 16:06</p>
         </MiddleBox>
         <BottomBox>
-          <ReturnButton />
+          {/* <ReturnButton /> */}
+          <GreyButton width={4} height={1.25} padding={0.25} fontSize='xxs'>
+            ◀️ 돌아가기
+          </GreyButton>
           <ButtonWithMargin>
-            <TemporaryStorageButton />
-            <SaveReviewButton />
+            <ReverseButton
+              width={4}
+              height={1.25}
+              padding={0.25}
+              fontSize='xxs'
+            >
+              임시저장
+            </ReverseButton>
+            <DefaultButton
+              width={4}
+              height={1.25}
+              padding={0.25}
+              fontSize='xxs'
+            >
+              리뷰 남기기
+            </DefaultButton>
           </ButtonWithMargin>
         </BottomBox>
       </LoginBox>

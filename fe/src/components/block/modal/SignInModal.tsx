@@ -3,8 +3,9 @@ import Text from '@components/atom/Text';
 import CommonButton from '@components/atom/button/CommonButton';
 import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
-import logo from '../../../assets/logos/ZzaugLogo.png';
 import DoubleCheckButton from '@components/atom/button/DoubleCheckButton';
+import ReverseButton from '@components/atom/Button/ReverseButton';
+import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -31,6 +32,7 @@ const FlexBox = styled.div`
 
 const IdBox = styled.div`
   display: flex;
+  width: 22.375rem;
   justify-content: space-between;
   align-items: center;
 `;
@@ -65,7 +67,15 @@ const SignInModal = () => {
             height='3rem'
             // value=''
           />
-          <DoubleCheckButton />
+          <DefaultButton
+            width={5.5}
+            height={3}
+            padding={0.5}
+            backgroundColor={'green200'}
+          >
+            중복 확인
+          </DefaultButton>
+          {/* <DoubleCheckButton /> */}
         </IdBox>
         <Text
           fontSize='lg'
@@ -87,7 +97,9 @@ const SignInModal = () => {
           />
         </FlexBox>
         <ButtonBox>
-          <CommonButton />
+          <DefaultButton width={22.375} height={3} padding={1}>
+            회원가입
+          </DefaultButton>
         </ButtonBox>
       </LoginBox>
     </div>

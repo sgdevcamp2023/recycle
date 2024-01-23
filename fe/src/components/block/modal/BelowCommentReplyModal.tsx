@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import reviewerIcon from '../../../assets/icons/reviewerIcon.png';
 import Text from '@components/atom/Text';
 import ReplyOfCommentButton from '@components/atom/button/ReplyOfCommentButton';
-import ReviewButton from '@components/atom/button/ReviewButton';
-import BelowCommentButton from '@components/atom/button/BelowCommentButton';
+import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -86,7 +85,9 @@ const BelowCommentReplyModal = () => {
         </CommentBox>
         <ReplyOfCommentButton />
         <ReplyButtonBox>
-          <BelowCommentButton />
+          <DefaultButton height={2} fontSize='xs'>
+            댓글 작성
+          </DefaultButton>
         </ReplyButtonBox>
       </LoginBox>
     </div>

@@ -1,3 +1,4 @@
+import DefaultButton from '@components/atom/Button/DefaultButton';
 import RegisterButton from '@components/atom/Button/RegisterButton';
 import CommonInput from '@components/atom/Input/CommonInput';
 import Text from '@components/atom/Text';
@@ -68,7 +69,10 @@ const RegisterEmailModal = () => {
           />
         </FlexBox>
         <ButtonBox>
-          <RegisterButton />
+          {/* <RegisterButton /> */}
+          <DefaultButton width={22.375} height={3} padding={1}>
+            등록하기
+          </DefaultButton>
         </ButtonBox>
       </LoginBox>
     </div>

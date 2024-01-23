@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import ModifyButton from '../Button/ModifyButton';
+import GreyButton from '../Button/GreyButton';
 
 const LineCommentViewBox = styled.div`
   width: 17.25rem;
@@ -48,7 +49,16 @@ const LineCommentView = () => {
         <UserInfoWrapper>
           <UserName>김현우</UserName>
           <DateInfo>2024년 1월 3일</DateInfo>
-          <ModifyButton></ModifyButton>
+          <GreyButton
+            width={2}
+            height={1.5}
+            padding={0.2}
+            fontSize='xxs'
+            backgroundColor={'grey100'}
+            color={'white'}
+          >
+            수정
+          </GreyButton>
         </UserInfoWrapper>
         <CommentContainer>
           <LineCommentContent>

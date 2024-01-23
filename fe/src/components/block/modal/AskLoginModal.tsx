@@ -3,6 +3,7 @@ import CommonButton from '@components/atom/button/CommonButton';
 import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
 import logo from '../../../assets/logos/ZzaugLogo.png';
+import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -79,7 +80,9 @@ const AskLoginModal = () => {
           </Text>
         </TitleBox>
         <ButtonBox>
-          <CommonButton></CommonButton>
+          <DefaultButton width={22.375} height={3} padding={1}>
+            로그인
+          </DefaultButton>
         </ButtonBox>
         <TextBox>
           <p>아직</p>

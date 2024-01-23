@@ -4,6 +4,7 @@ import Text from '@components/atom/Text';
 import mainLogo from '../../../assets/logos/ZzaugLogo.png';
 import ExperienceButton from '@components/atom/Button/ExperienceButton';
 import LinkToGitButton from '@components/atom/Button/LinkToGitButton';
+import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -90,8 +91,19 @@ const ReviewToGitModal = () => {
             </Text>
           </Content>
           <ButtonBox>
-            <LinkToGitButton />
-            <ExperienceButton />
+            {/* <LinkToGitButton /> */}
+            <DefaultButton width={6.25} height={2} fontSize='xs'>
+              <Logo
+                src={gitLogo}
+                alt='github logo'
+                style={{ marginRight: '0.3rem' }}
+              />
+              연결하기
+            </DefaultButton>
+            {/* <ExperienceButton /> */}
+            <DefaultButton width={5} height={2} fontSize='xs'>
+              체험하기
+            </DefaultButton>
           </ButtonBox>
         </RightBox>
       </LoginBox>
