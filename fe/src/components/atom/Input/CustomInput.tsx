@@ -61,7 +61,7 @@ const StyledInput = styled.input<
   width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}rem`)};
   height: ${({ height }) => (height === '100%' ? '100%' : `${height}rem`)};
   padding: ${({ padding }) => (padding === '0.5rem' ? '0.5rem' : `${padding}`)};
-  border: 0.0625rem solid #aaa;
+  border: 0.0625rem solid ${({ theme }) => theme.borderColor.grey500};
   border-radius: 0.25rem;
   color: ${({ theme, color }) =>
     color ? theme.color[color] : theme.color.black};
@@ -79,36 +79,3 @@ const StyledInput = styled.input<
 `;
 
 export default CustomInput;
-
-// const CustomInput = ({
-//   width = '22rem',
-//   height = '3rem',
-//   placeholder = '',
-//   fontSize = '1rem',
-//   fontWeight = 'normal',
-//   color = 'black',
-//   backgroundColor = 'white',
-//   value,
-//   borderRadius = '0.25rem',
-//   border = '0.063rem solid #AAAAAA',
-//   padding = '',
-//   marginBottom = '',
-// }: CustomInputProps) => {
-//   return (
-//     <StyledInput
-//       type='text'
-//       value={value}
-//       width={width}
-//       height={height}
-//       placeholder={placeholder}
-//       fontSize={fontSize}
-//       fontWeight={fontWeight}
-//       color={color}
-//       backgroundColor={backgroundColor}
-//       borderRadius={borderRadius}
-//       border={border}
-//       padding={padding}
-//       marginBottom={marginBottom}
-//     />
-//   );
-// };

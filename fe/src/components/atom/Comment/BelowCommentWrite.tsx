@@ -64,7 +64,7 @@ const StyledInput = styled.textarea<
   width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}rem`)};
   height: ${({ height }) => (height === '100%' ? '100%' : `${height}rem`)};
   padding: ${({ padding }) => (padding === '0.5rem' ? '0.5rem' : `${padding}`)};
-  border: 0.0625rem solid #aaa;
+  border: 0.0625rem solid ${({ theme }) => theme.borderColor.grey500};
   border-radius: 0.25rem;
   color: ${({ theme, color }) =>
     color ? theme.color[color] : theme.color.black};
