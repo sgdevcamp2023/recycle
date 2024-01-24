@@ -3,6 +3,7 @@ import Text from '@components/atom/Text';
 import mainLogo from '../../../assets/logos/ZzaugLogo.png';
 import phoneLogo from '../../../assets/icons/PhoneIcon.png';
 import EmailEnrollButton from '@components/atom/Button/EmailEnrollButton';
+import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -90,7 +91,10 @@ const SendEmailModal = () => {
             </Text>
           </Content>
           <ButtonBox>
-            <EmailEnrollButton />
+            {/* <EmailEnrollButton /> */}
+            <DefaultButton width={5} height={2} fontSize='xs'>
+              등록하기
+            </DefaultButton>
           </ButtonBox>
         </LeftBox>
         <GithubLogo src={phoneLogo} alt='Phone Icon' />

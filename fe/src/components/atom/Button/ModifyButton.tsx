@@ -10,6 +10,7 @@ const ModifyStyleButton = styled.button`
   transition: all 0.5s;
   font-size: 0.6rem;
   padding: 0.2rem;
+  border: none;
 
   &:hover {
     background-color: #939393;

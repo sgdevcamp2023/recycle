@@ -4,6 +4,7 @@ import searchIcon from '../../../assets/icons/searchIcon.png';
 import linkIcon from '../../../assets/icons/linkIcon.png';
 import reviewerIcon from '../../../assets/icons/reviewerIcon.png';
 import InviteButton from '@components/atom/Button/InviteButton';
+import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -113,7 +114,9 @@ const UserInviteItem: React.FC<UserInviteItemProps> = ({ username }) => (
         {username}
       </Text>
     </UserInfoBox>
-    <InviteButton />
+    <DefaultButton width={4.3125} height={1.5} padding={0.25} fontSize='base'>
+      Invite
+    </DefaultButton>
   </UserInviteBox>
 );
 
