@@ -18,6 +18,7 @@ interface GreyButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
+  isActive?: boolean;
 }
 
 const GreyButton = ({
@@ -28,6 +29,7 @@ const GreyButton = ({
   borderColor = 'green',
   backgroundColor = 'white',
   padding = '0.25rem',
+  isActive = false,
   onClick,
   children,
 }: GreyButtonProps) => {
@@ -41,6 +43,7 @@ const GreyButton = ({
       backgroundColor={backgroundColor}
       padding={padding}
       onClick={onClick}
+      isActive={isActive}
     >
       {children}
     </GreyButtonBox>
@@ -58,6 +61,7 @@ const GreyButtonBox = styled.button<
     | 'borderColor'
     | 'padding'
     | 'cursor'
+    | 'isActive'
   >
 >`
   width: ${({ width }) => (width === 'default' ? '100%' : `${width}rem`)};
@@ -76,6 +80,9 @@ const GreyButtonBox = styled.button<
       : theme.backgroundcolor.white};
   cursor: pointer;
   transition: all 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: ${({ theme, backgroundColor }) =>
