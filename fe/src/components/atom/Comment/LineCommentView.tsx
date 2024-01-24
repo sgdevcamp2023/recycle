@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ModifyButton from '../Button/ModifyButton';
 import GreyButton from '../Button/GreyButton';
+import Text from '../Text';
 
 const LineCommentViewBox = styled.div`
   width: 17.25rem;
@@ -21,20 +21,27 @@ const CommentContainer = styled.div`
 
 const UserInfoWrapper = styled.div`
   display: flex;
+  width: 15rem;
+  height: 1.5rem;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 `;
 
-const UserName = styled.p`
-  font-size: 14px;
-  margin: 0;
+const Name = styled.div`
+  width: 3.25rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 `;
 
-const DateInfo = styled.p`
-  font-size: 10px;
-  margin: 0;
-  margin-right: 8.25rem;
+const Date = styled.div`
+  width: 9.375rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 `;
 
 const LineCommentContent = styled.p`
@@ -47,10 +54,14 @@ const LineCommentView = () => {
     <div>
       <LineCommentViewBox>
         <UserInfoWrapper>
-          <UserName>김현우</UserName>
-          <DateInfo>2024년 1월 3일</DateInfo>
+          <Name>
+            <Text fontSize='base'>김현우</Text>
+          </Name>
+          <Date>
+            <Text fontSize='xxs'>2024년 1월 3일</Text>
+          </Date>
           <GreyButton
-            width={2}
+            width={2.5}
             height={1.5}
             padding={0.2}
             fontSize='xxs'
