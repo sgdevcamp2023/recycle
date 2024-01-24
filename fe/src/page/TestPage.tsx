@@ -1,17 +1,6 @@
 import LineCommentView from '@components/atom/Comment/LineCommentView';
 import LineCommentWrite from '@components/atom/Comment/LineCommentWrite';
 import Text from '@components/atom/Text';
-import BelowCommentButton from '@components/atom/button/BelowCommentButton';
-import CommonButton from '@components/atom/button/CommonButton';
-import DoubleCheckButton from '@components/atom/button/DoubleCheckButton';
-import ModifyButton from '@components/atom/button/ModifyButton';
-import PaginationButton from '@components/atom/button/PaginationButton';
-import ReplyOfCommentButton from '@components/atom/button/ReplyOfCommentButton';
-import ReturnButton from '@components/atom/button/ReturnButton';
-import ReviewButton from '@components/atom/button/ReviewButton';
-import TemporaryStorageButton from '@components/atom/button/TemporaryStorageButton';
-import ToggleButton from '@components/atom/button/ToggleButton';
-import DefaultInput from '@components/atom/input/DefaultInput';
 import { ChangeEvent, useState } from 'react';
 
 const TestPage = () => {
@@ -24,18 +13,6 @@ const TestPage = () => {
   return (
     <>
       <>테스트페이지임여</>
-      <div>
-        <CommonButton></CommonButton>
-        <ReviewButton></ReviewButton>
-        <BelowCommentButton></BelowCommentButton>
-        <DoubleCheckButton></DoubleCheckButton>
-        <ReturnButton></ReturnButton>
-        <TemporaryStorageButton></TemporaryStorageButton>
-        <ModifyButton></ModifyButton>
-        <ReplyOfCommentButton></ReplyOfCommentButton>
-        <ToggleButton></ToggleButton>
-        <PaginationButton></PaginationButton>
-      </div>
       <div>
         <DefaultInput
           placeholder='이름 입력'

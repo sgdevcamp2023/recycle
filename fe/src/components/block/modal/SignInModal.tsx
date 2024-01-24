@@ -1,11 +1,8 @@
-import CommonInput from '@components/atom/Input/CommonInput';
 import Text from '@components/atom/Text';
-import CommonButton from '@components/atom/button/CommonButton';
 import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
-import DoubleCheckButton from '@components/atom/button/DoubleCheckButton';
-import ReverseButton from '@components/atom/Button/ReverseButton';
 import DefaultButton from '@components/atom/Button/DefaultButton';
+import CustomInput from '@components/atom/Input/CustomInput';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -61,11 +58,11 @@ const SignInModal = () => {
         </Text>
         <Text fontSize='lg'>아이디</Text>
         <IdBox>
-          <CommonInput
+          <CustomInput
+            type='eamil'
             placeholder='이름 입력'
-            width='15.5rem'
-            height='3rem'
-            // value=''
+            width={15.5}
+            height={3}
           />
           <DefaultButton
             width={5.5}
@@ -87,11 +84,17 @@ const SignInModal = () => {
         </Text>
 
         <FlexBox>
-          <CommonInput
+          <CustomInput
+            type='password'
+            width={22}
+            height={3}
             placeholder='비밀번호 입력'
             // value=''
           />
-          <CommonInput
+          <CustomInput
+            type='password'
+            width={22}
+            height={3}
             placeholder='비밀번호 확인'
             // value=''
           />

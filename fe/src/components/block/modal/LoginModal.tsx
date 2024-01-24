@@ -1,10 +1,9 @@
-import CommonInput from '@components/atom/Input/CommonInput';
 import Text from '@components/atom/Text';
-import CommonButton from '@components/atom/button/CommonButton';
 import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
 import logo from '../../../assets/logos/ZzaugLogo.png';
 import DefaultButton from '@components/atom/Button/DefaultButton';
+import CustomInput from '@components/atom/Input/CustomInput';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -34,7 +33,7 @@ const ButtonBox = styled.div`
   flex-direction: column;
   ${flexCenter}
   position: absolute;
-  bottom: 4rem;
+  bottom: 5rem;
 `;
 
 const Logo = styled.img`
@@ -49,7 +48,7 @@ const TextBox = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 3.5rem;
   left: 50%;
   transform: translateX(-50%);
 
@@ -73,15 +72,20 @@ const LoginModal = () => {
           로그인
         </Text>
         <FlexBox>
-          <CommonInput
+          <CustomInput
+            width={22}
+            height={3}
+            type='email'
             placeholder='이메일 입력'
-            // value=''
-          ></CommonInput>
-          <CommonInput
+            fontSize='base'
+          ></CustomInput>
+          <CustomInput
+            width={22}
+            height={3}
+            type='password'
             placeholder='비밀번호 입력'
-            border='1px solid #1eb649'
-            // value=''
-          ></CommonInput>
+            fontSize='base'
+          ></CustomInput>
         </FlexBox>
         <ButtonBox>
           <DefaultButton width={22.375} height={3} padding={1}>

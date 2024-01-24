@@ -13,7 +13,7 @@ export type BackgroundColorType =
   | 'black'
   | 'white';
 
-export type borderColorType = 'black' | 'grey' | 'green';
+export type borderColorType = 'black' | 'grey' | 'grey500' | 'green';
 
 export type ColorType = 'black' | 'white' | 'inherit' | 'green' | 'grey';
 
@@ -49,6 +49,7 @@ const theme: DefaultTheme = {
     black: '#000',
     white: '#fff',
     green: '#78C37C',
+    grey500: '#aaa',
   },
 };
 

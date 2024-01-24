@@ -1,6 +1,5 @@
 import DefaultButton from '@components/atom/Button/DefaultButton';
-import RegisterButton from '@components/atom/Button/RegisterButton';
-import CommonInput from '@components/atom/Input/CommonInput';
+import CustomInput from '@components/atom/Input/CustomInput';
 import Text from '@components/atom/Text';
 import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
@@ -63,9 +62,11 @@ const RegisterEmailModal = () => {
           >
             이메일
           </Text>
-          <CommonInput
-            placeholder='이메일 입력하기'
-            // value=''
+          <CustomInput
+            type='email'
+            width={22}
+            height={3}
+            placeholder='이메일 입력'
           />
         </FlexBox>
         <ButtonBox>
