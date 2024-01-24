@@ -32,71 +32,14 @@ public class CommentController {
     private final CommentEditUseCase commentEditUseCase;
     private final CommentDeleteUseCase commentDeleteUseCase;
 
-//    @PostMapping("/{questionId}/comments")
-//    public ApiResponse<ApiResponse.SuccessBody<Void>> createComment(
-//            @AuthenticationPrincipal TokenUserDetails userDetails,
-//            @PathVariable Long questionId,
-//            CommentRequest request) {
-//
-//        CommentCreateUseCaseRequest useCaseRequest =
-//                CommentCreateUseCaseRequestConverter.from(request, questionId, userDetails);
-//        commentCreateUseCase.execute(useCaseRequest);
-//
-//        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
-//    }
-//
-//    @GetMapping("/{questionId}/comments")
-//    public ApiResponse<ApiResponse.SuccessBody<List<CommentResponse>>> viewQuestionComment(
-//            @AuthenticationPrincipal TokenUserDetails userDetails,
-//            @PathVariable Long questionId,
-//            CommentRequest request) {
-//
-//        CommentViewUseCaseRequest useCaseRequest =
-//                CommentViewUseCaseRequestConverter.from(questionId);
-//        List<CommentResponse> responses = commentViewUseCase.execute(useCaseRequest);
-//        return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
-//    }
-//
-//    @PutMapping("/{questionId}/comments/{commnetId}")
-//    public ApiResponse<ApiResponse.SuccessBody<Void>> editComment(
-//            @AuthenticationPrincipal TokenUserDetails userDetails,
-//            @PathVariable Long questionId,
-//            @PathVariable Long commnetId,
-//            CommentRequest request) {
-//
-//        CommentEditUseCaseRequest useCaseRequest =
-//                CommentEditUseCaseRequestConverter.from(request, commnetId, questionId, userDetails);
-//        try {
-//            commentEditUseCase.execute(useCaseRequest);
-//            return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
-//        } catch (RuntimeException e){
-//            return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
-//        }
-//    }
-//
-//    @DeleteMapping("/{questionId}/comments/{commnetId}")
-//    public ApiResponse<ApiResponse.SuccessBody<Void>> deleteComment(
-//            @AuthenticationPrincipal TokenUserDetails userDetails,
-//            @PathVariable Long questionId,
-//            @PathVariable Long commnetId) {
-//
-//        CommentDeleteUseCaseRequest useCaseRequest =
-//                CommentDeleteUseCaseRequestConverter.from(commnetId, questionId, userDetails);
-//        try {
-//            commentDeleteUseCase.execute(useCaseRequest);
-//            return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-//        } catch (RuntimeException e){
-//            return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-//        }
-//    }
-
     @PostMapping("/{questionId}/comments")
     public ApiResponse<ApiResponse.SuccessBody<Void>> createComment(
+            @AuthenticationPrincipal TokenUserDetails userDetails,
             @PathVariable Long questionId,
-            @RequestBody CommentRequest request) {
+            CommentRequest request) {
 
         CommentCreateUseCaseRequest useCaseRequest =
-                CommentCreateUseCaseRequestConverter.from(request, questionId, "name", 1L);
+                CommentCreateUseCaseRequestConverter.from(request, questionId, userDetails);
         commentCreateUseCase.execute(useCaseRequest);
 
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
@@ -104,7 +47,9 @@ public class CommentController {
 
     @GetMapping("/{questionId}/comments")
     public ApiResponse<ApiResponse.SuccessBody<List<CommentResponse>>> viewQuestionComment(
-            @PathVariable Long questionId) {
+            @AuthenticationPrincipal TokenUserDetails userDetails,
+            @PathVariable Long questionId,
+            CommentRequest request) {
 
         CommentViewUseCaseRequest useCaseRequest =
                 CommentViewUseCaseRequestConverter.from(questionId);
@@ -114,12 +59,13 @@ public class CommentController {
 
     @PutMapping("/{questionId}/comments/{commnetId}")
     public ApiResponse<ApiResponse.SuccessBody<Void>> editComment(
+            @AuthenticationPrincipal TokenUserDetails userDetails,
             @PathVariable Long questionId,
             @PathVariable Long commnetId,
-            @RequestBody CommentRequest request) {
+            CommentRequest request) {
 
         CommentEditUseCaseRequest useCaseRequest =
-                CommentEditUseCaseRequestConverter.from(request, commnetId, questionId, "userDetails", 1L);
+                CommentEditUseCaseRequestConverter.from(request, commnetId, questionId, userDetails);
         try {
             commentEditUseCase.execute(useCaseRequest);
             return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
@@ -130,11 +76,12 @@ public class CommentController {
 
     @DeleteMapping("/{questionId}/comments/{commnetId}")
     public ApiResponse<ApiResponse.SuccessBody<Void>> deleteComment(
+            @AuthenticationPrincipal TokenUserDetails userDetails,
             @PathVariable Long questionId,
             @PathVariable Long commnetId) {
 
         CommentDeleteUseCaseRequest useCaseRequest =
-                CommentDeleteUseCaseRequestConverter.from(commnetId, questionId, 1L);
+                CommentDeleteUseCaseRequestConverter.from(commnetId, questionId, userDetails);
         try {
             commentDeleteUseCase.execute(useCaseRequest);
             return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
@@ -142,4 +89,5 @@ public class CommentController {
             return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
         }
     }
+
 }

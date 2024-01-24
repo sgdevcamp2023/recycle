@@ -9,22 +9,12 @@ import java.sql.Timestamp;
 
 @UtilityClass
 public class CommentCreateUseCaseRequestConverter {
-//    public static CommentCreateUseCaseRequest from (CommentRequest request, Long questionId, TokenUserDetails userDetails){
-//        return CommentCreateUseCaseRequest.builder()
-//                .questionId(questionId)
-//                .content(request.getContent())
-//                .author(userDetails.getUsername())
-//                .authorId(Long.valueOf(userDetails.getId()))
-//                .parentId(request.getParentId())
-//                .createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
-//                .build();
-//    }
-    public static CommentCreateUseCaseRequest from (CommentRequest request, Long questionId, String name, Long id){
+    public static CommentCreateUseCaseRequest from (CommentRequest request, Long questionId, TokenUserDetails userDetails){
         return CommentCreateUseCaseRequest.builder()
                 .questionId(questionId)
                 .content(request.getContent())
-                .author(name)
-                .authorId(id)
+                .author(userDetails.getUsername())
+                .authorId(Long.valueOf(userDetails.getId()))
                 .parentId(request.getParentId())
                 .createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
                 .build();
