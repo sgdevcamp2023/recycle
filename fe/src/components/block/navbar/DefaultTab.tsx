@@ -38,7 +38,7 @@ const DefaultTab = ({ items }: DefaultTabProps) => {
               padding={1}
               isTabButton={true} // 해당 버튼이 탭 버튼인지 여부
             >
-              <Text fontSize='lg' fontWeight='bold'>
+              <Text fontSize="lg" fontWeight="bold">
                 {key}
               </Text>
             </DefaultButton>

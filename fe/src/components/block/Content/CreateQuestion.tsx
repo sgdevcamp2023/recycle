@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import BlockNote from "../Editor/BlockNote";
-import DefaultInput from "../Search/DefaultInput";
-import { useEffect, useRef } from "react";
+import styled from 'styled-components';
+import BlockNote from '../Editor/BlockNote';
+import DefaultInput from '../Search/DefaultInput';
+import { useEffect, useRef } from 'react';
 
 const CreateQuestion = () => {
   const ref = useRef<HTMLInputElement>(null);

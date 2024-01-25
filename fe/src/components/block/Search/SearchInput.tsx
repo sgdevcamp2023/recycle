@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import DefaultInput from "./DefaultInput";
-import { useRef } from "react";
-import useTabStore from "@store/useTabStore";
+import styled from 'styled-components';
+import DefaultInput from './DefaultInput';
+import { useRef } from 'react';
+import useTabStore from '@store/useTabStore';
 
 const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -9,7 +9,7 @@ const SearchInput = () => {
   return (
     <SearchInputWrapper>
       <DefaultInput
-        disabled={defaultTabType == "questionDrafts" || defaultTabType == "reviewDrafts"}
+        disabled={defaultTabType == 'questionDrafts' || defaultTabType == 'reviewDrafts'}
         ref={ref}
         type="text"
         placeholder="원하는 글의 제목이나 내용을 입력해주세요"

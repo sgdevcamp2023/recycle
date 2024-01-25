@@ -48,7 +48,7 @@ const ReplyOfCommentButton = () => {
         답글 달기
       </ReplyStyleButton> */}
       <ReplyStyleButton>
-        <MinusIcon src={minusImg} alt='Plus Icon' />
+        <MinusIcon src={minusImg} alt="Plus Icon" />
         숨기기
       </ReplyStyleButton>
     </div>

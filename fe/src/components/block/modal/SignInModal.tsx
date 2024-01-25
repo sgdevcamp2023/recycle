@@ -47,8 +47,8 @@ const SignInModal = () => {
     <div>
       <LoginBox>
         <Text
-          fontSize='xxl'
-          fontWeight='bold'
+          fontSize="xxl"
+          fontWeight="bold"
           style={{
             marginTop: '3rem',
             marginBottom: '1.25rem',
@@ -56,26 +56,16 @@ const SignInModal = () => {
         >
           회원가입
         </Text>
-        <Text fontSize='lg'>아이디</Text>
+        <Text fontSize="lg">아이디</Text>
         <IdBox>
-          <CustomInput
-            type='eamil'
-            placeholder='이름 입력'
-            width={15.5}
-            height={3}
-          />
-          <DefaultButton
-            width={5.5}
-            height={3}
-            padding={0.5}
-            backgroundColor={'green200'}
-          >
+          <CustomInput type="eamil" placeholder="이름 입력" width={15.5} height={3} />
+          <DefaultButton width={5.5} height={3} padding={0.5} backgroundColor={'green200'}>
             중복 확인
           </DefaultButton>
           {/* <DoubleCheckButton /> */}
         </IdBox>
         <Text
-          fontSize='lg'
+          fontSize="lg"
           style={{
             marginTop: '1.5rem',
           }}
@@ -85,17 +75,17 @@ const SignInModal = () => {
 
         <FlexBox>
           <CustomInput
-            type='password'
+            type="password"
             width={22}
             height={3}
-            placeholder='비밀번호 입력'
+            placeholder="비밀번호 입력"
             // value=''
           />
           <CustomInput
-            type='password'
+            type="password"
             width={22}
             height={3}
-            placeholder='비밀번호 확인'
+            placeholder="비밀번호 확인"
             // value=''
           />
         </FlexBox>

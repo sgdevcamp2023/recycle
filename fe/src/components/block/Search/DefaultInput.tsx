@@ -1,6 +1,6 @@
-import { forwardRef, RefObject } from "react";
-import styled from "styled-components";
-import { BackgroundColorType, ColorType, FontSizeType } from "@styles/theme";
+import { forwardRef, RefObject } from 'react';
+import styled from 'styled-components';
+import { BackgroundColorType, ColorType, FontSizeType } from '@styles/theme';
 
 interface DefaultInputProps {
   type: string;
@@ -20,19 +20,19 @@ interface DefaultInputProps {
 const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
   (
     {
-      type = "text",
-      initValue = "",
+      type = 'text',
+      initValue = '',
       maxLength = 524288,
-      width = "100%",
-      height = "100%",
-      placeholder = "",
-      fontSize = "base",
-      color = "black",
-      backgroundColor = "grey300",
-      padding = "0.5rem",
+      width = '100%',
+      height = '100%',
+      placeholder = '',
+      fontSize = 'base',
+      color = 'black',
+      backgroundColor = 'grey300',
+      padding = '0.5rem',
       disabled,
     },
-    ref
+    ref,
   ) => {
     if (initValue && ref) {
       (ref as RefObject<HTMLInputElement>)!.current!.value = initValue;
@@ -53,19 +53,23 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
         padding={padding}
       />
     );
-  }
+  },
 );
 
-const DefaultInputContainer = styled.input<Pick<DefaultInputProps, "padding" | "width" | "height" | "fontSize" | "color" | "backgroundColor">>`
-  width: ${({ width }) => (width === "100%" ? "calc(100%)" : `${width}px`)};
-  height: ${({ height }) => (height === "100%" ? "100%" : `${height}px`)};
-  padding: ${({ padding }) => (padding === "0.5rem" ? "0.5rem" : `${padding}`)};
+const DefaultInputContainer = styled.input<
+  Pick<DefaultInputProps, 'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'>
+>`
+  width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}px`)};
+  height: ${({ height }) => (height === '100%' ? '100%' : `${height}px`)};
+  padding: ${({ padding }) => (padding === '0.5rem' ? '0.5rem' : `${padding}`)};
   border: none;
   border-radius: 4px;
   color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.black)};
   font-weight: 500;
-  font-size: ${({ theme, fontSize }) => (fontSize ? theme.fontSize[fontSize] : theme.fontSize.base)};
-  background-color: ${({ theme, backgroundColor }) => (backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit)};
+  font-size: ${({ theme, fontSize }) =>
+    fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
+  background-color: ${({ theme, backgroundColor }) =>
+    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit};
 
   ::placeholder {
     color: ${({ theme }) => theme.color.grey};

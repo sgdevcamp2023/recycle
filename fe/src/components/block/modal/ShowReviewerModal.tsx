@@ -79,27 +79,25 @@ const ShowReviewerModal = () => {
     <div>
       <LoginBox>
         <UpperBox>
-          <Text fontSize='lg' fontWeight='bold'>
+          <Text fontSize="lg" fontWeight="bold">
             Reviewers
           </Text>
         </UpperBox>
         <MiddleBox>
-          <Text fontSize='base'>
-            "두 SQL문의 차이가 뭘까요?" 글의 리뷰어 목록
-          </Text>
+          <Text fontSize="base">&quot 두 SQL문의 차이가 뭘까요? &quot 글의 리뷰어 목록</Text>
         </MiddleBox>
         <UserBox>
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -107,14 +105,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -122,14 +120,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -137,14 +135,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -152,14 +150,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -167,14 +165,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -182,14 +180,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -197,14 +195,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -212,14 +210,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -227,14 +225,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>
@@ -242,14 +240,14 @@ const ShowReviewerModal = () => {
           <UserLeftBox>
             <ReviewerIcon src={reviewerIcon} />
             <UserInfoBox>
-              <Text fontSize='base' fontWeight='bold'>
+              <Text fontSize="base" fontWeight="bold">
                 김현우
               </Text>
-              <Text fontSize='sm'>총 12개의 리뷰를 남겨주었습니다.</Text>
+              <Text fontSize="sm">총 12개의 리뷰를 남겨주었습니다.</Text>
             </UserInfoBox>
           </UserLeftBox>
           <ReviewToggleBox>
-            <Text fontSize='sm'>리뷰 끄기</Text>
+            <Text fontSize="sm">리뷰 끄기</Text>
             <ToggleButton />
           </ReviewToggleBox>
         </UserBox>

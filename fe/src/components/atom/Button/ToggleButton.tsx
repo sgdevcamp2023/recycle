@@ -51,7 +51,7 @@ const ToggleButton = () => {
   return (
     <div>
       <ToggleStyleButton>
-        <input role='switch' type='checkbox'></input>
+        <input role="switch" type="checkbox"></input>
       </ToggleStyleButton>
     </div>
   );

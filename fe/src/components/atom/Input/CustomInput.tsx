@@ -29,7 +29,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       backgroundColor = 'white',
       padding = '0.5rem',
     },
-    ref
+    ref,
   ) => {
     if (initValue && ref) {
       (ref as RefObject<HTMLInputElement>)!.current!.value = initValue;
@@ -49,29 +49,23 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
         padding={padding}
       />
     );
-  }
+  },
 );
 
 const StyledInput = styled.input<
-  Pick<
-    CustomInputProps,
-    'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'
-  >
+  Pick<CustomInputProps, 'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'>
 >`
   width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}rem`)};
   height: ${({ height }) => (height === '100%' ? '100%' : `${height}rem`)};
   padding: ${({ padding }) => (padding === '0.5rem' ? '0.5rem' : `${padding}`)};
   border: 0.0625rem solid ${({ theme }) => theme.borderColor.grey500};
   border-radius: 0.25rem;
-  color: ${({ theme, color }) =>
-    color ? theme.color[color] : theme.color.black};
+  color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.black)};
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
   background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor
-      ? theme.backgroundColor[backgroundColor]
-      : theme.backgroundcolor.inherit};
+    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit};
 
   ::placeholder {
     color: ${({ theme }) => theme.color.grey};

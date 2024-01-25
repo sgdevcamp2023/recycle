@@ -63,7 +63,7 @@ const LineCommentWrite = () => {
   return (
     <div>
       <LineCommentViewBox>
-        <CommentWriteContainer placeholder='댓글 추가' />
+        <CommentWriteContainer placeholder="댓글 추가" />
         <UploadButton>▶</UploadButton>
       </LineCommentViewBox>
     </div>

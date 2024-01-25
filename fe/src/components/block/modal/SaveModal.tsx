@@ -59,7 +59,7 @@ const SaveModal = () => {
     <div>
       <LoginBox>
         <UpperBox>
-          <Text fontSize='base'>Save</Text>
+          <Text fontSize="base">Save</Text>
         </UpperBox>
         <MiddleBox>
           <p>마지막 저장시간</p>
@@ -67,24 +67,14 @@ const SaveModal = () => {
         </MiddleBox>
         <BottomBox>
           {/* <ReturnButton /> */}
-          <GreyButton width={4} height={1.25} padding={0.25} fontSize='xxs'>
+          <GreyButton width={4} height={1.25} padding={0.25} fontSize="xxs">
             ◀️ 돌아가기
           </GreyButton>
           <ButtonWithMargin>
-            <ReverseButton
-              width={4}
-              height={1.25}
-              padding={0.25}
-              fontSize='xxs'
-            >
+            <ReverseButton width={4} height={1.25} padding={0.25} fontSize="xxs">
               임시저장
             </ReverseButton>
-            <DefaultButton
-              width={4}
-              height={1.25}
-              padding={0.25}
-              fontSize='xxs'
-            >
+            <DefaultButton width={4} height={1.25} padding={0.25} fontSize="xxs">
               리뷰 남기기
             </DefaultButton>
           </ButtonWithMargin>

@@ -15,10 +15,7 @@ interface BelowCommentInputProps {
   padding?: number | string;
 }
 
-const BelowCommentWrite = forwardRef<
-  HTMLTextAreaElement,
-  BelowCommentInputProps
->(
+const BelowCommentWrite = forwardRef<HTMLTextAreaElement, BelowCommentInputProps>(
   (
     {
       // type = 'text',
@@ -32,7 +29,7 @@ const BelowCommentWrite = forwardRef<
       backgroundColor = 'white',
       padding = '0.5rem',
     },
-    ref
+    ref,
   ) => {
     if (initValue && ref) {
       (ref as RefObject<HTMLTextAreaElement>)!.current!.value = initValue;
@@ -52,7 +49,7 @@ const BelowCommentWrite = forwardRef<
         padding={padding}
       />
     );
-  }
+  },
 );
 
 const StyledInput = styled.textarea<
@@ -66,15 +63,12 @@ const StyledInput = styled.textarea<
   padding: ${({ padding }) => (padding === '0.5rem' ? '0.5rem' : `${padding}`)};
   border: 0.0625rem solid ${({ theme }) => theme.borderColor.grey500};
   border-radius: 0.25rem;
-  color: ${({ theme, color }) =>
-    color ? theme.color[color] : theme.color.black};
+  color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.black)};
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
   background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor
-      ? theme.backgroundColor[backgroundColor]
-      : theme.backgroundcolor.inherit};
+    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit};
   overflow-y: auto; /* 내용이 넘칠 경우 수직 스크롤 표시 */
   resize: none; /* 사용자가 크기를 조정할 수 없도록 함 */
 

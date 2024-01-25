@@ -110,11 +110,11 @@ const UserInviteItem: React.FC<UserInviteItemProps> = ({ username }) => (
   <UserInviteBox>
     <UserInfoBox>
       <ReviewerIcon src={reviewerIcon} />
-      <Text fontSize='base' fontWeight='bold'>
+      <Text fontSize="base" fontWeight="bold">
         {username}
       </Text>
     </UserInfoBox>
-    <DefaultButton width={4.3125} height={1.5} padding={0.25} fontSize='base'>
+    <DefaultButton width={4.3125} height={1.5} padding={0.25} fontSize="base">
       Invite
     </DefaultButton>
   </UserInviteBox>
@@ -136,12 +136,12 @@ const SharingModal = () => {
     <div>
       <LoginBox>
         <UpperBox>
-          <Text fontSize='lg' fontWeight='bold'>
+          <Text fontSize="lg" fontWeight="bold">
             Share
           </Text>
         </UpperBox>
         <LinkBox>
-          <Text fontSize='xxs'>Direct share link</Text>
+          <Text fontSize="xxs">Direct share link</Text>
           <BorderlineBox>
             <InsertLingBox>
               <LinkInput />
@@ -152,7 +152,7 @@ const SharingModal = () => {
           </BorderlineBox>
         </LinkBox>
         <LinkBox>
-          <Text fontSize='xxs'>아이디로 초대하기</Text>
+          <Text fontSize="xxs">아이디로 초대하기</Text>
           <BorderlineBox>
             <InsertLingBox>
               <LinkInput />

@@ -61,14 +61,14 @@ const BelowCommentModal = () => {
         <UserBox>
           <ReviewerIcon src={reviewerIcon} />
           <UserInfoBox>
-            <Text fontSize='base' fontWeight='bold'>
+            <Text fontSize="base" fontWeight="bold">
               이규민
             </Text>
-            <Text fontSize='xxs'>2024년 1월 22일</Text>
+            <Text fontSize="xxs">2024년 1월 22일</Text>
           </UserInfoBox>
         </UserBox>
         <CommentBox>
-          <Text fontSize='xs'>죄송합니다... 열심히 하겠습니다...</Text>
+          <Text fontSize="xs">죄송합니다... 열심히 하겠습니다...</Text>
         </CommentBox>
         <ReplyOfCommentButton />
       </LoginBox>

@@ -1,10 +1,5 @@
 import styled from 'styled-components';
-import {
-  BackgroundColorType,
-  ColorType,
-  FontSizeType,
-  borderColorType,
-} from '@styles/theme';
+import { BackgroundColorType, ColorType, FontSizeType, borderColorType } from '@styles/theme';
 import { MouseEventHandler } from 'react';
 
 interface DefaultButtonProps {
@@ -71,15 +66,12 @@ const DefaultButtonBox = styled.button<
   padding: ${({ padding }) => (padding === 'default' ? '1rem' : `${padding}`)};
   border: none;
   border-radius: 0.25rem;
-  color: ${({ theme, color }) =>
-    color ? theme.color[color] : theme.color.white};
+  color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.white)};
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
   background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor
-      ? theme.backgroundColor[backgroundColor]
-      : theme.backgroundColor.white};
+    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundColor.white};
   cursor: pointer;
   transition: all 0.5s;
 
@@ -89,12 +81,9 @@ const DefaultButtonBox = styled.button<
 
   &:hover {
     background-color: ${({ theme, backgroundColor }) =>
-      backgroundColor
-        ? theme.backgroundColor.white
-        : theme.backgroundColor.green100};
+      backgroundColor ? theme.backgroundColor.white : theme.backgroundColor.green100};
     border: 0.063rem solid #1eb649;
-    color: ${({ theme, color }) =>
-      color ? theme.color.green : theme.color.white};
+    color: ${({ theme, color }) => (color ? theme.color.green : theme.color.white)};
   }
 
   color: ${({ isActive }) => (isActive ? 'white' : '#888')};

@@ -1,16 +1,16 @@
-import Text from "@components/atom/Text";
-import DefaultCard from "@components/atom/card/DefaultCard";
-import ReviewCard from "@components/atom/card/ReviewCard";
-import SearchInput from "@components/block/Search/SearchInput";
+import Text from '@components/atom/Text';
+import DefaultCard from '@components/atom/card/DefaultCard';
+import ReviewCard from '@components/atom/card/ReviewCard';
+import SearchInput from '@components/block/Search/SearchInput';
 // import IconBox from "@components/atom/icon/IconBox";
-import BackgroundModal from "@components/block/modal/BackgroundModal";
-import ContentTab from "@components/block/navbar/ContentTab";
-import DefaultTab from "@components/block/navbar/DefaultTab";
-import SideBar from "@components/block/sideBar/SideBar";
-import useModalStore from "@store/useModalStore";
-import { DefaultTabType } from "@store/useTabStore";
-import { Suspense } from "react";
-import styled from "styled-components";
+import BackgroundModal from '@components/block/modal/BackgroundModal';
+import ContentTab from '@components/block/navbar/ContentTab';
+import DefaultTab from '@components/block/navbar/DefaultTab';
+import SideBar from '@components/block/sideBar/SideBar';
+import useModalStore from '@store/useModalStore';
+import { DefaultTabType } from '@store/useTabStore';
+import { Suspense } from 'react';
+import styled from 'styled-components';
 
 const TestPageTwo = () => {
   const { showModal, setShowModal } = useModalStore();
@@ -18,7 +18,10 @@ const TestPageTwo = () => {
     setShowModal(!showModal);
   };
 
-  const items: Record<string, DefaultTabType> = { "내가 작성한 질문": "myQuestion", "임시 저장": "questionDrafts" };
+  const items: Record<string, DefaultTabType> = {
+    '내가 작성한 질문': 'myQuestion',
+    '임시 저장': 'questionDrafts',
+  };
   return (
     <>
       <div>

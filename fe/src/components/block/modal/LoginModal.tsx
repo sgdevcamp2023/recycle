@@ -62,8 +62,8 @@ const LoginModal = () => {
     <div>
       <LoginBox>
         <Text
-          fontSize='xxl'
-          fontWeight='bold'
+          fontSize="xxl"
+          fontWeight="bold"
           style={{
             marginTop: '3rem',
             marginBottom: '2.375rem',
@@ -75,16 +75,16 @@ const LoginModal = () => {
           <CustomInput
             width={22}
             height={3}
-            type='email'
-            placeholder='이메일 입력'
-            fontSize='base'
+            type="email"
+            placeholder="이메일 입력"
+            fontSize="base"
           ></CustomInput>
           <CustomInput
             width={22}
             height={3}
-            type='password'
-            placeholder='비밀번호 입력'
-            fontSize='base'
+            type="password"
+            placeholder="비밀번호 입력"
+            fontSize="base"
           ></CustomInput>
         </FlexBox>
         <ButtonBox>
@@ -94,7 +94,7 @@ const LoginModal = () => {
         </ButtonBox>
         <TextBox>
           <p>아직</p>
-          <Logo src={logo} alt='zzaug main logo' />
+          <Logo src={logo} alt="zzaug main logo" />
           <p>계정이 없으신가요?</p>
           <p
             style={{

@@ -1,39 +1,41 @@
-import useTabStore, { DefaultTabType } from "@store/useTabStore";
-import DefaultTab from "../navbar/DefaultTab";
-import styled from "styled-components";
+import useTabStore, { DefaultTabType } from '@store/useTabStore';
+import DefaultTab from '../navbar/DefaultTab';
+import styled from 'styled-components';
 // import SearchInput from "../Search/SearchInput";
-import DefaultCard, { DefaultCardProps } from "@components/atom/card/DefaultCard";
-import { useEffect } from "react";
+import DefaultCard, { DefaultCardProps } from '@components/atom/card/DefaultCard';
+import { useEffect } from 'react';
 
 const Request = () => {
-  const items: Record<string, DefaultTabType> = { "리뷰 요청 받은 질문": "reviewRequest" };
+  const items: Record<string, DefaultTabType> = {
+    '리뷰 요청 받은 질문': 'reviewRequest',
+  };
   const { setDefaultTabType } = useTabStore();
   useEffect(() => {
-    setDefaultTabType("reviewRequest");
+    setDefaultTabType('reviewRequest');
   }, [setDefaultTabType]);
   const mockDataArray: DefaultCardProps[] = [
     {
-      type: "add",
+      type: 'add',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
   ];
   return (
@@ -42,7 +44,14 @@ const Request = () => {
       {/* <SearchInput /> */}
       <RequestWrapper>
         {mockDataArray.map((item, idx) => {
-          return <DefaultCard type={item.type} key={idx} commentCount={item.commentCount} title={item.title} />;
+          return (
+            <DefaultCard
+              type={item.type}
+              key={idx}
+              commentCount={item.commentCount}
+              title={item.title}
+            />
+          );
         })}
       </RequestWrapper>
     </BoxWrapper>

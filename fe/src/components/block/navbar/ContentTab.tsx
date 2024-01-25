@@ -7,7 +7,7 @@ const ContentTab = () => {
   const [key, setKey] = useState('');
   return (
     <ContentTabWrapper>
-      <Text color='grey' fontSize='base'>
+      <Text color="grey" fontSize="base">
         Edited Jan 03, 2024
       </Text>
       {/* <TabButton
@@ -26,7 +26,7 @@ const ContentTab = () => {
         width={4}
         height={2}
         color={'black'}
-        fontSize='base'
+        fontSize="base"
       >
         review
       </GreyButton>
@@ -46,7 +46,7 @@ const ContentTab = () => {
         width={4}
         height={2}
         color={'black'}
-        fontSize='base'
+        fontSize="base"
       >
         share
       </GreyButton>
@@ -66,7 +66,7 @@ const ContentTab = () => {
         width={4}
         height={2}
         color={'black'}
-        fontSize='base'
+        fontSize="base"
       >
         save
       </GreyButton>
