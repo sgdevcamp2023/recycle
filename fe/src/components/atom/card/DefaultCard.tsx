@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import Text from "../Text";
-import { MouseEventHandler, ReactNode } from "react";
+import styled from 'styled-components';
+import Text from '../Text';
+import { MouseEventHandler, ReactNode } from 'react';
 
-export type DefaultCardType = "question" | "review" | "add" | null;
+export type DefaultCardType = 'question' | 'review' | 'add' | null;
 
 export interface DefaultCardProps {
   type: DefaultCardType;
@@ -23,16 +23,24 @@ interface ContentContainerProps {
   type: DefaultCardType;
 }
 
-const DefaultCard = ({ type, commentCount, title, width, height, content, onClick }: DefaultCardProps) => {
+const DefaultCard = ({
+  type,
+  commentCount,
+  title,
+  width,
+  height,
+  content,
+  onClick,
+}: DefaultCardProps) => {
   return (
     <CardWrapper height={height} width={width} onClick={onClick}>
       <ContentContainer type={type}>
-        {type == "add" && (
+        {type == 'add' && (
           <Text fontSize="xl" fontWeight="bold">
             new
           </Text>
         )}
-        {type == "question" && (
+        {type == 'question' && (
           <>
             <Text fontSize="xl" fontWeight="bold">
               {title}
@@ -40,7 +48,7 @@ const DefaultCard = ({ type, commentCount, title, width, height, content, onClic
             {content}
           </>
         )}
-        {type == "review" && (
+        {type == 'review' && (
           <>
             <Text fontSize="xl" fontWeight="bold">
               {title}
@@ -51,12 +59,12 @@ const DefaultCard = ({ type, commentCount, title, width, height, content, onClic
       </ContentContainer>
       <Divider />
       <FooterContainer>
-        {type == "add" && (
+        {type == 'add' && (
           <Text fontSize="lg" fontWeight="bold">
             새로운 질문하기
           </Text>
         )}
-        {type == "question" && (
+        {type == 'question' && (
           <TextBox>
             <Text color="green" fontSize="lg">
               {commentCount}
@@ -64,7 +72,7 @@ const DefaultCard = ({ type, commentCount, title, width, height, content, onClic
             <Text>개의 코멘트가 달렸습니다</Text>
           </TextBox>
         )}
-        {type == "review" && (
+        {type == 'review' && (
           <TextBox>
             <Text color="green" fontSize="lg">
               {commentCount}

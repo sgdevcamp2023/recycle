@@ -1,20 +1,20 @@
-import Login from "@page/Login";
-import NotFound from "@page/NotFound";
-import SignUp from "@page/SignUp";
-import Common from "@page/Common";
-import { Route, Routes } from "react-router-dom";
-import TestPage from "@page/TestPage";
-import TestPageTwo from "@page/TestPageTwo";
-import TestPageThree from "@page/TestPageThree";
-import GridTemplate from "@components/layout/GridTemplate";
-import BlackNoteTest from "@page/BlackNoteTest";
+import Login from '@page/Login';
+import NotFound from '@page/NotFound';
+import SignUp from '@page/SignUp';
+import Common from '@page/Common';
+import { Route, Routes } from 'react-router-dom';
+import TestPage from '@page/TestPage';
+import TestPageTwo from '@page/TestPageTwo';
+import TestPageThree from '@page/TestPageThree';
+import GridTemplate from '@components/layout/GridTemplate';
+import BlackNoteTest from '@page/BlackNoteTest';
 
 const Router = () => {
   return (
     <Routes>
       {/* 메인 페이지 */}
-      {["/", "/newQuestion", "/newReview"].map((path) => (
-        <Route element={<GridTemplate />}>
+      {['/', '/newQuestion', '/newReview'].map((path) => (
+        <Route key={path} element={<GridTemplate />}>
           <Route key={path} path={path} element={<Common />} />
         </Route>
       ))}

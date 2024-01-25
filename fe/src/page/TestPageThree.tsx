@@ -34,8 +34,8 @@ const TestPageThree = () => {
         <BelowCommentWrite
           width={44.25}
           height={6.25}
-          placeholder='댓글을 작성하세요.'
-          fontSize='xs'
+          placeholder="댓글을 작성하세요."
+          fontSize="xs"
         />
       </CenterModalBox>
     </>

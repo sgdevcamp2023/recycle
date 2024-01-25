@@ -76,32 +76,31 @@ const ReviewToGitModal = () => {
   return (
     <div>
       <LoginBox>
-        <GithubLogo src={gitLogo} alt='github Icon' />
+        <GithubLogo src={gitLogo} alt="github Icon" />
         <RightBox>
           <Title>내 리뷰를 깃허브에 올려봐요</Title>
           <Content>
-            <Text fontSize='xs'>열심히 작성한 리뷰들</Text>
-            <Text fontSize='xs'>여기에만 남겨놓긴 아쉽지 않나요?</Text>
+            <Text fontSize="xs">열심히 작성한 리뷰들</Text>
+            <Text fontSize="xs">여기에만 남겨놓긴 아쉽지 않나요?</Text>
             <Text
-              fontSize='xs'
-              style={{ display: 'flex', alignItems: 'center' }}
+              fontSize="xs"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
-              <Logo src={mainLogo} alt='zzaug main logo' />
+              <Logo src={mainLogo} alt="zzaug main logo" />
               에서는 GitHub에 리뷰를 업로드 해줘요!
             </Text>
           </Content>
           <ButtonBox>
             {/* <LinkToGitButton /> */}
-            <DefaultButton width={6.25} height={2} fontSize='xs'>
-              <Logo
-                src={gitLogo}
-                alt='github logo'
-                style={{ marginRight: '0.3rem' }}
-              />
+            <DefaultButton width={6.25} height={2} fontSize="xs">
+              <Logo src={gitLogo} alt="github logo" style={{ marginRight: '0.3rem' }} />
               연결하기
             </DefaultButton>
             {/* <ExperienceButton /> */}
-            <DefaultButton width={5} height={2} fontSize='xs'>
+            <DefaultButton width={5} height={2} fontSize="xs">
               체험하기
             </DefaultButton>
           </ButtonBox>

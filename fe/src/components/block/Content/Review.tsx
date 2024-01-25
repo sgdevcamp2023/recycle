@@ -1,40 +1,43 @@
-import useTabStore, { DefaultTabType } from "@store/useTabStore";
-import DefaultTab from "../navbar/DefaultTab";
-import styled from "styled-components";
-import SearchInput from "../Search/SearchInput";
-import { useEffect } from "react";
-import ReviewCard, { ReviewCardProps } from "@components/atom/card/ReviewCard";
+import useTabStore, { DefaultTabType } from '@store/useTabStore';
+import DefaultTab from '../navbar/DefaultTab';
+import styled from 'styled-components';
+import SearchInput from '../Search/SearchInput';
+import { useEffect } from 'react';
+import ReviewCard, { ReviewCardProps } from '@components/atom/card/ReviewCard';
 
 const Review = () => {
-  const items: Record<string, DefaultTabType> = { "내가 작성한 리뷰": "myReview", "임시 저장된 리뷰": "reviewDrafts" };
+  const items: Record<string, DefaultTabType> = {
+    '내가 작성한 리뷰': 'myReview',
+    '임시 저장된 리뷰': 'reviewDrafts',
+  };
   const { setDefaultTabType } = useTabStore();
   useEffect(() => {
-    setDefaultTabType("myReview");
+    setDefaultTabType('myReview');
   }, [setDefaultTabType]);
   const mockDataArray: ReviewCardProps[] = [
     {
-      type: "review",
+      type: 'review',
       commentCount: 8,
-      title: "Title 2",
-      reviews: ["리뷰 1", "리뷰 2", "리뷰 3", "리뷰 4", "리뷰 5"],
+      title: 'Title 2',
+      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
     },
     {
-      type: "review",
+      type: 'review',
       commentCount: 8,
-      title: "Title 2",
-      reviews: ["리뷰 1", "리뷰 2", "리뷰 3", "리뷰 4", "리뷰 5"],
+      title: 'Title 2',
+      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
     },
     {
-      type: "review",
+      type: 'review',
       commentCount: 8,
-      title: "Title 2",
-      reviews: ["리뷰 1", "리뷰 2", "리뷰 3", "리뷰 4", "리뷰 5"],
+      title: 'Title 2',
+      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
     },
     {
-      type: "review",
+      type: 'review',
       commentCount: 8,
-      title: "Title 2",
-      reviews: ["리뷰 1", "리뷰 2", "리뷰 3", "리뷰 4", "리뷰 5"],
+      title: 'Title 2',
+      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
     },
   ];
   return (
@@ -44,7 +47,15 @@ const Review = () => {
       <ReviewWrapper>
         {mockDataArray &&
           mockDataArray.map((item, idx) => {
-            return <ReviewCard key={idx} reviews={item.reviews} type={item.type} commentCount={item.commentCount} title={item.title} />;
+            return (
+              <ReviewCard
+                key={idx}
+                reviews={item.reviews}
+                type={item.type}
+                commentCount={item.commentCount}
+                title={item.title}
+              />
+            );
           })}
       </ReviewWrapper>
     </BoxWrapper>

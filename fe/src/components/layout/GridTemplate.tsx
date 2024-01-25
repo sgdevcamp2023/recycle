@@ -1,7 +1,7 @@
-import SideBar from "@components/block/sideBar/SideBar";
-import styled from "styled-components";
-import { Outlet } from "react-router-dom";
-import ContentTab from "@components/block/navbar/ContentTab";
+import SideBar from '@components/block/sideBar/SideBar';
+import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
+import ContentTab from '@components/block/navbar/ContentTab';
 
 const GridTemplate = () => {
   return (
@@ -29,7 +29,7 @@ const LayoutWrapper = styled.div`
   height: 100vh;
   display: grid;
   grid-template-columns: 2fr 10fr;
-  grid-template-areas: "Sidebar";
+  grid-template-areas: 'Sidebar';
 `;
 const MainWrapper = styled.div`
   display: grid;

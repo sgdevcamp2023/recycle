@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 export type ModalType = null;
 
@@ -20,7 +20,7 @@ const useModalStore = create<ModalState & ModalAction>()(
 
     setModalType: (modalType: ModalType) => set({ modalType }),
     setShowModal: (showModal: boolean) => set({ showModal }),
-  }))
+  })),
 );
 
 export default useModalStore;

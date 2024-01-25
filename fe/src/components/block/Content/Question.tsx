@@ -1,42 +1,45 @@
-import styled from "styled-components";
-import DefaultTab from "../navbar/DefaultTab";
-import useTabStore, { DefaultTabType } from "@store/useTabStore";
-import { useEffect } from "react";
-import SearchInput from "../Search/SearchInput";
-import DefaultCard, { DefaultCardProps, DefaultCardType } from "@components/atom/card/DefaultCard";
-import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import DefaultTab from '../navbar/DefaultTab';
+import useTabStore, { DefaultTabType } from '@store/useTabStore';
+import { useEffect } from 'react';
+import SearchInput from '../Search/SearchInput';
+import DefaultCard, { DefaultCardProps, DefaultCardType } from '@components/atom/card/DefaultCard';
+import { useNavigate } from 'react-router-dom';
 
 const Question = () => {
-  const items: Record<string, DefaultTabType> = { "내가 작성한 질문": "myQuestion", "임시 저장된 질문": "questionDrafts" };
+  const items: Record<string, DefaultTabType> = {
+    '내가 작성한 질문': 'myQuestion',
+    '임시 저장된 질문': 'questionDrafts',
+  };
   const { defaultTabType, setDefaultTabType } = useTabStore();
   const navigate = useNavigate();
   useEffect(() => {
-    setDefaultTabType("myQuestion");
+    setDefaultTabType('myQuestion');
   }, [setDefaultTabType]);
 
   const mockDataArray: DefaultCardProps[] = [
     {
-      type: "add",
+      type: 'add',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
     {
-      type: "question",
+      type: 'question',
       commentCount: 8,
-      title: "Title 2",
+      title: 'Title 2',
     },
   ];
 
@@ -45,8 +48,8 @@ const Question = () => {
   }
   //  "question" | "review" | "add"
   const handleCardClick = ({ type }: handleCardClickProps) => {
-    if (type == "add") {
-      navigate("/newQuestion");
+    if (type == 'add') {
+      navigate('/newQuestion');
     }
   };
   return (
@@ -54,7 +57,7 @@ const Question = () => {
       <DefaultTab items={items} />
       <SearchInput />
       <QuestionWrapper>
-        {defaultTabType == "myQuestion" &&
+        {defaultTabType == 'myQuestion' &&
           mockDataArray.map((item, idx) => {
             return (
               <DefaultCard
@@ -62,13 +65,24 @@ const Question = () => {
                 key={idx}
                 commentCount={item.commentCount}
                 title={item.title}
-                onClick={() => handleCardClick({ type: item.type })}
+                onClick={() =>
+                  handleCardClick({
+                    type: item.type,
+                  })
+                }
               />
             );
           })}
-        {defaultTabType == "questionDrafts" &&
+        {defaultTabType == 'questionDrafts' &&
           mockDataArray.map((item, idx) => {
-            return <DefaultCard type={item.type} key={idx} commentCount={item.commentCount} title={item.title} />;
+            return (
+              <DefaultCard
+                type={item.type}
+                key={idx}
+                commentCount={item.commentCount}
+                title={item.title}
+              />
+            );
           })}
       </QuestionWrapper>
     </BoxWrapper>

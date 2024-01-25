@@ -81,23 +81,26 @@ const SendEmailModal = () => {
         <LeftBox>
           <Title>내 리뷰를 깃허브에 올려봐요</Title>
           <Content>
-            <Text fontSize='xs'>언제 리뷰가 달릴지 기다리지 마세요!</Text>
+            <Text fontSize="xs">언제 리뷰가 달릴지 기다리지 마세요!</Text>
             <Text
-              fontSize='xs'
-              style={{ display: 'flex', alignItems: 'center' }}
+              fontSize="xs"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
-              <Logo src={mainLogo} alt='zzaug main logo' />
+              <Logo src={mainLogo} alt="zzaug main logo" />
               에서는 등록한 메일로 알람을 보내드립니다!
             </Text>
           </Content>
           <ButtonBox>
             {/* <EmailEnrollButton /> */}
-            <DefaultButton width={5} height={2} fontSize='xs'>
+            <DefaultButton width={5} height={2} fontSize="xs">
               등록하기
             </DefaultButton>
           </ButtonBox>
         </LeftBox>
-        <GithubLogo src={phoneLogo} alt='Phone Icon' />
+        <GithubLogo src={phoneLogo} alt="Phone Icon" />
       </LoginBox>
     </div>
   );

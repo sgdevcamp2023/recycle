@@ -1,5 +1,4 @@
 import Text from '@components/atom/Text';
-import CommonButton from '@components/atom/button/CommonButton';
 import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
 import logo from '../../../assets/logos/ZzaugLogo.png';
@@ -71,11 +70,11 @@ const AskLoginModal = () => {
     <div>
       <LoginBox>
         <TitleBox>
-          <Text fontSize='lg' fontWeight='bold'>
+          <Text fontSize="lg" fontWeight="bold">
             로그인 후
           </Text>
-          <TitleLogo src={logo} alt='zzaug main logo' />
-          <Text fontSize='lg' fontWeight='bold'>
+          <TitleLogo src={logo} alt="zzaug main logo" />
+          <Text fontSize="lg" fontWeight="bold">
             이용이 가능해요
           </Text>
         </TitleBox>
@@ -86,7 +85,7 @@ const AskLoginModal = () => {
         </ButtonBox>
         <TextBox>
           <p>아직</p>
-          <Logo src={logo} alt='zzaug main logo' />
+          <Logo src={logo} alt="zzaug main logo" />
           <p>계정이 없으신가요?</p>
           <p
             style={{

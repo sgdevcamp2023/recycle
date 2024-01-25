@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 interface ReviewListProps {
   reviews: string[];
@@ -99,7 +99,10 @@ const ReviewList = ({ reviews, reviewsPerPage }: ReviewListProps) => {
           before
         </ArrowButton>
         <span> {currentPage} page </span>
-        <ArrowButton onClick={handleNextPage} disabled={currentPage === Math.ceil(reviews.length / reviewsPerPage)}>
+        <ArrowButton
+          onClick={handleNextPage}
+          disabled={currentPage === Math.ceil(reviews.length / reviewsPerPage)}
+        >
           next
         </ArrowButton>
       </div>

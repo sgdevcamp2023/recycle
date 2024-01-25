@@ -42,8 +42,8 @@ const RegisterEmailModal = () => {
     <div>
       <LoginBox>
         <Text
-          fontSize='lg'
-          fontWeight='bold'
+          fontSize="lg"
+          fontWeight="bold"
           style={{
             marginTop: '3rem',
             marginBottom: '1.25rem',
@@ -53,8 +53,8 @@ const RegisterEmailModal = () => {
         </Text>
         <FlexBox>
           <Text
-            fontSize='base'
-            fontWeight='bold'
+            fontSize="base"
+            fontWeight="bold"
             style={{
               marginTop: '1.5rem',
               display: 'block',
@@ -62,12 +62,7 @@ const RegisterEmailModal = () => {
           >
             이메일
           </Text>
-          <CustomInput
-            type='email'
-            width={22}
-            height={3}
-            placeholder='이메일 입력'
-          />
+          <CustomInput type="email" width={22} height={3} placeholder="이메일 입력" />
         </FlexBox>
         <ButtonBox>
           {/* <RegisterButton /> */}

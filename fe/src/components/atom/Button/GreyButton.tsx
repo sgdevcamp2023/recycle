@@ -1,10 +1,5 @@
 import styled from 'styled-components';
-import {
-  BackgroundColorType,
-  ColorType,
-  FontSizeType,
-  borderColorType,
-} from '@styles/theme';
+import { BackgroundColorType, ColorType, FontSizeType, borderColorType } from '@styles/theme';
 import { MouseEventHandler } from 'react';
 
 interface GreyButtonProps {
@@ -69,15 +64,12 @@ const GreyButtonBox = styled.button<
   padding: ${({ padding }) => (padding === 'default' ? '1rem' : `${padding}`)};
   border: none;
   border-radius: 0.25rem;
-  color: ${({ theme, color }) =>
-    color ? theme.color[color] : theme.color.white};
+  color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.white)};
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
   background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor
-      ? theme.backgroundColor[backgroundColor]
-      : theme.backgroundcolor.white};
+    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.white};
   cursor: pointer;
   transition: all 0.5s;
   display: flex;
@@ -86,12 +78,9 @@ const GreyButtonBox = styled.button<
 
   &:hover {
     background-color: ${({ theme, backgroundColor }) =>
-      backgroundColor
-        ? theme.backgroundColor.grey200
-        : theme.backgroundColor.grey200};
+      backgroundColor ? theme.backgroundColor.grey200 : theme.backgroundColor.grey200};
     border: 0.0625rem solid #939393;
-    color: ${({ theme, color }) =>
-      color ? theme.color.white : theme.color.black};
+    color: ${({ theme, color }) => (color ? theme.color.white : theme.color.black)};
   }
 `;
 

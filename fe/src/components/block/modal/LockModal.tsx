@@ -47,13 +47,13 @@ const LockModal = () => {
   return (
     <div>
       <LoginBox>
-        <LockIcon src={lock} alt='must login lock icon' />
+        <LockIcon src={lock} alt="must login lock icon" />
         <TitleBox>
-          <Text fontSize='sm' fontWeight='bold'>
+          <Text fontSize="sm" fontWeight="bold">
             로그인 후
           </Text>
-          <TitleLogo src={logo} alt='zzaug main logo' />
-          <Text fontSize='sm' fontWeight='bold'>
+          <TitleLogo src={logo} alt="zzaug main logo" />
+          <Text fontSize="sm" fontWeight="bold">
             이용이 가능해요!
           </Text>
         </TitleBox>

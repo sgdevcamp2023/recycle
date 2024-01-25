@@ -15,36 +15,36 @@ const TestPage = () => {
       <>테스트페이지임여</>
       <div>
         <DefaultInput
-          placeholder='이름 입력'
+          placeholder="이름 입력"
           value={inputValue}
           onChange={handleInputChange}
-          fontSize='1rem'
+          fontSize="1rem"
         ></DefaultInput>
       </div>
       <div>
         <DefaultInput
-          width='44.25rem'
-          height='6.25rem'
-          placeholder='댓글을 작성하세요'
+          width="44.25rem"
+          height="6.25rem"
+          placeholder="댓글을 작성하세요"
           value={inputValue}
           onChange={handleInputChange}
-          fontSize='0.75rem'
-          border='0.063rem solid black'
+          fontSize="0.75rem"
+          border="0.063rem solid black"
         ></DefaultInput>
       </div>
       <div>
         <DefaultInput
-          width='49.5rem'
-          height='2rem'
-          placeholder='제목이나 내용을 입력하여 주세요!'
+          width="49.5rem"
+          height="2rem"
+          placeholder="제목이나 내용을 입력하여 주세요!"
           value={inputValue}
           onChange={handleInputChange}
-          fontSize='0.875rem'
-          backgroundColor='#f4f4f4'
-          color='9a9999'
-          borderRadius='0.625rem'
-          border='none'
-          fontWeight='700'
+          fontSize="0.875rem"
+          backgroundColor="#f4f4f4"
+          color="9a9999"
+          borderRadius="0.625rem"
+          border="none"
+          fontWeight="700"
         ></DefaultInput>
       </div>
       <div>

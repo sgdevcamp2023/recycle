@@ -1,6 +1,6 @@
-import useModalStore from "@store/useModalStore";
-import { ReactNode } from "react";
-import styled from "styled-components";
+import useModalStore from '@store/useModalStore';
+import { ReactNode } from 'react';
+import styled from 'styled-components';
 
 interface BackgroundModalProps {
   children: ReactNode;
