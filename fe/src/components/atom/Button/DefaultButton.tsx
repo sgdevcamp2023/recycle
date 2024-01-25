@@ -18,6 +18,8 @@ interface DefaultButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
+  isActive?: boolean;
+  isTabButton?: boolean;
 }
 
 const DefaultButton = ({
@@ -28,6 +30,8 @@ const DefaultButton = ({
   borderColor = 'green',
   backgroundColor = 'green100',
   padding = '1rem',
+  isActive = false,
+  isTabButton = false,
   onClick,
   children,
 }: DefaultButtonProps) => {
@@ -41,6 +45,7 @@ const DefaultButton = ({
       backgroundColor={backgroundColor}
       padding={padding}
       onClick={onClick}
+      isActive={isTabButton && isActive}
     >
       {children}
     </DefaultButtonBox>
@@ -58,6 +63,7 @@ const DefaultButtonBox = styled.button<
     | 'borderColor'
     | 'padding'
     | 'cursor'
+    | 'isActive'
   >
 >`
   width: ${({ width }) => (width === 'default' ? '100%' : `${width}rem`)};
@@ -89,6 +95,15 @@ const DefaultButtonBox = styled.button<
     border: 0.063rem solid #1eb649;
     color: ${({ theme, color }) =>
       color ? theme.color.green : theme.color.white};
+  }
+
+  color: ${({ isActive }) => (isActive ? 'white' : '#888')};
+  background-color: ${({ theme, isActive }) =>
+    isActive ? theme.backgroundColor.green100 : theme.backgroundColor.white};
+  border-radius: 8px;
+  &:hover {
+    background-color: ${({ theme }) => theme.backgroundColor.green100};
+    color: white;
   }
 `;
 
