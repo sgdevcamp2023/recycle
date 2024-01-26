@@ -80,7 +80,7 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             | 
+| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
 | 400 | request.parent_id.invalid | 잘못된 요청입니다. | 부모 댓글이 존재하지 않는 경우            |
 | 400 | request.content.invalid | 잘못된 요청입니다. | 내용이 없는 경우                    |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
@@ -178,7 +178,7 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             | 
+| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
 | 400 | request.comment_id.invalid | 잘못된 요청입니다. | 댓글 코멘트가 존재하지 않는 경우           |
 | 400 | request.content.invalid | 잘못된 요청입니다. | 내용이 없는 경우                    |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
