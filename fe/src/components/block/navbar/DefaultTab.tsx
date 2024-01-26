@@ -1,6 +1,7 @@
-import DefaultButton from '@components/atom/Button/DefaultButton';
+import TabButton from '@components/atom/Button/TabButton';
 import Text from '@components/atom/Text';
 import useTabStore, { DefaultTabType } from '@store/useTabStore';
+import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -29,7 +30,7 @@ const DefaultTab = ({ items }: DefaultTabProps) => {
       <NavbarContainer>
         {Object.entries(items).map(([key, label]) => (
           <NavItem isActive={key === activeKey}>
-            <DefaultButton
+            <TabButton
               key={key}
               isActive={key === activeKey}
               onClick={() => handleItemClick({ key, label })}
@@ -41,7 +42,7 @@ const DefaultTab = ({ items }: DefaultTabProps) => {
               <Text fontSize="lg" fontWeight="bold">
                 {key}
               </Text>
-            </DefaultButton>
+            </TabButton>
           </NavItem>
         ))}
       </NavbarContainer>
@@ -63,6 +64,7 @@ const NavbarContainer = styled.div`
 `;
 
 const NavItem = styled.div<{ isActive: boolean }>`
+  /* 상태에 따라 색상 및 스타일 변경 */
   color: ${({ isActive }) => (isActive ? 'white' : '#888')};
   background-color: ${({ theme, isActive }) =>
     isActive ? theme.backgroundColor.green200 : theme.backgroundColor.white};
