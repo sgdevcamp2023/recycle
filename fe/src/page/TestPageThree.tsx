@@ -4,7 +4,9 @@ import LineCommentWrite from '@components/atom/Comment/LineCommentWrite';
 import CommonInput from '@components/atom/Input/CommonInput';
 import CustomInput from '@components/atom/Input/CustomInput';
 import DefaultInput from '@components/atom/Input/CustomInput';
+import BackgroundModal from '@components/block/modal/BackgroundModal';
 import BelowCommentModal from '@components/block/modal/BelowCommentModal';
+import ErrorModal from '@components/block/modal/ErrorModal';
 import LoginModal from '@components/block/modal/LoginModal';
 import RegisterEmailModal from '@components/block/modal/RegisterEmailModal';
 import SignInModal from '@components/block/modal/SignInModal';
@@ -31,12 +33,13 @@ const TestPageThree = () => {
         {/* <BelowCommentModal /> */}
         {/* <LineCommentWrite />
         <LineCommentView /> */}
-        <BelowCommentWrite
+        {/* <BelowCommentWrite
           width={44.25}
           height={6.25}
           placeholder="댓글을 작성하세요."
           fontSize="xs"
-        />
+        /> */}
+        <BackgroundModal />
       </CenterModalBox>
     </>
   );

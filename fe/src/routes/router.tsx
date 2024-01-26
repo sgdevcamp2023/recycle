@@ -8,6 +8,7 @@ import TestPageTwo from '@page/TestPageTwo';
 import TestPageThree from '@page/TestPageThree';
 import GridTemplate from '@components/layout/GridTemplate';
 import BlackNoteTest from '@page/BlackNoteTest';
+import Main from '@page/Main';
 
 const Router = () => {
   return (
@@ -23,6 +24,7 @@ const Router = () => {
         </Route>
       ))}
 
+      <Route path="/main" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
 

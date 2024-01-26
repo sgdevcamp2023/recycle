@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components';
 
-export type FontSizeType = 'xxs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xxl';
+export type FontSizeType = 'xxs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xxl' | 'xxxl';
 
 export type BackgroundColorType =
   | 'green100'
@@ -26,6 +26,7 @@ const theme: DefaultTheme = {
     lg: '1.25rem',
     xl: '2rem',
     xxl: '2.5rem',
+    xxxl: '4rem',
   },
   backgroundColor: {
     white: '#FFFFFF',
