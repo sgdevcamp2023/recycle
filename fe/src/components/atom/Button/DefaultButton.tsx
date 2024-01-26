@@ -13,7 +13,7 @@ interface DefaultButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
-  isActive?: boolean;
+  isActive?: boolean | null;
   isTabButton?: boolean;
 }
 
@@ -25,7 +25,7 @@ const DefaultButton = ({
   borderColor = 'green',
   backgroundColor = 'green100',
   padding = '1rem',
-  isActive = false,
+  isActive = null,
   isTabButton = false,
   onClick,
   children,
@@ -71,7 +71,7 @@ const DefaultButtonBox = styled.button<
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
   background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundColor.white};
+    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundColor.g};
   cursor: pointer;
   transition: all 0.5s;
 
