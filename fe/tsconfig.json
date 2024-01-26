@@ -31,10 +31,10 @@
       "@template/*": ["template/*"],
       "@store/*": ["store/*"],
       "@assets": ["assets/*"],
-      "@/*": ["*"]
+      "@/*": ["*"],
       // 기본 경로의 값이 src이기 때문에 paths 속성 경로 수정
-    }
+    },
   },
   "include": ["src", "custom.d.ts", "svg.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
 }

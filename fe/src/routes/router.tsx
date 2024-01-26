@@ -13,15 +13,18 @@ const Router = () => {
   return (
     <Routes>
       {/* 메인 페이지 */}
-      {['/', '/newQuestion', '/newReview'].map((path) => (
+      {['/', '/newQuestion', '/newReview', '/*'].map((path) => (
         <Route key={path} element={<GridTemplate />}>
-          <Route key={path} path={path} element={<Common />} />
+          {path === '/*' ? (
+            <Route path="/*" element={<NotFound />} />
+          ) : (
+            <Route key={path} path={path} element={<Common />} />
+          )}
         </Route>
       ))}
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/*" element={<NotFound />} />
 
       {/* 테스트 페이지 */}
       <Route path="/test" element={<TestPage />} />
