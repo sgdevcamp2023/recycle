@@ -10,6 +10,7 @@ import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
+import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
@@ -42,6 +43,8 @@ public class MemberController {
 
 	//	private final CookieGenerator cookieGenerator;
 	private final TokenGenerator tokenGenerator;
+
+	private final GetMemberUseCase getMemberUseCase;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -109,6 +112,7 @@ public class MemberController {
 				GetMemberUseCaseRequest.builder().memberId(memberId).queryMemberId(id).build();
 		GetMemberUseCaseResponse response =
 				GetMemberUseCaseResponse.builder().id(1L).email("email").github("github").build();
+//		GetMemberUseCaseResponse response = getMemberUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
