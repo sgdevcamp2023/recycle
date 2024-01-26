@@ -13,6 +13,7 @@ interface ReverseButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
+  border?: number | string;
 }
 
 const ReverseButton = ({
@@ -23,6 +24,7 @@ const ReverseButton = ({
   borderColor = 'green',
   backgroundColor = 'white',
   padding = '1rem',
+  border = '1px solid #1EB649',
   onClick,
   children,
 }: ReverseButtonProps) => {
@@ -36,6 +38,7 @@ const ReverseButton = ({
       backgroundColor={backgroundColor}
       padding={padding}
       onClick={onClick}
+      border={border}
     >
       {children}
     </ReverseButtonProps>
@@ -53,13 +56,14 @@ const ReverseButtonProps = styled.button<
     | 'borderColor'
     | 'padding'
     | 'cursor'
+    | 'border'
   >
 >`
   width: ${({ width }) => (width === 'default' ? '100%' : `${width}rem`)};
   height: ${({ height }) => (height === 'default' ? '100%' : `${height}rem`)};
   padding: ${({ padding }) => (padding === 'default' ? '1rem' : `${padding}`)};
-  border: none;
   border-radius: 0.25rem;
+  border: ${({ border }) => border};
   color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.green)};
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
@@ -67,6 +71,10 @@ const ReverseButtonProps = styled.button<
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.white};
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   transition: all 0.5s;
 
   &:hover {
