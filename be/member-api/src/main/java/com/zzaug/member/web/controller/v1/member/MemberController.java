@@ -112,7 +112,7 @@ public class MemberController {
 				GetMemberUseCaseRequest.builder().memberId(memberId).queryMemberId(id).build();
 		GetMemberUseCaseResponse response =
 				GetMemberUseCaseResponse.builder().id(1L).email("email").github("github").build();
-//		GetMemberUseCaseResponse response = getMemberUseCase.execute(useCaseRequest);
+		//		GetMemberUseCaseResponse response = getMemberUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
