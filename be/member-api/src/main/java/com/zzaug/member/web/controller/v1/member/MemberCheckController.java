@@ -6,6 +6,7 @@ import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
+import com.zzaug.member.domain.usecase.member.CheckDuplicationUseCase;
 import com.zzaug.member.web.dto.member.CheckEmailAuthRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.web.support.ApiResponse;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberCheckController {
 
+	private final CheckDuplicationUseCase checkDuplicationUseCase;
+
 	@GetMapping()
 	public ApiResponse<ApiResponse.SuccessBody<CheckDuplicationUseCaseResponse>> check(
 			@RequestParam(value = "certification", required = true) String certification) {
@@ -33,6 +36,7 @@ public class MemberCheckController {
 				CheckDuplicationUseCaseRequest.builder().certification(certification).build();
 		CheckDuplicationUseCaseResponse response =
 				CheckDuplicationUseCaseResponse.builder().duplication(true).build();
+		//		CheckDuplicationUseCaseResponse response = checkDuplicationUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
