@@ -3,7 +3,7 @@ import { BackgroundColorType, ColorType, FontSizeType, borderColorType } from '@
 import { MouseEventHandler } from 'react';
 import React from 'react';
 
-interface DefaultButtonProps {
+interface TabButtonProps {
   children?: React.ReactNode;
   width?: number | string;
   height?: number | string;
@@ -18,7 +18,7 @@ interface DefaultButtonProps {
   isTabButton?: boolean;
 }
 
-const DefaultButton = ({
+const TabButton = ({
   width = 'default',
   height = 'default',
   fontSize = 'base',
@@ -30,9 +30,9 @@ const DefaultButton = ({
   isTabButton = false,
   onClick,
   children,
-}: DefaultButtonProps) => {
+}: TabButtonProps) => {
   return (
-    <DefaultButtonBox
+    <TabButtonBox
       width={width}
       height={height}
       fontSize={fontSize}
@@ -44,13 +44,13 @@ const DefaultButton = ({
       isActive={isTabButton && isActive}
     >
       {children}
-    </DefaultButtonBox>
+    </TabButtonBox>
   );
 };
 
-const DefaultButtonBox = styled.button<
+const TabButtonBox = styled.button<
   Pick<
-    DefaultButtonProps,
+    TabButtonProps,
     | 'width'
     | 'height'
     | 'fontSize'
@@ -67,25 +67,22 @@ const DefaultButtonBox = styled.button<
   padding: ${({ padding }) => (padding === 'default' ? '1rem' : `${padding}`)};
   border: none;
   border-radius: 0.25rem;
-  color: ${({ theme, color }) => (color ? theme.color[color] : theme.color.white)};
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundColor.g};
   cursor: pointer;
   transition: all 0.5s;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
+  color: ${({ isActive }) => (isActive ? 'white' : '#888')};
+  background-color: ${({ theme, isActive }) =>
+    isActive ? theme.backgroundColor.green100 : theme.backgroundColor.white};
+  border-radius: 8px;
   &:hover {
-    background-color: ${({ theme, backgroundColor }) =>
-      backgroundColor ? theme.backgroundColor.white : theme.backgroundColor.green100};
-    border: 0.063rem solid #1eb649;
-    color: ${({ theme, color }) => (color ? theme.color.green : theme.color.white)};
+    background-color: ${({ theme }) => theme.backgroundColor.green100};
+    color: white;
   }
 `;
 
-export default DefaultButton;
+export default TabButton;
