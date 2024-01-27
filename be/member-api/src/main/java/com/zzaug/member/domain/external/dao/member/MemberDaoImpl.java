@@ -2,6 +2,7 @@ package com.zzaug.member.domain.external.dao.member;
 
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
+import com.zzaug.member.entity.member.ContactType;
 import com.zzaug.member.entity.member.ExternalContactEntity;
 import com.zzaug.member.entity.member.MemberEntity;
 import com.zzaug.member.entity.member.MemberStatus;
@@ -36,6 +37,11 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public List<ExternalContactEntity> findAllByMemberIdAndDeletedFalse(Long memberId) {
 		return externalContactRepository.findAllByMemberIdAndDeletedFalse(memberId);
+	}
+
+	@Override
+	public boolean existsByContactTypeAndSourceAndDeletedFalse(ContactType type, String source) {
+		return externalContactRepository.existsByContactTypeAndSourceAndDeletedFalse(type, source);
 	}
 
 	@Override
