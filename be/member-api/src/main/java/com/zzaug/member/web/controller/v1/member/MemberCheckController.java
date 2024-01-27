@@ -7,11 +7,14 @@ import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
 import com.zzaug.member.domain.usecase.member.CheckDuplicationUseCase;
+import com.zzaug.member.domain.usecase.member.EmailAuthUseCase;
 import com.zzaug.member.web.dto.member.CheckEmailAuthRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberCheckController {
 
 	private final CheckDuplicationUseCase checkDuplicationUseCase;
+	private final EmailAuthUseCase emailAuthUseCase;
 
 	@GetMapping()
 	public ApiResponse<ApiResponse.SuccessBody<CheckDuplicationUseCaseResponse>> check(
@@ -42,15 +46,23 @@ public class MemberCheckController {
 
 	@GetMapping("/email")
 	public ApiResponse<ApiResponse.SuccessBody<EmailAuthUseCaseResponse>> emailAuth(
+			HttpServletRequest servletRequest,
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "nonce", required = true) String nonce) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
+		HttpSession session = servletRequest.getSession();
 		EmailAuthUseCaseRequest useCaseRequest =
-				EmailAuthUseCaseRequest.builder().memberId(memberId).email(email).nonce(nonce).build();
+				EmailAuthUseCaseRequest.builder()
+						.memberId(memberId)
+						.sessionId(session.getId())
+						.email(email)
+						.nonce(nonce)
+						.build();
 		EmailAuthUseCaseResponse response =
 				EmailAuthUseCaseResponse.builder().duplication(true).build();
+		//		EmailAuthUseCaseResponse response = emailAuthUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
