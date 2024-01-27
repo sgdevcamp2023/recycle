@@ -53,4 +53,9 @@ public class MemberDaoImpl implements MemberDao {
 	public AuthenticationEntity saveAuthentication(AuthenticationEntity authenticationEntity) {
 		return authenticationRepository.save(authenticationEntity);
 	}
+
+	@Override
+	public ExternalContactEntity saveContact(ExternalContactEntity externalContactEntity) {
+		return externalContactRepository.save(externalContactEntity);
+	}
 }
