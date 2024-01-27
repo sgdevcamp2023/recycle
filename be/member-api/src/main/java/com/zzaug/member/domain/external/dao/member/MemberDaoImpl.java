@@ -50,6 +50,11 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public Optional<AuthenticationEntity> findByMemberIdAndDeletedFalse(Long memberId) {
+		return authenticationRepository.findByMemberIdAndDeletedFalse(memberId);
+	}
+
+	@Override
 	public AuthenticationEntity saveAuthentication(AuthenticationEntity authenticationEntity) {
 		return authenticationRepository.save(authenticationEntity);
 	}
