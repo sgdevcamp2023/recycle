@@ -10,6 +10,7 @@ import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
+import com.zzaug.member.domain.usecase.member.DeleteMemberUseCase;
 import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
 import com.zzaug.member.domain.usecase.member.UpdateMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
@@ -47,6 +48,7 @@ public class MemberController {
 
 	private final GetMemberUseCase getMemberUseCase;
 	private final UpdateMemberUseCase updateMemberUseCase;
+	private final DeleteMemberUseCase deleteMemberUseCase;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -81,6 +83,7 @@ public class MemberController {
 		Long memberId = 1L;
 		DeleteMemberUseCaseRequest useCaseRequest =
 				DeleteMemberUseCaseRequest.builder().memberId(memberId).build();
+		//		deleteMemberUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 	}
 
