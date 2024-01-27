@@ -16,5 +16,5 @@ import lombok.ToString;
 public class CheckEmailAuthUseCaseResponse {
 
 	private Boolean authentication;
-	private Integer tryCount;
+	private Long tryCount;
 }
