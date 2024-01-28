@@ -17,6 +17,8 @@ import org.springframework.data.elasticsearch.annotations.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Document(indexName = "question")
+@Mapping(mappingPath = "elasticsearch/mappings/question-mapping.json")
+@Setting(settingPath = "elasticsearch/settings/question-setting.json")
 public class QuestionQueryEntity {
 
 	@Id
