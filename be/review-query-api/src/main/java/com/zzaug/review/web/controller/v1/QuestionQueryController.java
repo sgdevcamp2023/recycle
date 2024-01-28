@@ -1,18 +1,21 @@
 package com.zzaug.review.web.controller.v1;
 
 import com.zzaug.review.domain.dto.question.query.QuestionQueryResponse;
+import com.zzaug.review.domain.dto.question.query.QuestionQuerySearchUseCaseRequest;
 import com.zzaug.review.domain.dto.question.query.QuestionQueryViewUseCaseRequest;
+import com.zzaug.review.domain.usecase.question.query.QuestionQuerySearchUseCase;
 import com.zzaug.review.domain.usecase.question.query.QuestionQueryViewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
 import com.zzaug.review.support.MessageCode;
-import com.zzaug.review.web.dto.question.query.QuestionViewQueryRequest;
+import com.zzaug.review.web.dto.question.query.QuestionQuerySearchRequest;
+import com.zzaug.review.web.dto.question.query.QuestionQueryViewRequest;
+import com.zzaug.review.web.support.usecase.QuestionQuerySearchUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.QuestionQueryViewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +26,13 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionQueryController {
 
 	private final QuestionQueryViewUseCase questionQueryViewUseCase;
+	private final QuestionQuerySearchUseCase questionQuerySearchUseCase;
+
 	@GetMapping("/{question_id}")
 	public ApiResponse<ApiResponse.SuccessBody<QuestionQueryResponse>> viewQuestion(
 			@PathVariable Long question_id) {
-		QuestionViewQueryRequest request =
-				QuestionViewQueryRequest.builder().questionId(question_id).build();
+		QuestionQueryViewRequest request =
+				QuestionQueryViewRequest.builder().questionId(question_id).build();
 
 		QuestionQueryViewUseCaseRequest useCaseRequest =
 				QuestionQueryViewUseCaseRequestConverter.from(request.getQuestionId());
@@ -38,25 +43,28 @@ public class QuestionQueryController {
 	}
 
 	@GetMapping("/search")
-	public ApiResponse<ApiResponse.SuccessBody<List<QuestionQueryResponse>>> searchQuestion(
+	public ApiResponse<ApiResponse.SuccessBody<Page<QuestionQueryResponse>>> searchQuestion(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam Boolean me,
 			@RequestParam String query,
 			@RequestParam int page,
 			@RequestParam int size) {
 
-		List<QuestionQueryResponse> responses = new ArrayList<>();
-		QuestionQueryResponse res =
-				QuestionQueryResponse.builder()
-						.question_id(1L)
-						.content("content")
-						.author("author")
-						.author_id(1L)
-						.review_cnt(1)
-						.created_at(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
-						.updated_at(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
-						.build();
-		responses.add(res);
-		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
+		if (me) {
+			QuestionQuerySearchRequest request =
+					QuestionQuerySearchRequest.builder()
+							.authorId(Long.valueOf(userDetails.getId()))
+							.query(query)
+							.pageRequest(PageRequest.of(page, size))
+							.build();
+
+			QuestionQuerySearchUseCaseRequest useCaseRequest =
+					QuestionQuerySearchUseCaseRequestConverter.from(request);
+
+			Page<QuestionQueryResponse> responses = questionQuerySearchUseCase.execute(useCaseRequest);
+			return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
+		}
+
+		return ApiResponseGenerator.success(null, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
