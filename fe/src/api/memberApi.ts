@@ -1,5 +1,5 @@
-import axios from "axios";
-import clientApi from "./axios";
+import axios from 'axios';
+import clientApi from './axios';
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -26,34 +26,34 @@ const memberApi = {
   //!여기 아래 부터는 로그인 하고 난 후에 사용하게 되는 API
   // 증명(아이디)를 조회합니다. [get]
   checkId: async ({ certification }: userProps) => {
-    return await clientApi.get(`members?${certification}`);
+    return await clientApi.member.get(`members?${certification}`);
   },
   // 멤버 정보 수정
   updateMemberInfo: async ({ certification }: userProps) => {
-    return await clientApi.put(`/members?${certification}`);
+    return await clientApi.member.put(`/members?${certification}`);
   },
   //로그아웃 [post]
   logout: async () => {
-    return await clientApi.post(`/members/logout`);
+    return await clientApi.member.post('/members/logout');
   },
   //토큰 갱신 [post]
   refreshToken: async () => {
-    return await clientApi.post(`/members/token`);
+    return await clientApi.member.post('/members/token');
   },
   // 멤버 정보 조회하기 [get]
   //! 파라미터 Interface 만들어주기
   getMemberInfo: async ({ id }: never) => {
-    return await clientApi.get(`/members/token?${id}`);
+    return await clientApi.member.get(`/members/token?${id}`);
   },
   // 이메일 요청 하기[get]
   //! 파라미터 Interface 만들어주기
   getEmailApproveNumber: async ({ email, nonce }: never) => {
-    return await clientApi.get(`/members/check/email?${email}?${nonce}`);
+    return await clientApi.member.get(`/members/check/email?${email}?${nonce}`);
   },
   // 이메일 인증 [get]
   //! 파라미터 Interface 만들어주기
   checkEmailApproveNumber: async ({ email, nonce, code }: never) => {
-    return await clientApi.post(`/members/check/email?${email}?${nonce}?${code}`);
+    return await clientApi.member.post(`/members/check/email?${email}?${nonce}?${code}`);
   },
 };
 
