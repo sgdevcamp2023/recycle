@@ -1,9 +1,13 @@
 package com.zzaug.review.web.controller.v1;
 
 import com.zzaug.review.domain.dto.question.query.QuestionQueryResponse;
+import com.zzaug.review.domain.dto.question.query.QuestionQueryViewUseCaseRequest;
+import com.zzaug.review.domain.usecase.question.query.QuestionQueryViewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
 import com.zzaug.review.support.MessageCode;
+import com.zzaug.review.web.dto.question.query.QuestionViewQueryRequest;
+import com.zzaug.review.web.support.usecase.QuestionQueryViewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,21 +21,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/question-query")
 @RequiredArgsConstructor
 public class QuestionQueryController {
+
+	private final QuestionQueryViewUseCase questionQueryViewUseCase;
 	@GetMapping("/{question_id}")
 	public ApiResponse<ApiResponse.SuccessBody<QuestionQueryResponse>> viewQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
+			@PathVariable Long question_id) {
+		QuestionViewQueryRequest request =
+				QuestionViewQueryRequest.builder().questionId(question_id).build();
 
-		QuestionQueryResponse res =
-				QuestionQueryResponse.builder()
-						.question_id(1L)
-						.content("content")
-						.author("author")
-						.author_id(1L)
-						.review_cnt(1)
-						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
-						.build();
-		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
+		QuestionQueryViewUseCaseRequest useCaseRequest =
+				QuestionQueryViewUseCaseRequestConverter.from(request.getQuestionId());
+
+		QuestionQueryResponse response = questionQueryViewUseCase.execute(useCaseRequest);
+
+		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@GetMapping("/search")
@@ -50,8 +53,8 @@ public class QuestionQueryController {
 						.author("author")
 						.author_id(1L)
 						.review_cnt(1)
-						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
+						.created_at(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+						.updated_at(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 						.build();
 		responses.add(res);
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
