@@ -32,15 +32,9 @@ public class QuestionQueryEntity {
 
 	private int reviewCnt;
 
-	@Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss || yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC+9")
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime createdAt;
 
-	@Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss || yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC+9")
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime updatedAt;
 }
