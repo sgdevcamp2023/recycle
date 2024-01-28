@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class QuestionQueryConverter {
 
-    public QuestionQuery from(QuestionQueryEntity source){
-        return QuestionQuery.builder()
-                .questionId(source.getQuestionId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .reviewCnt(source.getReviewCnt())
-                .createdAt(source.getCreatedAt())
-                .updatedAt(source.getUpdatedAt())
-                .build();
-    }
+	public QuestionQuery from(QuestionQueryEntity source) {
+		return QuestionQuery.builder()
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.reviewCnt(source.getReviewCnt())
+				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
+				.build();
+	}
 }
