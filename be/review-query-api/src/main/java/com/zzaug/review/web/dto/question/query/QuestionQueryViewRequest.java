@@ -7,7 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionViewQueryRequest {
-    private Long questionId;
-
+public class QuestionQueryViewRequest {
+	private Long questionId;
 }
