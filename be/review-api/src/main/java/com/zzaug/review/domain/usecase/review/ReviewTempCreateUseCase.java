@@ -5,6 +5,7 @@ import com.zzaug.review.domain.model.review.ReviewTemp;
 import com.zzaug.review.domain.persistence.review.ReviewTempRepository;
 import com.zzaug.review.domain.support.entity.ReviewTempEntityConverter;
 import com.zzaug.review.domain.usecase.review.converter.ReviewTempConverter;
+import com.zzaug.review.entity.review.ReviewTempEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class ReviewTempCreateUseCase {
     @Transactional
     public void execute(ReviewTempCreateUseCaseRequest request){
         ReviewTemp reviewTemp = reviewTempConverter.from(request);
-        reviewTempRepository.save(ReviewTempEntityConverter.from(reviewTemp));
+        ReviewTempEntity reviewTempEntity = reviewTempRepository.save(ReviewTempEntityConverter.from(reviewTemp));
+
     }
 
 }
