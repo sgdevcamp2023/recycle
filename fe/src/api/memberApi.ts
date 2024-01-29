@@ -1,8 +1,13 @@
 import axios from 'axios';
 import clientApi from './axios';
+import { v4 as uuidv4 } from 'uuid';
 
 const baseURL = import.meta.env.VITE_API_URL;
-
+const headers = {
+  'X-ZZAUG-ID': uuidv4(),
+  Authorization: 'Bearer Token',
+  // Referer: 'http://localhost:5173/api',
+};
 interface userProps {
   certification?: string;
   password?: string;
@@ -12,15 +17,29 @@ const memberApi = {
   //!아래 API까지는 accessToken - null인 상태로 날아가게 됩니다!
   //회원가입 [post]
   signUp: async ({ certification, password }: userProps) => {
-    return await axios.post(`${baseURL}/api/v1/members/`, { certification, password });
+    return await axios.post(
+      `${baseURL}:8081/api/v1/members/`,
+      { certification, password },
+      {
+        headers: headers,
+      },
+    );
   },
   //로그인 [post]
   login: async ({ certification, password }: userProps) => {
-    return await axios.post(`${baseURL}/api/v1/members/login`, { certification, password });
+    return await axios.post(
+      `${baseURL}:8081/api/v1/members/login`,
+      { certification, password },
+      {
+        headers: headers,
+      },
+    );
   },
   // 아이디 중복검사 [get]
   checkIdDuplicate: async ({ certification }: userProps) => {
-    return await axios.get(`${baseURL}/api/v1/members/check?${certification}`);
+    return await axios.get(`${baseURL}:8081/api/v1/members/check?${certification}`, {
+      headers: headers,
+    });
   },
 
   //!여기 아래 부터는 로그인 하고 난 후에 사용하게 되는 API
@@ -47,12 +66,12 @@ const memberApi = {
   },
   // 이메일 요청 하기[get]
   //! 파라미터 Interface 만들어주기
-  getEmailApproveNumber: async ({ email, nonce }: never) => {
+  requestEmailApprove: async ({ email, nonce }: never) => {
     return await clientApi.member.get(`/members/check/email?${email}?${nonce}`);
   },
   // 이메일 인증 [get]
   //! 파라미터 Interface 만들어주기
-  checkEmailApproveNumber: async ({ email, nonce, code }: never) => {
+  checkEmailApprove: async ({ email, nonce, code }: never) => {
     return await clientApi.member.post(`/members/check/email?${email}?${nonce}?${code}`);
   },
 };

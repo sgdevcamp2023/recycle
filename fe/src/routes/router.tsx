@@ -8,6 +8,7 @@ import TestPageTwo from '@page/TestPageTwo';
 import TestPageThree from '@page/TestPageThree';
 import GridTemplate from '@components/layout/GridTemplate';
 import BlackNoteTest from '@page/BlackNoteTest';
+import APITestPage from '@page/APITestPage';
 
 const Router = () => {
   return (
@@ -32,6 +33,7 @@ const Router = () => {
       <Route path="/test3" element={<TestPageThree />} />
       <Route path="/grid" element={<GridTemplate />} />
       <Route path="/Black" element={<BlackNoteTest />} />
+      <Route path="/Api" element={<APITestPage />} />
     </Routes>
   );
 };

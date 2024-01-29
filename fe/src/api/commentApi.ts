@@ -3,7 +3,7 @@ import clientApi from './axios';
 const commentApi = {
   // 질문 글에 달린 댓글 코멘트 조회 [get]
   getBelowComments: async ({ questionId: question_id }: never) => {
-    return await clientApi.get(`/questions/${question_id}/comments`);
+    return await clientApi.review.get(`/questions/${question_id}/comments`);
   },
 
   // 댓글/대댓글 생성 [post]

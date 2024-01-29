@@ -56,6 +56,8 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
   },
 );
 
+DefaultInput.displayName = 'DefaultInput';
+
 const DefaultInputContainer = styled.input<
   Pick<DefaultInputProps, 'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'>
 >`
