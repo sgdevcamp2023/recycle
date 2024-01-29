@@ -22,7 +22,7 @@ public class ReviewTempConverter {
 
     public ReviewTemp from (ReviewTempCreateUseCaseRequest source){
         return ReviewTemp.builder()
-                .tId(source.getTId())
+                .tempId(source.getTempId())
                 .questionId(source.getQuestionId())
                 .content(source.getContent())
                 .author(source.getAuthor())
