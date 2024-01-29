@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import gitLogo from '../../../assets/icons/github-mark.png';
 import Text from '@components/atom/Text';
 import mainLogo from '../../../assets/logos/ZzaugLogo.png';
-import ExperienceButton from '@components/atom/Button/ExperienceButton';
-import LinkToGitButton from '@components/atom/Button/LinkToGitButton';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`
@@ -13,7 +11,6 @@ const LoginBox = styled.div`
   padding: 0.75rem 0.625rem;
   background-color: white;
   color: black;
-  border: 1px solid black;
   position: relative;
   display: flex;
   justify-content: space-between;

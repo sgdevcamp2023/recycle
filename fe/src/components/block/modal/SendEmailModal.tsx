@@ -12,7 +12,6 @@ const LoginBox = styled.div`
   padding: 0.75rem 0.625rem;
   background-color: white;
   color: black;
-  border: 1px solid black;
   position: relative;
   display: flex;
   justify-content: space-between;
