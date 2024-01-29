@@ -10,5 +10,8 @@ public interface AuthenticationDao {
 
 	Optional<AuthenticationEntity> findByMemberIdAndDeletedFalse(Long memberId);
 
+	Optional<AuthenticationEntity> findByCertificationAndDeletedFalse(
+			CertificationData certification);
+
 	AuthenticationEntity saveAuthentication(AuthenticationEntity authenticationEntity);
 }
