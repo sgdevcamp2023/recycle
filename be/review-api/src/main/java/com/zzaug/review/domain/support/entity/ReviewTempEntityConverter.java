@@ -9,7 +9,7 @@ public class ReviewTempEntityConverter {
 
     public static ReviewTempEntity from (ReviewTemp source){
         return ReviewTempEntity.builder()
-                .tId(source.getTId())
+                .tempId(source.getTempId())
                 .questionId(source.getQuestionId())
                 .content(source.getContent())
                 .author(source.getAuthor())
