@@ -3,6 +3,7 @@ import { flexCenter } from '@styles/flexCenter';
 import styled from 'styled-components';
 import logo from '../../../assets/logos/ZzaugLogo.png';
 import DefaultButton from '@components/atom/Button/DefaultButton';
+import useMovePage from '@hooks/common/useMovePage';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -66,6 +67,7 @@ const TitleBox = styled.div`
 `;
 
 const AskLoginModal = () => {
+  const move = useMovePage();
   return (
     <div>
       <LoginBox>
@@ -87,13 +89,17 @@ const AskLoginModal = () => {
           <p>아직</p>
           <Logo src={logo} alt="zzaug main logo" />
           <p>계정이 없으신가요?</p>
-          <p
+          <Text
+            fontWeight='bold'
             style={{
               marginLeft: '0.25rem',
+              cursor: 'pointer',
+              color: '#1eb649'
             }}
+            onClick={() => move('signup')}
           >
             회원가입
-          </p>
+          </Text>
         </TextBox>
       </LoginBox>
     </div>

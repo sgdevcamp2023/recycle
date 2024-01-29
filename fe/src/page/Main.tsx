@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import logo from '../assets/logos/ZzaugLogo.png';
 import ReverseButton from '@components/atom/Button/ReverseButton';
 import pencil from '../assets/icons/Pencil.png';
+import useMovePage from '@hooks/common/useMovePage';
 
 const CenterModalBox = styled.div`
   box-sizing: border-box;
@@ -72,6 +73,7 @@ const PenLogo = styled.img`
 `;
 
 const Main = () => {
+  const move = useMovePage();
   return (
     <CenterModalBox>
       <TitleBox>
@@ -85,10 +87,20 @@ const Main = () => {
           </Text>
         </TextBox>
         <ButtonBox>
-          <ReverseButton width={11.25} height={3.25} borderColor={'green'}>
+          <ReverseButton
+            width={11.25}
+            height={3.25}
+            borderColor={'green'}
+            onClick={() => move('login')}
+          >
             로그인
           </ReverseButton>
-          <ReverseButton width={11.25} height={3.25} borderColor={'green'}>
+          <ReverseButton
+            width={11.25}
+            height={3.25}
+            borderColor={'green'}
+            onClick={() => move('signup')}
+          >
             회원가입
           </ReverseButton>
         </ButtonBox>

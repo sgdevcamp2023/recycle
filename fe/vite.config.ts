@@ -24,8 +24,8 @@ export default defineConfig({
         replacement: path.resolve(__dirname, 'src/api'),
       },
       {
-        find: '@hook',
-        replacement: path.resolve(__dirname, 'src/hook'),
+        find: '@hooks',
+        replacement: path.resolve(__dirname, 'src/hooks'),
       },
       {
         find: '@styles',

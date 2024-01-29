@@ -12,6 +12,8 @@ import RegisterEmailModal from '@components/block/modal/RegisterEmailModal';
 import SignInModal from '@components/block/modal/SignInModal';
 
 import styled from 'styled-components';
+import RegisterEmail from './RegisterEmail';
+import SendEmailModal from '@components/block/modal/SendEmailModal';
 
 const CenterModalBox = styled.div`
   width: 100vw;
@@ -39,7 +41,8 @@ const TestPageThree = () => {
           placeholder="댓글을 작성하세요."
           fontSize="xs"
         /> */}
-        <BackgroundModal />
+        {/* <RegisterEmail/> */}
+        <SendEmailModal/>
       </CenterModalBox>
     </>
   );

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import Text from '@components/atom/Text';
 import mainLogo from '../../../assets/logos/ZzaugLogo.png';
 import phoneLogo from '../../../assets/icons/PhoneIcon.png';
-import EmailEnrollButton from '@components/atom/Button/EmailEnrollButton';
 import DefaultButton from '@components/atom/Button/DefaultButton';
+import useMovePage from '@hooks/common/useMovePage';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -75,6 +75,8 @@ const Logo = styled.img`
 `;
 
 const SendEmailModal = () => {
+  const move = useMovePage();
+
   return (
     <div>
       <LoginBox>
@@ -95,7 +97,7 @@ const SendEmailModal = () => {
           </Content>
           <ButtonBox>
             {/* <EmailEnrollButton /> */}
-            <DefaultButton width={5} height={2} fontSize="xs">
+            <DefaultButton width={5} height={2} fontSize="xs" onClick={() => move('registeremail')}>
               등록하기
             </DefaultButton>
           </ButtonBox>
