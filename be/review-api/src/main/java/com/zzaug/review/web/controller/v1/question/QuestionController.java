@@ -83,17 +83,17 @@ public class QuestionController {
 
 	@GetMapping("/temp")
 	public ApiResponse<ApiResponse.SuccessBody<List<QuestionTempResponse>>> viewTempQuestionList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam String tId) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam String tempId) {
 
 		QuestionTempViewUseCaseRequest useCaseRequest = new QuestionTempViewUseCaseRequest();
 
-		if (tId == null) {
+		if (tempId == null) {
 			 useCaseRequest =
 					QuestionTempViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
 
 		} else {
 			 useCaseRequest =
-					QuestionTempViewUseCaseRequestConverter.from(tId, Long.valueOf(userDetails.getId()));
+					QuestionTempViewUseCaseRequestConverter.from(tempId, Long.valueOf(userDetails.getId()));
 		}
 
 		List<QuestionTempResponse> res = questionTempViewUseCase.execute(useCaseRequest);
