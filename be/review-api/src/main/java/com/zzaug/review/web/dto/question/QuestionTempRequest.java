@@ -1,5 +1,6 @@
 package com.zzaug.review.web.dto.question;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempRequest {
-	private String tId;
+
+	private String tempId;
+
 	private String content;
 }

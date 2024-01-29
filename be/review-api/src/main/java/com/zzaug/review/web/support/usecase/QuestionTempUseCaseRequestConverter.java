@@ -11,7 +11,7 @@ public class QuestionTempUseCaseRequestConverter {
 	public static QuestionTempCreateUseCaseRequest from(
 			QuestionTempRequest request, TokenUserDetails userDetails) {
 		return QuestionTempCreateUseCaseRequest.builder()
-				.tId(request.getTId())
+				.tempId(request.getTempId())
 				.content(request.getContent())
 				.author(userDetails.getUsername())
 				.authorId(Long.valueOf(userDetails.getId()))
