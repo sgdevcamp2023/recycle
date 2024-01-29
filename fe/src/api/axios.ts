@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -18,6 +19,9 @@ const CreateServiceApi = (service: string): AxiosInstance => {
   const serviceEndpoint = `${baseURL}:${servicePort}/api/v1`;
   const api = axios.create({
     baseURL: serviceEndpoint,
+    headers: {
+      'X-ZZAUG-ID': uuidv4(),
+    },
   });
 
   // Interceptor를 사용하여 accessToken을 요청에 추가
