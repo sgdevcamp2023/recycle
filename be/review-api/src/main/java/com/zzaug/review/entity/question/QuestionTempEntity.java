@@ -19,8 +19,8 @@ public class QuestionTempEntity {
 
     @Id
     @Indexed
-    @Column(name = "t_id")
-    private String tId;
+    @Column(name = "temp_id")
+    private String tempId;
 
     @Indexed
     private String content;
