@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewTemp {
-    private String tId;
+    private String tempId;
     private Long questionId;
     private String content;
     private String author;
