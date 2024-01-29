@@ -10,8 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewTempRequest {
-	private String tId;
-	private Long questionId;
+	private String tempId;
 	private String content;
 	private ReviewPoint startPoint;
 	private ReviewPoint endPoint;
