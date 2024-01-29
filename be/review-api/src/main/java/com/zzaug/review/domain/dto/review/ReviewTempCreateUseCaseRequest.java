@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewTempCreateUseCaseRequest {
-    private String tId;
+    private String tempId;
 
     private Long questionId;
 
@@ -24,8 +24,6 @@ public class ReviewTempCreateUseCaseRequest {
     private Long authorId;
 
     private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
     @Embedded
     private ReviewPoint startPoint;

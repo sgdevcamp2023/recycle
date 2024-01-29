@@ -15,7 +15,7 @@ import javax.persistence.Embedded;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewTempResponse {
-	private String tId;
+	private String tempId;
 
 	private Long questionId;
 
@@ -26,8 +26,6 @@ public class ReviewTempResponse {
 	private Long authorId;
 
 	private LocalDateTime createdAt;
-
-	private LocalDateTime updatedAt;
 
 	@Embedded
 	private ReviewPoint startPoint;
