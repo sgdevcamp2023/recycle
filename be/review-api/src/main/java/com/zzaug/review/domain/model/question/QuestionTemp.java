@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class QuestionTemp {
 
-    private String tId;
+    private String tempId;
 
     private String content;
 
