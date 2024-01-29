@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { BackgroundColorType, ColorType, FontSizeType, borderColorType } from '@styles/theme';
 import { MouseEventHandler } from 'react';
-import React from 'react';
 
 interface DefaultButtonProps {
   children?: React.ReactNode;
