@@ -8,6 +8,9 @@ import TestPageTwo from '@page/TestPageTwo';
 import TestPageThree from '@page/TestPageThree';
 import GridTemplate from '@components/layout/GridTemplate';
 import BlackNoteTest from '@page/BlackNoteTest';
+import Main from '@page/Main';
+import RegisterEmail from '@page/RegisterEmail';
+import AccountLinking from '@page/AccountLinking';
 import APITestPage from '@page/APITestPage';
 
 const Router = () => {
@@ -24,8 +27,11 @@ const Router = () => {
         </Route>
       ))}
 
+      <Route path="/main" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/registeremail" element={<RegisterEmail />} />
+      <Route path="/accountlinking" element={<AccountLinking />} />
 
       {/* 테스트 페이지 */}
       <Route path="/test" element={<TestPage />} />

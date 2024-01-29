@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import logo from '../../../assets/logos/ZzaugLogo.png';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import CustomInput from '@components/atom/Input/CustomInput';
+import useMovePage from '@hooks/common/useMovePage';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -58,6 +59,7 @@ const TextBox = styled.div`
 `;
 
 const LoginModal = () => {
+  const move = useMovePage();
   return (
     <div>
       <LoginBox>
@@ -96,13 +98,17 @@ const LoginModal = () => {
           <p>아직</p>
           <Logo src={logo} alt="zzaug main logo" />
           <p>계정이 없으신가요?</p>
-          <p
+          <Text
+            fontWeight='bold'
             style={{
               marginLeft: '0.25rem',
+              cursor: 'pointer',
+              color: '#1eb649'
             }}
+            onClick={() => move('signup')}
           >
             회원가입
-          </p>
+          </Text>
         </TextBox>
       </LoginBox>
     </div>
