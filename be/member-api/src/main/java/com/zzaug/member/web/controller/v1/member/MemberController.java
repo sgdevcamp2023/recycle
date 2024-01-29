@@ -12,6 +12,7 @@ import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
 import com.zzaug.member.domain.usecase.member.DeleteMemberUseCase;
 import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
+import com.zzaug.member.domain.usecase.member.LoginUseCase;
 import com.zzaug.member.domain.usecase.member.UpdateMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
@@ -22,11 +23,14 @@ import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.CookieGenerator;
+import com.zzaug.web.support.CookieSameSite;
 import com.zzaug.web.support.MessageCode;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,10 +49,12 @@ public class MemberController {
 
 	//	private final CookieGenerator cookieGenerator;
 	private final TokenGenerator tokenGenerator;
+	private final CookieGenerator cookieGenerator;
 
 	private final GetMemberUseCase getMemberUseCase;
 	private final UpdateMemberUseCase updateMemberUseCase;
 	private final DeleteMemberUseCase deleteMemberUseCase;
+	private final LoginUseCase loginUseCase;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -97,6 +103,11 @@ public class MemberController {
 						.build();
 		MemberAuthToken response =
 				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
+		//		MemberAuthToken response = loginUseCase.execute(useCaseRequest);
+		ResponseCookie refreshToken =
+				cookieGenerator.createCookie(
+						CookieSameSite.LAX, "refreshToken", response.getRefreshToken());
+		httpServletResponse.addHeader("Set-Cookie", refreshToken.toString());
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
