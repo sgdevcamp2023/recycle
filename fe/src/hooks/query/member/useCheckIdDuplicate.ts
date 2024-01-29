@@ -1,11 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import memberApi from '@api/memberApi';
+import { useCheckIdProps } from './useCheckId';
 
-interface useCheckIdDuplicateProps {
-  certification: string;
-}
-
-const useCheckIdDuplicate = ({ certification }: useCheckIdDuplicateProps) => {
+const useCheckIdDuplicate = ({ certification }: useCheckIdProps) => {
   return useQuery({
     queryKey: [certification],
     queryFn: () => memberApi.checkIdDuplicate({ certification }),

@@ -1,9 +1,9 @@
 import memberApi from '@api/memberApi';
 import { useMutation } from '@tanstack/react-query';
 
-const useSignUp = () => {
+const useUpdatedMemberInfo = () => {
   return useMutation({
-    mutationFn: memberApi.signUp,
+    mutationFn: memberApi.updateMemberInfo,
     onSuccess: (data) => {
       console.log('요청 성공');
       console.log(data);
@@ -19,4 +19,4 @@ const useSignUp = () => {
   });
 };
 
-export default useSignUp;
+export default useUpdatedMemberInfo;

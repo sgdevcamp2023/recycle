@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 const baseURL = import.meta.env.VITE_API_URL;
 const headers = {
-  'X-ZZAUG-ID': uuidv4(),
-  Authorization: 'Bearer Token',
-  // Referer: 'http://localhost:5173/api',
+  'X-ZZAUG-ID': 'X-ZZAUG-ID',
+  Authorization: 'Bearer accessToken',
+  // Referer: 'referer',
 };
 interface userProps {
   certification?: string;
@@ -47,7 +47,7 @@ const memberApi = {
   checkId: async ({ certification }: userProps) => {
     return await clientApi.member.get(`members?${certification}`);
   },
-  // 멤버 정보 수정
+  // 멤버 정보 수정 [put]
   updateMemberInfo: async ({ certification }: userProps) => {
     return await clientApi.member.put(`/members?${certification}`);
   },
@@ -61,17 +61,17 @@ const memberApi = {
   },
   // 멤버 정보 조회하기 [get]
   //! 파라미터 Interface 만들어주기
-  getMemberInfo: async ({ id }: never) => {
+  getMemberInfo: async ({ id }: any) => {
     return await clientApi.member.get(`/members/token?${id}`);
   },
   // 이메일 요청 하기[get]
   //! 파라미터 Interface 만들어주기
-  requestEmailApprove: async ({ email, nonce }: never) => {
+  requestEmailApprove: async ({ email, nonce }: any) => {
     return await clientApi.member.get(`/members/check/email?${email}?${nonce}`);
   },
   // 이메일 인증 [get]
   //! 파라미터 Interface 만들어주기
-  checkEmailApprove: async ({ email, nonce, code }: never) => {
+  checkEmailApprove: async ({ email, nonce, code }: any) => {
     return await clientApi.member.post(`/members/check/email?${email}?${nonce}?${code}`);
   },
 };

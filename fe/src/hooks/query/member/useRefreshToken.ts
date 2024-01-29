@@ -1,9 +1,9 @@
 import memberApi from '@api/memberApi';
 import { useMutation } from '@tanstack/react-query';
 
-const useSignUp = () => {
+const useRefreshToken = () => {
   return useMutation({
-    mutationFn: memberApi.signUp,
+    mutationFn: memberApi.refreshToken,
     onSuccess: (data) => {
       console.log('요청 성공');
       console.log(data);
@@ -19,4 +19,4 @@ const useSignUp = () => {
   });
 };
 
-export default useSignUp;
+export default useRefreshToken;

@@ -21,15 +21,16 @@ const CreateServiceApi = (service: string): AxiosInstance => {
     baseURL: serviceEndpoint,
     headers: {
       'X-ZZAUG-ID': uuidv4(),
+      Referer: 'referer',
     },
   });
 
   // Interceptor를 사용하여 accessToken을 요청에 추가
   // const { authToken } = useAuthStore();
-  const accessToken = localStorage.getItem('accessToken');
+  // const accessToken = localStorage.getItem('accessToken');
 
   api.interceptors.request.use((config) => {
-    config.headers.Authorization = accessToken;
+    config.headers.Authorization = 'Bearer accessToken';
     return config;
   });
   return api;

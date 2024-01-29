@@ -1,5 +1,6 @@
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import DefaultInput from '@components/block/Search/DefaultInput';
+import useCheckId from '@hooks/query/member/useCheckId';
 import useCheckIdDuplicate from '@hooks/query/member/useCheckIdDuplicate';
 import useLogin from '@hooks/query/member/useLogin';
 import useSignUp from '@hooks/query/member/useSignUp';
@@ -7,26 +8,30 @@ import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const APITestPage = () => {
-  const idRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
   const [certifcation, setCertification] = useState<string>('');
+  const [id, setId] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   // 회원가입
+  const idRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const { mutate: signUp } = useSignUp();
   const handleSignUp = useCallback(() => {
     if (!idRef!.current!.value || !passwordRef!.current!.value) {
       return console.log('모든 값을 입력해주세요.');
     }
+    setId(idRef.current.value);
+    setPassword(passwordRef.current.value);
     signUp({
-      certification: idRef!.current!.value,
-      password: passwordRef!.current!.value,
+      certification: id,
+      password: password,
     });
   }, [idRef, passwordRef]);
 
   // 로그인
   const { mutate: login } = useLogin();
   const handleLogin = useCallback(() => {
-    if (!idRef!.current!.value || !passwordRef!.current!.value) {
+    if (!idRef?.current?.value || !passwordRef?.current?.value) {
       return console.log('모든 값을 입력해주세요.');
     }
     login({
@@ -35,15 +40,27 @@ const APITestPage = () => {
     });
   }, [idRef, passwordRef]);
 
-  const { data } = useCheckIdDuplicate({ certification: certifcation });
+  const { data: duplicateData } = useCheckIdDuplicate({ certification: certifcation });
   // 아디이 중복 테스트
-  const handleIdDuplicate = useCallback(() => {
+  const handleIdDuplicate = () => {
+    if (!idRef!.current!.value) {
+      console.log(idRef!.current!.value);
+      return console.log('모든 값을 입력해주세요.');
+    }
+    setCertification(idRef!.current!.value);
+    console.log(duplicateData);
+  };
+
+  // 아디이 조회
+  const { data: idData } = useCheckId({ certification: 'certification' });
+  const handleCheckId = () => {
     if (!idRef!.current!.value) {
       return console.log('모든 값을 입력해주세요.');
     }
     setCertification(idRef!.current!.value);
-    console.log(data);
-  }, [idRef]);
+    console.log(certifcation);
+    console.log(idData);
+  };
 
   return (
     <>
@@ -69,6 +86,13 @@ const APITestPage = () => {
           <h2>아이디 중복 체크</h2>
           <DefaultInput height="2rem" type="text" ref={idRef} />
           <DefaultButton height="2rem" onClick={() => handleIdDuplicate()}>
+            체크
+          </DefaultButton>
+        </Box>
+        <Box>
+          <h2>아이디 조회</h2>
+          <DefaultInput height="2rem" type="text" ref={idRef} />
+          <DefaultButton height="2rem" onClick={() => handleCheckId()}>
             체크
           </DefaultButton>
         </Box>
