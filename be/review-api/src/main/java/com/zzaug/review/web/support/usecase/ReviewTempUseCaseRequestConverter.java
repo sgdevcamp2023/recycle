@@ -12,7 +12,7 @@ public class ReviewTempUseCaseRequestConverter {
     public static ReviewTempCreateUseCaseRequest from(
             ReviewTempRequest request, Long questionId, TokenUserDetails userDetails){
         return ReviewTempCreateUseCaseRequest.builder()
-                .tId(request.getTId())
+                .tempId(request.getTempId())
                 .questionId(questionId)
                 .content(request.getContent())
                 .author(userDetails.getUsername())
