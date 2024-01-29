@@ -1,5 +1,5 @@
 import { BackgroundColorType, ColorType, FontSizeType } from '@styles/theme';
-import { RefObject, forwardRef } from 'react';
+import { KeyboardEventHandler, RefObject, forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface CustomInputProps {
@@ -13,6 +13,7 @@ interface CustomInputProps {
   color?: ColorType;
   backgroundColor?: BackgroundColorType;
   padding?: number | string;
+  onChange?: KeyboardEventHandler<HTMLInputElement>,
 }
 
 const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
@@ -28,6 +29,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       color = 'black',
       backgroundColor = 'white',
       padding = '0.5rem',
+      onChange,
     },
     ref,
   ) => {
@@ -47,6 +49,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
         color={color}
         backgroundColor={backgroundColor}
         padding={padding}
+        onChange={onChange}
       />
     );
   },

@@ -5,6 +5,7 @@ import logo from '../../../assets/logos/ZzaugLogo.png';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import CustomInput from '@components/atom/Input/CustomInput';
 import useMovePage from '@hooks/common/useMovePage';
+import { useState } from 'react';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -60,6 +61,22 @@ const TextBox = styled.div`
 
 const LoginModal = () => {
   const move = useMovePage();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const validateForm = () => {
+    if (email.trim() === '') {
+      alert('아이디 입력하셈');
+    } else if (password.trim() === '') {
+      alert('비밀번호 입력하셈');
+    } else if (password.trim().length < 8 || !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)) {
+      alert('비밀번호는 8글자 이상, 영문, 숫자, 특수문자 사용');
+    } else {
+      // 모든 조건을 통과하면 로그인 처리 또는 다른 작업 수행
+      alert('로그인 성공');
+    }
+  };
+
   return (
     <div>
       <LoginBox>
@@ -78,8 +95,9 @@ const LoginModal = () => {
             width={22}
             height={3}
             type="email"
-            placeholder="이메일 입력"
+            placeholder="아이디 입력"
             fontSize="base"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           ></CustomInput>
           <CustomInput
             width={22}
@@ -87,10 +105,11 @@ const LoginModal = () => {
             type="password"
             placeholder="비밀번호 입력"
             fontSize="base"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           ></CustomInput>
         </FlexBox>
         <ButtonBox>
-          <DefaultButton width={22.375} height={3} padding={1}>
+          <DefaultButton width={22.375} height={3} padding={1} onClick={validateForm}>
             로그인
           </DefaultButton>
         </ButtonBox>
