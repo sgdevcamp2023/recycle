@@ -18,7 +18,7 @@ public class ReviewTempEntity {
 
     @Id
     @Indexed
-    private String tId;
+    private String tempId;
     @Indexed
     private Long questionId;
     @Indexed

@@ -11,7 +11,6 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewPoint {
-
     private int point;
     private int index;
 }
