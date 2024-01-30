@@ -16,6 +16,7 @@ import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
 import com.zzaug.member.domain.usecase.member.LogOutUseCase;
 import com.zzaug.member.domain.usecase.member.LoginUseCase;
 import com.zzaug.member.domain.usecase.member.RenewalTokenUseCase;
+import com.zzaug.member.domain.usecase.member.SearchMemberUseCase;
 import com.zzaug.member.domain.usecase.member.UpdateMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
@@ -60,6 +61,7 @@ public class MemberController {
 	private final LoginUseCase loginUseCase;
 	private final LogOutUseCase logOutUseCase;
 	private final RenewalTokenUseCase renewalTokenUseCase;
+	private final SearchMemberUseCase searchMemberUseCase;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -157,6 +159,7 @@ public class MemberController {
 						.memberId(memberId)
 						.certification(certification)
 						.build();
+		//		SearchMemberUseCaseResponse response = searchMemberUseCase.execute(useCaseRequest);
 		SearchMemberUseCaseResponse response =
 				SearchMemberUseCaseResponse.builder().id(1L).email("email").github("github").build();
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
