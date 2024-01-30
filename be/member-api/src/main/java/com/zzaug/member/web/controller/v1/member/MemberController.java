@@ -7,6 +7,7 @@ import com.zzaug.member.domain.dto.member.LogOutUseCaseRequest;
 import com.zzaug.member.domain.dto.member.LoginUseCaseRequest;
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
+import com.zzaug.member.domain.dto.member.RenewalTokenUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
@@ -14,26 +15,24 @@ import com.zzaug.member.domain.usecase.member.DeleteMemberUseCase;
 import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
 import com.zzaug.member.domain.usecase.member.LogOutUseCase;
 import com.zzaug.member.domain.usecase.member.LoginUseCase;
+import com.zzaug.member.domain.usecase.member.RenewalTokenUseCase;
 import com.zzaug.member.domain.usecase.member.UpdateMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
-import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.authentication.token.TokenUserDetails;
-import com.zzaug.security.token.AuthToken;
-import com.zzaug.security.token.TokenGenerator;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.CookieGenerator;
 import com.zzaug.web.support.CookieSameSite;
 import com.zzaug.web.support.MessageCode;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +52,6 @@ public class MemberController {
 	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
 	//	private final CookieGenerator cookieGenerator;
-	private final TokenGenerator tokenGenerator;
 	private final CookieGenerator cookieGenerator;
 
 	private final GetMemberUseCase getMemberUseCase;
@@ -61,6 +59,7 @@ public class MemberController {
 	private final DeleteMemberUseCase deleteMemberUseCase;
 	private final LoginUseCase loginUseCase;
 	private final LogOutUseCase logOutUseCase;
+	private final RenewalTokenUseCase renewalTokenUseCase;
 
 	@PostMapping()
 	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
@@ -165,18 +164,17 @@ public class MemberController {
 
 	@PostMapping("/token")
 	public ApiResponse<ApiResponse.SuccessBody<MemberAuthToken>> token(
-			@AuthenticationPrincipal TokenUserDetails userDetails) {
-		//		Long memberId = Long.valueOf(userDetails.getId());
-		Long memberId = 1L;
-		LogOutUseCaseRequest useCaseRequest = LogOutUseCaseRequest.builder().memberId(memberId).build();
-		AuthToken authToken =
-				tokenGenerator.generateAuthToken(
-						1L, List.of(Roles.ROLE_USER), "certification", "email", "github");
+			@CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshTokenValue,
+			HttpServletResponse httpServletResponse) {
+		RenewalTokenUseCaseRequest useCaseRequest =
+				RenewalTokenUseCaseRequest.builder().refreshToken(refreshTokenValue).build();
+		//		MemberAuthToken response = renewalTokenUseCase.execute(useCaseRequest);
 		MemberAuthToken response =
-				MemberAuthToken.builder()
-						.accessToken(authToken.getAccessToken())
-						.refreshToken(authToken.getRefreshToken())
-						.build();
+				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
+		ResponseCookie refreshToken =
+				cookieGenerator.createCookie(
+						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, response.getRefreshToken());
+		httpServletResponse.addHeader(COOKIE_HEADER_KEY, refreshToken.toString());
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
