@@ -1,69 +1,73 @@
 package com.zzaug.review.web.controller.v1;
 
-import com.zzaug.review.domain.dto.review.query.ReviewQueryResponse;
-import com.zzaug.review.domain.dto.review.query.ReviewTempQueryResponse;
-import com.zzaug.review.domain.model.review.ReviewType;
-import com.zzaug.review.domain.usecase.review.query.ReviewQueryUseCase;
+import com.zzaug.review.domain.dto.review.query.*;
+import com.zzaug.review.domain.usecase.review.query.ReviewByQuestionUseCase;
+import com.zzaug.review.domain.usecase.review.query.SearchByQuestionUseCase;
+import com.zzaug.review.domain.usecase.review.query.SearchByReviewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
 import com.zzaug.review.support.MessageCode;
+import com.zzaug.review.web.dto.review.query.ReviewSearchByQuestionRequest;
+import com.zzaug.review.web.dto.review.query.ReviewSearchRequest;
+import com.zzaug.review.web.support.usecase.ReviewByQuestionUseCaseRequestConverter;
+import com.zzaug.review.web.support.usecase.SearchByQuestionUseCaseRequestConverter;
+import com.zzaug.review.web.support.usecase.SearchByReviewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/question-query")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ReviewQueryController {
 
-	private final ReviewQueryUseCase reviewUseCase;
+	private final ReviewByQuestionUseCase reviewByQuestionUseCase;
+	private final SearchByReviewUseCase searchByReviewUseCase;
+	private final SearchByQuestionUseCase searchByQuestionUseCase;
 
-	@GetMapping("/{question_id}/reviews")
+	@GetMapping("/question-query/{question_id}/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<List<ReviewQueryResponse>>> viewQuestionReviewList(
 			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
 
-		List<ReviewQueryResponse> responses = new ArrayList<>();
-		ReviewQueryResponse res =
-				ReviewQueryResponse.builder()
-						.review_id(1L)
-						.question_id(1L)
-						.content("content")
-						.location("location")
-						.author("author")
-						.author_id(1L)
-						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
-						.tag(ReviewType.CODE)
-						.build();
-		responses.add(res);
+		ReviewByQuestionUseCaseRequest useCaseRequest = ReviewByQuestionUseCaseRequestConverter.from(question_id);
+		List<ReviewQueryResponse> responses = reviewByQuestionUseCase.execute(useCaseRequest);
+
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
-	@GetMapping("/{question_id}/reviews/temp")
-	public ApiResponse<ApiResponse.SuccessBody<List<ReviewTempQueryResponse>>> viewTempReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long question_id,
-			@RequestParam String t_id) {
+	@GetMapping("/review-query/search")
+	public ApiResponse<ApiResponse.SuccessBody<List<Map<String, Object>>>> searchReviewList(
+			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam Boolean me,
+			@RequestParam Boolean validQuestion, @RequestParam String query) {
 
-		List<ReviewTempQueryResponse> responses = new ArrayList<>();
-		ReviewTempQueryResponse res =
-				ReviewTempQueryResponse.builder()
-						.t_id("UUID")
-						.question_id(1L)
-						.content("content")
-						.location("location")
-						.author("author")
-						.author_id(1L)
-						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
-						.tag(ReviewType.CODE)
+		List<Map<String, Object>> responses = new ArrayList<>();
+		if (me) {
+
+			if (validQuestion){
+				ReviewSearchByQuestionRequest request = ReviewSearchByQuestionRequest.builder().authorId(Long.valueOf(userDetails.getId())).query(query)
 						.build();
-		responses.add(res);
+				SearchByQuestionUseCaseRequest useCaseRequest = SearchByQuestionUseCaseRequestConverter.from(request);
+				responses = searchByQuestionUseCase.execute(useCaseRequest);
+				return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
+
+			} else {
+				ReviewSearchRequest request = ReviewSearchRequest.builder().authorId(102L).query(query)
+						.build();
+				SearchByReviewUseCaseRequest useCaseRequest = SearchByReviewUseCaseRequestConverter.from(request);
+				responses = searchByReviewUseCase.execute(useCaseRequest);
+				return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
+			}
+
+		}
+
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
+
 }
