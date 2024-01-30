@@ -2,6 +2,7 @@ import DefaultButton from '@components/atom/Button/DefaultButton';
 import CustomInput from '@components/atom/Input/CustomInput';
 import Text from '@components/atom/Text';
 import { flexCenter } from '@styles/flexCenter';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const LoginBox = styled.div`
@@ -38,6 +39,18 @@ const ButtonBox = styled.div`
 `;
 
 const RegisterEmailModal = () => {
+  const [email, setEmail] = useState('');
+
+  const validateForm = () => {
+    if (email.trim() === '') {
+      alert('이메일 입력하셈');
+    } else if (email.trim().length < 8 || !/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(email)) {
+      alert('이메일 형식으로 입력해주세요');
+    } else {
+      // 모든 조건을 통과하면 로그인 처리 또는 다른 작업 수행
+      alert('등록하기 성공');
+    }
+  };
   return (
     <div>
       <LoginBox>
@@ -62,11 +75,11 @@ const RegisterEmailModal = () => {
           >
             이메일
           </Text>
-          <CustomInput type="email" width={22} height={3} placeholder="이메일 입력" />
+          <CustomInput type="email" width={22.375} height={3} placeholder="이메일 입력" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
         </FlexBox>
         <ButtonBox>
           {/* <RegisterButton /> */}
-          <DefaultButton width={22.375} height={3} padding={1}>
+          <DefaultButton width={22.375} height={3} padding={1} onClick={validateForm}>
             등록하기
           </DefaultButton>
         </ButtonBox>
