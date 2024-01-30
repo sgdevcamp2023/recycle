@@ -39,4 +39,17 @@ public class QuestionQueryEntity {
 
 	@Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime updatedAt;
+
+	@Override
+	public int hashCode() {
+		return questionId.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof QuestionQueryEntity) {
+			return questionId.equals(((QuestionQueryEntity) obj).questionId);
+		}
+		return false;
+	}
 }
