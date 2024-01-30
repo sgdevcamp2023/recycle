@@ -65,6 +65,9 @@ public class UMockAuthenticationDao implements AuthenticationDao, ApplicationCon
 	@Override
 	public Optional<AuthenticationEntity> findByCertificationAndDeletedFalse(
 			CertificationData certification) {
+		if (activeProfiles.contains("not-exist-certification")) {
+			return Optional.empty();
+		}
 		return Optional.of(
 				AuthenticationEntity.builder()
 						.id(AUTHENTICATION_ID)
