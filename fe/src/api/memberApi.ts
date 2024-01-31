@@ -18,7 +18,7 @@ const memberApi = {
   //회원가입 [post]
   signUp: async ({ certification, password }: userProps) => {
     return await axios.post(
-      `${baseURL}:8081/api/v1/members/`,
+      `${baseURL}/api/v1/members/`,
       { certification, password },
       {
         headers: headers,
@@ -28,7 +28,7 @@ const memberApi = {
   //로그인 [post]
   login: async ({ certification, password }: userProps) => {
     return await axios.post(
-      `${baseURL}:8081/api/v1/members/login`,
+      `${baseURL}/api/v1/members/login`,
       { certification, password },
       {
         headers: headers,
@@ -37,7 +37,7 @@ const memberApi = {
   },
   // 아이디 중복검사 [get]
   checkIdDuplicate: async ({ certification }: userProps) => {
-    return await axios.get(`${baseURL}:8081/api/v1/members/check?${certification}`, {
+    return await axios.get(`${baseURL}/api/v1/members/check?${certification}`, {
       headers: headers,
     });
   },
@@ -72,7 +72,11 @@ const memberApi = {
   // 이메일 인증 [get]
   //! 파라미터 Interface 만들어주기
   checkEmailApprove: async ({ email, nonce, code }: any) => {
-    return await clientApi.member.post(`/members/check/email?${email}?${nonce}?${code}`);
+    return await clientApi.member.post('/members/check/email', {
+      email,
+      nonce,
+      code,
+    });
   },
 };
 

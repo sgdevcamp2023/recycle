@@ -8,12 +8,12 @@ interface GreyButtonProps {
   height?: number | string;
   color?: ColorType;
   fontSize?: FontSizeType;
-  backgroundColor?: BackgroundColorType;
-  borderColor?: borderColorType;
+  $backgroundColor?: BackgroundColorType;
+  $borderColor?: borderColorType;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
-  isActive?: boolean;
+  $isActive?: boolean;
 }
 
 const GreyButton = ({
@@ -21,10 +21,10 @@ const GreyButton = ({
   height = 'default',
   fontSize = 'xs',
   color = 'grey',
-  borderColor = 'green',
-  backgroundColor = 'white',
+  $borderColor = 'green',
+  $backgroundColor = 'white',
   padding = '0.25rem',
-  isActive = false,
+  $isActive = false,
   onClick,
   children,
 }: GreyButtonProps) => {
@@ -34,11 +34,11 @@ const GreyButton = ({
       height={height}
       fontSize={fontSize}
       color={color}
-      borderColor={borderColor}
-      backgroundColor={backgroundColor}
+      $borderColor={$borderColor}
+      $backgroundColor={$backgroundColor}
       padding={padding}
       onClick={onClick}
-      isActive={isActive}
+      $isActive={$isActive}
     >
       {children}
     </GreyButtonBox>
@@ -52,11 +52,11 @@ const GreyButtonBox = styled.button<
     | 'height'
     | 'fontSize'
     | 'color'
-    | 'backgroundColor'
-    | 'borderColor'
+    | '$backgroundColor'
+    | '$borderColor'
     | 'padding'
     | 'cursor'
-    | 'isActive'
+    | '$isActive'
   >
 >`
   width: ${({ width }) => (width === 'default' ? '100%' : `${width}rem`)};
@@ -68,8 +68,8 @@ const GreyButtonBox = styled.button<
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.white};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? theme.backgroundColor[$backgroundColor] : theme.backgroundcolor.white};
   cursor: pointer;
   transition: all 0.5s;
   display: flex;
@@ -77,8 +77,8 @@ const GreyButtonBox = styled.button<
   justify-content: center;
 
   &:hover {
-    background-color: ${({ theme, backgroundColor }) =>
-      backgroundColor ? theme.backgroundColor.grey200 : theme.backgroundColor.grey200};
+    background-color: ${({ theme, $backgroundColor }) =>
+      $backgroundColor ? theme.backgroundColor.grey200 : theme.backgroundColor.grey200};
     border: 0.0625rem solid #939393;
     color: ${({ theme, color }) => (color ? theme.color.white : theme.color.black)};
   }

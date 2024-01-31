@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-type PageType = 'main' | 'login' | 'signup' | 'registeremail';
+type PageType = 'main' | 'login' | 'signup' | 'registeremail' | '';
 
 const useMovePage = () => {
   const navigate = useNavigate();

@@ -10,7 +10,7 @@ interface TextProps {
   color?: ColorType;
   mb?: number;
   mr?: number;
-  center?: boolean;
+  center?: string;
 }
 
 const Text = styled.p<Omit<TextProps, 'text'>>`
@@ -22,7 +22,7 @@ const Text = styled.p<Omit<TextProps, 'text'>>`
   margin-left: 0px;
   margin-bottom: ${({ mb }) => mb}px;
   margin-right: ${({ mr }) => mr}px;
-  text-align: ${({ center }) => (center ? 'center' : 'left')};
+  text-align: ${({ center }) => (center && JSON.parse(center) ? 'center' : 'left')};
 `;
 
 Text.defaultProps = {
@@ -31,7 +31,7 @@ Text.defaultProps = {
   color: 'inherit',
   mb: 0,
   mr: 0,
-  center: false,
+  center: 'false',
 };
 
 export default Text;

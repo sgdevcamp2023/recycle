@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import CustomInput from '@components/atom/Input/CustomInput';
 import { useState } from 'react';
+import useCheckIdDuplicate from '@hooks/query/member/useCheckIdDuplicate';
+import useSignUp from '@hooks/query/member/useSignUp';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -48,6 +50,15 @@ const SignInModal = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
+  const { data: duplicateData } = useCheckIdDuplicate({ certification: email });
+
+  const handleIdDuplicate = () => {
+    // 중복 확인 되었을 때 중복확인 되었는지 로직 추가 해주기
+    // 중복 확인 되었으면 버튼 isActive:false 로 바꿔주기
+    console.log(duplicateData);
+  };
+
+  const { mutate: signUp } = useSignUp();
   const validateForm = () => {
     if (email.trim() === '') {
       alert('아이디 입력하셈');
@@ -55,14 +66,20 @@ const SignInModal = () => {
       alert('비밀번호 입력하셈');
     } else if (passwordConfirm.trim() === '') {
       alert('비밀번호확인 입력하셈');
-    } else if (password.trim().length < 8 || !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)) {
+    } else if (
+      password.trim().length < 8 ||
+      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)
+    ) {
       alert('비밀번호는 8글자 이상, 영문, 숫자, 특수문자 사용');
     } else if (!(password === passwordConfirm)) {
       alert('확인이랑 비밀번호가 다름');
-    } 
-    else {
+    } else {
       // 모든 조건을 통과하면 로그인 처리 또는 다른 작업 수행
-      alert('로그인 성공');
+      signUp({
+        certification: email,
+        password: password,
+      });
+      alert('회원가입 성공');
     }
   };
   return (
@@ -80,9 +97,22 @@ const SignInModal = () => {
         </Text>
         <Text fontSize="lg">아이디</Text>
         <IdBox>
-          <CustomInput type="eamil" placeholder="이름 입력" width={15.5} height={3} 
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
-          <DefaultButton width={5.5} height={3} padding={0.5} backgroundColor={'green200'}>
+          <CustomInput
+            type="eamil"
+            placeholder="이름 입력"
+            width={15.5}
+            height={3}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+          />
+          <DefaultButton
+            onClick={() => {
+              handleIdDuplicate();
+            }}
+            width={5.5}
+            height={3}
+            padding={0.5}
+            $backgroundColor={'green200'}
+          >
             중복 확인
           </DefaultButton>
           {/* <DoubleCheckButton /> */}
@@ -110,7 +140,9 @@ const SignInModal = () => {
             width={22}
             height={3}
             placeholder="비밀번호 확인"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPasswordConfirm(e.target.value)
+            }
             // value=''
           />
         </FlexBox>

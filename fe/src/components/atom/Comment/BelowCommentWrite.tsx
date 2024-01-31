@@ -11,7 +11,7 @@ interface BelowCommentInputProps {
   placeholder?: string;
   fontSize?: FontSizeType;
   color?: ColorType;
-  backgroundColor?: BackgroundColorType;
+  $backgroundColor?: BackgroundColorType;
   padding?: number | string;
 }
 
@@ -26,7 +26,7 @@ const BelowCommentWrite = forwardRef<HTMLTextAreaElement, BelowCommentInputProps
       placeholder = '',
       fontSize = 'base',
       color = 'black',
-      backgroundColor = 'white',
+      $backgroundColor = 'white',
       padding = '0.5rem',
     },
     ref,
@@ -45,17 +45,19 @@ const BelowCommentWrite = forwardRef<HTMLTextAreaElement, BelowCommentInputProps
         placeholder={placeholder}
         fontSize={fontSize}
         color={color}
-        backgroundColor={backgroundColor}
+        $backgroundColor={$backgroundColor}
         padding={padding}
       />
     );
   },
 );
 
+BelowCommentWrite.displayName = 'BelowCommnetWrite';
+
 const StyledInput = styled.textarea<
   Pick<
     BelowCommentInputProps,
-    'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'
+    'padding' | 'width' | 'height' | 'fontSize' | 'color' | '$backgroundColor'
   >
 >`
   width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}rem`)};
@@ -67,8 +69,8 @@ const StyledInput = styled.textarea<
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? theme.backgroundColor[$backgroundColor] : theme.backgroundcolor.inherit};
   overflow-y: auto; /* 내용이 넘칠 경우 수직 스크롤 표시 */
   resize: none; /* 사용자가 크기를 조정할 수 없도록 함 */
 

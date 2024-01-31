@@ -1,5 +1,5 @@
 import { BackgroundColorType, ColorType, FontSizeType } from '@styles/theme';
-import { KeyboardEventHandler, RefObject, forwardRef } from 'react';
+import { ChangeEventHandler, RefObject, forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface CustomInputProps {
@@ -11,9 +11,9 @@ interface CustomInputProps {
   placeholder?: string;
   fontSize?: FontSizeType;
   color?: ColorType;
-  backgroundColor?: BackgroundColorType;
+  $backgroundColor?: BackgroundColorType;
   padding?: number | string;
-  onChange?: KeyboardEventHandler<HTMLInputElement>,
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
@@ -27,7 +27,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       placeholder = '',
       fontSize = 'base',
       color = 'black',
-      backgroundColor = 'white',
+      $backgroundColor = 'white',
       padding = '0.5rem',
       onChange,
     },
@@ -47,7 +47,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
         placeholder={placeholder}
         fontSize={fontSize}
         color={color}
-        backgroundColor={backgroundColor}
+        $backgroundColor={$backgroundColor}
         padding={padding}
         onChange={onChange}
       />
@@ -55,8 +55,10 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
   },
 );
 
+CustomInput.displayName = 'CustomInput';
+
 const StyledInput = styled.input<
-  Pick<CustomInputProps, 'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'>
+  Pick<CustomInputProps, 'padding' | 'width' | 'height' | 'fontSize' | 'color' | '$backgroundColor'>
 >`
   width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}rem`)};
   height: ${({ height }) => (height === '100%' ? '100%' : `${height}rem`)};
@@ -67,8 +69,8 @@ const StyledInput = styled.input<
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? theme.backgroundColor[$backgroundColor] : theme.backgroundcolor.inherit};
 
   ::placeholder {
     color: ${({ theme }) => theme.color.grey};

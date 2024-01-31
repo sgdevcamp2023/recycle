@@ -8,7 +8,7 @@ export interface useCommentApiProps {
   content?: string;
 }
 
-const useGetMemberInfo = ({ questionId }: useCommentApiProps) => {
+const useGetBelowComments = ({ questionId }: useCommentApiProps) => {
   return useQuery({
     queryKey: ['comments', questionId],
     queryFn: () => commentApi.getBelowComments({ questionId }),
@@ -16,4 +16,4 @@ const useGetMemberInfo = ({ questionId }: useCommentApiProps) => {
   });
 };
 
-export default useGetMemberInfo;
+export default useGetBelowComments;

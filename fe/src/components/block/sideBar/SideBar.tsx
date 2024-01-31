@@ -1,4 +1,5 @@
 import Text from '@components/atom/Text';
+import useLogout from '@hooks/query/member/useLogout';
 import useTabStore, { TabType } from '@store/useTabStore';
 import { flexCenter } from '@styles/flexCenter';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,11 @@ const SideBar = () => {
     navigate('/');
   };
 
+  const { mutate: logout } = useLogout();
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <SideBarContainer>
       <SideBarHeader></SideBarHeader>
@@ -21,22 +27,22 @@ const SideBar = () => {
           Menu
         </Text>
         <MenuTabContainer>
-          <TabButton isActive={tabType === 'question'} onClick={() => handleClickTab('question')}>
+          <TabButton $isActive={tabType === 'question'} onClick={() => handleClickTab('question')}>
             <Text fontSize="lg" fontWeight="bold">
               Question
             </Text>
           </TabButton>
-          <TabButton isActive={tabType === 'review'} onClick={() => handleClickTab('review')}>
+          <TabButton $isActive={tabType === 'review'} onClick={() => handleClickTab('review')}>
             <Text fontSize="lg" fontWeight="bold">
               Review
             </Text>
           </TabButton>
-          <TabButton isActive={tabType === 'request'} onClick={() => handleClickTab('request')}>
+          <TabButton $isActive={tabType === 'request'} onClick={() => handleClickTab('request')}>
             <Text fontSize="lg" fontWeight="bold">
               Request
             </Text>
           </TabButton>
-          <TabButton isActive={tabType === 'setting'} onClick={() => handleClickTab('setting')}>
+          <TabButton $isActive={tabType === 'setting'} onClick={() => handleClickTab('setting')}>
             <Text fontSize="lg" fontWeight="bold">
               Setting
             </Text>
@@ -45,6 +51,8 @@ const SideBar = () => {
             onClick={() => {
               handleClickTab(null);
               alert('logout');
+              handleLogout();
+              navigate('/main');
             }}
           >
             <Text fontSize="lg" fontWeight="bold">
@@ -90,20 +98,20 @@ const MenuTabContainer = styled.div`
 `;
 
 const TabButton = styled.button<{
-  isActive?: boolean;
+  $isActive?: boolean;
 }>`
-  background-color: ${({ isActive, theme }) =>
-    isActive ? theme.backgroundColor.green300 : theme.backgroundColor.grey300};
+  background-color: ${({ $isActive, theme }) =>
+    $isActive ? theme.backgroundColor.green300 : theme.backgroundColor.grey300};
   border: none;
   border-radius: 4px;
   padding: 0.5rem;
   cursor: pointer;
-  color: ${({ isActive, theme }) =>
-    isActive
+  color: ${({ $isActive, theme }) =>
+    $isActive
       ? theme.backgroundColor.white
       : theme.backgroundColor.black}; // Change color based on isActive
-  font-weight: ${({ isActive }) =>
-    isActive ? '600' : 'normal'}; // Change font-weight based on isActive
+  font-weight: ${({ $isActive }) =>
+    $isActive ? '600' : 'normal'}; // Change font-weight based on isActive
 
   &:hover {
     background-color: ${({ theme }) => theme.backgroundColor.green300};

@@ -16,12 +16,11 @@ const CreateServiceApi = (service: string): AxiosInstance => {
   };
 
   const servicePort = portMap[service];
-  const serviceEndpoint = `${baseURL}:${servicePort}/api/v1`;
+  const serviceEndpoint = `${baseURL}/api/v1`;
   const api = axios.create({
     baseURL: serviceEndpoint,
     headers: {
       'X-ZZAUG-ID': uuidv4(),
-      Referer: 'referer',
     },
   });
 

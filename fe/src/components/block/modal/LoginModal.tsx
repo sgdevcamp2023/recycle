@@ -5,7 +5,8 @@ import logo from '../../../assets/logos/ZzaugLogo.png';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import CustomInput from '@components/atom/Input/CustomInput';
 import useMovePage from '@hooks/common/useMovePage';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import useLogin from '@hooks/query/member/useLogin';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -64,17 +65,35 @@ const LoginModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { mutate: login } = useLogin();
+
   const validateForm = () => {
     if (email.trim() === '') {
       alert('아이디 입력하셈');
     } else if (password.trim() === '') {
       alert('비밀번호 입력하셈');
-    } else if (password.trim().length < 8 || !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)) {
+    } else if (
+      password.trim().length < 8 ||
+      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)
+    ) {
       alert('비밀번호는 8글자 이상, 영문, 숫자, 특수문자 사용');
     } else {
       // 모든 조건을 통과하면 로그인 처리 또는 다른 작업 수행
       alert('로그인 성공');
+      login({
+        certification: email,
+        password: password,
+      });
+      move('');
     }
+  };
+
+  const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const onChangeId = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   return (
@@ -97,7 +116,7 @@ const LoginModal = () => {
             type="email"
             placeholder="아이디 입력"
             fontSize="base"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            onChange={onChangeId}
           ></CustomInput>
           <CustomInput
             width={22}
@@ -105,7 +124,7 @@ const LoginModal = () => {
             type="password"
             placeholder="비밀번호 입력"
             fontSize="base"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            onChange={onChangePw}
           ></CustomInput>
         </FlexBox>
         <ButtonBox>
@@ -118,11 +137,11 @@ const LoginModal = () => {
           <Logo src={logo} alt="zzaug main logo" />
           <p>계정이 없으신가요?</p>
           <Text
-            fontWeight='bold'
+            fontWeight="bold"
             style={{
               marginLeft: '0.25rem',
               cursor: 'pointer',
-              color: '#1eb649'
+              color: '#1eb649',
             }}
             onClick={() => move('signup')}
           >

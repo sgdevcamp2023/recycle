@@ -10,6 +10,7 @@ export type DefaultTabType =
   | 'myReview'
   | 'reviewDrafts'
   | 'reviewRequest'
+  | 'myMemberInfo'
   | null;
 
 interface TabState {

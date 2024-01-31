@@ -1,12 +1,13 @@
 import memberApi from '@api/memberApi';
 import { useMutation } from '@tanstack/react-query';
 
-const useChecktEmailApprove = () => {
+const useCheckEmailApprove = () => {
   return useMutation({
     mutationFn: memberApi.checkEmailApprove,
     onSuccess: (data) => {
       console.log('요청 성공');
       console.log(data);
+      return data;
     },
     onError: (err) => {
       console.error('에러 발생');
@@ -19,4 +20,4 @@ const useChecktEmailApprove = () => {
   });
 };
 
-export default useChecktEmailApprove;
+export default useCheckEmailApprove;

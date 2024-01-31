@@ -1,7 +1,6 @@
 import TabButton from '@components/atom/Button/TabButton';
 import Text from '@components/atom/Text';
 import useTabStore, { DefaultTabType } from '@store/useTabStore';
-import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -20,7 +19,6 @@ const DefaultTab = ({ items }: DefaultTabProps) => {
   const { setDefaultTabType } = useTabStore();
 
   const handleItemClick = ({ key, label }: ItemProps) => {
-    console.log(key, label);
     setActiveKey(key);
     setDefaultTabType(label);
   };
@@ -29,10 +27,10 @@ const DefaultTab = ({ items }: DefaultTabProps) => {
     <TabWrapper>
       <NavbarContainer>
         {Object.entries(items).map(([key, label]) => (
-          <NavItem isActive={key === activeKey}>
+          <NavItem key={key} $isActive={key === activeKey}>
             <TabButton
               key={key}
-              isActive={key === activeKey}
+              $isActive={key === activeKey}
               onClick={() => handleItemClick({ key, label })}
               height={3}
               width={15}
@@ -63,11 +61,11 @@ const NavbarContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const NavItem = styled.div<{ isActive: boolean }>`
+const NavItem = styled.div<{ $isActive: boolean }>`
   /* 상태에 따라 색상 및 스타일 변경 */
-  color: ${({ isActive }) => (isActive ? 'white' : '#888')};
-  background-color: ${({ theme, isActive }) =>
-    isActive ? theme.backgroundColor.green200 : theme.backgroundColor.white};
+  color: ${({ $isActive }) => ($isActive ? 'white' : '#888')};
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.backgroundColor.green200 : theme.backgroundColor.white};
   border-radius: 8px;
   &:hover {
     background-color: ${({ theme }) => theme.backgroundColor.green200};
