@@ -11,7 +11,7 @@
 ## 1차
 
 ```
-                            __________________                              _____________________  
+                            __________________                              _____________________
 Commnet event (Reids) <--> |                  |                            |                     |
                            | notification-api | <--> queue (RabbitMQ) <--> | notification-sender |
 Member event (Redis) <-->  |                  |                            |                     |
@@ -29,20 +29,20 @@ Member event (Redis) <-->  |                  |                            |    
 ## 2차
 
 ```
-                            __________________                              _____________________  
-Commnet event (Reids) <--> |                  |                            |                     | 
-                           | notification-api | <--> queue (RabbitMQ) <--> | notification-worker | 
+                            __________________                              _____________________
+Commnet event (Reids) <--> |                  |                            |                     |
+                           | notification-api | <--> queue (RabbitMQ) <--> | notification-worker |
 Member event (Redis) <-->  |                  |                            |                     |
                            |__________________|                            |_____________________|
-                                    |                                                |            
+                                    |                                                |
                                     |                                                |
                                   queue (RabbitMQ)                                 queue (RabbitMQ)
                                     v                                                v
                                     __________________________________________________
                                    |                                                  |
                                    |                notification-sender               |
-                                   |__________________________________________________|                              
-                                    
+                                   |__________________________________________________|
+
 ```
 
 2차 아키텍처는 notification-api가 하는 일을 단순화하는 것에 초점을 맞추었습니다.
