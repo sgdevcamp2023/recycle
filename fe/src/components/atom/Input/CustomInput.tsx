@@ -1,11 +1,5 @@
 import { BackgroundColorType, ColorType, FontSizeType } from '@styles/theme';
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  KeyboardEventHandler,
-  RefObject,
-  forwardRef,
-} from 'react';
+import { ChangeEventHandler, RefObject, forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface CustomInputProps {
