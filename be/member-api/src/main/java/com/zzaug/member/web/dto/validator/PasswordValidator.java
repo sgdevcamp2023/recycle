@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PasswordValidator implements ConstraintValidator<Certification, String> {
+public class PasswordValidator implements ConstraintValidator<Password, String> {
 	private static final String ENGLISH_AND_NUMBER_AND_SPECIAL_REGEX =
-			"^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]$";
+			"^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{0,}$";
 	private static final Integer MIN_LENGTH = 8;
 	private static final Integer MAX_LENGTH = 16;
 
@@ -39,7 +39,7 @@ public class PasswordValidator implements ConstraintValidator<Certification, Str
 	}
 
 	@Override
-	public void initialize(Certification constraintAnnotation) {
+	public void initialize(Password constraintAnnotation) {
 		ConstraintValidator.super.initialize(constraintAnnotation);
 	}
 }
