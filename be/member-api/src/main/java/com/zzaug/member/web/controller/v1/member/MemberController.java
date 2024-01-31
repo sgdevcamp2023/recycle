@@ -21,6 +21,9 @@ import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
+import com.zzaug.security.filter.token.AccessTokenResolver;
+import com.zzaug.security.token.AuthToken;
+import com.zzaug.security.token.TokenGenerator;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.CookieGenerator;
@@ -52,6 +55,7 @@ public class MemberController {
 	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
 	//	private final CookieGenerator cookieGenerator;
+	private final TokenGenerator tokenGenerator;
 	private final CookieGenerator cookieGenerator;
 
 	private final GetMemberUseCase getMemberUseCase;
@@ -122,10 +126,19 @@ public class MemberController {
 	@PostMapping("/logout")
 	public ApiResponse<ApiResponse.Success> logout(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			HttpServletResponse httpServletResponse) {
+			HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse,
+			@CookieValue(value = REFRESH_TOKEN_COOKIE_NAME) String refreshToken) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
+		String authorization = httpServletRequest.getHeader("Authorization");
+		String accessToken = AccessTokenResolver.resolve(authorization);
 		Long memberId = 1L;
-		LogOutUseCaseRequest useCaseRequest = LogOutUseCaseRequest.builder().memberId(memberId).build();
+		LogOutUseCaseRequest useCaseRequest =
+				LogOutUseCaseRequest.builder()
+						.memberId(memberId)
+						.accessToken(accessToken)
+						.refreshToken(refreshToken)
+						.build();
 		//		logOutUseCase.execute(useCaseRequest);
 		ResponseCookie clearCookie =
 				cookieGenerator.clearCookie(CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME);
