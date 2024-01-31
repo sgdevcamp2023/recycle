@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseResponse;
+import com.zzaug.member.domain.event.SaveMemberEvent;
 import com.zzaug.member.domain.exception.DBSource;
 import com.zzaug.member.domain.exception.ExistSourceException;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
@@ -12,6 +13,7 @@ import com.zzaug.member.entity.member.MemberEntity;
 import com.zzaug.member.entity.member.PasswordData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ public class PostMemberUseCase {
 	private final AuthenticationDao authenticationDao;
 
 	private final PasswordEncoder passwordEncoder;
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Transactional
 	public PostMemberUseCaseResponse execute(PostMemberUseCaseRequest request) {
@@ -56,6 +60,8 @@ public class PostMemberUseCase {
 		AuthenticationEntity authenticationEntity =
 				authenticationDao.saveAuthentication(authenticationSource);
 
+		publishEvent(memberId, certification);
+
 		return PostMemberUseCaseResponse.builder()
 				.memberId(memberId)
 				.certification(authenticationEntity.getCertification().getCertification())
@@ -66,5 +72,15 @@ public class PostMemberUseCase {
 	private PasswordData encodePassword(PasswordData password) {
 		String encodedPassword = passwordEncoder.encode(password.getPassword());
 		return password.toBuilder().password(encodedPassword).build();
+	}
+
+	private void publishEvent(Long memberId, CertificationData certification) {
+		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
+		log.debug("Publish save member event. memberId: {}");
+		applicationEventPublisher.publishEvent(
+				SaveMemberEvent.builder()
+						.memberId(memberId)
+						.memberCertification(certification.getCertification())
+						.build());
 	}
 }
