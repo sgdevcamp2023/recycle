@@ -22,7 +22,6 @@ import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.security.filter.token.AccessTokenResolver;
-import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
@@ -178,9 +177,15 @@ public class MemberController {
 	@PostMapping("/token")
 	public ApiResponse<ApiResponse.SuccessBody<MemberAuthToken>> token(
 			@CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshTokenValue,
+			HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) {
+		String authorization = httpServletRequest.getHeader("Authorization");
+		String accessToken = AccessTokenResolver.resolve(authorization);
 		RenewalTokenUseCaseRequest useCaseRequest =
-				RenewalTokenUseCaseRequest.builder().refreshToken(refreshTokenValue).build();
+				RenewalTokenUseCaseRequest.builder()
+						.accessToken(accessToken)
+						.refreshToken(refreshTokenValue)
+						.build();
 		//		MemberAuthToken response = renewalTokenUseCase.execute(useCaseRequest);
 		MemberAuthToken response =
 				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
