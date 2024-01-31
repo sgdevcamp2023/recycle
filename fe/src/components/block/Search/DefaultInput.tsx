@@ -64,7 +64,7 @@ const DefaultInputContainer = styled.input<
     'padding' | 'width' | 'height' | 'fontSize' | 'color' | '$backgroundColor'
   >
 >`
-  width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}px`)};
+  width: ${({ width }) => (width === '100%' ? 'calc(100% - 1rem)' : `${width}px`)};
   height: ${({ height }) => (height === '100%' ? '100%' : `${height}px`)};
   padding: ${({ padding }) => (padding === '0.5rem' ? '0.5rem' : `${padding}`)};
   border: none;
