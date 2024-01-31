@@ -42,7 +42,7 @@ const TestPageThree = () => {
           fontSize="xs"
         /> */}
         {/* <RegisterEmail/> */}
-        <SendEmailModal/>
+        <SendEmailModal />
       </CenterModalBox>
     </>
   );

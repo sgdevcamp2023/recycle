@@ -90,11 +90,11 @@ const AskLoginModal = () => {
           <Logo src={logo} alt="zzaug main logo" />
           <p>계정이 없으신가요?</p>
           <Text
-            fontWeight='bold'
+            fontWeight="bold"
             style={{
               marginLeft: '0.25rem',
               cursor: 'pointer',
-              color: '#1eb649'
+              color: '#1eb649',
             }}
             onClick={() => move('signup')}
           >
