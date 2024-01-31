@@ -2,6 +2,8 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseResponse;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.ExistSourceException;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.dao.member.MemberSourceDao;
 import com.zzaug.member.entity.member.AuthenticationEntity;
@@ -30,23 +32,27 @@ public class PostMemberUseCase {
 				CertificationData.builder().certification(request.getCertification()).build();
 		PasswordData password = PasswordData.builder().password(request.getPassword()).build();
 
+		log.debug("Check duplicate certification. certification: {}", certification.getCertification());
 		boolean isDuplicateId = authenticationDao.existsByCertificationAndDeletedFalse(certification);
 		if (isDuplicateId) {
-			throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+			throw new ExistSourceException(DBSource.AUTHENTICATION, certification.getCertification());
 		}
 
 		password = encodePassword(password);
 
 		// todo certification을 기준으로 락을 걸어 처리 해야 함
 		MemberEntity memberSource = MemberEntity.builder().build();
+		log.debug("Save member source. memberSource: {}", memberSource);
 		MemberEntity sourceEntity = memberSourceDao.saveSource(memberSource);
 		Long memberId = sourceEntity.getId();
+		log.debug("Saved member source id : {}", memberId);
 		AuthenticationEntity authenticationSource =
 				AuthenticationEntity.builder()
 						.memberId(memberId)
 						.certification(certification)
 						.password(password)
 						.build();
+		log.debug("Save authentication source. authenticationSource: {}", authenticationSource);
 		AuthenticationEntity authenticationEntity =
 				authenticationDao.saveAuthentication(authenticationSource);
 
