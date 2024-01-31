@@ -17,11 +17,6 @@ const APITestPage = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const { mutate: signUp } = useSignUp();
   const handleSignUp = useCallback(() => {
-    if (!idRef!.current!.value || !passwordRef!.current!.value) {
-      return console.log('모든 값을 입력해주세요.');
-    }
-    setId(idRef.current.value);
-    setPassword(passwordRef.current.value);
     signUp({
       certification: id,
       password: password,

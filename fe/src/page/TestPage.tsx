@@ -40,7 +40,7 @@ const TestPage = () => {
           value={inputValue}
           onChange={handleInputChange}
           fontSize="0.875rem"
-          backgroundColor="#f4f4f4"
+          $backgroundColor="#f4f4f4"
           color="9a9999"
           borderRadius="0.625rem"
           border="none"
