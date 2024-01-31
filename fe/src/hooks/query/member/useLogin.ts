@@ -14,9 +14,10 @@ const useLogin = () => {
       const refresh = tokenData.refreshToken;
       console.log(access,refresh)
       if (access && refresh) {
-        console.log(access, refresh)
+        localStorage.setItem('access', access)
+        localStorage.setItem('refresh', refresh)
       } else {
-        console.error('조졌다')
+        console.error('토큰을 발급받지 못했습니다')
       }
     },
     onError: (err) => {
