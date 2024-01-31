@@ -16,4 +16,5 @@ import lombok.ToString;
 public class RenewalTokenUseCaseRequest {
 
 	private String refreshToken;
+	private String accessToken;
 }
