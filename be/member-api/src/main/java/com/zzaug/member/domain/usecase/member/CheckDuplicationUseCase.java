@@ -19,11 +19,15 @@ public class CheckDuplicationUseCase {
 		final CertificationData certificationData =
 				CertificationData.builder().certification(certification.getCertification()).build();
 
+		log.debug("Check duplication. certification: {}", certification.getCertification());
 		boolean isDuplicateCertification =
 				authenticationDao.existsByCertificationAndDeletedFalse(certificationData);
 		if (isDuplicateCertification) {
+			log.debug("Certification is duplicated. certification: {}", certification.getCertification());
 			return CheckDuplicationUseCaseResponse.builder().duplication(true).build();
 		}
+		log.debug(
+				"Certification is not duplicated. certification: {}", certification.getCertification());
 		return CheckDuplicationUseCaseResponse.builder().duplication(false).build();
 	}
 }
