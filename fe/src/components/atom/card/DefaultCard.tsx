@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Text from '../Text';
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler } from 'react';
 
 export type DefaultCardType = 'question' | 'review' | 'add' | null;
 
@@ -10,7 +10,13 @@ export interface DefaultCardProps {
   title?: string;
   width?: number;
   height?: number;
-  content?: ReactNode;
+  author?: string;
+  author_id?: number;
+  content?: string;
+  created_at?: string;
+  question_id?: number;
+  review_cnt?: number;
+  updated_at?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 

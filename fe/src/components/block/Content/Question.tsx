@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import DefaultTab from '../navbar/DefaultTab';
 import useTabStore, { DefaultTabType } from '@store/useTabStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SearchInput from '../Search/SearchInput';
 import DefaultCard, { DefaultCardProps, DefaultCardType } from '@components/atom/card/DefaultCard';
-import { useNavigate } from 'react-router-dom';
+import useGetQuestions from '@hooks/query/question/useGetQuestions';
+import useGetQuestionDrafts from '@hooks/query/question/useGetQuestionDrafts';
 
 const Question = () => {
   const items: Record<string, DefaultTabType> = {
@@ -12,36 +13,28 @@ const Question = () => {
     '임시 저장된 질문': 'questionDrafts',
   };
   const { defaultTabType, setDefaultTabType } = useTabStore();
-  const navigate = useNavigate();
   useEffect(() => {
     setDefaultTabType('myQuestion');
   }, [setDefaultTabType]);
 
-  const mockDataArray: DefaultCardProps[] = [
-    {
-      type: 'add',
-    },
-    {
-      type: 'question',
-      commentCount: 8,
-      title: 'Title 2',
-    },
-    {
-      type: 'question',
-      commentCount: 8,
-      title: 'Title 2',
-    },
-    {
-      type: 'question',
-      commentCount: 8,
-      title: 'Title 2',
-    },
-    {
-      type: 'question',
-      commentCount: 8,
-      title: 'Title 2',
-    },
-  ];
+  const [questionsArray, setQuestionsArray] = useState<DefaultCardProps[]>([]);
+  const [questionDraftsArray, setQuestionDraftsArray] = useState<DefaultCardProps[]>([]);
+  const tId = null;
+
+  const { data: questionData, isLoading: isQuestionsLoading } = useGetQuestions();
+  const { data: questionDraftsData, isLoading: isQuestionDraftsLoading } = useGetQuestionDrafts({
+    tId,
+  });
+
+  useEffect(() => {
+    setQuestionsArray(questionData?.data.data);
+    console.log(isQuestionsLoading);
+  }, [isQuestionsLoading]);
+
+  useEffect(() => {
+    setQuestionDraftsArray(questionDraftsData?.data.data);
+    console.log(isQuestionDraftsLoading);
+  }, [isQuestionDraftsLoading]);
 
   interface handleCardClickProps {
     type: DefaultCardType;
@@ -49,22 +42,47 @@ const Question = () => {
   //  "question" | "review" | "add"
   const handleCardClick = ({ type }: handleCardClickProps) => {
     if (type == 'add') {
-      navigate('/newQuestion');
+      alert('새로운 질문 추가하기');
     }
   };
+
+  function parseTitleFromContent(content: string | undefined): string {
+    const match = content ? content.match(/<h1>(.*?)<\/h1>/i) : '';
+    return match ? match[1] : '';
+  }
+
+  function removeH1Tag(content: string): string {
+    return content.replace(/<h1>.*?<\/h1>/i, ''); // Remove the <h1> tag and its content
+  }
+
   return (
     <BoxWrapper>
       <DefaultTab items={items} />
       <SearchInput />
       <QuestionWrapper>
-        {defaultTabType == 'myQuestion' &&
-          mockDataArray.map((item, idx) => {
+        {defaultTabType == 'myQuestion' && (
+          <DefaultCard
+            type="add"
+            onClick={() =>
+              handleCardClick({
+                type: 'add',
+              })
+            }
+          />
+        )}
+        {(isQuestionDraftsLoading || isQuestionsLoading) && (
+          <DefaultCard type="question" content="질문 목록을 불러오고 있습니다!" />
+        )}
+        {defaultTabType === 'myQuestion' &&
+          questionsArray &&
+          questionsArray.map((item, idx) => {
             return (
               <DefaultCard
-                type={item.type}
+                type="question"
                 key={idx}
-                commentCount={item.commentCount}
-                title={item.title}
+                commentCount={item.review_cnt}
+                title={parseTitleFromContent(item.content)}
+                content={removeH1Tag(item.content ? item.content : '')}
                 onClick={() =>
                   handleCardClick({
                     type: item.type,
@@ -73,14 +91,21 @@ const Question = () => {
               />
             );
           })}
-        {defaultTabType == 'questionDrafts' &&
-          mockDataArray.map((item, idx) => {
+        {defaultTabType === 'questionDrafts' &&
+          questionDraftsArray &&
+          questionDraftsArray.map((item, idx) => {
             return (
               <DefaultCard
-                type={item.type}
+                type="question"
                 key={idx}
-                commentCount={item.commentCount}
-                title={item.title}
+                commentCount={item.review_cnt}
+                title={parseTitleFromContent(item.content)}
+                content={removeH1Tag(item.content ? item.content : '')}
+                onClick={() =>
+                  handleCardClick({
+                    type: item.type,
+                  })
+                }
               />
             );
           })}
