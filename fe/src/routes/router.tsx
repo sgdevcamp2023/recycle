@@ -7,7 +7,6 @@ import TestPage from '@page/TestPage';
 import TestPageTwo from '@page/TestPageTwo';
 import TestPageThree from '@page/TestPageThree';
 import GridTemplate from '@components/layout/GridTemplate';
-import BlackNoteTest from '@page/BlackNoteTest';
 import Main from '@page/Main';
 import RegisterEmail from '@page/RegisterEmail';
 import AccountLinking from '@page/AccountLinking';
@@ -26,10 +25,11 @@ const Router = () => {
           )}
         </Route>
       ))}
-
+      {/* 로그인 하기 전 */}
       <Route path="/main" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      {/* 나중에 Common 안에 넣어주기 */}
       <Route path="/registeremail" element={<RegisterEmail />} />
       <Route path="/accountlinking" element={<AccountLinking />} />
 
@@ -38,7 +38,6 @@ const Router = () => {
       <Route path="/test2" element={<TestPageTwo />} />
       <Route path="/test3" element={<TestPageThree />} />
       <Route path="/grid" element={<GridTemplate />} />
-      <Route path="/Black" element={<BlackNoteTest />} />
       <Route path="/Api" element={<APITestPage />} />
     </Routes>
   );
