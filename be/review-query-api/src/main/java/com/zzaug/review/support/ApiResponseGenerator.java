@@ -33,11 +33,6 @@ public class ApiResponseGenerator {
 				new ApiResponse.SuccessBody<>(data, code.getValue(), code.getCode()), status);
 	}
 
-	public static <D> ApiResponse<Page<D>> success(
-			final org.springframework.data.domain.Page<D> data, final HttpStatus status) {
-		return new ApiResponse<>(new Page<>(data), status);
-	}
-
 	public static ApiResponse<Void> fail(final HttpStatus status) {
 		return new ApiResponse<>(status);
 	}
