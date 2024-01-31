@@ -14,6 +14,7 @@ import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
+import com.zzaug.member.web.dto.validator.PositiveId;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.security.token.AuthToken;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
@@ -105,7 +108,7 @@ public class MemberController {
 
 	@GetMapping("/{id}")
 	public ApiResponse<ApiResponse.SuccessBody<GetMemberUseCaseResponse>> read(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long id) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable @PositiveId Long id) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
 		GetMemberUseCaseRequest useCaseRequest =
