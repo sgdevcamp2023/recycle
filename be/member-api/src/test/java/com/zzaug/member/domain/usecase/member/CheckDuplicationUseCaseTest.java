@@ -22,7 +22,7 @@ class CheckDuplicationUseCaseTest extends AbstractUseCaseTest {
 	void 아이디가_중복되면_duplication이_false입니다() {
 		// Given
 		CheckDuplicationUseCaseRequest request =
-				CheckDuplicationUseCaseRequest.builder().certification("sample@email.com").build();
+				CheckDuplicationUseCaseRequest.builder().certification("sample").build();
 
 		// When
 		CheckDuplicationUseCaseResponse response = checkDuplicationUseCase.execute(request);
