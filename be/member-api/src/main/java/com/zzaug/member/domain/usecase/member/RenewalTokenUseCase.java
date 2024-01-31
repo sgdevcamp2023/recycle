@@ -43,6 +43,7 @@ public class RenewalTokenUseCase {
 
 	public MemberAuthToken execute(RenewalTokenUseCaseRequest request) {
 		final String refreshToken = request.getRefreshToken();
+		final String accessToken = request.getAccessToken();
 		final Long memberId = resolveMemberId(refreshToken);
 
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
@@ -67,7 +68,7 @@ public class RenewalTokenUseCase {
 						memberContacts.getEmail(),
 						memberContacts.getGithub());
 
-		saveUsedTokenToBlackList(refreshToken);
+		saveAllUsedTokenToBlackList(accessToken, refreshToken);
 
 		return MemberAuthToken.builder()
 				.accessToken(authToken.getAccessToken())
@@ -84,11 +85,16 @@ public class RenewalTokenUseCase {
 		return idSource.get();
 	}
 
-	private void saveUsedTokenToBlackList(String token) {
-		blackTokenAuthDao.saveBlackTokenAuth(
-				BlackTokenAuthEntity.builder()
-						.token(TokenData.builder().token(token).build())
-						.tokenType(TokenType.REFRESHTOKEN)
-						.build());
+	private void saveAllUsedTokenToBlackList(String accessToken, String refreshToken) {
+		blackTokenAuthDao.saveAllBlackTokenAuth(
+				List.of(
+						BlackTokenAuthEntity.builder()
+								.token(TokenData.builder().token(accessToken).build())
+								.tokenType(TokenType.ACCESSTOKEN)
+								.build(),
+						BlackTokenAuthEntity.builder()
+								.token(TokenData.builder().token(refreshToken).build())
+								.tokenType(TokenType.REFRESHTOKEN)
+								.build()));
 	}
 }
