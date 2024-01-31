@@ -22,6 +22,10 @@ public class LogOutUseCase {
 
 	public void execute(LogOutUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
+		// todo accessToken, refreshToken blacklist 처리
+		final String accessToken = request.getAccessToken();
+		final String refreshToken = request.getRefreshToken();
+
 		Optional<LoginLogEntity> loginLogSource =
 				loginLogDao.findTopByMemberIdAndStatusAndDeletedFalse(memberId, LoginStatus.LOGIN);
 
