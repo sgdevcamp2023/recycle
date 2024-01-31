@@ -25,6 +25,7 @@ import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -52,7 +53,7 @@ public class MemberController {
 	private final PostMemberUseCase postMemberUseCase;
 
 	@PostMapping()
-	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
+	public ApiResponse<ApiResponse.Success> save(@Valid @RequestBody MemberSaveRequest request) {
 		PostMemberUseCaseRequest useCaseRequest =
 				PostMemberUseCaseRequest.builder()
 						.certification(request.getCertification())
