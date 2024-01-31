@@ -22,7 +22,7 @@ const TextBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 const Logo = styled.img`
   height: 3rem;
   margin-right: 0.25rem;
@@ -62,30 +62,31 @@ const RightContent = styled.div`
   padding: 1rem;
 `;
 
-
 const AccountLinking = () => {
   return (
-      <LayoutWrapper>
-        <div>
-          <SideBar/>
-        </div>
-        <MainWrapper>
-          <TopHeader>
-            <ContentTab/>
-          </TopHeader>
-          <MainContent>
-            <ModalBox>
-              <TextBox>
-                <Logo src={logo} alt="zzaug main logo" />
-                <Text fontSize='lg' fontWeight='bold'>에서는 이런 서비스들을 제공해요!</Text>
-              </TextBox>
-              <ReviewToGitModal/>
-              <SendEmailModal/>
-            </ModalBox>
-          </MainContent>
-          <RightContent>RightBar</RightContent>
-        </MainWrapper>
-      </LayoutWrapper>
+    <LayoutWrapper>
+      <div>
+        <SideBar />
+      </div>
+      <MainWrapper>
+        <TopHeader>
+          <ContentTab />
+        </TopHeader>
+        <MainContent>
+          <ModalBox>
+            <TextBox>
+              <Logo src={logo} alt="zzaug main logo" />
+              <Text fontSize="lg" fontWeight="bold">
+                에서는 이런 서비스들을 제공해요!
+              </Text>
+            </TextBox>
+            <ReviewToGitModal />
+            <SendEmailModal />
+          </ModalBox>
+        </MainContent>
+        <RightContent>RightBar</RightContent>
+      </MainWrapper>
+    </LayoutWrapper>
   );
 };
 

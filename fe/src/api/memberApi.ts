@@ -72,7 +72,11 @@ const memberApi = {
   // 이메일 인증 [get]
   //! 파라미터 Interface 만들어주기
   checkEmailApprove: async ({ email, nonce, code }: any) => {
-    return await clientApi.member.post(`/members/check/email?${email}?${nonce}?${code}`);
+    return await clientApi.member.post('/members/check/email', {
+      email,
+      nonce,
+      code,
+    });
   },
 };
 

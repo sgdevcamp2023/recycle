@@ -13,8 +13,6 @@ const Setting = () => {
   const [id, setId] = useState<number>(1);
 
   const { data: memberInfo, isLoading } = useGetMemberInfo({ id });
-  console.log(memberInfo);
-  console.log(isLoading);
   return (
     <BoxWrapper>
       <DefaultTab items={items} />
