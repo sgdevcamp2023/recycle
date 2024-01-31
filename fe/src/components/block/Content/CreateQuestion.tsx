@@ -17,7 +17,7 @@ const CreateQuestion = () => {
           height={40}
           ref={ref}
           fontSize="xl"
-          backgroundColor="white"
+          $backgroundColor="white"
           placeholder="제목을 입력해주세요"
           padding="0 0.5rem 0.5rem 0.5rem"
         />

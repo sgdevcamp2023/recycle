@@ -65,7 +65,7 @@ const LineCommentView = () => {
             height={1.5}
             padding={0.2}
             fontSize="xxs"
-            backgroundColor={'grey100'}
+            $backgroundColor={'grey100'}
             color={'white'}
           >
             수정

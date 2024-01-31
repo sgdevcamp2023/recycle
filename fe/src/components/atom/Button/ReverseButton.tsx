@@ -8,8 +8,8 @@ interface ReverseButtonProps {
   height?: number | string;
   color?: ColorType;
   fontSize?: FontSizeType;
-  backgroundColor?: BackgroundColorType;
-  borderColor?: borderColorType;
+  $backgroundColor?: BackgroundColorType;
+  $borderColor?: borderColorType;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
@@ -21,8 +21,8 @@ const ReverseButton = ({
   height = 'default',
   fontSize = 'base',
   color = 'green',
-  borderColor = 'green',
-  backgroundColor = 'white',
+  $borderColor = 'green',
+  $backgroundColor = 'white',
   padding = '1rem',
   border = '1px solid #1EB649',
   onClick,
@@ -34,8 +34,8 @@ const ReverseButton = ({
       height={height}
       fontSize={fontSize}
       color={color}
-      borderColor={borderColor}
-      backgroundColor={backgroundColor}
+      $borderColor={$borderColor}
+      $backgroundColor={$backgroundColor}
       padding={padding}
       onClick={onClick}
       border={border}
@@ -52,8 +52,8 @@ const ReverseButtonProps = styled.button<
     | 'height'
     | 'fontSize'
     | 'color'
-    | 'backgroundColor'
-    | 'borderColor'
+    | '$backgroundColor'
+    | '$borderColor'
     | 'padding'
     | 'cursor'
     | 'border'
@@ -68,8 +68,8 @@ const ReverseButtonProps = styled.button<
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.white};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? theme.$backgroundColor[$backgroundColor] : theme.backgroundcolor.white};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -78,8 +78,8 @@ const ReverseButtonProps = styled.button<
   transition: all 0.5s;
 
   &:hover {
-    background-color: ${({ theme, backgroundColor }) =>
-      backgroundColor ? theme.backgroundColor.green100 : theme.backgroundColor.white};
+    background-color: ${({ theme, $backgroundColor }) =>
+      $backgroundColor ? theme.backgroundColor.green100 : theme.backgroundColor.white};
     border: none;
     color: ${({ theme, color }) => (color ? theme.color.white : theme.color.green)};
   }

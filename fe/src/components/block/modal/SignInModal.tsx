@@ -111,7 +111,7 @@ const SignInModal = () => {
             width={5.5}
             height={3}
             padding={0.5}
-            backgroundColor={'green200'}
+            $backgroundColor={'green200'}
           >
             중복 확인
           </DefaultButton>

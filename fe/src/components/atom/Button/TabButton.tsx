@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { BackgroundColorType, ColorType, FontSizeType, borderColorType } from '@styles/theme';
 import { MouseEventHandler } from 'react';
-import React from 'react';
 
 interface TabButtonProps {
   children?: React.ReactNode;
@@ -9,12 +8,12 @@ interface TabButtonProps {
   height?: number | string;
   color?: ColorType;
   fontSize?: FontSizeType;
-  backgroundColor?: BackgroundColorType;
-  borderColor?: borderColorType;
+  $backgroundColor?: BackgroundColorType;
+  $borderColor?: borderColorType;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
-  isActive?: boolean | null;
+  $isActive?: boolean | null;
   isTabButton?: boolean;
 }
 
@@ -23,10 +22,10 @@ const TabButton = ({
   height = 'default',
   fontSize = 'base',
   color = 'white',
-  borderColor = 'green',
-  backgroundColor = 'green100',
+  $borderColor = 'green',
+  $backgroundColor = 'green100',
   padding = '1rem',
-  isActive = null,
+  $isActive = null,
   isTabButton = false,
   onClick,
   children,
@@ -37,11 +36,11 @@ const TabButton = ({
       height={height}
       fontSize={fontSize}
       color={color}
-      borderColor={borderColor}
-      backgroundColor={backgroundColor}
+      $borderColor={$borderColor}
+      $backgroundColor={$backgroundColor}
       padding={padding}
       onClick={onClick}
-      isActive={isTabButton && isActive}
+      $isActive={isTabButton && $isActive}
     >
       {children}
     </TabButtonBox>
@@ -55,11 +54,11 @@ const TabButtonBox = styled.button<
     | 'height'
     | 'fontSize'
     | 'color'
-    | 'backgroundColor'
-    | 'borderColor'
+    | '$backgroundColor'
+    | '$borderColor'
     | 'padding'
     | 'cursor'
-    | 'isActive'
+    | '$isActive'
   >
 >`
   width: ${({ width }) => (width === 'default' ? '100%' : `${width}rem`)};
@@ -75,9 +74,9 @@ const TabButtonBox = styled.button<
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ isActive }) => (isActive ? 'white' : '#888')};
-  background-color: ${({ theme, isActive }) =>
-    isActive ? theme.backgroundColor.green100 : theme.backgroundColor.white};
+  color: ${({ $isActive }) => ($isActive ? 'white' : '#888')};
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.backgroundColor.green100 : theme.backgroundColor.white};
   border-radius: 8px;
   &:hover {
     background-color: ${({ theme }) => theme.backgroundColor.green100};

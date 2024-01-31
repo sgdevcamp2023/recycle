@@ -90,7 +90,7 @@ const Main = () => {
           <ReverseButton
             width={11.25}
             height={3.25}
-            borderColor={'green'}
+            $borderColor={'green'}
             onClick={() => move('login')}
           >
             로그인
@@ -98,7 +98,7 @@ const Main = () => {
           <ReverseButton
             width={11.25}
             height={3.25}
-            borderColor={'green'}
+            $borderColor={'green'}
             onClick={() => move('signup')}
           >
             회원가입

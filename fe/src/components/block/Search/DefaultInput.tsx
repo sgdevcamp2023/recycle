@@ -12,7 +12,7 @@ interface DefaultInputProps {
   color?: ColorType;
   placeholderColor?: ColorType;
   fontSize?: FontSizeType;
-  backgroundColor?: BackgroundColorType;
+  $backgroundColor?: BackgroundColorType;
   disabled?: boolean;
   padding?: number | string;
 }
@@ -28,7 +28,7 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
       placeholder = '',
       fontSize = 'base',
       color = 'black',
-      backgroundColor = 'grey300',
+      $backgroundColor = 'grey300',
       padding = '0.5rem',
       disabled,
     },
@@ -48,7 +48,7 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
         placeholder={placeholder}
         fontSize={fontSize}
         color={color}
-        backgroundColor={backgroundColor}
+        $backgroundColor={$backgroundColor}
         disabled={disabled}
         padding={padding}
       />
@@ -59,7 +59,10 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(
 DefaultInput.displayName = 'DefaultInput';
 
 const DefaultInputContainer = styled.input<
-  Pick<DefaultInputProps, 'padding' | 'width' | 'height' | 'fontSize' | 'color' | 'backgroundColor'>
+  Pick<
+    DefaultInputProps,
+    'padding' | 'width' | 'height' | 'fontSize' | 'color' | '$backgroundColor'
+  >
 >`
   width: ${({ width }) => (width === '100%' ? 'calc(100%)' : `${width}px`)};
   height: ${({ height }) => (height === '100%' ? '100%' : `${height}px`)};
@@ -70,8 +73,8 @@ const DefaultInputContainer = styled.input<
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundcolor.inherit};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? theme.backgroundColor[$backgroundColor] : theme.backgroundcolor.inherit};
 
   ::placeholder {
     color: ${({ theme }) => theme.color.grey};

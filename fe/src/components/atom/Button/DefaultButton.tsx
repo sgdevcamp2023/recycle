@@ -8,12 +8,12 @@ interface DefaultButtonProps {
   height?: number | string;
   color?: ColorType;
   fontSize?: FontSizeType;
-  backgroundColor?: BackgroundColorType;
-  borderColor?: borderColorType;
+  $backgroundColor?: BackgroundColorType;
+  $borderColor?: borderColorType;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   padding?: number | string;
   cursor?: string;
-  isActive?: boolean | null;
+  $isActive?: boolean | null;
   isTabButton?: boolean;
 }
 
@@ -22,10 +22,10 @@ const DefaultButton = ({
   height = 'default',
   fontSize = 'base',
   color = 'white',
-  borderColor = 'green',
-  backgroundColor = 'green100',
+  $borderColor = 'green',
+  $backgroundColor = 'green100',
   padding = '1rem',
-  isActive = null,
+  $isActive = null,
   isTabButton = false,
   onClick,
   children,
@@ -36,11 +36,11 @@ const DefaultButton = ({
       height={height}
       fontSize={fontSize}
       color={color}
-      borderColor={borderColor}
-      backgroundColor={backgroundColor}
+      $borderColor={$borderColor}
+      $backgroundColor={$backgroundColor}
       padding={padding}
       onClick={onClick}
-      isActive={isTabButton && isActive}
+      $isActive={isTabButton && $isActive}
     >
       {children}
     </DefaultButtonBox>
@@ -54,11 +54,11 @@ const DefaultButtonBox = styled.button<
     | 'height'
     | 'fontSize'
     | 'color'
-    | 'backgroundColor'
-    | 'borderColor'
+    | '$backgroundColor'
+    | '$borderColor'
     | 'padding'
     | 'cursor'
-    | 'isActive'
+    | '$isActive'
   >
 >`
   width: ${({ width }) => (width === 'default' ? '100%' : `${width}rem`)};
@@ -70,18 +70,17 @@ const DefaultButtonBox = styled.button<
   font-weight: 500;
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? theme.backgroundColor[backgroundColor] : theme.backgroundColor.g};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? theme.backgroundColor[$backgroundColor] : theme.backgroundColor.grey};
   cursor: pointer;
   transition: all 0.5s;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover {
-    background-color: ${({ theme, backgroundColor }) =>
-      backgroundColor ? theme.backgroundColor.white : theme.backgroundColor.green100};
+    background-color: ${({ theme, $backgroundColor }) =>
+      $backgroundColor ? theme.backgroundColor.white : theme.backgroundColor.green100};
     border: 0.063rem solid #1eb649;
     color: ${({ theme, color }) => (color ? theme.color.green : theme.color.white)};
   }
