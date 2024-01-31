@@ -7,6 +7,7 @@ import com.zzaug.member.entity.member.ExternalContactEntity;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.boot.test.context.TestComponent;
+import org.springframework.context.annotation.Profile;
 
 /**
  * 테스트용 외부 연락처 DAO
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.TestComponent;
  *
  * <p>깃허브: git
  */
+@Profile("usecase-test")
 @TestComponent
 public class UMockExternalContactDao implements ExternalContactDao {
 
