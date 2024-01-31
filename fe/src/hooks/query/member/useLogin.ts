@@ -1,7 +1,9 @@
 import memberApi from '@api/memberApi';
+import useMovePage from '@hooks/common/useMovePage';
 import { useMutation } from '@tanstack/react-query';
 
 const useLogin = () => {
+  const move = useMovePage();
   return useMutation({
     mutationFn: memberApi.login,
     onSuccess: (data) => {
@@ -16,6 +18,7 @@ const useLogin = () => {
       if (access && refresh) {
         localStorage.setItem('access', access)
         localStorage.setItem('refresh', refresh)
+        move('')
       } else {
         console.error('토큰을 발급받지 못했습니다')
       }
