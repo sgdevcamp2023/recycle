@@ -1,4 +1,5 @@
 import Text from '@components/atom/Text';
+import useLogout from '@hooks/query/member/useLogout';
 import useTabStore, { TabType } from '@store/useTabStore';
 import { flexCenter } from '@styles/flexCenter';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,11 @@ const SideBar = () => {
   const handleClickTab = (word: TabType) => {
     setTabType(word);
     navigate('/');
+  };
+
+  const { mutate: logout } = useLogout();
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -45,6 +51,8 @@ const SideBar = () => {
             onClick={() => {
               handleClickTab(null);
               alert('logout');
+              handleLogout();
+              navigate('/main');
             }}
           >
             <Text fontSize="lg" fontWeight="bold">
