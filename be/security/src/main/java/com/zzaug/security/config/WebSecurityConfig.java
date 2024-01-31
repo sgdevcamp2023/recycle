@@ -99,7 +99,8 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
-								"/reports/**")
+								"/reports/**",
+								"/api/v1/members/check")
 						.antMatchers(HttpMethod.POST, "/api/v1/members");
 	}
 
@@ -116,7 +117,8 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
-								"/reports/**")
+								"/reports/**",
+								"/api/v1/members/check")
 						.antMatchers(HttpMethod.POST, "/api/v1/members");
 	}
 
