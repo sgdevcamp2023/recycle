@@ -2,6 +2,10 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
 import com.zzaug.member.domain.event.UpdateMemberEvent;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.ExistSourceException;
+import com.zzaug.member.domain.exception.PasswordNotMatchException;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.service.member.MemberSourceQuery;
 import com.zzaug.member.domain.model.member.MemberAuthentication;
@@ -43,13 +47,13 @@ public class UpdateMemberUseCase {
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByMemberIdAndDeletedFalse(memberSource.getId());
 		if (authenticationSource.isEmpty()) {
-			throw new IllegalArgumentException("Not found authentication.");
+			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "MemberId", memberId);
 		}
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
 		if (!memberAuthentication.isMatchPassword(passwordEncoder, password)) {
-			throw new IllegalArgumentException("Password is not matched.");
+			throw new PasswordNotMatchException();
 		}
 
 		if (!memberAuthentication.isSameCertification(certification.getCertification())) {
@@ -58,7 +62,7 @@ public class UpdateMemberUseCase {
 					"Check duplicate certification. certification: {}", certification.getCertification());
 			boolean isDuplicateId = authenticationDao.existsByCertificationAndDeletedFalse(certification);
 			if (isDuplicateId) {
-				throw new IllegalArgumentException("Already exist certification.");
+				throw new ExistSourceException(DBSource.AUTHENTICATION, certification.getCertification());
 			}
 			String originCertificationValue = memberAuthentication.getCertification();
 			memberAuthentication.updateCertification(certification.getCertification());
