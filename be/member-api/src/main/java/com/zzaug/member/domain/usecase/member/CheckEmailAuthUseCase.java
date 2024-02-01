@@ -6,6 +6,10 @@ import static com.zzaug.member.domain.model.auth.EmailAuthResult.SUCCESS;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.event.AddEmailEvent;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.InvalidRequestException;
+import com.zzaug.member.domain.exception.OverMaxTryCountException;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.auth.EmailAuthDao;
 import com.zzaug.member.domain.external.dao.log.EmailAuthLogDao;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
@@ -58,7 +62,7 @@ public class CheckEmailAuthUseCase {
 		log.debug("Check email auth session. sessionId: {}", sessionId);
 		Optional<EmailAuthSession> emailAuthSessionSource = emailAuthDao.findBySessionId(sessionId);
 		if (emailAuthSessionSource.isEmpty()) {
-			throw new IllegalArgumentException("request email auth session is not found");
+			throw new SourceNotFoundException(DBSource.EMAIL_AUTH_SESSION, "SessionId", sessionId);
 		}
 
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
@@ -69,11 +73,11 @@ public class CheckEmailAuthUseCase {
 
 		// 이메일 인증 요청한 멤버와 요청한 멤버가 일치하는지 확인
 		if (!emailAuth.isMemberId(memberSource.getId())) {
-			throw new IllegalArgumentException("request member id is not matched");
+			throw new InvalidRequestException("request member id is not matched", null);
 		}
 		// 이메일 인증 요청시 발급한 nonce와 요청한 nonce가 일치하는지 확인
 		if (!emailAuth.isNonce(nonce)) {
-			throw new IllegalArgumentException("request nonce is not matched");
+			throw new InvalidRequestException("request nonce is not matched", "nonce");
 		}
 
 		log.debug("Get try count. memberId: {}, emailAuthId: {}", memberId, emailAuthId);
@@ -81,7 +85,7 @@ public class CheckEmailAuthUseCase {
 		TryCountElement tryCount = null;
 		try {
 			tryCount = getTryCount(memberId, emailAuthId);
-		} catch (IllegalArgumentException e) {
+		} catch (OverMaxTryCountException e) {
 			log.debug("Delete email auth session because tryCount is over max. sessionId: {}", sessionId);
 			emailAuthDao.deleteBySessionId(sessionId);
 			return CheckEmailAuthUseCaseResponse.builder()
@@ -131,7 +135,7 @@ public class CheckEmailAuthUseCase {
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByMemberIdAndDeletedFalse(memberId);
 		if (authenticationSource.isEmpty()) {
-			throw new IllegalArgumentException("request authentication information is not found");
+			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "MemberId", memberId);
 		}
 		AuthenticationEntity authenticationEntity = authenticationSource.get();
 
@@ -148,7 +152,7 @@ public class CheckEmailAuthUseCase {
 				emailAuthDao.findByMemberIdAndEmailAndNonceAndDeletedFalse(
 						memberSource.getId(), email, nonce);
 		if (emailAuthSource.isEmpty()) {
-			throw new IllegalArgumentException("request email auth information is not found");
+			throw new SourceNotFoundException(DBSource.EMAIL_AUTH, "MemberId", memberSource.getId());
 		}
 		return EmailAuthSourceConverter.from(emailAuthSource.get());
 	}
@@ -167,7 +171,7 @@ public class CheckEmailAuthUseCase {
 			// 이메일 인증을 실패한 이력이 있는 경우 tryCount를 조회하여 초기화
 			tryCount = Math.toIntExact(emailAuthLogSource.get().getTryCount());
 			if (tryCount >= MAX_TRY_COUNT) {
-				throw new IllegalArgumentException("request try count is over");
+				throw new OverMaxTryCountException("request try count is over");
 			}
 			return TryCountElement.builder()
 					.tryCount(tryCount)
