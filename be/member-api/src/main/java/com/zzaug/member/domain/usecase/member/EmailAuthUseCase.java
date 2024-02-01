@@ -4,6 +4,7 @@ import com.zzaug.member.domain.dto.member.EmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
 import com.zzaug.member.domain.external.dao.auth.EmailAuthDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
+import com.zzaug.member.domain.message.EmailAuthMessage;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.member.ContactType;
@@ -11,6 +12,7 @@ import com.zzaug.member.redis.email.EmailAuthSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ public class EmailAuthUseCase {
 
 	private final ExternalContactDao externalContactDao;
 	private final EmailAuthDao emailAuthDao;
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Transactional
 	public EmailAuthUseCaseResponse execute(EmailAuthUseCaseRequest request) {
@@ -39,6 +43,8 @@ public class EmailAuthUseCase {
 		// todo 너무 많은 이메일 인증 요청을 보내는 것은 아닌지 확인한다.
 
 		save(memberId, email, nonce, authCode, sessionId);
+
+		publishEvent(memberId, email, authCode);
 
 		// todo 이메일 인증 요청 메시지를 보낸다.
 		return EmailAuthUseCaseResponse.builder().duplication(false).build();
@@ -70,5 +76,11 @@ public class EmailAuthUseCase {
 						.sessionId(sessionId)
 						.build();
 		emailAuthDao.saveEmailAuthSession(emailAuthSession);
+	}
+
+	private void publishEvent(Long memberId, EmailData email, String authCode) {
+		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
+		applicationEventPublisher.publishEvent(
+			EmailAuthMessage.builder().memberId(memberId).email(email.getEmail()).code(authCode).build());
 	}
 }
