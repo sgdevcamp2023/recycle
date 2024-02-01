@@ -21,6 +21,7 @@ const CreateServiceApi = (service: string): AxiosInstance => {
     baseURL: serviceEndpoint,
     headers: {
       'X-ZZAUG-ID': uuidv4(),
+      //받는 시점에서 생성하는 방법도 있지 않을까?
     },
   });
 
