@@ -19,6 +19,7 @@ import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.log.EmailAuthLogEntity;
 import com.zzaug.member.entity.member.ContactType;
 import com.zzaug.member.entity.member.ExternalContactEntity;
+import com.zzaug.member.redis.email.EmailAuthSession;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,12 @@ public class CheckEmailAuthUseCase {
 		final String code = request.getCode();
 		final EmailData email = EmailData.builder().email(request.getEmail()).build();
 		final String nonce = request.getNonce();
+		final String sessionId = request.getSessionId();
 
-		// todo 이메일을 요청한 세션과 동일한 세션에서 이메일 번호 확인 요청을 하였는지 확인
+		Optional<EmailAuthSession> emailAuthSessionSource = emailAuthDao.findBySessionId(sessionId);
+		if (emailAuthSessionSource.isEmpty()) {
+			throw new IllegalArgumentException("request email auth session is not found");
+		}
 
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
 
@@ -82,7 +87,8 @@ public class CheckEmailAuthUseCase {
 		EmailAuthLogEntity emailAuthLogEntity =
 				emailAuthLogService.saveLog(SUCCESS, tryCount, memberId, emailAuthId);
 
-		// todo 이메일 인증 요청 세션을 삭제한다.
+		emailAuthDao.deleteBySessionId(sessionId);
+
 		return CheckEmailAuthUseCaseResponse.builder()
 				.authentication(true)
 				.tryCount(emailAuthLogEntity.getTryCount())
