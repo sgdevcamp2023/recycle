@@ -22,12 +22,13 @@ const useSignUp = () => {
         console.log('에러 처리 로직 추가');
         // 아마 400 번대면 재사용하도록 하기
 
-        const storedData = {
-          email: 'stored-email-value',
-          password: 'stored-password-value',
-        };
+        // 아래 부분은 localStorage 저장을 위한 코드입니다.
+        // const storedData = {
+        //   email: 'stored-email-value',
+        //   password: 'stored-password-value',
+        // };
 
-        localStorage.setItem('storedSignUpData', JSON.stringify(storedData));
+        // localStorage.setItem('storedSignUpData', JSON.stringify(storedData));
 
         alert('회원가입을 다시 시도해주세요');
       }
@@ -37,10 +38,10 @@ const useSignUp = () => {
       }
     },
 
-    // onSettled: (data) => {
-    //   console.log('결과에 관계 없이 무언가 실행됨');
-    //   console.log(data);
-    // },
+    onSettled: (data) => {
+      console.log('결과에 관계 없이 무언가 실행됨');
+      console.log(data);
+    },
   });
 };
 

@@ -55,15 +55,13 @@ const SignInModal = () => {
   const { data: duplicateData } = useCheckIdDuplicate({ certification: email });
 
   const handleIdDuplicate = () => {
-    // console.log(duplicateData?.data.data.duplication);
-    // setIsDuplicate(duplicateData?.data.data.duplication);
-    setIsDuplicate(false);
-
-    if (!duplicateData?.data.data.duplication) {
+    if (duplicateData?.data.data.duplication) {
       // 중복일시 버튼 비활성화
       setIsButtonDisabled(true);
       console.log(isDuplicate);
       alert('중복임');
+    } else {
+      setIsButtonDisabled(false);
     }
   };
 
@@ -89,6 +87,7 @@ const SignInModal = () => {
         password: password,
       });
       alert('회원가입 성공');
+      setIsDuplicate(false);
     }
   };
   return (
@@ -107,7 +106,7 @@ const SignInModal = () => {
         <Text fontSize="lg">아이디</Text>
         <IdBox>
           <CustomInput
-            type="eamil"
+            type="email"
             placeholder="이름 입력"
             width={15.5}
             height={3}
