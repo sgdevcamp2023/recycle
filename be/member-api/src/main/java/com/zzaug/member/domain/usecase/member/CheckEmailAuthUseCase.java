@@ -5,8 +5,10 @@ import static com.zzaug.member.domain.model.auth.EmailAuthResult.SUCCESS;
 
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
+import com.zzaug.member.domain.event.AddEmailEvent;
 import com.zzaug.member.domain.external.dao.auth.EmailAuthDao;
 import com.zzaug.member.domain.external.dao.log.EmailAuthLogDao;
+import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
 import com.zzaug.member.domain.external.service.auth.EmailAuthLogService;
 import com.zzaug.member.domain.external.service.member.MemberSourceQuery;
@@ -17,12 +19,14 @@ import com.zzaug.member.domain.support.entity.EmailAuthSourceConverter;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.log.EmailAuthLogEntity;
+import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.ContactType;
 import com.zzaug.member.entity.member.ExternalContactEntity;
 import com.zzaug.member.redis.email.EmailAuthSession;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +35,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CheckEmailAuthUseCase {
 
+	private final AuthenticationDao authenticationDao;
 	private final ExternalContactDao externalContactDao;
 	private final EmailAuthDao emailAuthDao;
 	private final EmailAuthLogDao emailAuthLogDao;
 
 	private final MemberSourceQuery memberSourceQuery;
 	private final EmailAuthLogService emailAuthLogService;
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Transactional
 	public CheckEmailAuthUseCaseResponse execute(CheckEmailAuthUseCaseRequest request) {
@@ -105,6 +112,16 @@ public class CheckEmailAuthUseCase {
 		log.debug("Delete email auth session. sessionId: {}", sessionId);
 		emailAuthDao.deleteBySessionId(sessionId);
 
+		log.debug("Get authentication. memberId: {}", memberId);
+		Optional<AuthenticationEntity> authenticationSource =
+				authenticationDao.findByMemberIdAndDeletedFalse(memberId);
+		if (authenticationSource.isEmpty()) {
+			throw new IllegalArgumentException("request authentication information is not found");
+		}
+		AuthenticationEntity authenticationEntity = authenticationSource.get();
+
+		publishEvent(memberId, authenticationEntity, email);
+
 		return CheckEmailAuthUseCaseResponse.builder()
 				.authentication(true)
 				.tryCount(emailAuthLogEntity.getTryCount())
@@ -144,5 +161,15 @@ public class CheckEmailAuthUseCase {
 					.emailAuthLogId(emailAuthLogSource.get().getId())
 					.build();
 		}
+	}
+
+	private void publishEvent(
+			Long memberId, AuthenticationEntity authenticationEntity, EmailData email) {
+		applicationEventPublisher.publishEvent(
+				AddEmailEvent.builder()
+						.memberId(memberId)
+						.memberCertification(authenticationEntity.getCertification().getCertification())
+						.memberEmail(email.getEmail())
+						.build());
 	}
 }
