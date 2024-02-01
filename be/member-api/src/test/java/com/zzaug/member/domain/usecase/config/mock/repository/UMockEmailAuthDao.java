@@ -40,7 +40,18 @@ public class UMockEmailAuthDao implements EmailAuthDao {
 	}
 
 	@Override
+	public Optional<EmailAuthSession> findBySessionId(String sessionId) {
+		return Optional.of(
+				EmailAuthSession.builder().memberId(1L).emailAuthId(1L).sessionId(sessionId).build());
+	}
+
+	@Override
 	public EmailAuthSession saveEmailAuthSession(EmailAuthSession emailAuthSession) {
 		return emailAuthSession;
+	}
+
+	@Override
+	public void deleteBySessionId(String sessionId) {
+		// do nothing
 	}
 }
