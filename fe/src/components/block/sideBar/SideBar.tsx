@@ -11,7 +11,7 @@ const SideBar = () => {
 
   const handleClickTab = (word: TabType) => {
     setTabType(word);
-    navigate('/');
+    navigate(`/${word}`);
   };
 
   const { mutate: logout } = useLogout();
@@ -27,29 +27,29 @@ const SideBar = () => {
           Menu
         </Text>
         <MenuTabContainer>
-          <TabButton $isActive={tabType === 'question'} onClick={() => handleClickTab('question')}>
+          <TabButton $isActive={tabType === 'Question'} onClick={() => handleClickTab('Question')}>
             <Text fontSize="lg" fontWeight="bold">
               Question
             </Text>
           </TabButton>
-          <TabButton $isActive={tabType === 'review'} onClick={() => handleClickTab('review')}>
+          <TabButton $isActive={tabType === 'Review'} onClick={() => handleClickTab('Review')}>
             <Text fontSize="lg" fontWeight="bold">
               Review
             </Text>
           </TabButton>
-          <TabButton $isActive={tabType === 'request'} onClick={() => handleClickTab('request')}>
+          <TabButton $isActive={tabType === 'Request'} onClick={() => handleClickTab('Request')}>
             <Text fontSize="lg" fontWeight="bold">
               Request
             </Text>
           </TabButton>
-          <TabButton $isActive={tabType === 'setting'} onClick={() => handleClickTab('setting')}>
+          <TabButton $isActive={tabType === 'Setting'} onClick={() => handleClickTab('Setting')}>
             <Text fontSize="lg" fontWeight="bold">
               Setting
             </Text>
           </TabButton>
           <TabButton
             onClick={() => {
-              handleClickTab(null);
+              handleClickTab('Question');
               alert('logout');
               handleLogout();
               navigate('/main');
