@@ -43,4 +43,20 @@ class EmailAuthSessionRepositoryTest extends AbstractRedisTest {
 				() -> assertEquals(emailAuthSession.getEmailAuthId(), emailAuthId),
 				() -> assertEquals(emailAuthSession.getSessionId(), sessionId));
 	}
+
+	@Test
+	void 세션_아이디_값을_통해_삭제한다() {
+		// Given
+		Optional<EmailAuthSession> emailAuthSessionSource = repository.findBySessionId(sessionId);
+		assertTrue(emailAuthSessionSource.isPresent());
+		EmailAuthSession emailAuthSession = emailAuthSessionSource.get();
+
+		// When
+		repository.deleteById(emailAuthSession.getId());
+
+		// Then
+		Optional<EmailAuthSession> deletedEmailAuthSessionSource =
+				repository.findBySessionId(sessionId);
+		assertTrue(deletedEmailAuthSessionSource.isEmpty());
+	}
 }
