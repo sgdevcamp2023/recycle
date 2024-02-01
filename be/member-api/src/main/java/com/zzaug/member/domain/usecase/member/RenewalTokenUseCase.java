@@ -2,6 +2,8 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
 import com.zzaug.member.domain.dto.member.RenewalTokenUseCaseRequest;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.auth.BlackTokenAuthDao;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
@@ -51,7 +53,7 @@ public class RenewalTokenUseCase {
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByMemberIdAndDeletedFalse(memberId);
 		if (authenticationSource.isEmpty()) {
-			throw new IllegalArgumentException("인증 정보가 존재하지 않습니다.");
+			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "MemberId", memberId);
 		}
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
@@ -80,7 +82,7 @@ public class RenewalTokenUseCase {
 	private Long resolveMemberId(String refreshToken) {
 		Optional<Long> idSource = tokenResolver.resolveId(refreshToken);
 		if (idSource.isEmpty()) {
-			throw new IllegalStateException("토큰이 존재하지 않습니다.");
+			throw new IllegalStateException("MemberId is not found in refreshToken.");
 		}
 		return idSource.get();
 	}
