@@ -7,6 +7,7 @@ import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.member.ContactType;
+import com.zzaug.member.redis.email.EmailAuthSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -36,11 +37,38 @@ public class EmailAuthUseCase {
 			return EmailAuthUseCaseResponse.builder().duplication(true).build();
 		}
 		// todo 너무 많은 이메일 인증 요청을 보내는 것은 아닌지 확인한다.
-		EmailAuthEntity emailAuthSource =
-				EmailAuthEntity.builder().email(email).nonce(nonce).code(authCode).build();
-		EmailAuthEntity emailAuthEntity = emailAuthDao.saveEmailAuth(emailAuthSource);
-		// todo 이메일 인증 요청을 보낸 세션을 저장한다. 이때 ttl 설정을 하여 일정 시간이 지나면 삭제되도록 한다.
+
+		save(memberId, email, nonce, authCode, sessionId);
+
 		// todo 이메일 인증 요청 메시지를 보낸다.
 		return EmailAuthUseCaseResponse.builder().duplication(false).build();
+	}
+
+	private void save(
+			Long memberId, EmailData email, String nonce, String authCode, String sessionId) {
+		EmailAuthEntity emailAuthEntity = saveEmailAuthEntity(memberId, email, nonce, authCode);
+		saveEmailSession(memberId, sessionId, emailAuthEntity.getId());
+	}
+
+	private EmailAuthEntity saveEmailAuthEntity(
+			Long memberId, EmailData email, String nonce, String authCode) {
+		EmailAuthEntity emailAuthSource =
+				EmailAuthEntity.builder()
+						.memberId(memberId)
+						.email(email)
+						.nonce(nonce)
+						.code(authCode)
+						.build();
+		return emailAuthDao.saveEmailAuth(emailAuthSource);
+	}
+
+	private void saveEmailSession(Long memberId, String sessionId, Long emailAuthId) {
+		EmailAuthSession emailAuthSession =
+				EmailAuthSession.builder()
+						.memberId(memberId)
+						.emailAuthId(emailAuthId)
+						.sessionId(sessionId)
+						.build();
+		emailAuthDao.saveEmailAuthSession(emailAuthSession);
 	}
 }
