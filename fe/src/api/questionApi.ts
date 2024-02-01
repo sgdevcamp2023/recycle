@@ -1,7 +1,7 @@
 import clientApi from './axios';
 export interface QuestionProps {
   content?: string;
-  tId?: number;
+  tId?: number | null;
   questionId?: number;
 }
 

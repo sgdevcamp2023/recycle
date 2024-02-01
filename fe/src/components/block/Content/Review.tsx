@@ -2,8 +2,10 @@ import useTabStore, { DefaultTabType } from '@store/useTabStore';
 import DefaultTab from '../navbar/DefaultTab';
 import styled from 'styled-components';
 import SearchInput from '../Search/SearchInput';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReviewCard, { ReviewCardProps } from '@components/atom/card/ReviewCard';
+import useGetReviews from '@hooks/query/question/useGetReviews';
+import useGetReviewOnQuestionDraft from '@hooks/query/question/useGetReviewOnQuestionDraft';
 
 const Review = () => {
   const items: Record<string, DefaultTabType> = {
@@ -14,6 +16,24 @@ const Review = () => {
   useEffect(() => {
     setDefaultTabType('myReview');
   }, [setDefaultTabType]);
+
+  const { data: ReviewData, isLoading } = useGetReviews();
+
+  const [reviewArray, setReviewArray] = useState([]);
+  const [reviewDraftArray, setReviewDraftArray] = useState([]);
+  useEffect(() => {
+    setReviewArray(ReviewData?.data?.data);
+  }, [isLoading]);
+
+  const { data: ReviewDraftData, isLoading: isDraftLoading } = useGetReviewOnQuestionDraft({
+    questionId: 1,
+    tId: 1,
+  });
+
+  useEffect(() => {
+    setReviewDraftArray(ReviewDraftData?.data);
+    console.log(reviewDraftArray);
+  }, [isDraftLoading]);
   const mockDataArray: ReviewCardProps[] = [
     {
       type: 'review',
@@ -45,15 +65,15 @@ const Review = () => {
       <DefaultTab items={items} />
       <SearchInput />
       <ReviewWrapper>
-        {mockDataArray &&
-          mockDataArray.map((item, idx) => {
+        {reviewArray &&
+          reviewArray.map((item, idx) => {
             return (
               <ReviewCard
                 key={idx}
-                reviews={item.reviews}
-                type={item.type}
-                commentCount={item.commentCount}
-                title={item.title}
+                reviews={mockDataArray[idx].reviews}
+                type={'review'}
+                commentCount={1}
+                title={'title'}
               />
             );
           })}

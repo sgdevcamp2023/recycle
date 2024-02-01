@@ -69,7 +69,7 @@ const ReverseButtonProps = styled.button<
   font-size: ${({ theme, fontSize }) =>
     fontSize ? theme.fontSize[fontSize] : theme.fontSize.base};
   background-color: ${({ theme, $backgroundColor }) =>
-    $backgroundColor ? theme.$backgroundColor[$backgroundColor] : theme.backgroundcolor.white};
+    $backgroundColor ? theme.backgroundColor[$backgroundColor] : theme.backgroundcolor.white};
   cursor: pointer;
   display: flex;
   align-items: center;
