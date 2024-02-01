@@ -19,7 +19,7 @@ const ContentTab = () => {
         review
       </TabButton> */}
       <GreyButton
-        isActive={key == 'review'}
+        $isActive={key == 'review'}
         onClick={() => {
           setKey('review');
         }}
@@ -39,7 +39,7 @@ const ContentTab = () => {
         share
       </TabButton> */}
       <GreyButton
-        isActive={key == 'share'}
+        $isActive={key == 'share'}
         onClick={() => {
           setKey('share');
         }}
@@ -59,7 +59,7 @@ const ContentTab = () => {
         save
       </TabButton> */}
       <GreyButton
-        isActive={key == 'save'}
+        $isActive={key == 'save'}
         onClick={() => {
           setKey('save');
         }}
