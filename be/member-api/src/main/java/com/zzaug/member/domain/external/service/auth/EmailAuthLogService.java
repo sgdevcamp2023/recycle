@@ -17,11 +17,7 @@ public class EmailAuthLogService {
 
 	@Transactional
 	public EmailAuthLogEntity saveLog(
-			EmailAuthResult result, TryCountElement tryCount, Long memberId, Long emailAuthId) {
-		String reason = result.getReason();
-		if (!result.isSuccess()) {
-			tryCount.plus();
-		}
+			TryCountElement tryCount, Long memberId, Long emailAuthId, String reason) {
 		if (tryCount.isNew()) {
 			// 새로운 이메일 인증 로그를 저장한다.
 			return emailAuthLogCommand.execute(
@@ -35,5 +31,14 @@ public class EmailAuthLogService {
 			return emailAuthLogCommand.execute(
 					memberId, emailAuthId, reason, (long) tryCount.getTryCount());
 		}
+	}
+
+	public TryCountElement calculateTryCount(EmailAuthResult result, TryCountElement tryCount) {
+		int originValue = tryCount.getTryCount();
+		if (!result.isSuccess()) {
+			tryCount.plus();
+		}
+		log.debug("tryCount : {} -> {}", originValue, tryCount.getTryCount());
+		return tryCount;
 	}
 }

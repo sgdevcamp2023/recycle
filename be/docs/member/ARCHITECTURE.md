@@ -4,7 +4,7 @@
                           ____________
 jwt/refresh (Reids) <--> |            |
                          | member-api | <--> db (Mysql)
-session (Redis)     <--> |            | 
+session (Redis)     <--> |            |
                          |____________| <--> event source (Rabitmq)
 ```
 

@@ -52,7 +52,10 @@ class MemberControllerTest {
 	void save() throws Exception {
 		// set service mock
 		MemberSaveRequest request =
-				MemberSaveRequest.builder().certification("certification").password("password").build();
+				MemberSaveRequest.builder()
+						.certification("certification123")
+						.password("password@123")
+						.build();
 
 		String content = objectMapper.writeValueAsString(request);
 
