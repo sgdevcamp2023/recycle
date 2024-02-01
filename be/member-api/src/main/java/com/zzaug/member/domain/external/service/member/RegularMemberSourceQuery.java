@@ -1,5 +1,7 @@
 package com.zzaug.member.domain.external.service.member;
 
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.MemberSourceDao;
 import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.entity.member.MemberEntity;
@@ -25,7 +27,7 @@ public class RegularMemberSourceQuery implements MemberSourceQuery {
 				memberRepository.findByIdAndStatusAndDeletedFalse(memberId, MemberStatus.REGULAR);
 		if (entity.isEmpty()) {
 			log.warn("Member not found. memberId: {}", memberId);
-			throw new IllegalArgumentException("Member not found.");
+			throw new SourceNotFoundException(DBSource.MEMBER, memberId);
 		}
 		MemberEntity source = entity.get();
 		return new MemberSource(source.getId());

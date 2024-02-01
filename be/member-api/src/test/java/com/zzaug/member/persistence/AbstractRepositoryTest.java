@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.member.config.JpaDataSourceConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
@@ -20,6 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 			DataSourceAutoConfiguration.class,
 			DataSourceTransactionManagerAutoConfiguration.class,
 			HibernateJpaAutoConfiguration.class,
+			FlywayAutoConfiguration.class
 		})
 @TestPropertySource(locations = "classpath:application-test.yml")
 @AutoConfigureTestDatabase(replace = Replace.NONE)
