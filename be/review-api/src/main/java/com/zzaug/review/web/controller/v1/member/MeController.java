@@ -4,7 +4,6 @@ import com.zzaug.review.domain.dto.member.MemberResponse;
 import com.zzaug.review.domain.dto.member.ViewReviewerUseCaseRequest;
 import com.zzaug.review.domain.dto.question.QuestionReqResponse;
 import com.zzaug.review.domain.dto.question.QuestionReqViewUseCaseRequest;
-import com.zzaug.review.domain.dto.question.QuestionResponse;
 import com.zzaug.review.domain.usecase.member.ViewReviewerUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionReqViewUseCase;
 import com.zzaug.review.support.ApiResponse;
