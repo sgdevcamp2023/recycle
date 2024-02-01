@@ -27,7 +27,7 @@ public class DeleteMemberUseCase {
 		Optional<MemberEntity> memberSource =
 				memberSourceDao.findByIdAndStatusAndDeletedFalse(memberId, MemberStatus.REGULAR);
 		if (memberSource.isEmpty()) {
-			throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+			throw new SourceNotFoundException(DBSource.MEMBER, memberId);
 		}
 
 		MemberEntity memberEntity = memberSource.get();
