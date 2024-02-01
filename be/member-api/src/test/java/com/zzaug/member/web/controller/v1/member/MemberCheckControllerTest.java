@@ -51,7 +51,7 @@ class MemberCheckControllerTest {
 				.perform(
 						get(BASE_URL, 0)
 								.contentType(MediaType.APPLICATION_JSON)
-								.param("certification", "{certification}")
+								.param("certification", "sample")
 								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
 								.header(HttpHeaders.REFERER, "referer")
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))

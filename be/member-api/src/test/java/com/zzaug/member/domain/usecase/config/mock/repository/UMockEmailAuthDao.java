@@ -3,6 +3,7 @@ package com.zzaug.member.domain.usecase.config.mock.repository;
 import com.zzaug.member.domain.external.dao.auth.EmailAuthDao;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
+import com.zzaug.member.redis.email.EmailAuthSession;
 import java.util.Optional;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Profile;
@@ -36,5 +37,21 @@ public class UMockEmailAuthDao implements EmailAuthDao {
 	@Override
 	public EmailAuthEntity saveEmailAuth(EmailAuthEntity emailAuthEntity) {
 		return emailAuthEntity;
+	}
+
+	@Override
+	public Optional<EmailAuthSession> findBySessionId(String sessionId) {
+		return Optional.of(
+				EmailAuthSession.builder().memberId(1L).emailAuthId(1L).sessionId(sessionId).build());
+	}
+
+	@Override
+	public EmailAuthSession saveEmailAuthSession(EmailAuthSession emailAuthSession) {
+		return emailAuthSession;
+	}
+
+	@Override
+	public void deleteBySessionId(String sessionId) {
+		// do nothing
 	}
 }
