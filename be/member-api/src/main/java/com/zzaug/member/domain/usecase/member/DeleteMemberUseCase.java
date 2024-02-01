@@ -1,6 +1,8 @@
 package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.DeleteMemberUseCaseRequest;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.MemberSourceDao;
 import com.zzaug.member.entity.member.MemberEntity;
 import com.zzaug.member.entity.member.MemberStatus;
@@ -21,6 +23,7 @@ public class DeleteMemberUseCase {
 	public void execute(DeleteMemberUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 
+		log.debug("Get member. memberId: {}", memberId);
 		Optional<MemberEntity> memberSource =
 				memberSourceDao.findByIdAndStatusAndDeletedFalse(memberId, MemberStatus.REGULAR);
 		if (memberSource.isEmpty()) {
@@ -29,6 +32,7 @@ public class DeleteMemberUseCase {
 
 		MemberEntity memberEntity = memberSource.get();
 		MemberEntity withdrawnMember = memberEntity.toBuilder().status(MemberStatus.WITHDRAWN).build();
+		log.debug("Save member status to withdrawn. memberId: {}", memberId);
 		memberSourceDao.saveSource(withdrawnMember);
 	}
 }
