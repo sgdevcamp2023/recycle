@@ -1,6 +1,7 @@
 package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
+import com.zzaug.member.domain.event.UpdateMemberEvent;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.service.member.MemberSourceQuery;
 import com.zzaug.member.domain.model.member.MemberAuthentication;
@@ -11,6 +12,7 @@ import com.zzaug.member.entity.member.CertificationData;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ public class UpdateMemberUseCase {
 	private final MemberSourceQuery memberSourceQuery;
 
 	private final PasswordEncoder passwordEncoder;
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Transactional
 	public void execute(UpdateMemberUseCaseRequest request) {
@@ -73,5 +77,17 @@ public class UpdateMemberUseCase {
 				"Update authentication. memberId: {}, authenticationId: {}",
 				memberId,
 				authenticationEntity.getId());
+
+		publishEvent(memberId, memberAuthentication);
+	}
+
+	private void publishEvent(Long memberId, MemberAuthentication memberAuthentication) {
+		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
+		log.debug("Publish update member event. memberId: {}", memberId);
+		applicationEventPublisher.publishEvent(
+				UpdateMemberEvent.builder()
+						.memberId(memberId)
+						.memberCertification(memberAuthentication.getCertification())
+						.build());
 	}
 }
