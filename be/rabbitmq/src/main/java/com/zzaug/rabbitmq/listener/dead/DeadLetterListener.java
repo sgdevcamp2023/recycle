@@ -1,6 +1,5 @@
 package com.zzaug.rabbitmq.listener.dead;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

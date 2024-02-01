@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
+import com.zzaug.member.domain.exception.ExistSourceException;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockAuthenticationDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockMemberSourceDao;
@@ -21,10 +22,12 @@ class PostMemberUseCaseTest_EXIST_CERTIFICATION extends AbstractUseCaseTest {
 	@Test
 	void 아이디가_중복되면_회원가입이_진행되지_않습니다() {
 		PostMemberUseCaseRequest request =
-				PostMemberUseCaseRequest.builder().certification("sample").password("123@abc").build();
+				PostMemberUseCaseRequest.builder()
+						.certification("certification123")
+						.password("password@123")
+						.build();
 
 		Assertions.assertThatThrownBy(() -> postMemberUseCase.execute(request))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("이미 존재하는 아이디입니다.");
+				.isInstanceOf(ExistSourceException.class);
 	}
 }
