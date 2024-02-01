@@ -55,6 +55,7 @@ const SignInModal = () => {
   const handleIdDuplicate = () => {
     // 중복 확인 되었을 때 중복확인 되었는지 로직 추가 해주기
     // 중복 확인 되었으면 버튼 isActive:false 로 바꿔주기
+    setEmail('dfsfsf');
     console.log(duplicateData);
   };
 
