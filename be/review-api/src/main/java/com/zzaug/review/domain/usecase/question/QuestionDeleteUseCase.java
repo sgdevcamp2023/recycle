@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -22,10 +23,10 @@ public class QuestionDeleteUseCase {
     @Transactional
     public void execute(QuestionDeleteUseCaseRequest request){
         QuestionEntity question = questionRepository.findById(request.getQuestionId())
-                .orElseThrow(() -> new DataNotFoundException("요청에 대한 응답을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
 
         if (!question.getAuthorId().equals(request.getAuthorId())){
-            throw new UnauthorizedAuthorException("접근 권한이 없습니다.");
+            throw new RuntimeException("접근 권한이 없습니다.");
         }
 
         questionRepository.deleteById(request.getQuestionId());

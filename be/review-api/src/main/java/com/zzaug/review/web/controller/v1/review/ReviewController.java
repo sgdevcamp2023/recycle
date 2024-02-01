@@ -1,11 +1,7 @@
 package com.zzaug.review.web.controller.v1.review;
 
 import com.zzaug.review.domain.dto.review.*;
-import com.zzaug.review.domain.exception.DataNotFoundException;
-import com.zzaug.review.domain.exception.UnauthorizedAuthorException;
 import com.zzaug.review.domain.usecase.review.*;
-import com.zzaug.review.entity.review.ReviewPoint;
-import com.zzaug.review.entity.review.ReviewType;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
 import com.zzaug.review.support.MessageCode;
@@ -19,9 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -72,9 +67,9 @@ public class ReviewController {
 		try {
 			reviewEditUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
-		}catch (DataNotFoundException e){
+		}catch (NoSuchElementException e){
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
-		}catch (UnauthorizedAuthorException e){
+		}catch (RuntimeException e){
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
 		}
 
@@ -97,9 +92,9 @@ public class ReviewController {
 		try {
 			reviewDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		}catch (DataNotFoundException e){
+		}catch (NoSuchElementException e){
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		}catch (UnauthorizedAuthorException e){
+		}catch (RuntimeException e){
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 		}
 	}

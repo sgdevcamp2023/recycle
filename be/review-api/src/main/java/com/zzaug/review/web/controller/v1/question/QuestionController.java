@@ -1,8 +1,7 @@
 package com.zzaug.review.web.controller.v1.question;
 
 import com.zzaug.review.domain.dto.question.*;
-import com.zzaug.review.domain.exception.DataNotFoundException;
-import com.zzaug.review.domain.exception.UnauthorizedAuthorException;
+
 import com.zzaug.review.domain.usecase.question.QuestionCreateUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionDeleteUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionTempCreateUseCase;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/questions")
@@ -74,9 +74,9 @@ public class QuestionController {
 		try {
 			questionDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (DataNotFoundException e){
+		} catch (NoSuchElementException e){
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (UnauthorizedAuthorException e){
+		} catch (RuntimeException e){
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 		}
 	}
