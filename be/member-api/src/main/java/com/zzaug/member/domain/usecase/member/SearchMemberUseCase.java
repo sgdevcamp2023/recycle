@@ -31,6 +31,7 @@ public class SearchMemberUseCase {
 		final CertificationData certification =
 				CertificationData.builder().certification(request.getCertification()).build();
 
+		log.debug("Get authentication. certification: {}", request.getCertification());
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByCertificationAndDeletedFalse(certification);
 		if (authenticationSource.isEmpty()) {
@@ -40,6 +41,7 @@ public class SearchMemberUseCase {
 		GetMemberId memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
+		log.debug("Get member contacts. memberId: {}", memberAuthentication.getMemberId());
 		List<ExternalContactEntity> contacts =
 				externalContactDao.findAllByMemberIdAndDeletedFalse(memberAuthentication.getMemberId());
 		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);
