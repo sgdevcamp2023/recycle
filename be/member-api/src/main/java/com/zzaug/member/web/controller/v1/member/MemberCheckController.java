@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -56,7 +58,7 @@ public class MemberCheckController {
 			HttpServletRequest servletRequest,
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Email @RequestParam(value = "email", required = true) String email,
-			@RequestParam(value = "nonce", required = true) String nonce) {
+			@NotNull @NotEmpty @RequestParam(value = "nonce", required = true) String nonce) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
 		HttpSession session = servletRequest.getSession();
