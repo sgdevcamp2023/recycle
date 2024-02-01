@@ -1,32 +1,49 @@
 package com.zzaug.review.web.controller.v1.question;
 
-import com.zzaug.review.domain.dto.question.QuestionTempUseCaseRequest;
-import com.zzaug.review.domain.dto.question.QuestionUseCaseRequest;
-import com.zzaug.review.domain.usecase.question.QuestionUseCase;
+import com.zzaug.review.domain.dto.question.*;
+import com.zzaug.review.domain.exception.DataNotFoundException;
+import com.zzaug.review.domain.exception.UnauthorizedAuthorException;
+import com.zzaug.review.domain.usecase.question.QuestionCreateUseCase;
+import com.zzaug.review.domain.usecase.question.QuestionDeleteUseCase;
+import com.zzaug.review.domain.usecase.question.QuestionTempCreateUseCase;
+import com.zzaug.review.domain.usecase.question.QuestionTempViewUseCase;
 import com.zzaug.review.support.ApiResponse;
 import com.zzaug.review.support.ApiResponseGenerator;
 import com.zzaug.review.support.MessageCode;
+import com.zzaug.review.web.dto.question.QuestionDeleteRequest;
 import com.zzaug.review.web.dto.question.QuestionRequest;
 import com.zzaug.review.web.dto.question.QuestionTempRequest;
+import com.zzaug.review.web.support.usecase.QuestionCreateUseCaseRequestConverter;
+import com.zzaug.review.web.support.usecase.QuestionDeleteUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.QuestionTempUseCaseRequestConverter;
-import com.zzaug.review.web.support.usecase.QuestionUseCaseRequestConverter;
+import com.zzaug.review.web.support.usecase.QuestionTempViewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/questions")
 @RequiredArgsConstructor
 public class QuestionController {
 
-	private final QuestionUseCase questionUseCase;
+	private final QuestionCreateUseCase questionCreateUseCase;
+	private final QuestionTempCreateUseCase questionTempCreateUseCase;
+	private final QuestionDeleteUseCase questionDeleteUseCase;
+	private final QuestionTempViewUseCase questionTempViewUseCase;
 
 	@PostMapping
 	public ApiResponse<ApiResponse.SuccessBody<Void>> createQuestion(
 			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestBody QuestionRequest request) {
-		QuestionUseCaseRequest useCaseRequest = QuestionUseCaseRequestConverter.from(request);
+
+	QuestionCreateUseCaseRequest useCaseRequest =
+				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
+		questionCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
@@ -35,15 +52,53 @@ public class QuestionController {
 	public ApiResponse<ApiResponse.SuccessBody<Void>> createTempQuestion(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestBody QuestionTempRequest request) {
-		QuestionTempUseCaseRequest useCaseRequest = QuestionTempUseCaseRequestConverter.from(request);
+		QuestionTempCreateUseCaseRequest useCaseRequest =
+				QuestionTempUseCaseRequestConverter.from(request, userDetails);
+		questionTempCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 
-	@DeleteMapping("/{question_id}")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> deleteQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
+	@DeleteMapping("/{questionId}")
+	public ApiResponse<?> deleteQuestion(
+			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long questionId) {
 
-		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+		QuestionDeleteRequest request = QuestionDeleteRequest.builder()
+				.questionId(questionId)
+				.authorId(Long.valueOf(userDetails.getId()))
+				.build();
+
+		QuestionDeleteUseCaseRequest useCaseRequest =
+				QuestionDeleteUseCaseRequestConverter.from(request);
+
+		try {
+			questionDeleteUseCase.execute(useCaseRequest);
+			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+		} catch (DataNotFoundException e){
+			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+		} catch (UnauthorizedAuthorException e){
+			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+		}
 	}
+
+	@GetMapping("/temp")
+	public ApiResponse<ApiResponse.SuccessBody<List<QuestionTempResponse>>> viewTempQuestionList(
+			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam String tempId) {
+
+		QuestionTempViewUseCaseRequest useCaseRequest = new QuestionTempViewUseCaseRequest();
+
+		if (tempId == null) {
+			 useCaseRequest =
+					QuestionTempViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
+
+		} else {
+			 useCaseRequest =
+					QuestionTempViewUseCaseRequestConverter.from(tempId, Long.valueOf(userDetails.getId()));
+		}
+
+		List<QuestionTempResponse> res = questionTempViewUseCase.execute(useCaseRequest);
+
+		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
+	}
+
 }

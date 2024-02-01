@@ -1,6 +1,8 @@
 package com.zzaug.review.domain.dto.question;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.*;
 
 @Getter
@@ -9,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempResponse {
-	private String t_id;
+	private String tempId;
 	private String content;
 	private String author;
-	private Long author_id;
-	private Timestamp created_at;
+	private Long authorId;
+	private LocalDateTime createdAt;
 }

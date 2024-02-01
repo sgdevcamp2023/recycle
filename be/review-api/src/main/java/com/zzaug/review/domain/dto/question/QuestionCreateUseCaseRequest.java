@@ -8,12 +8,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionTempUseCaseRequest {
-	private String t_id;
+public class QuestionCreateUseCaseRequest {
+	private Long questionId;
 	private String content;
 	private String author;
-	private Long author_id;
-	private int review_cnt;
-	private Timestamp created_at;
-	private Timestamp updated_at;
+	private Long authorId;
+	private int reviewCnt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 }

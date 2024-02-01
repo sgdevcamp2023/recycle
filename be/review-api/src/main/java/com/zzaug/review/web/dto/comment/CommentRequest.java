@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class CommentRequest {
-	private Long question_id;
+	private Long questionId;
 	private String content;
-	private Long parent_id;
+	private Long parentId;
 }
