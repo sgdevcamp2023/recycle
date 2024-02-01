@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.LoginUseCaseRequest;
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
+import com.zzaug.member.domain.event.LoginEvent;
 import com.zzaug.member.domain.exception.DBSource;
 import com.zzaug.member.domain.exception.PasswordNotMatchException;
 import com.zzaug.member.domain.exception.SourceNotFoundException;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,8 @@ public class LoginUseCase {
 
 	private final TokenGenerator tokenGenerator;
 
+	private final ApplicationEventPublisher applicationEventPublisher;
+
 	public MemberAuthToken execute(LoginUseCaseRequest request) {
 		final CertificationData certification =
 				CertificationData.builder().certification(request.getCertification()).build();
@@ -49,7 +53,8 @@ public class LoginUseCase {
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByCertificationAndDeletedFalse(certification);
 		if (authenticationSource.isEmpty()) {
-			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "Certification", certification.getCertification());
+			throw new SourceNotFoundException(
+					DBSource.AUTHENTICATION, "Certification", certification.getCertification());
 		}
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
@@ -72,9 +77,16 @@ public class LoginUseCase {
 
 		loginLogCommand.saveLoginLog(memberAuthentication.getMemberId(), userAgent);
 
+		publishEvent(memberAuthentication);
+
 		return MemberAuthToken.builder()
 				.accessToken(authToken.getAccessToken())
 				.refreshToken(authToken.getRefreshToken())
 				.build();
+	}
+
+	private void publishEvent(MemberAuthentication memberAuthentication) {
+		applicationEventPublisher.publishEvent(
+				LoginEvent.builder().memberId(memberAuthentication.getMemberId()).build());
 	}
 }
