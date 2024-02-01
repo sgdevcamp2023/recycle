@@ -50,6 +50,7 @@ public class LoginUseCase {
 		final PasswordData password = PasswordData.builder().password(request.getPassword()).build();
 		final String userAgent = request.getUserAgent();
 
+		log.debug("Get member authentication. certification: {}", certification.getCertification());
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByCertificationAndDeletedFalse(certification);
 		if (authenticationSource.isEmpty()) {
@@ -63,6 +64,7 @@ public class LoginUseCase {
 			throw new PasswordNotMatchException();
 		}
 
+		log.debug("Get member contacts. memberId: {}", memberAuthentication.getMemberId());
 		List<ExternalContactEntity> contacts =
 				externalContactDao.findAllByMemberIdAndDeletedFalse(memberAuthentication.getMemberId());
 		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);
@@ -75,6 +77,7 @@ public class LoginUseCase {
 						memberContacts.getEmail(),
 						memberContacts.getGithub());
 
+		log.debug("Save login log. memberId: {}", memberAuthentication.getMemberId());
 		loginLogCommand.saveLoginLog(memberAuthentication.getMemberId(), userAgent);
 
 		publishEvent(memberAuthentication);
@@ -86,6 +89,8 @@ public class LoginUseCase {
 	}
 
 	private void publishEvent(MemberAuthentication memberAuthentication) {
+		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
+		log.debug("Publish login event. memberId: {}", memberAuthentication.getMemberId());
 		applicationEventPublisher.publishEvent(
 				LoginEvent.builder().memberId(memberAuthentication.getMemberId()).build());
 	}
