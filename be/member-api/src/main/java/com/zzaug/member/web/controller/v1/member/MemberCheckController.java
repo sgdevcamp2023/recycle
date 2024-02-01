@@ -17,6 +17,7 @@ import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -75,13 +76,16 @@ public class MemberCheckController {
 	@PostMapping("/email")
 	public ApiResponse<ApiResponse.SuccessBody<CheckEmailAuthUseCaseResponse>> checkEmailAuth(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestBody CheckEmailAuthRequest request) {
+			@Valid @RequestBody CheckEmailAuthRequest request,
+			HttpServletRequest httpServletRequest) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
+		HttpSession session = httpServletRequest.getSession();
 		CheckEmailAuthUseCaseRequest useCaseRequest =
 				CheckEmailAuthUseCaseRequest.builder()
 						.memberId(memberId)
 						.code(request.getCode())
+						.sessionId(session.getId())
 						.email(request.getEmail())
 						.nonce(request.getNonce())
 						.build();
