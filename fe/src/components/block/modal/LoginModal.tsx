@@ -84,7 +84,6 @@ const LoginModal = () => {
         certification: email,
         password: password,
       });
-      move('');
     }
   };
 
