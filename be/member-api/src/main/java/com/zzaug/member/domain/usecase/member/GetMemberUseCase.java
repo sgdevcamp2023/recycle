@@ -30,6 +30,7 @@ public class GetMemberUseCase {
 		MemberSource source = memberSourceQuery.execute(queryMemberId);
 
 		// get member's contacts
+		log.debug("Get member's contacts. memberId: {}", source.getId());
 		List<ExternalContactEntity> contacts =
 				externalContactRepository.findAllByMemberIdAndDeletedFalse(source.getId());
 		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);

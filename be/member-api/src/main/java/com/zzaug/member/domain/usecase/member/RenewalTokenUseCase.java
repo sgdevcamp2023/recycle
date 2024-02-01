@@ -2,6 +2,8 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
 import com.zzaug.member.domain.dto.member.RenewalTokenUseCaseRequest;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.auth.BlackTokenAuthDao;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -41,20 +44,25 @@ public class RenewalTokenUseCase {
 	private final TokenGenerator tokenGenerator;
 	private final TokenResolver tokenResolver;
 
+	@Transactional
 	public MemberAuthToken execute(RenewalTokenUseCaseRequest request) {
 		final String refreshToken = request.getRefreshToken();
+		final String accessToken = request.getAccessToken();
 		final Long memberId = resolveMemberId(refreshToken);
 
+		log.debug("Get member source. memberId: {}", memberId);
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
 
+		log.debug("Get member authentication. memberId: {}", memberId);
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByMemberIdAndDeletedFalse(memberId);
 		if (authenticationSource.isEmpty()) {
-			throw new IllegalArgumentException("인증 정보가 존재하지 않습니다.");
+			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "MemberId", memberId);
 		}
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
+		log.debug("Get member's contacts. memberId: {}", memberSource.getId());
 		List<ExternalContactEntity> contacts =
 				externalContactDao.findAllByMemberIdAndDeletedFalse(memberSource.getId());
 		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);
@@ -67,7 +75,11 @@ public class RenewalTokenUseCase {
 						memberContacts.getEmail(),
 						memberContacts.getGithub());
 
-		saveUsedTokenToBlackList(refreshToken);
+		log.debug(
+				"Save All used token to black list. accessToken: {}, refreshToken: {}",
+				accessToken,
+				refreshToken);
+		saveAllUsedTokenToBlackList(accessToken, refreshToken);
 
 		return MemberAuthToken.builder()
 				.accessToken(authToken.getAccessToken())
@@ -79,16 +91,21 @@ public class RenewalTokenUseCase {
 	private Long resolveMemberId(String refreshToken) {
 		Optional<Long> idSource = tokenResolver.resolveId(refreshToken);
 		if (idSource.isEmpty()) {
-			throw new IllegalStateException("토큰이 존재하지 않습니다.");
+			throw new IllegalStateException("MemberId is not found in refreshToken.");
 		}
 		return idSource.get();
 	}
 
-	private void saveUsedTokenToBlackList(String token) {
-		blackTokenAuthDao.saveBlackTokenAuth(
-				BlackTokenAuthEntity.builder()
-						.token(TokenData.builder().token(token).build())
-						.tokenType(TokenType.REFRESHTOKEN)
-						.build());
+	private void saveAllUsedTokenToBlackList(String accessToken, String refreshToken) {
+		blackTokenAuthDao.saveAllBlackTokenAuth(
+				List.of(
+						BlackTokenAuthEntity.builder()
+								.token(TokenData.builder().token(accessToken).build())
+								.tokenType(TokenType.ACCESSTOKEN)
+								.build(),
+						BlackTokenAuthEntity.builder()
+								.token(TokenData.builder().token(refreshToken).build())
+								.tokenType(TokenType.REFRESHTOKEN)
+								.build()));
 	}
 }

@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.config.mock.repository;
 
 import com.zzaug.member.domain.external.dao.auth.BlackTokenAuthDao;
 import com.zzaug.member.entity.auth.BlackTokenAuthEntity;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Profile;
@@ -22,5 +23,11 @@ public class UMockBlackTokenAuthDao implements BlackTokenAuthDao {
 	@Override
 	public BlackTokenAuthEntity saveBlackTokenAuth(BlackTokenAuthEntity blackTokenAuthEntity) {
 		return blackTokenAuthEntity;
+	}
+
+	@Override
+	public List<BlackTokenAuthEntity> saveAllBlackTokenAuth(
+			List<BlackTokenAuthEntity> blackTokenAuthEntities) {
+		return blackTokenAuthEntities;
 	}
 }
