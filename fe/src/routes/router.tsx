@@ -12,7 +12,16 @@ const Router = () => {
   return (
     <Routes>
       {/* 메인 페이지 */}
-      {['/', '/newQuestion', '/newReview', '/*'].map((path) => (
+      {[
+        '/',
+        '/Question',
+        '/Review',
+        '/Setting',
+        '/Request',
+        '/newQuestion',
+        '/newReview',
+        '/*',
+      ].map((path) => (
         <Route key={path} element={<GridTemplate />}>
           {path === '/*' ? (
             <Route path="/*" element={<NotFound />} />
@@ -28,8 +37,6 @@ const Router = () => {
       {/* 나중에 Common 안에 넣어주기 */}
       <Route path="/registeremail" element={<RegisterEmail />} />
       <Route path="/accountlinking" element={<AccountLinking />} />
-
-      {/* 테스트 페이지 */}
     </Routes>
   );
 };
