@@ -46,6 +46,7 @@ public class CheckEmailAuthUseCase {
 		final String nonce = request.getNonce();
 		final String sessionId = request.getSessionId();
 
+		log.debug("Check email auth session. sessionId: {}", sessionId);
 		Optional<EmailAuthSession> emailAuthSessionSource = emailAuthDao.findBySessionId(sessionId);
 		if (emailAuthSessionSource.isEmpty()) {
 			throw new IllegalArgumentException("request email auth session is not found");
@@ -53,6 +54,7 @@ public class CheckEmailAuthUseCase {
 
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
 
+		log.debug("Get email auth source. memberId: {}, email: {}, nonce: {}", memberId, email, nonce);
 		EmailAuthSource emailAuth = getEmailAuth(memberSource, email, nonce);
 		final Long emailAuthId = emailAuth.getId();
 
@@ -65,13 +67,20 @@ public class CheckEmailAuthUseCase {
 			throw new IllegalArgumentException("request nonce is not matched");
 		}
 
+		log.debug("Get try count. memberId: {}, emailAuthId: {}", memberId, emailAuthId);
 		// 이메일 인증을 시도한 횟수를 조회
 		TryCountElement tryCount = getTryCount(memberId, emailAuthId);
 
 		// 이메일 인증 요청시 발급한 code와 요청한 code가 일치하는지 확인
 		if (!emailAuth.isCode(code)) {
+			log.debug("Not match code. memberId: {}, emailAuthId: {}", memberId, emailAuthId);
 			EmailAuthLogEntity emailAuthLogEntity =
 					emailAuthLogService.saveLog(NOT_MATCH_CODE, tryCount, memberId, emailAuthId);
+			log.debug(
+					"Save Fail email auth log. memberId: {}, emailAuthId: {}, emailAuthLogId: {}",
+					memberId,
+					emailAuthId,
+					emailAuthLogEntity.getId());
 			return CheckEmailAuthUseCaseResponse.builder()
 					.authentication(false)
 					.tryCount(emailAuthLogEntity.getTryCount())
@@ -83,10 +92,17 @@ public class CheckEmailAuthUseCase {
 						.contactType(ContactType.EMAIL)
 						.source(email.getEmail())
 						.build();
-		externalContactDao.saveContact(externalContactEntity);
+		Long savedExternalContactId = externalContactDao.saveContact(externalContactEntity).getId();
+		log.debug(
+				"Save external contact. memberId: {}, contactId: {}", memberId, savedExternalContactId);
 		EmailAuthLogEntity emailAuthLogEntity =
 				emailAuthLogService.saveLog(SUCCESS, tryCount, memberId, emailAuthId);
-
+		log.debug(
+				"Save Success email auth log. memberId: {}, emailAuthId: {}, emailAuthLogId: {}",
+				memberId,
+				emailAuthId,
+				emailAuthLogEntity.getId());
+		log.debug("Delete email auth session. sessionId: {}", sessionId);
 		emailAuthDao.deleteBySessionId(sessionId);
 
 		return CheckEmailAuthUseCaseResponse.builder()
