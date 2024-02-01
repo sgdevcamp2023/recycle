@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import searchIcon from '../../../assets/icons/searchIcon.png';
 import linkIcon from '../../../assets/icons/linkIcon.png';
 import reviewerIcon from '../../../assets/icons/reviewerIcon.png';
-import InviteButton from '@components/atom/Button/InviteButton';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 
 const LoginBox = styled.div`

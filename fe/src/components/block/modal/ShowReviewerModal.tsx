@@ -1,7 +1,7 @@
 import Text from '@components/atom/Text';
 import styled from 'styled-components';
 import reviewerIcon from '../../../assets/icons/reviewerIcon.png';
-import ToggleButton from '@components/atom/button/ToggleButton';
+import ToggleButton from '@components/atom/Button/ToggleButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
