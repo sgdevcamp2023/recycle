@@ -2,6 +2,9 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.LoginUseCaseRequest;
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
+import com.zzaug.member.domain.exception.DBSource;
+import com.zzaug.member.domain.exception.PasswordNotMatchException;
+import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
 import com.zzaug.member.domain.external.service.log.LoginLogCommand;
@@ -46,13 +49,13 @@ public class LoginUseCase {
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByCertificationAndDeletedFalse(certification);
 		if (authenticationSource.isEmpty()) {
-			throw new IllegalArgumentException("인증 정보가 존재하지 않습니다.");
+			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "Certification", certification.getCertification());
 		}
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
 		if (!memberAuthentication.isMatchPassword(passwordEncoder, password.getPassword())) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			throw new PasswordNotMatchException();
 		}
 
 		List<ExternalContactEntity> contacts =
