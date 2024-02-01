@@ -11,7 +11,7 @@
 | 이름 | 타입 | 설명          |
 | --- | --- |-------------|
 | question_id | Long | 질문글의 고유 ID  |
-| content | String | 질문글의 내용     | 
+| content | String | 질문글의 내용     |
 | author | String | 질문글의 작성자    |
 | author_id | Long | 질문글의 작성자 ID |
 | review_cnt | Int  | 질문글의 리뷰 수   |
@@ -36,7 +36,7 @@
 
 ### 질문 글 삭제 이벤트
 
-질문 글이 삭제 된 이후 발행합니다.  
+질문 글이 삭제 된 이후 발행합니다.
 
 #### 내역
 

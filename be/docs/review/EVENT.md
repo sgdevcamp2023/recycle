@@ -49,4 +49,3 @@
 | author | String | 리뷰글의 작성자    |
 | author_id | Long | 리뷰글의 작성자 ID |
 | event_at | LocalDateTime | 이벤트 발행 일자   |
-
