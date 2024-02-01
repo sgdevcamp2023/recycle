@@ -35,29 +35,43 @@ public class UpdateMemberUseCase {
 
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
 
+		log.debug("Get authentication. memberId: {}", memberId);
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByMemberIdAndDeletedFalse(memberSource.getId());
 		if (authenticationSource.isEmpty()) {
-			throw new IllegalArgumentException("인증 정보가 존재하지 않습니다.");
+			throw new IllegalArgumentException("Not found authentication.");
 		}
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
 		if (!memberAuthentication.isMatchPassword(passwordEncoder, password)) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			throw new IllegalArgumentException("Password is not matched.");
 		}
 
 		if (!memberAuthentication.isSameCertification(certification.getCertification())) {
 			// todo false이면 certification을 기준으로 락을 걸어 처리 해야 함
+			log.debug(
+					"Check duplicate certification. certification: {}", certification.getCertification());
 			boolean isDuplicateId = authenticationDao.existsByCertificationAndDeletedFalse(certification);
 			if (isDuplicateId) {
-				throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+				throw new IllegalArgumentException("Already exist certification.");
 			}
+			String originCertificationValue = memberAuthentication.getCertification();
 			memberAuthentication.updateCertification(certification.getCertification());
+			log.debug(
+					"Update certification. memberId: {}, originCertification: {}, newCertification: {}",
+					memberId,
+					originCertificationValue,
+					certification.getCertification());
 		}
 
 		AuthenticationEntity editAuthentication =
 				MemberAuthenticationConverter.to(memberAuthentication);
-		authenticationDao.saveAuthentication(editAuthentication);
+		AuthenticationEntity authenticationEntity =
+				authenticationDao.saveAuthentication(editAuthentication);
+		log.debug(
+				"Update authentication. memberId: {}, authenticationId: {}",
+				memberId,
+				authenticationEntity.getId());
 	}
 }
