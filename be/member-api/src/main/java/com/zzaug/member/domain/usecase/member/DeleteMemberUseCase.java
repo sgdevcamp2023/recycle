@@ -1,6 +1,7 @@
 package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.domain.dto.member.DeleteMemberUseCaseRequest;
+import com.zzaug.member.domain.event.WithDrawnMemberEvent;
 import com.zzaug.member.domain.exception.DBSource;
 import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.MemberSourceDao;
@@ -9,6 +10,7 @@ import com.zzaug.member.entity.member.MemberStatus;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeleteMemberUseCase {
 
 	private final MemberSourceDao memberSourceDao;
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Transactional
 	public void execute(DeleteMemberUseCaseRequest request) {
@@ -34,5 +38,12 @@ public class DeleteMemberUseCase {
 		MemberEntity withdrawnMember = memberEntity.toBuilder().status(MemberStatus.WITHDRAWN).build();
 		log.debug("Save member status to withdrawn. memberId: {}", memberId);
 		memberSourceDao.saveSource(withdrawnMember);
+
+		publishEvent(memberEntity);
+	}
+
+	private void publishEvent(MemberEntity memberEntity) {
+		applicationEventPublisher.publishEvent(
+				WithDrawnMemberEvent.builder().memberId(memberEntity.getId()).build());
 	}
 }
