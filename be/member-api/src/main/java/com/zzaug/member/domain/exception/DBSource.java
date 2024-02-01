@@ -11,7 +11,9 @@ public enum DBSource {
 	INVALID_TOKEN_ACCESS("InvalidTokenAccess"),
 	LOGIN_LOG("LoginLog"),
 	BLACK_TOKEN_AUTH("BlackTokenAuth"),
-	EMAIL_AUTH("EmailAuth");
+	EMAIL_AUTH("EmailAuth"),
+	EMAIL_AUTH_SESSION("EmailAuthSession"),
+	;
 
 	private String type;
 
