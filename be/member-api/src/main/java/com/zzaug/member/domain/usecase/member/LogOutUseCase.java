@@ -30,7 +30,7 @@ public class LogOutUseCase {
 				loginLogDao.findTopByMemberIdAndStatusAndDeletedFalse(memberId, LoginStatus.LOGIN);
 
 		if (loginLogSource.isEmpty()) {
-			log.error("로그인 로그가 없습니다. memberId: {}", memberId);
+			log.warn("login log not found. memberId: {}", memberId);
 			return;
 		}
 		LoginLog loginLog = LoginLogConverter.from(loginLogSource.get());
