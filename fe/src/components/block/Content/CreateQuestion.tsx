@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import BlockNote from '../Editor/BlockNote';
 import DefaultInput from '../Search/DefaultInput';
 import { useEffect, useRef } from 'react';
 
 const CreateQuestion = () => {
   const ref = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    console.log(ref.current && ref.current.value);
-  }, [ref?.current?.value]);
+  useEffect(() => {}, [ref?.current?.value]);
   return (
     <>
       <TitleWrapper>
@@ -22,7 +19,6 @@ const CreateQuestion = () => {
           padding="0 0.5rem 0.5rem 0.5rem"
         />
       </TitleWrapper>
-      <BlockNote />
     </>
   );
 };
