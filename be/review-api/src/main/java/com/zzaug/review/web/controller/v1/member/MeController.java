@@ -4,6 +4,7 @@ import com.zzaug.review.domain.dto.member.MemberResponse;
 import com.zzaug.review.domain.dto.member.ViewReviewerUseCaseRequest;
 import com.zzaug.review.domain.dto.question.QuestionReqResponse;
 import com.zzaug.review.domain.dto.question.QuestionReqViewUseCaseRequest;
+import com.zzaug.review.domain.dto.question.QuestionResponse;
 import com.zzaug.review.domain.usecase.member.ViewReviewerUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionReqViewUseCase;
 import com.zzaug.review.support.ApiResponse;
@@ -36,15 +37,16 @@ public class MeController {
 	private final ViewReviewerUseCase viewReviewerUseCase;
 
 	@GetMapping("/questions/reviewers")
-	public ApiResponse<ApiResponse.SuccessBody<List<MemberResponse>>> viewReviewerList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam Long questionId) {
-
-		ViewReviewerUseCaseRequest useCaseRequest =
-				ViewReviewerUseCaseRequestConverter.from(questionId);
-		List<MemberResponse> responses = viewReviewerUseCase.execute(useCaseRequest);
-
-		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
-
+	public ApiResponse<?> viewReviewerList(
+			@RequestParam Long questionId) {
+		try {
+			ViewReviewerUseCaseRequest useCaseRequest =
+					ViewReviewerUseCaseRequestConverter.from(questionId);
+			List<MemberResponse> responses = viewReviewerUseCase.execute(useCaseRequest);
+			return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
+		}catch (NoSuchElementException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@GetMapping("/requests/reviews")

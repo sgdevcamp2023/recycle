@@ -28,6 +28,7 @@ public class WebSecurityConfig {
 	private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
 	private final DelegatedAccessDeniedHandler accessDeniedHandler;
 	private final TokenAuthProvider tokenAuthProvider;
+	private final CorsConfigurationSourceProperties corsProperties;
 
 	@Bean
 	@Profile("!prod")
@@ -98,8 +99,8 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
-								"/reports/**",
-								"/api/v1/member/token");
+								"/reports/**")
+						.antMatchers(HttpMethod.POST, "/api/v1/members/token");
 	}
 
 	@Bean
@@ -115,21 +116,21 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
-								"/reports/**",
-								"/api/v1/member/token");
+								"/reports/**")
+						.antMatchers(HttpMethod.POST, "/api/v1/members/token");
 	}
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOriginPattern("*");
-		configuration.addAllowedHeader("*");
-		configuration.addAllowedMethod("*");
-		configuration.setAllowCredentials(true);
+		configuration.addAllowedOriginPattern(corsProperties.getOriginPattern());
+		configuration.addAllowedHeader(corsProperties.getAllowedHeaders());
+		configuration.addAllowedMethod(corsProperties.getAllowedMethods());
+		configuration.setAllowCredentials(corsProperties.getAllowCredentials());
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
+		source.registerCorsConfiguration(corsProperties.getPathPattern(), configuration);
 		return source;
 	}
 }

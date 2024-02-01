@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 public class TokenUserDetailsService implements UserDetailsService {
 
 	private static final String MEMBER_ID_CLAIM_KEY = "memberId";
+	private static final String MEMBER_CERTIFICATION_CLAIM_KEY = "certification";
 	private static final String MEMBER_ROLE_CLAIM_KEY = "memberRole";
 
 	private final TokenResolver tokenResolver;
@@ -37,11 +38,16 @@ public class TokenUserDetailsService implements UserDetailsService {
 										new AccessTokenInvalidException("Invalid access token. accessToken: " + token));
 
 		Long id = claims.get(MEMBER_ID_CLAIM_KEY, Long.class);
+		String certification = claims.get(MEMBER_CERTIFICATION_CLAIM_KEY, String.class);
 		String roles = claims.get(MEMBER_ROLE_CLAIM_KEY, String.class);
 
 		List<GrantedAuthority> authorities = toAuthorities(roles);
 
-		return TokenUserDetails.builder().id(String.valueOf(id)).authorities(authorities).build();
+		return TokenUserDetails.builder()
+				.id(String.valueOf(id))
+				.certification(certification)
+				.authorities(authorities)
+				.build();
 	}
 
 	private static List<GrantedAuthority> toAuthorities(String roles) {
