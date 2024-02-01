@@ -17,6 +17,7 @@ import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,7 +54,7 @@ public class MemberCheckController {
 	public ApiResponse<ApiResponse.SuccessBody<EmailAuthUseCaseResponse>> emailAuth(
 			HttpServletRequest servletRequest,
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestParam(value = "email", required = true) String email,
+			@Email @RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "nonce", required = true) String nonce) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
