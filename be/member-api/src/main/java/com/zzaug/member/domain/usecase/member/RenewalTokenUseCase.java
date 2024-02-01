@@ -50,8 +50,10 @@ public class RenewalTokenUseCase {
 		final String accessToken = request.getAccessToken();
 		final Long memberId = resolveMemberId(refreshToken);
 
+		log.debug("Get member source. memberId: {}", memberId);
 		MemberSource memberSource = memberSourceQuery.execute(memberId);
 
+		log.debug("Get member authentication. memberId: {}", memberId);
 		Optional<AuthenticationEntity> authenticationSource =
 				authenticationDao.findByMemberIdAndDeletedFalse(memberId);
 		if (authenticationSource.isEmpty()) {
@@ -60,6 +62,7 @@ public class RenewalTokenUseCase {
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
+		log.debug("Get member's contacts. memberId: {}", memberSource.getId());
 		List<ExternalContactEntity> contacts =
 				externalContactDao.findAllByMemberIdAndDeletedFalse(memberSource.getId());
 		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);
@@ -72,6 +75,10 @@ public class RenewalTokenUseCase {
 						memberContacts.getEmail(),
 						memberContacts.getGithub());
 
+		log.debug(
+				"Save All used token to black list. accessToken: {}, refreshToken: {}",
+				accessToken,
+				refreshToken);
 		saveAllUsedTokenToBlackList(accessToken, refreshToken);
 
 		return MemberAuthToken.builder()
