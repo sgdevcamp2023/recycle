@@ -56,9 +56,10 @@ const SignInModal = () => {
 
   const handleIdDuplicate = () => {
     // console.log(duplicateData?.data.data.duplication);
-    setIsDuplicate(duplicateData?.data.data.duplication);
+    // setIsDuplicate(duplicateData?.data.data.duplication);
+    setIsDuplicate(false);
 
-    if (duplicateData?.data.data.duplication) {
+    if (!duplicateData?.data.data.duplication) {
       // 중복일시 버튼 비활성화
       setIsButtonDisabled(true);
       console.log(isDuplicate);

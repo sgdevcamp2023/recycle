@@ -19,7 +19,7 @@ const Router = () => {
       {['/', '/newQuestion', '/newReview', '/*'].map((path) => (
         <Route key={path} element={<GridTemplate />}>
           {path === '/*' ? (
-            <Route path="/*" element={<NotFound />} />
+            <Route path="/error" element={<NotFound />} />
           ) : (
             <Route key={path} path={path} element={<Common />} />
           )}
