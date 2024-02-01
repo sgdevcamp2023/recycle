@@ -35,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CheckEmailAuthUseCase {
 
+	private static final int MAX_TRY_COUNT = 3;
+
 	private final AuthenticationDao authenticationDao;
 	private final ExternalContactDao externalContactDao;
 	private final EmailAuthDao emailAuthDao;
@@ -76,13 +78,25 @@ public class CheckEmailAuthUseCase {
 
 		log.debug("Get try count. memberId: {}, emailAuthId: {}", memberId, emailAuthId);
 		// 이메일 인증을 시도한 횟수를 조회
-		TryCountElement tryCount = getTryCount(memberId, emailAuthId);
+		TryCountElement tryCount = null;
+		try {
+			tryCount = getTryCount(memberId, emailAuthId);
+		} catch (IllegalArgumentException e) {
+			log.debug("Delete email auth session because tryCount is over max. sessionId: {}", sessionId);
+			emailAuthDao.deleteBySessionId(sessionId);
+			return CheckEmailAuthUseCaseResponse.builder()
+					.authentication(false)
+					.tryCount(Long.valueOf(MAX_TRY_COUNT))
+					.build();
+		}
+		assert tryCount != null;
 
 		// 이메일 인증 요청시 발급한 code와 요청한 code가 일치하는지 확인
 		if (!emailAuth.isCode(code)) {
 			log.debug("Not match code. memberId: {}, emailAuthId: {}", memberId, emailAuthId);
+			tryCount = emailAuthLogService.calculateTryCount(NOT_MATCH_CODE, tryCount);
 			EmailAuthLogEntity emailAuthLogEntity =
-					emailAuthLogService.saveLog(NOT_MATCH_CODE, tryCount, memberId, emailAuthId);
+					emailAuthLogService.saveLog(tryCount, memberId, emailAuthId, NOT_MATCH_CODE.getReason());
 			log.debug(
 					"Save Fail email auth log. memberId: {}, emailAuthId: {}, emailAuthLogId: {}",
 					memberId,
@@ -102,8 +116,9 @@ public class CheckEmailAuthUseCase {
 		Long savedExternalContactId = externalContactDao.saveContact(externalContactEntity).getId();
 		log.debug(
 				"Save external contact. memberId: {}, contactId: {}", memberId, savedExternalContactId);
+		tryCount = emailAuthLogService.calculateTryCount(SUCCESS, tryCount);
 		EmailAuthLogEntity emailAuthLogEntity =
-				emailAuthLogService.saveLog(SUCCESS, tryCount, memberId, emailAuthId);
+				emailAuthLogService.saveLog(tryCount, memberId, emailAuthId, SUCCESS.getReason());
 		log.debug(
 				"Save Success email auth log. memberId: {}, emailAuthId: {}, emailAuthLogId: {}",
 				memberId,
@@ -151,9 +166,7 @@ public class CheckEmailAuthUseCase {
 		} else {
 			// 이메일 인증을 실패한 이력이 있는 경우 tryCount를 조회하여 초기화
 			tryCount = Math.toIntExact(emailAuthLogSource.get().getTryCount());
-			int maxTryCount = 3;
-			if (tryCount >= maxTryCount) {
-				// todo 이메일 인증 요청 세션이 존재하는지 확인하고 삭제한다.
+			if (tryCount >= MAX_TRY_COUNT) {
 				throw new IllegalArgumentException("request try count is over");
 			}
 			return TryCountElement.builder()
