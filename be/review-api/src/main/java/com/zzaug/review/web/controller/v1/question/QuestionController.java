@@ -1,8 +1,7 @@
 package com.zzaug.review.web.controller.v1.question;
 
 import com.zzaug.review.domain.dto.question.*;
-import com.zzaug.review.domain.exception.DataNotFoundException;
-import com.zzaug.review.domain.exception.UnauthorizedAuthorException;
+
 import com.zzaug.review.domain.usecase.question.QuestionCreateUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionDeleteUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionTempCreateUseCase;
@@ -23,9 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/questions")
@@ -58,7 +56,6 @@ public class QuestionController {
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
-
 	@DeleteMapping("/{questionId}")
 	public ApiResponse<?> deleteQuestion(
 			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long questionId) {
@@ -74,10 +71,10 @@ public class QuestionController {
 		try {
 			questionDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (DataNotFoundException e){
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (UnauthorizedAuthorException e){
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+		} catch (NoSuchElementException e){
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND ,HttpStatus.NOT_FOUND);
+		} catch (RuntimeException e){
+			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED ,HttpStatus.FORBIDDEN);
 		}
 	}
 
