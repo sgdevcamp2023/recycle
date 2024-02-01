@@ -40,6 +40,7 @@ const DefaultButton = ({
       color={color}
       $borderColor={$borderColor}
       $backgroundColor={$backgroundColor}
+      // props ???
       padding={padding}
       onClick={onClick}
       $isActive={isTabButton && $isActive}

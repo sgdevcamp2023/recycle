@@ -3,7 +3,8 @@ import DefaultTab from '../navbar/DefaultTab';
 import styled from 'styled-components';
 // import SearchInput from "../Search/SearchInput";
 import DefaultCard, { DefaultCardProps } from '@components/atom/card/DefaultCard';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import useGetReviewRequests from '@hooks/query/question/useGetReviewRequests';
 
 const Request = () => {
   const items: Record<string, DefaultTabType> = {
@@ -13,6 +14,15 @@ const Request = () => {
   useEffect(() => {
     setDefaultTabType('reviewRequest');
   }, [setDefaultTabType]);
+
+  const [requestArray, setRequestArray] = useState([]);
+  const { data: RequestData, isLoading } = useGetReviewRequests();
+
+  useEffect(() => {
+    setRequestArray(RequestData?.data?.data);
+    console.log(requestArray);
+  }, [isLoading]);
+
   const mockDataArray: DefaultCardProps[] = [
     {
       type: 'add',

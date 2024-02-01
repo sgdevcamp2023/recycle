@@ -1,7 +1,7 @@
 import questionApi from '@api/questionApi';
 import { useQuery } from '@tanstack/react-query';
 
-const useGetReviews = () => {
+const useGetReviewRequests = () => {
   return useQuery({
     queryKey: ['reviewRequests'],
     queryFn: () => questionApi.getReviewReqeusts(),
@@ -9,4 +9,4 @@ const useGetReviews = () => {
   });
 };
 
-export default useGetReviews;
+export default useGetReviewRequests;

@@ -1,12 +1,12 @@
 import questionApi, { QuestionProps } from '@api/questionApi';
 import { useQuery } from '@tanstack/react-query';
 
-const useGetQuestion = ({ questionId }: QuestionProps) => {
+const useGetQuestionDrafts = ({ questionId }: QuestionProps) => {
   return useQuery({
     queryKey: ['question', questionId],
-    queryFn: () => questionApi.getQuestion({ questionId }),
+    queryFn: () => questionApi.getQuestionDrafts({ questionId }),
     staleTime: Infinity,
   });
 };
 
-export default useGetQuestion;
+export default useGetQuestionDrafts;

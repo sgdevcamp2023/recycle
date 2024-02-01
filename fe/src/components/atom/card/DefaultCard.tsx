@@ -10,7 +10,15 @@ export interface DefaultCardProps {
   title?: string;
   width?: number;
   height?: number;
-  content?: ReactNode;
+  author?: string;
+  author_id?: number;
+  content?: string;
+  created_at?: string;
+  question_id?: number;
+  review_cnt?: number;
+  updated_at?: string;
+  children?: ReactNode;
+  isLoading?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
@@ -30,6 +38,8 @@ const DefaultCard = ({
   width,
   height,
   content,
+  children,
+  isLoading,
   onClick,
 }: DefaultCardProps) => {
   return (
@@ -56,6 +66,7 @@ const DefaultCard = ({
             {content}
           </>
         )}
+        {children}
       </ContentContainer>
       <Divider />
       <FooterContainer>
@@ -64,7 +75,7 @@ const DefaultCard = ({
             새로운 질문하기
           </Text>
         )}
-        {type == 'question' && (
+        {type == 'question' && !isLoading && (
           <TextBox>
             <Text color="green" fontSize="lg">
               {commentCount}
@@ -72,7 +83,7 @@ const DefaultCard = ({
             <Text>개의 코멘트가 달렸습니다</Text>
           </TextBox>
         )}
-        {type == 'review' && (
+        {type == 'review' && !isLoading && (
           <TextBox>
             <Text color="green" fontSize="lg">
               {commentCount}
@@ -97,10 +108,11 @@ const CardWrapper = styled.div<CardWrapperProps>`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Divider = styled.div`
-  width: 100%;
+  width: 99%;
   height: 0px;
   border: 0.5px solid ${({ theme }) => theme.backgroundColor.grey400};
 `;
