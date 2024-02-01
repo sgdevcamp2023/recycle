@@ -33,7 +33,9 @@ public class EmailAuthUseCase {
 		final EmailData email = EmailData.builder().email(request.getEmail()).build();
 		final String nonce = request.getNonce();
 		final String authCode = RandomStringUtils.random(7, true, true);
+		log.debug("AuthCode is generated : {}", authCode);
 
+		log.debug("Check duplicate email. email: {}", email.getEmail());
 		boolean isEmailExist =
 				externalContactDao.existsByContactTypeAndSourceAndDeletedFalse(
 						ContactType.EMAIL, email.getEmail());
@@ -42,6 +44,11 @@ public class EmailAuthUseCase {
 		}
 		// todo 너무 많은 이메일 인증 요청을 보내는 것은 아닌지 확인한다.
 
+		log.debug(
+				"Save email auth entity and session. memberId: {}, email: {}, sessionId: {}",
+				memberId,
+				email.getEmail(),
+				sessionId);
 		save(memberId, email, nonce, authCode, sessionId);
 
 		publishEvent(memberId, email, authCode);
@@ -80,7 +87,16 @@ public class EmailAuthUseCase {
 
 	private void publishEvent(Long memberId, EmailData email, String authCode) {
 		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
+		log.debug(
+				"Publish email auth event. memberId: {}, email: {}, code: {}",
+				memberId,
+				email.getEmail(),
+				authCode);
 		applicationEventPublisher.publishEvent(
-			EmailAuthMessage.builder().memberId(memberId).email(email.getEmail()).code(authCode).build());
+				EmailAuthMessage.builder()
+						.memberId(memberId)
+						.email(email.getEmail())
+						.code(authCode)
+						.build());
 	}
 }
