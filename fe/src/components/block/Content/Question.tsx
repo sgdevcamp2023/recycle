@@ -6,6 +6,7 @@ import SearchInput from '../Search/SearchInput';
 import DefaultCard, { DefaultCardProps, DefaultCardType } from '@components/atom/card/DefaultCard';
 import useGetQuestions from '@hooks/query/question/useGetQuestions';
 import useGetQuestionDrafts from '@hooks/query/question/useGetQuestionDrafts';
+import { SyncLoader } from 'react-spinners';
 
 const Question = () => {
   const items: Record<string, DefaultTabType> = {
@@ -28,12 +29,10 @@ const Question = () => {
 
   useEffect(() => {
     setQuestionsArray(questionData?.data.data);
-    console.log(isQuestionsLoading);
   }, [isQuestionsLoading]);
 
   useEffect(() => {
     setQuestionDraftsArray(questionDraftsData?.data.data);
-    console.log(isQuestionDraftsLoading);
   }, [isQuestionDraftsLoading]);
 
   interface handleCardClickProps {
@@ -71,7 +70,13 @@ const Question = () => {
           />
         )}
         {(isQuestionDraftsLoading || isQuestionsLoading) && (
-          <DefaultCard type="question" content="질문 목록을 불러오고 있습니다!" />
+          <DefaultCard type="question" isLoading={isQuestionDraftsLoading || isQuestionsLoading}>
+            <SyncLoader
+              size={10}
+              margin={2}
+              loading={isQuestionDraftsLoading || isQuestionsLoading}
+            />
+          </DefaultCard>
         )}
         {defaultTabType === 'myQuestion' &&
           questionsArray &&
