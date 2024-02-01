@@ -121,11 +121,11 @@
 
 #### 본문
 
-| 이름        | 타입      | 설명          | 필수 |
-|-----------|---------|-------------|----|
-| code      | String  | success     | O  |
-| message   | String  | 성공          | O  |
-| duplicate | Boolean | 중복 확인 성공 여부 | O  |
+| 이름        | 타입      | 설명      | 필수 |
+|-----------|---------|---------|----|
+| code      | String  | success | O  |
+| message   | String  | 성공      | O  |
+| duplicate | Boolean | 중복 여부   | O  |
 
 ## 이메일 인증 요청을 진행합니다.
 
