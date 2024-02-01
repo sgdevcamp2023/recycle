@@ -1,5 +1,6 @@
 package com.zzaug.member.web.dto.member;
 
+import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,6 @@ import lombok.ToString;
 public class CheckEmailAuthRequest {
 
 	private String code;
-	private String email;
+	@Email private String email;
 	private String nonce;
 }
