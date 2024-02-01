@@ -15,6 +15,7 @@ interface DefaultButtonProps {
   cursor?: string;
   $isActive?: boolean | null;
   isTabButton?: boolean;
+  disabled?: boolean;
 }
 
 const DefaultButton = ({
@@ -29,6 +30,7 @@ const DefaultButton = ({
   isTabButton = false,
   onClick,
   children,
+  disabled,
 }: DefaultButtonProps) => {
   return (
     <DefaultButtonBox
@@ -41,6 +43,7 @@ const DefaultButton = ({
       padding={padding}
       onClick={onClick}
       $isActive={isTabButton && $isActive}
+      disabled={disabled}
     >
       {children}
     </DefaultButtonBox>
@@ -83,6 +86,12 @@ const DefaultButtonBox = styled.button<
       $backgroundColor ? theme.backgroundColor.white : theme.backgroundColor.green100};
     border: 0.063rem solid #1eb649;
     color: ${({ theme, color }) => (color ? theme.color.green : theme.color.white)};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme.backgroundColor.grey};
+    color: ${({ theme }) => theme.color.gray}; // 원하는 비활성화된 텍스트 색상으로 변경
+    cursor: not-allowed;
+    border: none;
   }
 `;
 

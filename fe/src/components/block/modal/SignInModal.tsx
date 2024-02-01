@@ -49,13 +49,21 @@ const SignInModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [isDuplicate, setIsDuplicate] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const { data: duplicateData } = useCheckIdDuplicate({ certification: email });
 
   const handleIdDuplicate = () => {
-    // 중복 확인 되었을 때 중복확인 되었는지 로직 추가 해주기
-    // 중복 확인 되었으면 버튼 isActive:false 로 바꿔주기
-    console.log(duplicateData);
+    // console.log(duplicateData?.data.data.duplication);
+    setIsDuplicate(duplicateData?.data.data.duplication);
+
+    if (duplicateData?.data.data.duplication) {
+      // 중복일시 버튼 비활성화
+      setIsButtonDisabled(true);
+      console.log(isDuplicate);
+      alert('중복임');
+    }
   };
 
   const { mutate: signUp } = useSignUp();
@@ -147,7 +155,13 @@ const SignInModal = () => {
           />
         </FlexBox>
         <ButtonBox>
-          <DefaultButton width={22.375} height={3} padding={1} onClick={validateForm}>
+          <DefaultButton
+            width={22.375}
+            height={3}
+            padding={1}
+            onClick={validateForm}
+            disabled={isDuplicate}
+          >
             회원가입
           </DefaultButton>
         </ButtonBox>
