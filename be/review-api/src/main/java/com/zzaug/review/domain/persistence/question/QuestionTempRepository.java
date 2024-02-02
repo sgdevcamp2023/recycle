@@ -8,5 +8,5 @@ import java.util.List;
 public interface QuestionTempRepository extends CrudRepository<QuestionTempEntity, String> {
 
     List<QuestionTempEntity> findAllByAuthorId(Long authorId);
-    List<QuestionTempEntity> findByTId(String tId);
+    List<QuestionTempEntity> findByTempId(String tId);
 }

@@ -8,6 +8,7 @@ spring:
       - mysql-local
       - security-local
       - redis-local
+      - cookie-local
 
 logging:
   level:
