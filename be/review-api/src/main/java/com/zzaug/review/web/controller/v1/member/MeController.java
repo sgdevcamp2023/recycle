@@ -7,9 +7,6 @@ import com.zzaug.review.domain.dto.question.QuestionReqViewUseCaseRequest;
 
 import com.zzaug.review.domain.usecase.member.ViewReviewerUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionReqViewUseCase;
-import com.zzaug.review.support.ApiResponse;
-import com.zzaug.review.support.ApiResponseGenerator;
-import com.zzaug.review.support.MessageCode;
 import com.zzaug.review.web.support.usecase.QuestionReqViewUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.ViewReviewerUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
@@ -17,20 +14,28 @@ import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.zzaug.web.support.ApiResponse;
+import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+
 @RestController
 @RequestMapping("/api/v1/me")
 @RequiredArgsConstructor
+@Validated
 public class MeController {
 
 	private final QuestionReqViewUseCase questionReqViewUseCase;
@@ -38,7 +43,7 @@ public class MeController {
 
 	@GetMapping("/questions/reviewers")
 	public ApiResponse<?> viewReviewerList(
-			@RequestParam Long questionId) {
+			@Valid @RequestParam @NotEmpty Long questionId) {
 		try {
 			ViewReviewerUseCaseRequest useCaseRequest =
 					ViewReviewerUseCaseRequestConverter.from(questionId);
@@ -51,7 +56,8 @@ public class MeController {
 
 	@GetMapping("/requests/reviews")
 	public ApiResponse<?> viewReviewRequestList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, int page, int size) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @Valid @RequestParam @NotEmpty int page,
+			@Valid @RequestParam @NotEmpty int size) {
 		try {
 			QuestionReqViewUseCaseRequest useCaseRequest =
 					QuestionReqViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
