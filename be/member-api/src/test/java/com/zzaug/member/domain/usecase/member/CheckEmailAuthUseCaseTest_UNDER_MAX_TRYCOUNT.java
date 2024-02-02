@@ -33,7 +33,7 @@ class CheckEmailAuthUseCaseTest_UNDER_MAX_TRYCOUNT extends AbstractUseCaseTest {
 
 	Long memberId = 1L;
 	String code = UMockEmailAuthDao.CODE;
-	String email = "sample@email.com";
+	String email = UMockEmailAuthDao.EMAIL;
 	String nonce = "nonce";
 	final CheckEmailAuthUseCaseRequest request =
 			CheckEmailAuthUseCaseRequest.builder()
