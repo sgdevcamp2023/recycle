@@ -4,6 +4,7 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 import com.epages.restdocs.apispec.HeaderDescriptorWithType;
+import java.util.UUID;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -80,11 +81,16 @@ public class Description {
 				.description("Bearer 어세스 토큰");
 	}
 
-	public static HeaderDescriptorWithType refererHeader() {
-		return headerWithName("Referer").description("이전 주소 정보");
+	public static HeaderDescriptorWithType xZzaugIdHeader() {
+		return headerWithName("X-ZZAUG-ID")
+				.description("요청 추적을 위한 uuid")
+				.defaultValue(UUID.randomUUID());
 	}
 
-	public static HeaderDescriptorWithType xZzaugIdHeader() {
-		return headerWithName("X-ZZAUG-ID").description("요청 추적을 위한 uuid");
+	public static HeaderDescriptorWithType setCookieHeader() {
+		return headerWithName("Set-Cookie")
+				.defaultValue(
+						"refreshToken=refreshToken; Path=/; HttpOnly; Domain=swaggerhub.com; SameSite=Lax; Secure")
+				.description("리프레시 토큰 쿠키");
 	}
 }
