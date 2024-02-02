@@ -61,6 +61,8 @@ const CreateServiceApi = (service: string): AxiosInstance => {
           return await axios(originalRequest);
         } catch (error) {
           console.error(error);
+          // locate 사용해보기 (이것도 관점!) window.locate.을 이용해서 홈화면으로 에러시 보내버려라!
+          // 토큰 발급된거 삭제하기 -> 로컬에 들어간거 따라서 저장해놨으니까, 빼놓는것도 추가를 해야 순수한 함수이고, 에러처리가 된다!
         }
       }
     },
