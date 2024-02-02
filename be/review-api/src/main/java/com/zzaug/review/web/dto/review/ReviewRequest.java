@@ -8,14 +8,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewRequest {
+	@NotEmpty
 	private String content;
+
 	private ReviewPoint startPoint;
+
 	private ReviewPoint endPoint;
+	
 	private ReviewType tag;
 }
