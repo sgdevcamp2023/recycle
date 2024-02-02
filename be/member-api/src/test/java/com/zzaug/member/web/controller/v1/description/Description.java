@@ -19,12 +19,19 @@ public class Description {
 		return fieldWithPath("message").type(JsonFieldType.STRING).description("성공");
 	}
 
+	private static FieldDescriptor getTimeStampDescriptor() {
+		return fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 시간");
+	}
+
 	public static FieldDescriptor[] success(FieldDescriptor[] data) {
-		return ArrayUtils.addAll(data, getSuccessMessageDescriptor(), getSuccessCodeDescriptor());
+		return ArrayUtils.addAll(
+				data, getSuccessMessageDescriptor(), getSuccessCodeDescriptor(), getTimeStampDescriptor());
 	}
 
 	public static FieldDescriptor[] success() {
-		return new FieldDescriptor[] {getSuccessMessageDescriptor(), getSuccessCodeDescriptor()};
+		return new FieldDescriptor[] {
+			getSuccessMessageDescriptor(), getSuccessCodeDescriptor(), getTimeStampDescriptor()
+		};
 	}
 
 	private static FieldDescriptor getCreateCodeDescriptor() {
@@ -52,19 +59,27 @@ public class Description {
 	}
 
 	public static FieldDescriptor[] created() {
-		return new FieldDescriptor[] {getCreateCodeDescriptor(), getCreateMessageDescriptor()};
+		return new FieldDescriptor[] {
+			getCreateCodeDescriptor(), getCreateMessageDescriptor(), getTimeStampDescriptor()
+		};
 	}
 
 	public static FieldDescriptor[] fail() {
-		return new FieldDescriptor[] {getFailCodeDescriptor(), getFailMessageDescriptor()};
+		return new FieldDescriptor[] {
+			getFailCodeDescriptor(), getFailMessageDescriptor(), getTimeStampDescriptor()
+		};
 	}
 
 	public static FieldDescriptor[] modified() {
-		return new FieldDescriptor[] {getModifiedCodeDescriptor(), getModifiedMessageDescriptor()};
+		return new FieldDescriptor[] {
+			getModifiedCodeDescriptor(), getModifiedMessageDescriptor(), getTimeStampDescriptor()
+		};
 	}
 
 	public static FieldDescriptor[] deleted() {
-		return new FieldDescriptor[] {getDeletedCodeDescriptor(), getDeletedMessageDescriptor()};
+		return new FieldDescriptor[] {
+			getDeletedCodeDescriptor(), getDeletedMessageDescriptor(), getTimeStampDescriptor()
+		};
 	}
 
 	private static FieldDescriptor getFailCodeDescriptor() {
