@@ -2,25 +2,29 @@ package com.zzaug.review.web.controller.v1.review;
 
 import com.zzaug.review.domain.dto.review.*;
 import com.zzaug.review.domain.usecase.review.*;
-import com.zzaug.review.support.ApiResponse;
-import com.zzaug.review.support.ApiResponseGenerator;
-import com.zzaug.review.support.MessageCode;
+
 import com.zzaug.review.web.dto.review.ReviewDeleteRequest;
 import com.zzaug.review.web.dto.review.ReviewRequest;
 import com.zzaug.review.web.dto.review.ReviewTempRequest;
 import com.zzaug.review.web.support.usecase.*;
 import com.zzaug.security.authentication.token.TokenUserDetails;
+import com.zzaug.web.support.ApiResponse;
+import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class ReviewController {
 
 	private final ReviewCreateUseCase reviewCreateUseCase;
@@ -30,10 +34,10 @@ public class ReviewController {
 	private final ReviewTempViewUseCase reviewTempViewUseCase;
 
 	@PostMapping("/questions/{questionId}/reviews")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> createReview(
+	public ApiResponse<ApiResponse.Success> createReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			@RequestBody ReviewRequest request) {
+			@PathVariable @Valid Long questionId,
+			@RequestBody @Valid ReviewRequest request) {
 
 		ReviewCreateUseCaseRequest useCaseRequest =
 				ReviewCreateUseCaseRequestConverter.from(request, questionId, userDetails);
@@ -42,12 +46,11 @@ public class ReviewController {
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 
-
 	@PostMapping("/questions/{questionId}/reviews/temp")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> createTempReview(
+	public ApiResponse<ApiResponse.Success> createTempReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			@RequestBody ReviewTempRequest request) {
+			@PathVariable @Valid Long questionId,
+			@RequestBody @Valid ReviewTempRequest request) {
 
 		ReviewTempCreateUseCaseRequest useCaseRequest =
 				ReviewTempUseCaseRequestConverter.from(request, questionId, userDetails);
@@ -56,11 +59,11 @@ public class ReviewController {
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
 	}
 	@PutMapping("/questions/{questionId}/reviews/{reviewId}")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> editReview(
+	public ApiResponse<?> editReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			@PathVariable Long reviewId,
-			@RequestBody ReviewRequest request) {
+			@PathVariable @Valid Long questionId,
+			@PathVariable @Valid Long reviewId,
+			@RequestBody @Valid ReviewRequest request) {
 
 		ReviewEditUseCaseRequest useCaseRequest =
 				ReviewEditUseCaseRequestConverter.from(request, reviewId, questionId, userDetails);
@@ -68,17 +71,19 @@ public class ReviewController {
 			reviewEditUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
 		}catch (NoSuchElementException e){
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
 		}catch (RuntimeException e){
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
+			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		}
 
 	}
+
+
 	@DeleteMapping("/questions/{questionId}/reviews/{reviewId}")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> deleteReview(
+	public ApiResponse<?> deleteReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			@PathVariable Long reviewId) {
+			@PathVariable @Valid Long questionId,
+			@PathVariable @Valid Long reviewId) {
 
 		ReviewDeleteRequest request = ReviewDeleteRequest.builder()
 				.reviewId(reviewId)
@@ -93,9 +98,9 @@ public class ReviewController {
 			reviewDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 		}catch (NoSuchElementException e){
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
 		}catch (RuntimeException e){
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		}
 	}
 	@GetMapping("/questions/{questionId}/reviews/temp")
