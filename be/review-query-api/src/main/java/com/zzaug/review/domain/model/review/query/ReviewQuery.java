@@ -2,13 +2,12 @@ package com.zzaug.review.domain.model.review.query;
 
 import com.zzaug.review.entity.review.query.ReviewPoint;
 import com.zzaug.review.entity.review.query.ReviewType;
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.sql.Timestamp;
 
 @Getter
 @ToString

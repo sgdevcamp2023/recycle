@@ -13,11 +13,9 @@ import com.zzaug.review.web.support.usecase.ReviewByQuestionUseCaseRequestConver
 import com.zzaug.review.web.support.usecase.SearchByQuestionUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.SearchByReviewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,7 +34,8 @@ public class ReviewQueryController {
 	public ApiResponse<ApiResponse.SuccessBody<List<ReviewQueryResponse>>> viewQuestionReviewList(
 			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
 
-		ReviewByQuestionUseCaseRequest useCaseRequest = ReviewByQuestionUseCaseRequestConverter.from(question_id);
+		ReviewByQuestionUseCaseRequest useCaseRequest =
+				ReviewByQuestionUseCaseRequestConverter.from(question_id);
 		List<ReviewQueryResponse> responses = reviewByQuestionUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
@@ -44,30 +43,35 @@ public class ReviewQueryController {
 
 	@GetMapping("/review-query/search")
 	public ApiResponse<ApiResponse.SuccessBody<List<Map<String, Object>>>> searchReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestParam Boolean me,
-			@RequestParam Boolean validQuestion, @RequestParam String query) {
+			@AuthenticationPrincipal TokenUserDetails userDetails,
+			@RequestParam Boolean me,
+			@RequestParam Boolean validQuestion,
+			@RequestParam String query) {
 
 		List<Map<String, Object>> responses = new ArrayList<>();
 		if (me) {
 
-			if (validQuestion){
-				ReviewSearchByQuestionRequest request = ReviewSearchByQuestionRequest.builder().authorId(Long.valueOf(userDetails.getId())).query(query)
-						.build();
-				SearchByQuestionUseCaseRequest useCaseRequest = SearchByQuestionUseCaseRequestConverter.from(request);
+			if (validQuestion) {
+				ReviewSearchByQuestionRequest request =
+						ReviewSearchByQuestionRequest.builder()
+								.authorId(Long.valueOf(userDetails.getId()))
+								.query(query)
+								.build();
+				SearchByQuestionUseCaseRequest useCaseRequest =
+						SearchByQuestionUseCaseRequestConverter.from(request);
 				responses = searchByQuestionUseCase.execute(useCaseRequest);
 				return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 
 			} else {
-				ReviewSearchRequest request = ReviewSearchRequest.builder().authorId(102L).query(query)
-						.build();
-				SearchByReviewUseCaseRequest useCaseRequest = SearchByReviewUseCaseRequestConverter.from(request);
+				ReviewSearchRequest request =
+						ReviewSearchRequest.builder().authorId(102L).query(query).build();
+				SearchByReviewUseCaseRequest useCaseRequest =
+						SearchByReviewUseCaseRequestConverter.from(request);
 				responses = searchByReviewUseCase.execute(useCaseRequest);
 				return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 			}
-
 		}
 
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
 	}
-
 }

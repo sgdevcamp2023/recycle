@@ -1,8 +1,7 @@
 package com.zzaug.review.domain.dto.review.query;
 
-import java.sql.Timestamp;
-
 import com.zzaug.review.entity.review.query.ReviewType;
+import java.sql.Timestamp;
 import lombok.*;
 
 @Getter

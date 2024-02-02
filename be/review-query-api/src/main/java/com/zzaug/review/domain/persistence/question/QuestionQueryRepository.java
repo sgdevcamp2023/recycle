@@ -9,6 +9,8 @@ public interface QuestionQueryRepository
 		extends ElasticsearchRepository<QuestionQueryEntity, Long> {
 	Page<QuestionQueryEntity> findAllByAuthorIdAndContentContaining(
 			Pageable pageable, Long authorId, String query);
-	QuestionQueryEntity findByQuestionId (Long questionId);
-	QuestionQueryEntity findByQuestionIdAndContentContaining (Long questionId, String query);
+
+	QuestionQueryEntity findByQuestionId(Long questionId);
+
+	QuestionQueryEntity findByQuestionIdAndContentContaining(Long questionId, String query);
 }
