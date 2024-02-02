@@ -13,12 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReviewQueryEditUseCase {
-    private final ReviewQueryRepository reviewQueryRepository;
-    private final ReviewQueryConverter reviewQueryConverter;
+	private final ReviewQueryRepository reviewQueryRepository;
+	private final ReviewQueryConverter reviewQueryConverter;
 
-    public void execute(ReviewQueryEditUseCaseRequest request) {
-        ReviewQueryEntity reviewQueryEntity = reviewQueryRepository.findById(request.getReviewId()).orElseThrow(RuntimeException::new);
-        ReviewQuery review = reviewQueryConverter.from(request, reviewQueryEntity);
-        reviewQueryRepository.save(ReviewQueryEntityConverter.from(review));
-    }
+	public void execute(ReviewQueryEditUseCaseRequest request) {
+		ReviewQueryEntity reviewQueryEntity =
+				reviewQueryRepository.findById(request.getReviewId()).orElseThrow(RuntimeException::new);
+		ReviewQuery review = reviewQueryConverter.from(request, reviewQueryEntity);
+		reviewQueryRepository.save(ReviewQueryEntityConverter.from(review));
+	}
 }

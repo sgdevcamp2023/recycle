@@ -9,7 +9,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 @Setter
 public class ReviewQueryDeleteUseCaseRequest {
-    private Long reviewId;
-    private Long questionId;
-    private Long authorId;
+	private Long reviewId;
+	private Long questionId;
+	private Long authorId;
 }

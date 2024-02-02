@@ -2,9 +2,8 @@ package com.zzaug.review.domain.dto.review.query;
 
 import com.zzaug.review.entity.review.query.ReviewPoint;
 import com.zzaug.review.entity.review.query.ReviewType;
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @ToString
@@ -12,14 +11,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewQueryEditUseCaseRequest {
-    private Long reviewId;
-    private Long questionId;
-    private String content;
-    private String author;
-    private Long authorId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private ReviewPoint startPoint;
-    private ReviewPoint endPoint;
-    private ReviewType tag;
+	private Long reviewId;
+	private Long questionId;
+	private String content;
+	private String author;
+	private Long authorId;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
+	private ReviewPoint startPoint;
+	private ReviewPoint endPoint;
+	private ReviewType tag;
 }

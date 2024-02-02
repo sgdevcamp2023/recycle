@@ -24,7 +24,8 @@ public class ReviewQueryConverter {
 				.build();
 	}
 
-	public ReviewQuery from(ReviewQueryEditUseCaseRequest source, ReviewQueryEntity reviewQueryEntity){
+	public ReviewQuery from(
+			ReviewQueryEditUseCaseRequest source, ReviewQueryEntity reviewQueryEntity) {
 		return ReviewQuery.builder()
 				.reviewId(reviewQueryEntity.getReviewId())
 				.questionId(reviewQueryEntity.getQuestionId())

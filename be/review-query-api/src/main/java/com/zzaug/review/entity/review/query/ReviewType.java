@@ -4,12 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum ReviewType {
-    CODE("code"),
-    LINE("line");
+	CODE("code"),
+	LINE("line");
 
-    private String type;
+	private String type;
 
-    ReviewType(String type) {
-        this.type = type;
-    }
+	ReviewType(String type) {
+		this.type = type;
+	}
 }
