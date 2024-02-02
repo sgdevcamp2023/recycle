@@ -23,7 +23,7 @@ public class QuestionTempViewUseCase {
     public List<QuestionTempResponse> execute(QuestionTempViewUseCaseRequest request){
         if (request.getTempId() != null){
             System.out.println(request.getTempId());
-            List<QuestionTempEntity> result = questionTempRepository.findByTId(request.getTempId());
+            List<QuestionTempEntity> result = questionTempRepository.findByTempId(request.getTempId());
             return result.stream()
                     .map(QuestionTempResponseConverter::from)
                     .collect(Collectors.toList());
