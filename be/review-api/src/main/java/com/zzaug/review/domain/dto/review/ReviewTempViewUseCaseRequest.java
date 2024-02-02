@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewTempViewUseCaseRequest {
-    private String tempId;
-    private Long authorId;
-    private Long questionId;
+	private String tempId;
+	private Long authorId;
+	private Long questionId;
 }

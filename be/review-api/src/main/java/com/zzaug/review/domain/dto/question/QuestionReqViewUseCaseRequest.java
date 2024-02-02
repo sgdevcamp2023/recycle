@@ -8,5 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionReqViewUseCaseRequest {
-    private Long receiverId;
+	private Long receiverId;
 }

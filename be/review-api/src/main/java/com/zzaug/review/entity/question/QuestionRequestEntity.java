@@ -1,8 +1,7 @@
 package com.zzaug.review.entity.question;
 
-import lombok.*;
-
 import javax.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
@@ -11,20 +10,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionRequestEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionReqId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long questionReqId;
 
-    private String requester;
+	private String requester;
 
-    @Column(name = "requester_id")
-    private Long requesterId;
+	@Column(name = "requester_id")
+	private Long requesterId;
 
-    private String receiver;
+	private String receiver;
 
-    @Column(name = "receiver_id")
-    private Long receiverId;
+	@Column(name = "receiver_id")
+	private Long receiverId;
 
-    @Column(name = "question_id")
-    private Long questionId;
+	@Column(name = "question_id")
+	private Long questionId;
 }

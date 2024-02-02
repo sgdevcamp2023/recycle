@@ -11,5 +11,4 @@ public class MemberResponse {
 
 	private String reviewerName;
 	private Long reviewerId;
-
 }

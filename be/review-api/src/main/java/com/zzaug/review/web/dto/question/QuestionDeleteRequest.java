@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionDeleteRequest {
-    private Long questionId;
-    private Long authorId;
+	private Long questionId;
+	private Long authorId;
 }

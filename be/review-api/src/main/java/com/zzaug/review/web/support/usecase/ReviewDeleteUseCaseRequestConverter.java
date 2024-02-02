@@ -7,11 +7,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ReviewDeleteUseCaseRequestConverter {
 
-    public static ReviewDeleteUseCaseRequest from (ReviewDeleteRequest request){
-        return ReviewDeleteUseCaseRequest.builder()
-                .reviewId(request.getReviewId())
-                .questionId(request.getQuestionId())
-                .authorId(request.getAuthorId())
-                .build();
-    }
+	public static ReviewDeleteUseCaseRequest from(ReviewDeleteRequest request) {
+		return ReviewDeleteUseCaseRequest.builder()
+				.reviewId(request.getReviewId())
+				.questionId(request.getQuestionId())
+				.authorId(request.getAuthorId())
+				.build();
+	}
 }

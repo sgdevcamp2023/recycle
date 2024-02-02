@@ -18,5 +18,4 @@ public class QuestionTempUseCaseRequestConverter {
 				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
-
 }

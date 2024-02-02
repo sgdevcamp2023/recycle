@@ -1,8 +1,7 @@
 package com.zzaug.review.domain.model.comment;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @ToString
@@ -10,19 +9,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class Comment {
-    private Long commentId;
+	private Long commentId;
 
-    private Long questionId;
+	private Long questionId;
 
-    private String content;
+	private String content;
 
-    private String author;
+	private String author;
 
-    private Long authorId;
+	private Long authorId;
 
-    private Long parentId;
+	private Long parentId;
 
-    private LocalDateTime createdAt;
+	private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+	private LocalDateTime updatedAt;
 }

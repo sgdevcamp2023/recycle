@@ -6,11 +6,10 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class QuestionDeleteUseCaseRequestConverter {
-    public static QuestionDeleteUseCaseRequest from(
-            QuestionDeleteRequest request) {
-        return QuestionDeleteUseCaseRequest.builder()
-                .questionId(request.getQuestionId())
-                .authorId(request.getAuthorId())
-                .build();
-    }
+	public static QuestionDeleteUseCaseRequest from(QuestionDeleteRequest request) {
+		return QuestionDeleteUseCaseRequest.builder()
+				.questionId(request.getQuestionId())
+				.authorId(request.getAuthorId())
+				.build();
+	}
 }

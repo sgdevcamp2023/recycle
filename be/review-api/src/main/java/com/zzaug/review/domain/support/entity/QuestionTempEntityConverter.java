@@ -6,13 +6,13 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class QuestionTempEntityConverter {
-    public static QuestionTempEntity from (QuestionTemp source){
-        return QuestionTempEntity.builder()
-                .tempId(source.getTempId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .createdAt(source.getCreatedAt())
-                .build();
-    }
+	public static QuestionTempEntity from(QuestionTemp source) {
+		return QuestionTempEntity.builder()
+				.tempId(source.getTempId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.build();
+	}
 }

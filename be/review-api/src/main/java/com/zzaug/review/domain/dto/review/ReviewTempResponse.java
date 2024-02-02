@@ -2,12 +2,9 @@ package com.zzaug.review.domain.dto.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
 import com.zzaug.review.entity.review.ReviewType;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
-import lombok.*;
-
 import javax.persistence.Embedded;
+import lombok.*;
 
 @Getter
 @ToString
@@ -27,11 +24,9 @@ public class ReviewTempResponse {
 
 	private LocalDateTime createdAt;
 
-	@Embedded
-	private ReviewPoint startPoint;
+	@Embedded private ReviewPoint startPoint;
 
-	@Embedded
-	private ReviewPoint endPoint;
+	@Embedded private ReviewPoint endPoint;
 
 	private ReviewType tag;
 }

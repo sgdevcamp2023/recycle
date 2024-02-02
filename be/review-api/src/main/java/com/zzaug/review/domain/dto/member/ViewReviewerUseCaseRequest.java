@@ -8,5 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ViewReviewerUseCaseRequest {
-    private Long questionId;
+	private Long questionId;
 }

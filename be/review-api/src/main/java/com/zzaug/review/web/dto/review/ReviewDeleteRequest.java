@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewDeleteRequest {
-    private Long reviewId;
-    private Long questionId;
-    private Long authorId;
+	private Long reviewId;
+	private Long questionId;
+	private Long authorId;
 }

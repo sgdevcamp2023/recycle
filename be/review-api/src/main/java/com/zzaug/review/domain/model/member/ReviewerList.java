@@ -8,11 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewerList {
-    private Long reviewerListId;
+	private Long reviewerListId;
 
-    private String reviewerName;
+	private String reviewerName;
 
-    private Long reviewerId;
+	private Long reviewerId;
 
-    private Long questionId;
+	private Long questionId;
 }

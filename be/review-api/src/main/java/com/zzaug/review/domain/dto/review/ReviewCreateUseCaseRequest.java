@@ -2,14 +2,13 @@ package com.zzaug.review.domain.dto.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
 import com.zzaug.review.entity.review.ReviewType;
+import java.time.LocalDateTime;
+import javax.persistence.Embedded;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.Embedded;
-import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -32,12 +31,9 @@ public class ReviewCreateUseCaseRequest {
 
 	private LocalDateTime updatedAt;
 
-	@Embedded
-	private ReviewPoint startPoint;
+	@Embedded private ReviewPoint startPoint;
 
-	@Embedded
-	private ReviewPoint endPoint;
+	@Embedded private ReviewPoint endPoint;
 
 	private ReviewType tag;
-
 }

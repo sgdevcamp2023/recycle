@@ -23,7 +23,7 @@ public class ReviewConverter {
 				.build();
 	}
 
-	public Review from (ReviewEditUseCaseRequest source) {
+	public Review from(ReviewEditUseCaseRequest source) {
 		return Review.builder()
 				.reviewId(source.getReviewId())
 				.questionId(source.getQuestionId())
