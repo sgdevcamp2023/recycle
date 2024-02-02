@@ -77,6 +77,10 @@ public class ApiControllerExceptionHandler {
 			return handleRequestDetail((ConstraintViolationException) ex);
 		}
 
+		if (ex instanceof MissingServletRequestParameterException) {
+			return handleRequestDetail((MissingServletRequestParameterException) ex);
+		}
+
 		if (ex instanceof MethodArgumentNotValidException) {
 			return handleRequestDetail((MethodArgumentNotValidException) ex);
 		}
@@ -98,6 +102,15 @@ public class ApiControllerExceptionHandler {
 		ConstraintViolationException rex = ex;
 		String message = rex.getMessage();
 		String parameter = message.split("\\.")[1].split(":")[0];
+		String requestInvalidCode = String.format(REQUEST_INVALID_FORMAT.getCode(), parameter);
+		return ApiResponseGenerator.fail(
+				requestInvalidCode, REQUEST_INVALID_FORMAT.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	private ApiResponse<FailureBody> handleRequestDetail(MissingServletRequestParameterException ex) {
+		MissingServletRequestParameterException rex = ex;
+		String message = rex.getMessage();
+		String parameter = message.split("\'")[1].split("\'")[0];
 		String requestInvalidCode = String.format(REQUEST_INVALID_FORMAT.getCode(), parameter);
 		return ApiResponseGenerator.fail(
 				requestInvalidCode, REQUEST_INVALID_FORMAT.getMessage(), HttpStatus.BAD_REQUEST);
