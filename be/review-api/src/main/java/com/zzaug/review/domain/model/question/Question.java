@@ -1,6 +1,8 @@
 package com.zzaug.review.domain.model.question;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.*;
 
 @Getter
@@ -19,7 +21,7 @@ public class Question {
 
 	private int reviewCnt;
 
-	private Timestamp createdAt;
+	private LocalDateTime createdAt;
 
-	private Timestamp updatedAt;
+	private LocalDateTime updatedAt;
 }
