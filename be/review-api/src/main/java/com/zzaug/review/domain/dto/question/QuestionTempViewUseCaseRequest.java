@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempViewUseCaseRequest {
-    private String tempId;
-    private Long authorId;
+	private String tempId;
+	private Long authorId;
 }

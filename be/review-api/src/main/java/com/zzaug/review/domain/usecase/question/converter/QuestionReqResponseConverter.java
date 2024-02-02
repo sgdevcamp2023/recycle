@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class QuestionReqResponseConverter {
-    public static QuestionReqResponse from(QuestionEntity source){
-        return QuestionReqResponse.builder()
-                .questionId(source.getQuestionId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .createdAt(source.getCreatedAt())
-                .updatedAt(source.getUpdatedAt())
-                .reviewCnt(source.getReviewCnt())
-                .build();
-    }
+	public static QuestionReqResponse from(QuestionEntity source) {
+		return QuestionReqResponse.builder()
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
+				.reviewCnt(source.getReviewCnt())
+				.build();
+	}
 }

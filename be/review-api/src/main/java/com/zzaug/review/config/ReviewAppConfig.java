@@ -2,7 +2,6 @@ package com.zzaug.review.config;
 
 import com.zzaug.flyway.FlywayConfig;
 import com.zzaug.security.config.SecurityConfig;
-import com.zzaug.web.config.WebConfig;
 import com.zzaug.web.config.WebModuleConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

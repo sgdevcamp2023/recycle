@@ -1,8 +1,7 @@
 package com.zzaug.review.web.dto.question;
 
-import lombok.*;
-
 import javax.validation.constraints.NotEmpty;
+import lombok.*;
 
 @Getter
 @ToString
@@ -10,6 +9,5 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionRequest {
-	@NotEmpty
-	private String content;
+	@NotEmpty private String content;
 }

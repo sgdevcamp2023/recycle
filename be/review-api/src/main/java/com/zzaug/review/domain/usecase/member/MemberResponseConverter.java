@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MemberResponseConverter {
 
-    public static MemberResponse from(ReviewerListEntity source){
-        return MemberResponse.builder()
-                .reviewerId(source.getReviewerId())
-                .reviewerName(source.getReviewerName())
-                .build();
-    }
+	public static MemberResponse from(ReviewerListEntity source) {
+		return MemberResponse.builder()
+				.reviewerId(source.getReviewerId())
+				.reviewerName(source.getReviewerName())
+				.build();
+	}
 }

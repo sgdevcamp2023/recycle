@@ -1,12 +1,10 @@
 package com.zzaug.review.web.controller.v1.question;
 
 import com.zzaug.review.domain.dto.question.*;
-
 import com.zzaug.review.domain.usecase.question.QuestionCreateUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionDeleteUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionTempCreateUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionTempViewUseCase;
-
 import com.zzaug.review.web.dto.question.QuestionDeleteRequest;
 import com.zzaug.review.web.dto.question.QuestionRequest;
 import com.zzaug.review.web.dto.question.QuestionTempRequest;
@@ -18,18 +16,15 @@ import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
+import java.util.List;
+import java.util.NoSuchElementException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import javax.validation.constraints.NotEmpty;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/questions")
@@ -44,9 +39,10 @@ public class QuestionController {
 
 	@PostMapping
 	public ApiResponse<ApiResponse.Success> createQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @RequestBody @Valid QuestionRequest request) {
+			@AuthenticationPrincipal TokenUserDetails userDetails,
+			@RequestBody @Valid QuestionRequest request) {
 
-	QuestionCreateUseCaseRequest useCaseRequest =
+		QuestionCreateUseCaseRequest useCaseRequest =
 				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
 		questionCreateUseCase.execute(useCaseRequest);
 
@@ -68,10 +64,11 @@ public class QuestionController {
 	public ApiResponse<?> deleteQuestion(
 			@AuthenticationPrincipal TokenUserDetails userDetails, @Valid @PathVariable Long questionId) {
 
-		QuestionDeleteRequest request = QuestionDeleteRequest.builder()
-				.questionId(questionId)
-				.authorId(Long.valueOf(userDetails.getId()))
-				.build();
+		QuestionDeleteRequest request =
+				QuestionDeleteRequest.builder()
+						.questionId(questionId)
+						.authorId(Long.valueOf(userDetails.getId()))
+						.build();
 
 		QuestionDeleteUseCaseRequest useCaseRequest =
 				QuestionDeleteUseCaseRequestConverter.from(request);
@@ -79,25 +76,26 @@ public class QuestionController {
 		try {
 			questionDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (NoSuchElementException e){
-			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND ,HttpStatus.NOT_FOUND);
-		} catch (RuntimeException e){
-			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED ,HttpStatus.FORBIDDEN);
+		} catch (NoSuchElementException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
+		} catch (RuntimeException e) {
+			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		}
 	}
 
 	@GetMapping("/temp")
 	public ApiResponse<ApiResponse.SuccessBody<List<QuestionTempResponse>>> viewTempQuestionList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @Valid @RequestParam @NotEmpty String tempId) {
+			@AuthenticationPrincipal TokenUserDetails userDetails,
+			@Valid @RequestParam @NotEmpty String tempId) {
 
 		QuestionTempViewUseCaseRequest useCaseRequest = new QuestionTempViewUseCaseRequest();
 
 		if (tempId == null) {
-			 useCaseRequest =
+			useCaseRequest =
 					QuestionTempViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
 
 		} else {
-			 useCaseRequest =
+			useCaseRequest =
 					QuestionTempViewUseCaseRequestConverter.from(tempId, Long.valueOf(userDetails.getId()));
 		}
 
@@ -105,5 +103,4 @@ public class QuestionController {
 
 		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
-
 }

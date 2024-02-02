@@ -1,10 +1,8 @@
 package com.zzaug.review.web.dto.question;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import lombok.*;
 
 @Getter
 @ToString
@@ -12,8 +10,6 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempRequest {
-	@NotBlank
-	private String tempId;
-	@NotEmpty
-	private String content;
+	@NotBlank private String tempId;
+	@NotEmpty private String content;
 }

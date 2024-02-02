@@ -2,7 +2,6 @@ package com.zzaug.review.entity.question;
 
 import java.sql.Timestamp;
 import javax.persistence.*;
-
 import lombok.*;
 
 @Entity
