@@ -5,9 +5,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ViewMemberReviewUseCaseRequestConverter {
-    public static ViewMemberReviewUseCaseRequest from(Long authorId){
-        return ViewMemberReviewUseCaseRequest.builder()
-                .authorId(authorId)
-                .build();
-    }
+	public static ViewMemberReviewUseCaseRequest from(Long authorId) {
+		return ViewMemberReviewUseCaseRequest.builder().authorId(authorId).build();
+	}
 }

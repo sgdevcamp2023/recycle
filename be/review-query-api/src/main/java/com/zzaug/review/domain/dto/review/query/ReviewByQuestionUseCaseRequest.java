@@ -9,5 +9,5 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class ReviewByQuestionUseCaseRequest {
 
-        private Long questionId;
+	private Long questionId;
 }

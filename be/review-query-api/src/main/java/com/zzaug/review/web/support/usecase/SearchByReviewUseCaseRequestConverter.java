@@ -6,10 +6,10 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class SearchByReviewUseCaseRequestConverter {
-    public static SearchByReviewUseCaseRequest from(ReviewSearchRequest request){
-        return SearchByReviewUseCaseRequest.builder()
-                .authorId(request.getAuthorId())
-                .query(request.getQuery())
-                .build();
-    }
+	public static SearchByReviewUseCaseRequest from(ReviewSearchRequest request) {
+		return SearchByReviewUseCaseRequest.builder()
+				.authorId(request.getAuthorId())
+				.query(request.getQuery())
+				.build();
+	}
 }

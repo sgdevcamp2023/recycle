@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ReviewSearchRequest {
-    private Long authorId;
-    private String query;
-
+	private Long authorId;
+	private String query;
 }
