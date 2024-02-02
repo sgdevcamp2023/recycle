@@ -26,12 +26,11 @@ class SearchMemberUseCaseTest_NOT_EXIST_CERTIFICATION extends AbstractUseCaseTes
 				SearchMemberUseCaseRequest.builder().certification("notExist").build();
 
 		// When
-		SourceNotFoundException exception = Assertions.assertThrows(
-			SourceNotFoundException.class, () -> searchMemberUseCase.execute(request)
-		);
+		SourceNotFoundException exception =
+				Assertions.assertThrows(
+						SourceNotFoundException.class, () -> searchMemberUseCase.execute(request));
 
 		// Then
-		org.assertj.core.api.Assertions.assertThat(exception.getMessage())
-			.contains("Certification");
+		org.assertj.core.api.Assertions.assertThat(exception.getMessage()).contains("Certification");
 	}
 }
