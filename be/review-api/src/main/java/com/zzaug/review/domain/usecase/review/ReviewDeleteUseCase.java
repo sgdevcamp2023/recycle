@@ -2,6 +2,7 @@ package com.zzaug.review.domain.usecase.review;
 
 import com.zzaug.review.domain.dto.review.ReviewDeleteUseCaseRequest;
 
+import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.domain.persistence.review.ReviewRepository;
 import com.zzaug.review.entity.review.ReviewEntity;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class ReviewDeleteUseCase {
     private final ReviewRepository reviewRepository;
+    private final QuestionRepository questionRepository;
 
     @Transactional
     public void execute(ReviewDeleteUseCaseRequest request){
@@ -27,5 +29,14 @@ public class ReviewDeleteUseCase {
         }
 
         reviewRepository.deleteById(request.getReviewId());
+
+        decReviewCount(request.getQuestionId());
+
+        // 리뷰 삭제 이벤트 발행 ( effect : 리뷰 삭제 및 리뷰 카운트 감소 )
+
+    }
+
+    private void decReviewCount(Long questionId) {
+        questionRepository.decReviewCnt(questionId);
     }
 }
