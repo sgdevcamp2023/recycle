@@ -29,6 +29,7 @@ class RenewalTokenUseCaseTest extends AbstractUseCaseTest {
 		RenewalTokenUseCaseRequest request =
 				RenewalTokenUseCaseRequest.builder()
 						.refreshToken(UMockBlackTokenAuthDao.SAMPLE_TOKEN)
+						.accessToken(UMockBlackTokenAuthDao.SAMPLE_TOKEN)
 						.build();
 
 		MemberAuthToken response = renewalTokenUseCase.execute(request);
