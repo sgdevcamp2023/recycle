@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.web.controller.v1.description.Description;
 import com.zzaug.member.web.dto.member.CheckEmailAuthRequest;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,13 @@ class MemberCheckControllerTest {
 	private static final String PUT_BASE_URL_DNAME = "[PUT] " + BASE_URL;
 	private static final String DELETE_BASE_URL_DNAME = "[DELETE] " + BASE_URL;
 
+	private static final String X_ZZAUG_ID = "X-ZZAUG-ID";
+	private static final String CERTIFICATION = "certification";
+	private static final String PASSWORD = "password@123";
+	private static final String EMAIL = "sample@email.com";
+	private static final String NONCE = "nonce";
+	private static final String CODE = "code";
+
 	@Test
 	@DisplayName(GET_BASE_URL_DNAME)
 	void check() throws Exception {
@@ -51,9 +59,8 @@ class MemberCheckControllerTest {
 				.perform(
 						get(BASE_URL, 0)
 								.contentType(MediaType.APPLICATION_JSON)
-								.param("certification", "sample")
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.param("certification", CERTIFICATION)
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -64,10 +71,7 @@ class MemberCheckControllerTest {
 												.description("아이디 중복 검사를 진행합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("CheckMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.requestParameters(
 														parameterWithName("certification").description("증명(아이디)"))
 												.responseSchema(Schema.schema("CheckMemberResponse"))
@@ -93,10 +97,9 @@ class MemberCheckControllerTest {
 				.perform(
 						get(BASE_URL + "/email", 0)
 								.contentType(MediaType.APPLICATION_JSON)
-								.param("email", "{email}")
-								.param("nonce", "{nonce}")
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.param("email", EMAIL)
+								.param("nonce", NONCE)
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -107,10 +110,7 @@ class MemberCheckControllerTest {
 												.description("이메일 인증 요청을 진행합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("EmailAuthRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.requestParameters(
 														parameterWithName("email").description("이메일"),
 														parameterWithName("nonce").description("인증번호"))
@@ -133,7 +133,7 @@ class MemberCheckControllerTest {
 	void checkEmailAuth() throws Exception {
 		// set service mock
 		CheckEmailAuthRequest request =
-				CheckEmailAuthRequest.builder().code("code").email("email").nonce("nonce").build();
+				CheckEmailAuthRequest.builder().code(CODE).email(EMAIL).nonce(NONCE).build();
 		String content = objectMapper.writeValueAsString(request);
 
 		mockMvc
@@ -141,8 +141,7 @@ class MemberCheckControllerTest {
 						post(BASE_URL + "/email", 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(content)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -153,10 +152,7 @@ class MemberCheckControllerTest {
 												.description("이메일 인증 번호 확인합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("CheckEmailAuthRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("CheckEmailAuthResponse"))
 												.responseFields(
 														Description.success(
