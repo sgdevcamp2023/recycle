@@ -92,7 +92,7 @@ public class MemberCheckController {
 						.nonce(request.getNonce())
 						.build();
 		CheckEmailAuthUseCaseResponse response =
-				CheckEmailAuthUseCaseResponse.builder().authentication(true).tryCount(3L).build();
+				CheckEmailAuthUseCaseResponse.builder().authentication(true).tryCount(2L).build();
 		//		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
