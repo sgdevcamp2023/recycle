@@ -3,6 +3,7 @@ package com.zzaug.member.domain.usecase.member;
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.LoginUseCaseRequest;
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
+import com.zzaug.member.domain.exception.PasswordNotMatchException;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockAuthenticationDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockExternalContactDao;
@@ -53,7 +54,6 @@ class LoginUseCaseTest extends AbstractUseCaseTest {
 
 		// When
 		org.assertj.core.api.Assertions.assertThatThrownBy(() -> loginUseCase.execute(request))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("비밀번호가 일치하지 않습니다.");
+				.isInstanceOf(PasswordNotMatchException.class);
 	}
 }

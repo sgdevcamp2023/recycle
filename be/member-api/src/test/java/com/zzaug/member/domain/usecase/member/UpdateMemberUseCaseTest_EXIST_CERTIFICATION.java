@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
+import com.zzaug.member.domain.exception.ExistSourceException;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockAuthenticationDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockMemberSourceDao;
@@ -24,12 +25,11 @@ class UpdateMemberUseCaseTest_EXIST_CERTIFICATION extends AbstractUseCaseTest {
 		UpdateMemberUseCaseRequest request =
 				UpdateMemberUseCaseRequest.builder()
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
-						.certification("edit@email.com")
+						.certification(UMockAuthenticationDao.CERTIFICATION + "edit")
 						.password(UMockAuthenticationDao.PASSWORD_SOURCE)
 						.build();
 
 		Assertions.assertThatThrownBy(() -> updateMemberUseCase.execute(request))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("이미 존재하는 아이디입니다.");
+				.isInstanceOf(ExistSourceException.class);
 	}
 }

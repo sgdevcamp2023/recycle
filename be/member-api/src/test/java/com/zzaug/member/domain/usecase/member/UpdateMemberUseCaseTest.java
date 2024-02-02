@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
+import com.zzaug.member.domain.exception.PasswordNotMatchException;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockAuthenticationDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockMemberSourceDao;
@@ -22,7 +23,7 @@ class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
 		UpdateMemberUseCaseRequest request =
 				UpdateMemberUseCaseRequest.builder()
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
-						.certification("edit@email.com")
+						.certification(UMockAuthenticationDao.CERTIFICATION)
 						.password(UMockAuthenticationDao.PASSWORD_SOURCE)
 						.build();
 
@@ -39,7 +40,6 @@ class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
 						.build();
 
 		Assertions.assertThatThrownBy(() -> updateMemberUseCase.execute(request))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("비밀번호가 일치하지 않습니다.");
+				.isInstanceOf(PasswordNotMatchException.class);
 	}
 }
