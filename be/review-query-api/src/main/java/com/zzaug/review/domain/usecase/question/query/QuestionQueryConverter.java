@@ -20,7 +20,8 @@ public class QuestionQueryConverter {
 				.build();
 	}
 
-	public QuestionQuery from(QuestionQueryEditUseCaseRequest source, QuestionQueryEntity questionQueryEntity) {
+	public QuestionQuery from(
+			QuestionQueryEditUseCaseRequest source, QuestionQueryEntity questionQueryEntity) {
 		return QuestionQuery.builder()
 				.questionId(questionQueryEntity.getQuestionId())
 				.content(source.getContent())

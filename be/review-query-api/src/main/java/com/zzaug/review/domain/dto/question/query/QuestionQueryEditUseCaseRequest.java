@@ -1,8 +1,7 @@
 package com.zzaug.review.domain.dto.question.query;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @ToString
@@ -11,11 +10,11 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @Setter
 public class QuestionQueryEditUseCaseRequest {
-    private Long questionId;
-    private String content;
-    private String author;
-    private Long authorId;
-    private int reviewCnt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+	private Long questionId;
+	private String content;
+	private String author;
+	private Long authorId;
+	private int reviewCnt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

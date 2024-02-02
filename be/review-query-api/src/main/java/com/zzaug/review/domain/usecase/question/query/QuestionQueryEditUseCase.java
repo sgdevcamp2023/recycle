@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class QuestionQueryEditUseCase {
-    private final QuestionQueryRepository questionQueryRepository;
-    private final QuestionQueryConverter questionQueryConverter;
+	private final QuestionQueryRepository questionQueryRepository;
+	private final QuestionQueryConverter questionQueryConverter;
 
-    public void execute(QuestionQueryEditUseCaseRequest request) {
-        QuestionQueryEntity question = questionQueryRepository.findById(request.getQuestionId()).orElseThrow(RuntimeException::new);
-        QuestionQuery questionQuery = questionQueryConverter.from(request, question);
-        questionQueryRepository.save(QuestionQueryEntityConverter.from(questionQuery));
-    }
+	public void execute(QuestionQueryEditUseCaseRequest request) {
+		QuestionQueryEntity question =
+				questionQueryRepository
+						.findById(request.getQuestionId())
+						.orElseThrow(RuntimeException::new);
+		QuestionQuery questionQuery = questionQueryConverter.from(request, question);
+		questionQueryRepository.save(QuestionQueryEntityConverter.from(questionQuery));
+	}
 }

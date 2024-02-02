@@ -9,6 +9,6 @@ import lombok.*;
 @Builder(toBuilder = true)
 @Setter
 public class QuestionQueryDeleteUseCaseRequest {
-    private Long questionId;
-    private Long authorId;
+	private Long questionId;
+	private Long authorId;
 }
