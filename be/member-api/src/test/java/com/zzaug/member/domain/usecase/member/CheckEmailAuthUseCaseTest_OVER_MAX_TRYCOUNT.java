@@ -1,13 +1,16 @@
 package com.zzaug.member.domain.usecase.member;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
+import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthLogDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockExternalContactDao;
 import com.zzaug.member.domain.usecase.config.mock.service.UMockMemberSourceQuery;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +31,7 @@ class CheckEmailAuthUseCaseTest_OVER_MAX_TRYCOUNT extends AbstractUseCaseTest {
 
 	Long memberId = 1L;
 	String code = UMockEmailAuthDao.CODE;
-	String email = "sample@email.com";
+	String email = UMockEmailAuthDao.EMAIL;
 	String nonce = "nonce";
 	final CheckEmailAuthUseCaseRequest request =
 			CheckEmailAuthUseCaseRequest.builder()
@@ -43,8 +46,11 @@ class CheckEmailAuthUseCaseTest_OVER_MAX_TRYCOUNT extends AbstractUseCaseTest {
 		// Given
 
 		// When
-		Assertions.assertThatThrownBy(() -> checkEmailAuthUseCase.execute(request))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("request try count is over");
+		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(request);
+
+		// Then
+		org.junit.jupiter.api.Assertions.assertAll(
+				() -> assertFalse(response.getAuthentication()),
+				() -> assertThat(response.getTryCount()).isEqualTo(UMockEmailAuthLogDao.MAX_TRY_COUNT));
 	}
 }
