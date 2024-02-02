@@ -5,3 +5,11 @@ security:
         access: 31557600000
         refresh: 31557600000
       secretkey: jwtsecretKeyhastolonghowlongidontknow
+  cors:
+    path-patterns: "/**"
+    origin-patterns: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Set-Cookie, Authorization, Content-Type, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin, Access-Control-Allow-Credentials"
+    allow-credentials: true
+    max-age: 1800
