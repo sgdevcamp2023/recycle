@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class CommentDeleteUseCaseRequest {
-    private Long commentId;
-    private Long questionId;
-    private Long authorId;
+	private Long commentId;
+	private Long questionId;
+	private Long authorId;
 }

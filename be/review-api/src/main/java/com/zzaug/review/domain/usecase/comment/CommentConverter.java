@@ -6,16 +6,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommentConverter {
-    public Comment from (CommentCreateUseCaseRequest source){
-        return Comment.builder()
-                .commentId(source.getCommentId())
-                .questionId(source.getQuestionId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .createdAt(source.getCreatedAt())
-                .parentId(source.getParentId())
-                .updatedAt(source.getUpdatedAt())
-                .build();
-    }
+	public Comment from(CommentCreateUseCaseRequest source) {
+		return Comment.builder()
+				.commentId(source.getCommentId())
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.parentId(source.getParentId())
+				.updatedAt(source.getUpdatedAt())
+				.build();
+	}
 }

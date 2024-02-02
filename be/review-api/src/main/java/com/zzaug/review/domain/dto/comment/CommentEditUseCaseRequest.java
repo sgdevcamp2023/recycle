@@ -1,8 +1,7 @@
 package com.zzaug.review.domain.dto.comment;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @ToString
@@ -10,11 +9,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class CommentEditUseCaseRequest {
-    private Long commentId;
-    private Long questionId;
-    private String content;
-    private String author;
-    private Long authorId;
-    private Long parentId;
-    private LocalDateTime updatedAt;
+	private Long commentId;
+	private Long questionId;
+	private String content;
+	private String author;
+	private Long authorId;
+	private Long parentId;
+	private LocalDateTime updatedAt;
 }

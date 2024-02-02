@@ -5,9 +5,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class CommentViewUseCaseRequestConverter {
-    public static CommentViewUseCaseRequest from (Long quesionId){
-        return CommentViewUseCaseRequest.builder()
-                .questionId(quesionId)
-                .build();
-    }
+	public static CommentViewUseCaseRequest from(Long quesionId) {
+		return CommentViewUseCaseRequest.builder().questionId(quesionId).build();
+	}
 }
