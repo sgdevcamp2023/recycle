@@ -1,8 +1,7 @@
 package com.zzaug.review.web.dto.review;
 
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
+import lombok.*;
 
 @Getter
 @ToString
@@ -10,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class CommentRequest {
-	@NotBlank
-	private String content;
+	@NotBlank private String content;
 	private Long parentId;
 }
