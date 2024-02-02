@@ -47,7 +47,7 @@ const CreateServiceApi = (service: string): AxiosInstance => {
         try {
           const { data } = await axios({
             method: 'post',
-            url: '/members/reissue',
+            url: '/members/token',
             data: { accessToken, refreshToken },
           });
           const newAccessToken = data.data.accessToken;
