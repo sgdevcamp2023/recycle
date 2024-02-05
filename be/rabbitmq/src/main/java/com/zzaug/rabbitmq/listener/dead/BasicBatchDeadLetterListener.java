@@ -34,6 +34,7 @@ public class BasicBatchDeadLetterListener implements ChannelAwareBatchMessageLis
 					deadLetterMessage);
 		}
 		try {
+			// 모든 메시지에 대해 한번에 Ack를 보낸다.
 			channel.basicAck(
 					messages.get(messages.size() - 1).getMessageProperties().getDeliveryTag(), true);
 		} catch (IOException e) {

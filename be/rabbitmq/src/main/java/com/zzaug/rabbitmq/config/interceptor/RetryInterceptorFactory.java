@@ -32,6 +32,13 @@ public class RetryInterceptorFactory {
 				.build();
 	}
 
+	/**
+	 * Default RetryInterceptor
+	 *
+	 * <p>10초 내에 3번 시도하고, 3초 간격으로 재시도한다.
+	 *
+	 * <p>발생한 예외는 ZRMQExceptionHandler를 통해 Dead Letter Queue로 보낸다.
+	 */
 	public MethodInterceptor getRetryInterceptor() {
 		return this.getRetryInterceptor(
 				new ZRMQExceptionHandler(rabbitTemplate),
