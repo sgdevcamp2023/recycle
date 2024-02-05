@@ -12,7 +12,7 @@ public class QuestionTempConverter {
 				.tempId(source.getTempId())
 				.content(source.getContent())
 				.author(source.getAuthor())
-				.authorId(Long.valueOf(source.getAuthorId()))
+				.authorId(source.getAuthorId())
 				.createdAt(source.getCreatedAt())
 				.build();
 	}

@@ -15,7 +15,7 @@ public class QuestionCreateUseCaseRequestConverter {
 				.author(userDetails.getUsername())
 				.authorId(Long.valueOf(userDetails.getId()))
 				.reviewCnt(0)
-				.createdAt(new Timestamp(System.currentTimeMillis()))
+				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
 }

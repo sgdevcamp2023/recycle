@@ -1,6 +1,8 @@
 package com.zzaug.review.domain.dto.question;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.*;
 
 @Getter
@@ -14,6 +16,6 @@ public class QuestionCreateUseCaseRequest {
 	private String author;
 	private Long authorId;
 	private int reviewCnt;
-	private Timestamp createdAt;
-	private Timestamp updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }
