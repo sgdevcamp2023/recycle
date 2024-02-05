@@ -7,6 +7,7 @@ import com.zzaug.member.entity.member.CertificationData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -15,6 +16,7 @@ public class CheckDuplicationUseCase {
 
 	private final AuthenticationDao authenticationDao;
 
+	@Transactional(readOnly = true)
 	public CheckDuplicationUseCaseResponse execute(CheckDuplicationUseCaseRequest certification) {
 		final CertificationData certificationData =
 				CertificationData.builder().certification(certification.getCertification()).build();

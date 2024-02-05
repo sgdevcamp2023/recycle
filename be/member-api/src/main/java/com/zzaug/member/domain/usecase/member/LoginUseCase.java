@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -44,6 +45,7 @@ public class LoginUseCase {
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
+	@Transactional
 	public MemberAuthToken execute(LoginUseCaseRequest request) {
 		final CertificationData certification =
 				CertificationData.builder().certification(request.getCertification()).build();
