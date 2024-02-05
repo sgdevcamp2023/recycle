@@ -16,42 +16,53 @@ const MarkdownEditor = () => {
 
   const handleLineClick = (lineNumber) => {
     console.log(`Clicked on line ${lineNumber}`);
+
+    // 현재 Markdown 텍스트에서 코드 블록을 추출하고 각 라인을 배열로 저장
     const codeBlock = markdown.split('```')[1].trim();
     setOriginLines(codeBlock.split('\n'));
+
+    // 선택된 라인 번호를 상태에 저장하여 나중에 사용할 수 있도록 함
     setSelectedLine(lineNumber);
+
+    // 코드 라인을 클릭하면 code_review div를 보이도록 설정
+    document.getElementById('code_review').style.display = 'block';
   };
 
   useEffect(() => {
-    // This will run every time selectedLine changes
+    // selectedLine, originLines중 하나라도 변경될 때마다 실행
     if (selectedLine !== undefined) {
+      // 현재 선택된 라인에 해당하는 내용을 originLines 배열에서 가져와 editorContent 상태를 업데이트
       setEditorContent(originLines[selectedLine]);
     }
   }, [selectedLine, originLines]);
 
+  // 에디터를 닫을 때 선택라인을 초기화
   const handleEditorClose = () => {
     setSelectedLine(undefined);
+    // 에디터를 닫을 때 code_review div를 숨기도록 설정
+    document.getElementById('code_review').style.display = 'none';
   };
 
+  // 에디터 콘텐츠를 현재 에디터의 내용으로 업데이트
   const handleEditorChange = (e) => {
     setEditorContent(e.target.value);
   };
 
   const handleEditorSave = () => {
+    // 기존 코드 블록의 시작과 끝 위치를 찾음
     const codeBlockStart = markdown.indexOf('```');
     const codeBlockEnd = markdown.lastIndexOf('```');
+    // 코드 블록 앞과 뒤의 내용을 추출
     const start = markdown.substring(0, codeBlockStart + 3);
     const end = markdown.substring(codeBlockEnd);
-    console.log(codeBlockStart, codeBlockEnd);
-    console.log(start, end);
+    // 코드 블록을 줄별로 분리하여 배열로 만듦
     const lines = editorContent.split('\n');
+    // 각 줄을 문자열로 가공
     const updatedCodeBlock = lines.map((line) => `${line}`).join('\n');
-    console.log('lines', lines, 'updateCodeBlock', updatedCodeBlock);
-    console.log(markdown);
+    // 기존 코드내용 복사하여, 수정된 코드 블록으로 업데이트
     const copiedLines = [...originLines];
-    console.log(copiedLines);
     copiedLines[selectedLine!] = updatedCodeBlock;
-    console.log(copiedLines);
-    console.log(copiedLines.join('\n'));
+    // 기존 Markdown의 코드 블록 부분을 수정된 내용으로 업데이트
     setMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
 
     handleEditorClose();
@@ -63,7 +74,7 @@ const MarkdownEditor = () => {
         value={markdown}
         onChange={(e) => setMarkdown(e.target.value)}
         rows={10}
-        style={{ width: '100%' }}
+        style={{ width: '900px', height: '250px' }}
       />
       <div>
         <ReactMarkdown
@@ -99,20 +110,23 @@ const MarkdownEditor = () => {
           {markdown}
         </ReactMarkdown>
       </div>
+
       {selectedLine !== null && (
-        <div>
+        <div id="code_review" style={{ display: 'none' }}>
           <h4>Selected Line Editor</h4>
-          <button onClick={handleEditorClose}>Close Editor</button>
+
           <textarea
             value={editorContent}
             onChange={handleEditorChange}
             rows={3}
-            style={{ width: '100%' }}
+            style={{ width: '900px', height: '250px', display: 'block' }}
           />
-          <button onClick={handleEditorSave}>Save Changes</button>
-          <div>
-            <ReactMarkdown>{editorContent}</ReactMarkdown>
-          </div>
+          <button onClick={handleEditorClose} style={{ width: '70px', padding: '5px' }}>
+            닫기
+          </button>
+          <button onClick={handleEditorSave} style={{ width: '70px', padding: '5px' }}>
+            저장하기
+          </button>
         </div>
       )}
     </div>
