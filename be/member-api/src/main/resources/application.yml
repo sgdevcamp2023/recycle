@@ -8,3 +8,4 @@ spring:
       - mysql
       - flyway-member
       - security
+      - cookie

@@ -1,14 +1,12 @@
 package com.zzaug.member.entity.member;
 
-import com.zzaug.member.entity.BaseEntity;
+import com.zzaug.member.entity.MemberFKBaseEntity;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -21,16 +19,15 @@ import org.hibernate.annotations.SQLDelete;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "member")
-@SQLDelete(sql = "UPDATE member SET deleted=true where id=?")
-public class MemberEntity extends BaseEntity {
+@Table(name = "member_authentication")
+@SQLDelete(sql = "UPDATE member_authentication SET deleted=true where id=?")
+public class AuthenticationEntity extends MemberFKBaseEntity {
 
-	@Enumerated(EnumType.STRING)
-	@Builder.Default
-	@Column(name = "member_st", nullable = false)
-	private MemberStatus status = MemberStatus.REGULAR;
+	@Convert(converter = CertificationDataConverter.class)
+	@Column(name = "certification", nullable = false)
+	private CertificationData certification;
 
-	@Builder.Default
-	@Column(name = "resource", columnDefinition = "json")
-	private String resource = "{}";
+	@Convert(converter = PasswordDataConverter.class)
+	@Column(name = "password", nullable = false)
+	private PasswordData password;
 }

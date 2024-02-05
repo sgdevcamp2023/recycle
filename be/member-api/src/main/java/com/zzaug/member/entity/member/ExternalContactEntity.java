@@ -1,6 +1,6 @@
 package com.zzaug.member.entity.member;
 
-import com.zzaug.member.entity.BaseEntity;
+import com.zzaug.member.entity.MemberFKBaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,14 +21,16 @@ import org.hibernate.annotations.SQLDelete;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "member")
-@SQLDelete(sql = "UPDATE member SET deleted=true where id=?")
-public class MemberEntity extends BaseEntity {
+@Table(name = "member_external_contact")
+@SQLDelete(sql = "UPDATE member_external_contact SET deleted=true where id=?")
+public class ExternalContactEntity extends MemberFKBaseEntity {
 
 	@Enumerated(EnumType.STRING)
-	@Builder.Default
-	@Column(name = "member_st", nullable = false)
-	private MemberStatus status = MemberStatus.REGULAR;
+	@Column(name = "contact_tp", nullable = false)
+	private ContactType contactType;
+
+	@Column(name = "source", nullable = false)
+	private String source;
 
 	@Builder.Default
 	@Column(name = "resource", columnDefinition = "json")

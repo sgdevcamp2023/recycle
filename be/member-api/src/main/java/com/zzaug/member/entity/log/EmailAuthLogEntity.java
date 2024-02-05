@@ -1,10 +1,8 @@
-package com.zzaug.member.entity.member;
+package com.zzaug.member.entity.log;
 
-import com.zzaug.member.entity.BaseEntity;
+import com.zzaug.member.entity.MemberAndEmailAuthFKBaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,16 +19,15 @@ import org.hibernate.annotations.SQLDelete;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "member")
-@SQLDelete(sql = "UPDATE member SET deleted=true where id=?")
-public class MemberEntity extends BaseEntity {
-
-	@Enumerated(EnumType.STRING)
-	@Builder.Default
-	@Column(name = "member_st", nullable = false)
-	private MemberStatus status = MemberStatus.REGULAR;
+@Table(name = "email_auth_log")
+@SQLDelete(sql = "UPDATE email_auth_log SET deleted=true where id=?")
+public class EmailAuthLogEntity extends MemberAndEmailAuthFKBaseEntity {
 
 	@Builder.Default
-	@Column(name = "resource", columnDefinition = "json")
-	private String resource = "{}";
+	@Column(name = "reason", nullable = false)
+	private String reason = "SUCCESS";
+
+	@Builder.Default
+	@Column(name = "try_cnt", nullable = false)
+	private Long tryCount = 0L;
 }
