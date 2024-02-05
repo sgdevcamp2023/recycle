@@ -1,4 +1,4 @@
-package com.zzaug.rabbitmq.listener;
+package com.zzaug.rabbitmq.config.handler;
 
 import com.zzaug.rabbitmq.config.ZRMQProperties;
 import java.nio.charset.StandardCharsets;
@@ -22,8 +22,7 @@ public class ZRMQExceptionHandler extends RejectAndDontRequeueRecoverer {
 		log.debug(msg);
 		log.warn("Retries exhausted for message " + message, cause);
 		log.error("===================");
-		log.debug("Send to Dead Letter Queue");
-		rabbitTemplate.convertAndSend(
-				ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME, ZRMQProperties.DEAD_LETTER_KEY_NAME, msg);
+		rabbitTemplate.send(
+				ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME, ZRMQProperties.DEAD_LETTER_KEY_NAME, message);
 	}
 }
