@@ -9,6 +9,8 @@ spring:
       - security-local
       - redis-local
       - cookie-local
+      - rabbit-local
+      - rabbitmq-local
 
 logging:
   level:
