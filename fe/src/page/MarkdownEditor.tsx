@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -18,11 +18,15 @@ const MarkdownEditor = () => {
     console.log(`Clicked on line ${lineNumber}`);
     const codeBlock = markdown.split('```')[1].trim();
     setOriginLines(codeBlock.split('\n'));
-    console.log(originLines);
     setSelectedLine(lineNumber);
-    setEditorContent(originLines[lineNumber]);
-    console.log(selectedLine);
   };
+
+  useEffect(() => {
+    // This will run every time selectedLine changes
+    if (selectedLine !== undefined) {
+      setEditorContent(originLines[selectedLine]);
+    }
+  }, [selectedLine, originLines]);
 
   const handleEditorClose = () => {
     setSelectedLine(undefined);
