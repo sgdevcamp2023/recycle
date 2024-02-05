@@ -10,19 +10,22 @@ const MarkdownEditor = () => {
   console.log(hello);
   \`\`\`
   `);
-  const [selectedLine, setSelectedLine] = useState(null);
+  const [selectedLine, setSelectedLine] = useState<number>();
   const [editorContent, setEditorContent] = useState('');
+  const [originLines, setOriginLines] = useState<string[]>([]);
 
   const handleLineClick = (lineNumber) => {
     console.log(`Clicked on line ${lineNumber}`);
     const codeBlock = markdown.split('```')[1].trim();
-    const lines = codeBlock.split('\n');
+    setOriginLines(codeBlock.split('\n'));
+    console.log(originLines);
     setSelectedLine(lineNumber);
-    setEditorContent(lines[lineNumber]);
+    setEditorContent(originLines[lineNumber]);
+    console.log(selectedLine);
   };
 
   const handleEditorClose = () => {
-    setSelectedLine(null);
+    setSelectedLine(undefined);
   };
 
   const handleEditorChange = (e) => {
@@ -34,12 +37,19 @@ const MarkdownEditor = () => {
     const codeBlockEnd = markdown.lastIndexOf('```');
     const start = markdown.substring(0, codeBlockStart + 3);
     const end = markdown.substring(codeBlockEnd);
-
+    console.log(codeBlockStart, codeBlockEnd);
+    console.log(start, end);
     const lines = editorContent.split('\n');
-    const updatedCodeBlock = lines.map((line) => `  ${line}`).join('\n');
-    console.log(lines, updatedCodeBlock);
+    const updatedCodeBlock = lines.map((line) => `${line}`).join('\n');
+    console.log('lines', lines, 'updateCodeBlock', updatedCodeBlock);
+    console.log(markdown);
+    const copiedLines = [...originLines];
+    console.log(copiedLines);
+    copiedLines[selectedLine!] = updatedCodeBlock;
+    console.log(copiedLines);
+    console.log(copiedLines.join('\n'));
+    setMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
 
-    setMarkdown(`${start}\n${updatedCodeBlock}\n${end}`);
     handleEditorClose();
   };
 
