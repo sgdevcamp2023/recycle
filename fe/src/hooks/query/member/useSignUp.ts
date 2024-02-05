@@ -1,9 +1,10 @@
 import memberApi from '@api/memberApi';
 import { useMutation } from '@tanstack/react-query';
+import { userProps } from '../../../api/memberApi';
 
-const useSignUp = () => {
+const useSignUp = ({ certification, password }: userProps) => {
   return useMutation({
-    mutationFn: memberApi.signUp,
+    mutationFn: () => memberApi.signUp({ certification, password }),
     onSuccess: (data) => {
       console.log('요청 성공');
       console.log(data);
@@ -14,7 +15,7 @@ const useSignUp = () => {
     },
     onSettled: (data) => {
       console.log('결과에 관계 없이 무언가 실행됨');
-      console.log(data);
+      console.log('data:', data);
     },
   });
 };

@@ -6,6 +6,7 @@ import CustomInput from '@components/atom/Input/CustomInput';
 import { useState } from 'react';
 import useCheckIdDuplicate from '@hooks/query/member/useCheckIdDuplicate';
 import useSignUp from '@hooks/query/member/useSignUp';
+import useRefreshToken from '@hooks/query/member/useRefreshToken';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -52,6 +53,8 @@ const SignInModal = () => {
 
   const { data: duplicateData } = useCheckIdDuplicate({ certification: email });
 
+  const { mutate } = useRefreshToken();
+
   const handleIdDuplicate = () => {
     // 중복 확인 되었을 때 중복확인 되었는지 로직 추가 해주기
     // 중복 확인 되었으면 버튼 isActive:false 로 바꿔주기
@@ -59,7 +62,7 @@ const SignInModal = () => {
     console.log(duplicateData);
   };
 
-  const { mutate: signUp } = useSignUp();
+  const { mutate: signUp } = useSignUp({ certification: email, password: password });
   const validateForm = () => {
     if (email.trim() === '') {
       alert('아이디 입력하셈');
@@ -76,13 +79,14 @@ const SignInModal = () => {
       alert('확인이랑 비밀번호가 다름');
     } else {
       // 모든 조건을 통과하면 로그인 처리 또는 다른 작업 수행
-      signUp({
-        certification: email,
-        password: password,
-      });
+      signUp();
       alert('회원가입 성공');
     }
   };
+  document.cookie; // CookieName=Value
+
+  const cookieValue = document.cookie.match('(^|;) ?' + 'CookieName' + '=([^;]*)(;|$)');
+  console.log('cookieValue', cookieValue);
   return (
     <div>
       <LoginBox>
@@ -151,6 +155,13 @@ const SignInModal = () => {
           <DefaultButton width={22.375} height={3} padding={1} onClick={validateForm}>
             회원가입
           </DefaultButton>
+          <button
+            onClick={() => {
+              mutate();
+            }}
+          >
+            test
+          </button>
         </ButtonBox>
       </LoginBox>
     </div>

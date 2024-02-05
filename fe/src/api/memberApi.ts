@@ -8,7 +8,7 @@ const headers = {
   Authorization: 'Bearer accessToken',
   // Referer: 'referer',
 };
-interface userProps {
+export interface userProps {
   certification?: string;
   password?: string;
 }
