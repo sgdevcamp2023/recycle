@@ -23,6 +23,18 @@ public class DeadLetterQConfig {
 	}
 
 	@Bean
+	Queue deadLetterQueue() {
+		return QueueBuilder.durable(ZRMQProperties.DEAD_LETTER_QUEUE_NAME).build();
+	}
+
+	@Bean
+	Binding deadLetterBinding() {
+		return BindingBuilder.bind(deadLetterQueue())
+				.to(deadLetterExchange())
+				.with(ZRMQProperties.DEAD_LETTER_KEY_NAME);
+	}
+
+	@Bean
 	Queue memberDeadLetterQueue() {
 		return QueueBuilder.durable(ZRMQProperties.DEAD_LETTER_QUEUE_NAME + ".member").build();
 	}
