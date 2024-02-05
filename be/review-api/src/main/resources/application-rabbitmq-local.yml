@@ -1,0 +1,4 @@
+spring:
+  rabbitmq:
+    exchange: topic.zzuag.review
+    routing-key: zzuag.review
