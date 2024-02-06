@@ -16,6 +16,7 @@ public class QuestionConverter {
 				.reviewCnt(source.getReviewCnt())
 				.createdAt(source.getCreatedAt())
 				.updatedAt(source.getUpdatedAt())
+				.isDeleted(source.isDeleted())
 				.build();
 	}
 }

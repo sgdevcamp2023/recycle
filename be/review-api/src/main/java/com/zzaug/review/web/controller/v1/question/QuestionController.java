@@ -1,6 +1,8 @@
 package com.zzaug.review.web.controller.v1.question;
 
 import com.zzaug.review.domain.dto.question.*;
+import com.zzaug.review.domain.exception.AlreadyDeletedException;
+import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.usecase.question.QuestionCreateUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionDeleteUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionTempCreateUseCase;
@@ -78,8 +80,10 @@ public class QuestionController {
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 		} catch (NoSuchElementException e) {
 			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
-		} catch (RuntimeException e) {
+		} catch (UnAuthorizationException e) {
 			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
+		} catch (AlreadyDeletedException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.NOT_FOUND);
 		}
 	}
 
