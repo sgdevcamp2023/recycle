@@ -20,7 +20,7 @@ public class CommentViewUseCase {
 	@Transactional
 	public List<CommentResponse> execute(CommentViewUseCaseRequest request) {
 		List<CommentResponse> responses =
-				commentRepository.findAllByQuestionId(request.getQuestionId()).stream()
+				commentRepository.findAllByQuestionIdAndIsDeletedFalse(request.getQuestionId()).stream()
 						.map(CommentEntityConverter::from)
 						.collect(Collectors.toList());
 
