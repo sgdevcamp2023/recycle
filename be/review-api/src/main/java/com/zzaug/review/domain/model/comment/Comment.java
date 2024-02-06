@@ -17,4 +17,5 @@ public class Comment {
 	private Long parentId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private boolean isDeleted;
 }
