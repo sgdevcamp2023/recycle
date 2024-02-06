@@ -1,15 +1,12 @@
 package com.zzaug.review.domain.usecase.question;
 
 import com.zzaug.review.domain.dto.question.QuestionDeleteUseCaseRequest;
-import com.zzaug.review.domain.event.question.DeleteQuestionEvent;
 import com.zzaug.review.domain.persistence.question.QuestionRepository;
-import com.zzaug.review.domain.usecase.question.converter.DeleteQuestionEventConverter;
 import com.zzaug.review.entity.question.QuestionEntity;
 import java.util.NoSuchElementException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -17,7 +14,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class QuestionDeleteUseCase {
 	private final QuestionRepository questionRepository;
-	private final ApplicationEventPublisher publisher;
 
 	@Transactional
 	public void execute(QuestionDeleteUseCaseRequest request) {
@@ -27,7 +23,11 @@ public class QuestionDeleteUseCase {
 						.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
 
 		if (!question.getAuthorId().equals(request.getAuthorId())) {
-			throw new RuntimeException("접근 권한이 없습니다.");
+			throw new UnAuthorizationException("접근 권한이 없습니다.");
+		}
+
+		if(question.isDeleted()) {
+			throw new AlreadyDeletedException("이미 삭제된 질문입니다.");
 		}
 
 		questionRepository.deleteById(request.getQuestionId());
@@ -38,5 +38,6 @@ public class QuestionDeleteUseCase {
 
 	private void publishEvent(DeleteQuestionEvent event) {
 		publisher.publishEvent(event);
+		question.deleteQuestion();
 	}
 }
