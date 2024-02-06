@@ -1,6 +1,8 @@
 package com.zzaug.review.domain.usecase.question;
 
 import com.zzaug.review.domain.dto.question.QuestionDeleteUseCaseRequest;
+import com.zzaug.review.domain.exception.AlreadyDeletedException;
+import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.entity.question.QuestionEntity;
 import java.util.NoSuchElementException;
@@ -23,9 +25,13 @@ public class QuestionDeleteUseCase {
 						.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
 
 		if (!question.getAuthorId().equals(request.getAuthorId())) {
-			throw new RuntimeException("접근 권한이 없습니다.");
+			throw new UnAuthorizationException("접근 권한이 없습니다.");
 		}
 
-		questionRepository.deleteById(request.getQuestionId());
+		if(question.isDeleted()) {
+			throw new AlreadyDeletedException("이미 삭제된 질문입니다.");
+		}
+
+		question.deleteQuestion();
 	}
 }
