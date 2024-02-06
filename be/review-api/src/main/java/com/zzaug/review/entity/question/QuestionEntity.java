@@ -1,6 +1,5 @@
 package com.zzaug.review.entity.question;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;

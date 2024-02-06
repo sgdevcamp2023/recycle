@@ -76,7 +76,8 @@ public class ReviewController {
 		} catch (UnAuthorizationException e) {
 			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		} catch (AlreadyDeletedException e) {
-			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
+			return ApiResponseGenerator.fail(
+					MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -103,7 +104,8 @@ public class ReviewController {
 		} catch (UnAuthorizationException e) {
 			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
 		} catch (AlreadyDeletedException e) {
-			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
+			return ApiResponseGenerator.fail(
+					MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
 		}
 	}
 

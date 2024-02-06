@@ -25,7 +25,7 @@ public class ReviewEditUseCase {
 						.findById(request.getReviewId())
 						.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
 
-		if(review.isDeleted()) {
+		if (review.isDeleted()) {
 			throw new AlreadyDeletedException("이미 삭제된 리뷰입니다.");
 		}
 

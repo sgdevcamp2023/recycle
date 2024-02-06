@@ -1,8 +1,6 @@
 package com.zzaug.review.domain.model.question;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
 import lombok.*;
 
 @Getter
