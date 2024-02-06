@@ -16,6 +16,7 @@ public class CommentConverter {
 				.createdAt(source.getCreatedAt())
 				.parentId(source.getParentId())
 				.updatedAt(source.getUpdatedAt())
+				.isDeleted(source.isDeleted())
 				.build();
 	}
 }
