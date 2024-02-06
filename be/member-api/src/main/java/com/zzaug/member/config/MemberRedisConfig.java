@@ -3,7 +3,6 @@ package com.zzaug.member.config;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,23 +19,22 @@ public class MemberRedisConfig {
 			REDIS_BEAN_NAME_PREFIX + "ConnectionFactory";
 	public static final String REDIS_TEMPLATE_NAME = REDIS_BEAN_NAME_PREFIX + "Template";
 
-	@Primary
 	@Bean(name = REDIS_PROPERTIES_NAME)
-	public RedisProperties memberRedisProperties() {
+	public RedisProperties redisProperties() {
 		return new RedisProperties();
 	}
 
 	@Bean(name = REDIS_CONNECTION_FACTORY_NAME)
-	public RedisConnectionFactory memberRedisConnectionFactory() {
-		String redisHost = memberRedisProperties().getHost();
-		int redisPort = memberRedisProperties().getPort();
+	public RedisConnectionFactory redisConnectionFactory() {
+		String redisHost = redisProperties().getHost();
+		int redisPort = redisProperties().getPort();
 		return new LettuceConnectionFactory(redisHost, redisPort);
 	}
 
 	@Bean(name = REDIS_TEMPLATE_NAME)
-	public RedisTemplate<String, Object> memberRedisTemplate() {
+	public RedisTemplate<String, Object> redisTemplate() {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(memberRedisConnectionFactory());
+		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		return redisTemplate;
 	}
 }
