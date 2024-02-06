@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,8 +25,8 @@ public class QuestionQueryViewUseCase {
 		QuestionQuery result =
 				questionQueryConverter.from(
 						questioinQueryRepository
-								.findById(request.getQuestionId())
-								.orElseThrow(() -> new RuntimeException("요청에 대한 응답을 찾을 수 없습니다.")));
+								.findByQuestionIdAndIsDeletedIsFalse(request.getQuestionId())
+								.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다.")));
 
 		return questionQueryResponseConverter.from(result);
 	}
