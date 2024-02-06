@@ -1,6 +1,8 @@
 package com.zzaug.review.web.controller.v1.review;
 
 import com.zzaug.review.domain.dto.review.*;
+import com.zzaug.review.domain.exception.AlreadyDeletedException;
+import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.usecase.review.*;
 import com.zzaug.review.web.dto.review.ReviewDeleteRequest;
 import com.zzaug.review.web.dto.review.ReviewRequest;
@@ -71,8 +73,10 @@ public class ReviewController {
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
 		} catch (NoSuchElementException e) {
 			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
-		} catch (RuntimeException e) {
+		} catch (UnAuthorizationException e) {
 			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
+		} catch (AlreadyDeletedException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -96,8 +100,10 @@ public class ReviewController {
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
 		} catch (NoSuchElementException e) {
 			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
-		} catch (RuntimeException e) {
+		} catch (UnAuthorizationException e) {
 			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
+		} catch (AlreadyDeletedException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
 		}
 	}
 
