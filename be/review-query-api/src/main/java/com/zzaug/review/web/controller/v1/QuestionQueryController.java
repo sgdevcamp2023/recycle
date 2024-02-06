@@ -5,50 +5,61 @@ import com.zzaug.review.domain.dto.question.query.QuestionQuerySearchUseCaseRequ
 import com.zzaug.review.domain.dto.question.query.QuestionQueryViewUseCaseRequest;
 import com.zzaug.review.domain.usecase.question.query.QuestionQuerySearchUseCase;
 import com.zzaug.review.domain.usecase.question.query.QuestionQueryViewUseCase;
-import com.zzaug.review.support.ApiResponse;
-import com.zzaug.review.support.ApiResponseGenerator;
-import com.zzaug.review.support.MessageCode;
+
 import com.zzaug.review.web.dto.question.query.QuestionQuerySearchRequest;
 import com.zzaug.review.web.dto.question.query.QuestionQueryViewRequest;
 import com.zzaug.review.web.support.usecase.QuestionQuerySearchUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.QuestionQueryViewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
+import com.zzaug.web.support.ApiResponse;
+import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/question-query")
 @RequiredArgsConstructor
+@Validated
 public class QuestionQueryController {
 
 	private final QuestionQueryViewUseCase questionQueryViewUseCase;
 	private final QuestionQuerySearchUseCase questionQuerySearchUseCase;
 
 	@GetMapping("/{question_id}")
-	public ApiResponse<ApiResponse.SuccessBody<QuestionQueryResponse>> viewQuestion(
-			@PathVariable Long question_id) {
-		QuestionQueryViewRequest request =
-				QuestionQueryViewRequest.builder().questionId(question_id).build();
+	public ApiResponse<?> viewQuestion(
+			@PathVariable @Valid Long question_id) {
+		try {
+			QuestionQueryViewRequest request =
+					QuestionQueryViewRequest.builder().questionId(question_id).build();
 
-		QuestionQueryViewUseCaseRequest useCaseRequest =
-				QuestionQueryViewUseCaseRequestConverter.from(request.getQuestionId());
+			QuestionQueryViewUseCaseRequest useCaseRequest =
+					QuestionQueryViewUseCaseRequestConverter.from(request.getQuestionId());
 
-		QuestionQueryResponse response = questionQueryViewUseCase.execute(useCaseRequest);
+			QuestionQueryResponse response = questionQueryViewUseCase.execute(useCaseRequest);
 
-		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+			return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		} catch (NoSuchElementException e){
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 	@GetMapping("/search")
 	public ApiResponse<ApiResponse.SuccessBody<Page<QuestionQueryResponse>>> searchQuestion(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestParam Boolean me,
-			@RequestParam String query,
-			@RequestParam int page,
-			@RequestParam int size) {
+			@RequestParam @Valid Boolean me,
+			@RequestParam @Valid String query,
+			@RequestParam @Valid int page,
+			@RequestParam @Valid int size) {
 
 		if (me) {
 			QuestionQuerySearchRequest request =
