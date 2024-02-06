@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer;
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -31,19 +32,23 @@ public class EntityFlywayConfig {
 	private static final String FLYWAY_CONFIGURATION = BASE_BEAN_NAME_PREFIX + "Configuration";
 
 	@Bean(name = FLYWAY)
-	public Flyway flyway(org.flywaydb.core.api.configuration.Configuration configuration) {
+	public Flyway flyway(
+			@Qualifier(FLYWAY_CONFIGURATION)
+					org.flywaydb.core.api.configuration.Configuration configuration) {
 		return new Flyway(configuration);
 	}
 
 	@Profile({"!local && !new"})
 	@Bean(name = FLYWAY_VALIDATE_INITIALIZER)
-	public FlywayMigrationInitializer flywayValidateInitializer(Flyway flyway) {
+	public FlywayMigrationInitializer flywayValidateInitializer(
+			@Qualifier(value = FLYWAY) Flyway flyway) {
 		return new FlywayMigrationInitializer(flyway, Flyway::validate);
 	}
 
 	@Profile({"!local"})
 	@Bean(name = FLYWAY_MIGRATION_INITIALIZER)
-	public FlywayMigrationInitializer flywayMigrationInitializer(Flyway flyway) {
+	public FlywayMigrationInitializer flywayMigrationInitializer(
+			@Qualifier(value = FLYWAY) Flyway flyway) {
 		return new FlywayMigrationInitializer(flyway, Flyway::migrate);
 	}
 
