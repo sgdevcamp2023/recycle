@@ -4,14 +4,11 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const MarkdownEditor = () => {
-  const [markdown, setMarkdown] = useState(`# 예시입니다
-  \`\`\`javascript
-  const hello = "안녕";
-  console.log(hello);
-  \`\`\`
-  `);
+  const [markdown, setMarkdown] = useState('');
+  const [reveiwMarkdown, setReviewMarkdown] = useState('');
   const [selectedLine, setSelectedLine] = useState<number>();
   const [editorContent, setEditorContent] = useState('');
+  const [reviewEditorContent, setReviewEditorContent] = useState('');
   const [originLines, setOriginLines] = useState<string[]>([]);
 
   const handleLineClick = (lineNumber) => {
@@ -46,6 +43,8 @@ const MarkdownEditor = () => {
   // 에디터 콘텐츠를 현재 에디터의 내용으로 업데이트
   const handleEditorChange = (e) => {
     setEditorContent(e.target.value);
+    // 리뷰 에디터 업데이트하기
+    setReviewEditorContent(e.target.value);
   };
 
   const handleEditorSave = () => {
@@ -62,21 +61,34 @@ const MarkdownEditor = () => {
     // 기존 코드내용 복사하여, 수정된 코드 블록으로 업데이트
     const copiedLines = [...originLines];
     copiedLines[selectedLine!] = updatedCodeBlock;
-    // 기존 Markdown의 코드 블록 부분을 수정된 내용으로 업데이트
-    setMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
 
+    const reviewCodeBlock = `${start}${copiedLines.join('\n')}\n${end}`;
+    // 기존 Markdown의 코드 블록 부분을 수정된 내용으로 업데이트
+    // setMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
+    setReviewMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
+    console.log(reviewCodeBlock);
     handleEditorClose();
   };
 
   return (
     <div>
       <textarea
+        id="origin-editor"
         value={markdown}
         onChange={(e) => setMarkdown(e.target.value)}
         rows={10}
         style={{ width: '900px', height: '250px' }}
+        placeholder="사용자가 질문 작성시 사용할 입력창입니다"
       />
-      <div>
+      <textarea
+        id="review-editor"
+        value={reveiwMarkdown}
+        onChange={(e) => setReviewMarkdown(e.target.value)}
+        rows={10}
+        style={{ width: '900px', height: '250px', display: 'none' }}
+        placeholder="나중에 사라질 녀석입니다"
+      />
+      <div id="origin_code">
         <ReactMarkdown
           components={{
             code: ({ node, inline, className, children, ...props }) => {
@@ -86,7 +98,7 @@ const MarkdownEditor = () => {
                   style={solarizedlight}
                   language={match[1]}
                   PreTag="div"
-                  children={String(children).replace(/\n$/, '')}
+                  children={children.replace(/\n$/, '')}
                   showLineNumbers
                   wrapLines
                   lineProps={(lineNumber) => ({
@@ -101,7 +113,7 @@ const MarkdownEditor = () => {
                 />
               ) : (
                 <code className={className} {...props}>
-                  {children}
+                  {markdown}
                 </code>
               );
             },
@@ -111,6 +123,32 @@ const MarkdownEditor = () => {
         </ReactMarkdown>
       </div>
 
+      <div id="review_code">
+        <ReactMarkdown
+          components={{
+            code: ({ node, inline, className, children, ...props }) => {
+              const match = /language-(\w+)/.exec(className || '');
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  style={solarizedlight}
+                  language={match[1]}
+                  PreTag="div"
+                  children={String(children).replace(/\n$/, '')}
+                  showLineNumbers
+                  wrapLines
+                  lineProps={(lineNumber) => ({})}
+                />
+              ) : (
+                <code className={className} {...props}>
+                  {markdown}
+                </code>
+              );
+            },
+          }}
+        >
+          {reveiwMarkdown}
+        </ReactMarkdown>
+      </div>
       {selectedLine !== null && (
         <div id="code_review" style={{ display: 'none' }}>
           <h4>Selected Line Editor</h4>
