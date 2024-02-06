@@ -1,12 +1,16 @@
 package com.zzaug.review.domain.usecase.comment;
 
 import com.zzaug.review.domain.dto.comment.CommentEditUseCaseRequest;
+import com.zzaug.review.domain.exception.AlreadyDeletedException;
+import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.persistence.comment.CommentRepository;
 import com.zzaug.review.entity.comment.CommentEntity;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -20,10 +24,14 @@ public class CommentEditUseCase {
 		CommentEntity comment =
 				commentRepository
 						.findById(request.getCommentId())
-						.orElseThrow(() -> new RuntimeException("요청에 대한 응답을 찾을 수 없습니다."));
+						.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
+
+		if (comment.isDeleted()) {
+			throw new AlreadyDeletedException("삭제된 댓글입니다.");
+		}
 
 		if (!comment.getAuthorId().equals(request.getAuthorId())) {
-			throw new RuntimeException("접근 권한이 없습니다.");
+			throw new UnAuthorizationException("접근 권한이 없습니다.");
 		}
 
 		comment.update(request.getContent(), request.getUpdatedAt());
