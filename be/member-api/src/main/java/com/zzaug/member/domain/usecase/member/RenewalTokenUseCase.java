@@ -18,6 +18,7 @@ import com.zzaug.member.entity.auth.TokenData;
 import com.zzaug.member.entity.auth.TokenType;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.ExternalContactEntity;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
@@ -28,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -44,7 +44,7 @@ public class RenewalTokenUseCase {
 	private final TokenGenerator tokenGenerator;
 	private final TokenResolver tokenResolver;
 
-	@Transactional
+	@UseCaseTransactional
 	public MemberAuthToken execute(RenewalTokenUseCaseRequest request) {
 		final String refreshToken = request.getRefreshToken();
 		final String accessToken = request.getAccessToken();

@@ -13,13 +13,13 @@ import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -34,7 +34,7 @@ public class UpdateMemberUseCase {
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@Transactional
+	@UseCaseTransactional
 	public void execute(UpdateMemberUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 		final CertificationData certification =

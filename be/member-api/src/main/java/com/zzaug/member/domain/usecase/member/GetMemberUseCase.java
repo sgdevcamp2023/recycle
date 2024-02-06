@@ -8,11 +8,11 @@ import com.zzaug.member.domain.model.member.MemberContacts;
 import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.MemberContactExtractor;
 import com.zzaug.member.entity.member.ExternalContactEntity;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -23,7 +23,7 @@ public class GetMemberUseCase {
 
 	private final ExternalContactDao externalContactRepository;
 
-	@Transactional(readOnly = true)
+	@UseCaseTransactional(readOnly = true)
 	public GetMemberUseCaseResponse execute(GetMemberUseCaseRequest request) {
 		final Long queryMemberId = request.getQueryMemberId();
 

@@ -7,12 +7,12 @@ import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.MemberSourceDao;
 import com.zzaug.member.entity.member.MemberEntity;
 import com.zzaug.member.entity.member.MemberStatus;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -23,7 +23,7 @@ public class DeleteMemberUseCase {
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@Transactional
+	@UseCaseTransactional
 	public void execute(DeleteMemberUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 

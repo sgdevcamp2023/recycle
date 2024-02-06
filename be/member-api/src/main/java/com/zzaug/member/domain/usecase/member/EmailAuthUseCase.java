@@ -8,13 +8,13 @@ import com.zzaug.member.domain.message.EmailAuthMessage;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.member.ContactType;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.member.redis.email.EmailAuthSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -26,7 +26,7 @@ public class EmailAuthUseCase {
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@Transactional
+	@UseCaseTransactional
 	public EmailAuthUseCaseResponse execute(EmailAuthUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 		final String sessionId = request.getSessionId();
