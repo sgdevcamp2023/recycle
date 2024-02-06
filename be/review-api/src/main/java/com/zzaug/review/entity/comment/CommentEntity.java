@@ -33,8 +33,14 @@ public class CommentEntity {
 
 	private LocalDateTime updatedAt;
 
+	private boolean isDeleted;
+
 	public void update(String content, LocalDateTime updatedAt) {
 		this.content = content;
 		this.updatedAt = updatedAt;
+	}
+
+	public void deleteComment() {
+		this.isDeleted = true;
 	}
 }
