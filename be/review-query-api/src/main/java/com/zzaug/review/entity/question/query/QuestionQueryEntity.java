@@ -30,12 +30,14 @@ public class QuestionQueryEntity {
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
 	private LocalDateTime createdAt;
 
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
 	private LocalDateTime updatedAt;
+
+	private boolean isDeleted;
 }
