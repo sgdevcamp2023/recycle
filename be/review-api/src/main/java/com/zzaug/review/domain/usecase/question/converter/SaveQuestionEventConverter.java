@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SaveQuestionEventConverter {
-    public static SaveQuestionEvent from(QuestionEntity source) {
-        return SaveQuestionEvent.builder()
-                .questionId(source.getQuestionId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .createdAt(source.getCreatedAt())
-                .updatedAt(source.getUpdatedAt())
-                .reviewCnt(source.getReviewCnt())
-                .build();
-    }
+	public static SaveQuestionEvent from(QuestionEntity source) {
+		return SaveQuestionEvent.builder()
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
+				.reviewCnt(source.getReviewCnt())
+				.build();
+	}
 }

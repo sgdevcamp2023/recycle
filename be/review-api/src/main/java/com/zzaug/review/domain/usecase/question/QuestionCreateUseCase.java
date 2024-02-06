@@ -6,10 +6,9 @@ import com.zzaug.review.domain.model.question.Question;
 import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.domain.support.entity.QuestionEntityConverter;
 import com.zzaug.review.domain.usecase.question.converter.QuestionConverter;
-import javax.transaction.Transactional;
-
 import com.zzaug.review.domain.usecase.question.converter.SaveQuestionEventConverter;
 import com.zzaug.review.entity.question.QuestionEntity;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -30,7 +29,6 @@ public class QuestionCreateUseCase {
 		SaveQuestionEvent event = SaveQuestionEventConverter.from(result);
 
 		publishEvent(event);
-
 	}
 
 	public void publishEvent(SaveQuestionEvent event) {

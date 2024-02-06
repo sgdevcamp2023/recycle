@@ -33,14 +33,13 @@ public class QuestionDeleteUseCase {
 			throw new UnAuthorizationException("접근 권한이 없습니다.");
 		}
 
-		if(question.isDeleted()) {
+		if (question.isDeleted()) {
 			throw new AlreadyDeletedException("이미 삭제된 질문입니다.");
 		}
 
 		question.deleteQuestion();
 
 		publishEvent(DeleteQuestionEventConverter.from(question));
-
 	}
 
 	private void publishEvent(DeleteQuestionEvent event) {

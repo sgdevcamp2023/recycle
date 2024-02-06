@@ -13,17 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeleteEventService {
 
-    @Value("${spring.rabbitmq.exchange}")
-    private String exchangeName;
-    @Value("${spring.rabbitmq.routing-key}")
-    private String routingKey;
+	@Value("${spring.rabbitmq.exchange}")
+	private String exchangeName;
 
-    private final RabbitTemplate rabbitTemplate;
+	@Value("${spring.rabbitmq.routing-key}")
+	private String routingKey;
 
-    @EventListener
-    public void sendEvent(DeleteQuestionEvent event) {
-        log.debug("Event received: {}", event);
-        rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
-        log.debug("Event sent: {}", event);
-    }
+	private final RabbitTemplate rabbitTemplate;
+
+	@EventListener
+	public void sendEvent(DeleteQuestionEvent event) {
+		log.debug("Event received: {}", event);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		log.debug("Event sent: {}", event);
+	}
 }
