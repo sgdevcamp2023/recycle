@@ -8,6 +8,7 @@ import Main from '@page/Main';
 import RegisterEmail from '@page/RegisterEmail';
 import AccountLinking from '@page/AccountLinking';
 import MarkdownEditor from '@page/MarkdownEditor';
+import LineComment from '@page/LineComment';
 
 const Router = () => {
   return (
@@ -39,6 +40,7 @@ const Router = () => {
       <Route path="/registeremail" element={<RegisterEmail />} />
       <Route path="/accountlinking" element={<AccountLinking />} />
       <Route path="/MarkdownEditor" element={<MarkdownEditor />} />
+      <Route path="/linecomment" element={<LineComment />} />
     </Routes>
   );
 };
