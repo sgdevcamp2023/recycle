@@ -1,6 +1,5 @@
 package com.zzaug.review.entity.question;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
@@ -34,4 +33,12 @@ public class QuestionEntity {
 
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+
+	public void incReviewCnt() {
+		this.reviewCnt++;
+	}
+
+	public void decReviewCnt() {
+		this.reviewCnt--;
+	}
 }
