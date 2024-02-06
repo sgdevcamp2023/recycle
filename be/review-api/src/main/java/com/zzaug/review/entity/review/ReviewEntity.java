@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -54,11 +55,18 @@ public class ReviewEntity {
 
 	private ReviewType tag;
 
+	@ColumnDefault("false")
+	private boolean isDeleted;
+
 	public void update(
 			String content, ReviewPoint startPoint, ReviewPoint endPoint, LocalDateTime updatedAt) {
 		this.content = content;
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.updatedAt = updatedAt;
+	}
+
+	public void deleteReview() {
+		this.isDeleted = true;
 	}
 }
