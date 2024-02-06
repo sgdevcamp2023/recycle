@@ -22,7 +22,7 @@ public class QuestionQuerySearchUseCase {
 	@Transactional
 	public Page<QuestionQueryResponse> execute(QuestionQuerySearchUseCaseRequest request) {
 		Page<QuestionQueryEntity> results =
-				questionQueryRepository.findAllByAuthorIdAndContentContaining(
+				questionQueryRepository.findAllByAuthorIdAndContentContainingAndIsDeletedIsFalse(
 						request.getPageRequest(), request.getAuthorId(), request.getQuery());
 
 		Page<QuestionQueryResponse> responses = results.map(QuestionQueryResponseConverter::from);
