@@ -38,7 +38,6 @@ public class ReviewEditUseCase {
 				request.getUpdatedAt());
 
 		publishEvent(EditReviewEventConverter.from(review));
-
 	}
 
 	private void publishEvent(EditReviewEvent event) {

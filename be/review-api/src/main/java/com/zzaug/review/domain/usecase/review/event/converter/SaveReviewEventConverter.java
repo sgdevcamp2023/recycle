@@ -6,18 +6,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SaveReviewEventConverter {
-    public static SaveReviewEvent from(ReviewEntity source) {
-        return SaveReviewEvent.builder()
-                .reviewId(source.getReviewId())
-                .questionId(source.getQuestionId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .createdAt(source.getCreatedAt())
-                .startPoint(source.getStartPoint())
-                .endPoint(source.getEndPoint())
-                .tag(source.getTag())
-                .build();
-
-    }
+	public static SaveReviewEvent from(ReviewEntity source) {
+		return SaveReviewEvent.builder()
+				.reviewId(source.getReviewId())
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.startPoint(source.getStartPoint())
+				.endPoint(source.getEndPoint())
+				.tag(source.getTag())
+				.build();
+	}
 }

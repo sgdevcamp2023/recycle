@@ -44,13 +44,13 @@ public class ReviewDeleteUseCase {
 		publishEvent(DeleteReviewEventConverter.from(review));
 
 		publishEvent(ReviewCntEventConverter.from(resultDec));
-
-
 	}
 
 	private QuestionEntity decReviewCount(Long questionId) {
-		QuestionEntity target = questionRepository.findById(questionId)
-				.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
+		QuestionEntity target =
+				questionRepository
+						.findById(questionId)
+						.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다."));
 		target.decReviewCnt();
 		return target;
 	}
@@ -62,5 +62,4 @@ public class ReviewDeleteUseCase {
 	private void publishEvent(ReviewCntEvent event) {
 		publisher.publishEvent(event);
 	}
-
 }

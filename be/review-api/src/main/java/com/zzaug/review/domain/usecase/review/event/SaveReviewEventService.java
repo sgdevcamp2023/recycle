@@ -25,5 +25,4 @@ public class SaveReviewEventService {
 		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
 		log.info("Sending event: {}", event);
 	}
-
 }

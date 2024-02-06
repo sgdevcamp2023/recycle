@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class EditReviewEventService {
-    @Value("${spring.rabbitmq.exchange}")
-    private String exchangeName;
+	@Value("${spring.rabbitmq.exchange}")
+	private String exchangeName;
 
-    @Value("${spring.rabbitmq.routing-key}")
-    private String routingKey;
+	@Value("${spring.rabbitmq.routing-key}")
+	private String routingKey;
 
-    private final RabbitTemplate rabbitTemplate;
+	private final RabbitTemplate rabbitTemplate;
 
-    @EventListener
-    public void sendEvent(EditReviewEvent event) {
-        rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
-        log.info("Sending event: {}", event);
-    }
+	@EventListener
+	public void sendEvent(EditReviewEvent event) {
+		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		log.info("Sending event: {}", event);
+	}
 }

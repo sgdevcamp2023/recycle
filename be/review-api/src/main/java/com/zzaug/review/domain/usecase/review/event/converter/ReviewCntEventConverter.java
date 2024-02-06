@@ -6,16 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReviewCntEventConverter {
-    public static ReviewCntEvent from(QuestionEntity source) {
-        return ReviewCntEvent.builder()
-                .questionId(source.getQuestionId())
-                .content(source.getContent())
-                .author(source.getAuthor())
-                .authorId(source.getAuthorId())
-                .createdAt(source.getCreatedAt())
-                .updatedAt(source.getUpdatedAt())
-                .reviewCnt(source.getReviewCnt())
-                .build();
-    }
-
+	public static ReviewCntEvent from(QuestionEntity source) {
+		return ReviewCntEvent.builder()
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
+				.reviewCnt(source.getReviewCnt())
+				.build();
+	}
 }
