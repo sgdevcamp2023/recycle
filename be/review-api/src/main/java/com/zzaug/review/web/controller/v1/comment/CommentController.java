@@ -1,13 +1,13 @@
 package com.zzaug.review.web.controller.v1.comment;
 
 import com.zzaug.review.domain.dto.comment.*;
+import com.zzaug.review.domain.exception.AlreadyDeletedException;
+import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.usecase.comment.CommentCreateUseCase;
 import com.zzaug.review.domain.usecase.comment.CommentDeleteUseCase;
 import com.zzaug.review.domain.usecase.comment.CommentEditUseCase;
 import com.zzaug.review.domain.usecase.comment.CommentViewUseCase;
-import com.zzaug.review.support.ApiResponse;
-import com.zzaug.review.support.ApiResponseGenerator;
-import com.zzaug.review.support.MessageCode;
+
 import com.zzaug.review.web.dto.review.CommentRequest;
 import com.zzaug.review.web.support.usecase.CommentCreateUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.CommentDeleteUseCaseRequestConverter;
@@ -15,14 +15,23 @@ import com.zzaug.review.web.support.usecase.CommentEditUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.CommentViewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import com.zzaug.web.support.ApiResponse;
+import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/questions")
 @RequiredArgsConstructor
+@Validated
 public class CommentController {
 
 	private final CommentCreateUseCase commentCreateUseCase;
@@ -31,10 +40,10 @@ public class CommentController {
 	private final CommentDeleteUseCase commentDeleteUseCase;
 
 	@PostMapping("/{questionId}/comments")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> createComment(
+	public ApiResponse<ApiResponse.Success> createComment(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			CommentRequest request) {
+			@PathVariable @Valid Long questionId,
+			@RequestBody @Valid CommentRequest request) {
 
 		CommentCreateUseCaseRequest useCaseRequest =
 				CommentCreateUseCaseRequestConverter.from(request, questionId, userDetails);
@@ -46,8 +55,7 @@ public class CommentController {
 	@GetMapping("/{questionId}/comments")
 	public ApiResponse<ApiResponse.SuccessBody<List<CommentResponse>>> viewQuestionComment(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			CommentRequest request) {
+			@PathVariable @Valid Long questionId) {
 
 		CommentViewUseCaseRequest useCaseRequest = CommentViewUseCaseRequestConverter.from(questionId);
 		List<CommentResponse> responses = commentViewUseCase.execute(useCaseRequest);
@@ -55,35 +63,44 @@ public class CommentController {
 	}
 
 	@PutMapping("/{questionId}/comments/{commnetId}")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> editComment(
+	public ApiResponse<?> editComment(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			@PathVariable Long commnetId,
-			CommentRequest request) {
+			@PathVariable @Valid Long questionId,
+			@PathVariable @Valid Long commnetId,
+			@RequestBody @Valid CommentRequest request) {
 
 		CommentEditUseCaseRequest useCaseRequest =
 				CommentEditUseCaseRequestConverter.from(request, commnetId, questionId, userDetails);
 		try {
 			commentEditUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
-		} catch (RuntimeException e) {
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
+		} catch (NoSuchElementException e){
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
+		} catch (UnAuthorizationException e) {
+			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
+		} catch (AlreadyDeletedException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/{questionId}/comments/{commnetId}")
-	public ApiResponse<ApiResponse.SuccessBody<Void>> deleteComment(
+	public ApiResponse<?> deleteComment(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable Long questionId,
-			@PathVariable Long commnetId) {
+			@PathVariable @Valid Long questionId,
+			@PathVariable @Valid Long commnetId) {
 
 		CommentDeleteUseCaseRequest useCaseRequest =
 				CommentDeleteUseCaseRequestConverter.from(commnetId, questionId, userDetails);
 		try {
 			commentDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
-		} catch (RuntimeException e) {
-			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+		} catch (NoSuchElementException e){
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND);
+		} catch (UnAuthorizationException e) {
+			return ApiResponseGenerator.fail(MessageCode.ACCESS_DENIED, HttpStatus.FORBIDDEN);
+		} catch (AlreadyDeletedException e) {
+			return ApiResponseGenerator.fail(MessageCode.RESOURCE_ALREADY_DELETED, HttpStatus.BAD_REQUEST);
 		}
 	}
+
 }
