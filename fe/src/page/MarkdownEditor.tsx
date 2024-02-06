@@ -5,11 +5,12 @@ import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState('');
-  const [reveiwMarkdown, setReviewMarkdown] = useState('');
+  const [reviewMarkdown, setReviewMarkdown] = useState('');
   const [selectedLine, setSelectedLine] = useState<number>();
   const [editorContent, setEditorContent] = useState('');
   const [reviewEditorContent, setReviewEditorContent] = useState('');
   const [originLines, setOriginLines] = useState<string[]>([]);
+  const [changedLines, setChangedLines] = useState<number[]>([]);
 
   const handleLineClick = (lineNumber) => {
     console.log(`Clicked on line ${lineNumber}`);
@@ -62,11 +63,12 @@ const MarkdownEditor = () => {
     const copiedLines = [...originLines];
     copiedLines[selectedLine!] = updatedCodeBlock;
 
-    const reviewCodeBlock = `${start}${copiedLines.join('\n')}\n${end}`;
+    const reviewCodeBlock = '```' + `${copiedLines.join('\n')}\n` + '```';
     // 기존 Markdown의 코드 블록 부분을 수정된 내용으로 업데이트
-    // setMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
-    setReviewMarkdown(`${start}${copiedLines.join('\n')}\n${end}`);
     console.log(reviewCodeBlock);
+
+    setReviewMarkdown(reviewCodeBlock);
+
     handleEditorClose();
   };
 
@@ -82,13 +84,13 @@ const MarkdownEditor = () => {
       />
       <textarea
         id="review-editor"
-        value={reveiwMarkdown}
+        value={reviewMarkdown}
         onChange={(e) => setReviewMarkdown(e.target.value)}
         rows={10}
         style={{ width: '900px', height: '250px', display: 'none' }}
         placeholder="나중에 사라질 녀석입니다"
       />
-      <div id="origin_code">
+      <div id="origin_code" style={{ width: '900px' }}>
         <ReactMarkdown
           components={{
             code: ({ node, inline, className, children, ...props }) => {
@@ -123,30 +125,33 @@ const MarkdownEditor = () => {
         </ReactMarkdown>
       </div>
 
-      <div id="review_code">
+      <div id="review_code" style={{ width: '900px' }}>
         <ReactMarkdown
           components={{
             code: ({ node, inline, className, children, ...props }) => {
               const match = /language-(\w+)/.exec(className || '');
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  style={solarizedlight}
-                  language={match[1]}
-                  PreTag="div"
-                  children={String(children).replace(/\n$/, '')}
-                  showLineNumbers
-                  wrapLines
-                  lineProps={(lineNumber) => ({})}
-                />
-              ) : (
+              if (!inline && match) {
+                return (
+                  <SyntaxHighlighter
+                    style={solarizedlight}
+                    language={match[1]}
+                    PreTag="div"
+                    children={String(children).replace(/\n$/, '')}
+                    showLineNumbers
+                    wrapLines
+                    lineProps={(lineNumber) => ({})}
+                  />
+                );
+              }
+              return (
                 <code className={className} {...props}>
-                  {markdown}
+                  {children}
                 </code>
               );
             },
           }}
         >
-          {reveiwMarkdown}
+          {reviewMarkdown}
         </ReactMarkdown>
       </div>
       {selectedLine !== null && (
