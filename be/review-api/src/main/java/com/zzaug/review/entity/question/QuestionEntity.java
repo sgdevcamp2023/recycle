@@ -3,6 +3,7 @@ package com.zzaug.review.entity.question;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -40,5 +41,12 @@ public class QuestionEntity {
 
 	public void decReviewCnt() {
 		this.reviewCnt--;
+	}
+
+	@ColumnDefault("false")
+	private boolean isDeleted;
+
+	public void deleteQuestion() {
+		this.isDeleted = true;
 	}
 }

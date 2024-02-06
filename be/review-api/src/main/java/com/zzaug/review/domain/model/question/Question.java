@@ -22,4 +22,6 @@ public class Question {
 	private LocalDateTime createdAt;
 
 	private LocalDateTime updatedAt;
+
+	private boolean isDeleted;
 }

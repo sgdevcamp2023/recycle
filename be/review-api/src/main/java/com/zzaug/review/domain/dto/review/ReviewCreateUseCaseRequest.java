@@ -36,4 +36,6 @@ public class ReviewCreateUseCaseRequest {
 	@Embedded private ReviewPoint endPoint;
 
 	private ReviewType tag;
+
+	private boolean isDeleted;
 }

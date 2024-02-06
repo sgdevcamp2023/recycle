@@ -6,6 +6,7 @@ public enum MessageCode {
 	RESOURCE_CREATED("resource.created", "새로 생성되었습니다."),
 	RESOURCE_NOT_FOUND("resource.not.found", "해당 리소스를 찾을 수 없습니다."),
 	ACCESS_DENIED("access.denied", "접근 권한이 없습니다."),
+	RESOURCE_ALREADY_DELETED("resource.already.deleted", "이미 삭제된 리소스입니다."),
 	RESOURCE_MODIFIED("resource.modified", "수정되었습니다.");
 
 	private final String code;
