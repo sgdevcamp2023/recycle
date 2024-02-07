@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Profile;
 @TestComponent
 public class UMockEmailAuthLogDao implements EmailAuthLogDao, ApplicationContextAware {
 
+	private static final Long EMAIL_AUTH_LOG_ID = 1L;
 	public static final Long MAX_TRY_COUNT = 3L;
 	public static final Long UNDER_MAX_TRY_COUNT = 2L;
 
@@ -63,6 +64,6 @@ public class UMockEmailAuthLogDao implements EmailAuthLogDao, ApplicationContext
 
 	@Override
 	public EmailAuthLogEntity saveEmailAuthLog(EmailAuthLogEntity entity) {
-		return entity;
+		return entity.toBuilder().id(EMAIL_AUTH_LOG_ID).build();
 	}
 }
