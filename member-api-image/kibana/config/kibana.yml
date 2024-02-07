@@ -1,0 +1,11 @@
+server.name: kibana
+server.host: "0.0.0.0"
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+
+#X-Pack관련 내용 주석 처리 (유료 라이선스이기 때문에 주석처리합니다.)
+#xpack.monitoring.ui.container.elasticsearch.enabled: true
+
+## X-Pack security credentials
+#
+#elasticsearch.username: elastic
+#elasticsearch.password: changeme
