@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Profile;
 @TestComponent
 public class UMockExternalContactDao implements ExternalContactDao, ApplicationContextAware {
 
+	private static final Long EXTERNAL_CONTACT_ID = 1L;
 	public static final String EMAIL = "sampel@emai.com";
 	public static final String GITHUB = "git";
 
@@ -78,6 +79,6 @@ public class UMockExternalContactDao implements ExternalContactDao, ApplicationC
 
 	@Override
 	public ExternalContactEntity saveContact(ExternalContactEntity externalContactEntity) {
-		return externalContactEntity;
+		return externalContactEntity.toBuilder().id(EXTERNAL_CONTACT_ID).build();
 	}
 }

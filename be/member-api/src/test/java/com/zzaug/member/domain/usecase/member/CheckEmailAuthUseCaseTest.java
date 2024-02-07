@@ -9,10 +9,14 @@ import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthLogDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockExternalContactDao;
+import com.zzaug.member.domain.usecase.config.mock.security.UMockBlackTokenAuthCommand;
+import com.zzaug.member.domain.usecase.config.mock.security.UMockEvictTokenCacheService;
 import com.zzaug.member.domain.usecase.config.mock.service.UMockMemberSourceQuery;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(
@@ -21,23 +25,38 @@ import org.springframework.boot.test.context.SpringBootTest;
 			UMockExternalContactDao.class,
 			UMockEmailAuthDao.class,
 			UMockEmailAuthLogDao.class,
-			UMockMemberSourceQuery.class
+			UMockMemberSourceQuery.class,
+			UMockBlackTokenAuthCommand.class,
+			UMockEvictTokenCacheService.class
 		})
 class CheckEmailAuthUseCaseTest extends AbstractUseCaseTest {
 
-	@Autowired private CheckEmailAuthUseCase checkEmailAuthUseCase;
+	@Value("${token.test}")
+	public String token;
 
+	@Autowired private CheckEmailAuthUseCase checkEmailAuthUseCase;
 	Long memberId = 1L;
 	String code = UMockEmailAuthDao.CODE;
 	String email = "sample@email.com";
 	String nonce = "nonce";
-	final CheckEmailAuthUseCaseRequest request =
-			CheckEmailAuthUseCaseRequest.builder()
-					.memberId(memberId)
-					.code(code)
-					.email(email)
-					.nonce(nonce)
-					.build();
+
+	String sessionId = "sessionId";
+
+	CheckEmailAuthUseCaseRequest request;
+
+	@BeforeEach
+	void setUp() {
+		request =
+				CheckEmailAuthUseCaseRequest.builder()
+						.memberId(memberId)
+						.code(code)
+						.email(email)
+						.nonce(nonce)
+						.sessionId(sessionId)
+						.refreshToken(token)
+						.accessToken(token)
+						.build();
+	}
 
 	@Test
 	void 이메일_인증_성공() {
@@ -60,6 +79,9 @@ class CheckEmailAuthUseCaseTest extends AbstractUseCaseTest {
 						.code("wrong code")
 						.email(email)
 						.nonce(nonce)
+						.sessionId(sessionId)
+						.refreshToken(token)
+						.accessToken(token)
 						.build();
 
 		// When
