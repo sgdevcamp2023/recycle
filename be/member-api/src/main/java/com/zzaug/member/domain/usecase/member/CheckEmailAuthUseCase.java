@@ -5,6 +5,7 @@ import static com.zzaug.member.domain.model.auth.EmailAuthResult.SUCCESS;
 
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
+import com.zzaug.member.domain.dto.member.SuccessCheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.event.AddEmailEvent;
 import com.zzaug.member.domain.exception.DBSource;
 import com.zzaug.member.domain.exception.InvalidRequestException;
@@ -14,12 +15,19 @@ import com.zzaug.member.domain.external.dao.auth.EmailAuthDao;
 import com.zzaug.member.domain.external.dao.log.EmailAuthLogDao;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
+import com.zzaug.member.domain.external.security.AuthTokenValidator;
+import com.zzaug.member.domain.external.security.auth.BlackTokenAuthCommand;
+import com.zzaug.member.domain.external.security.auth.ReplaceTokenCacheService;
 import com.zzaug.member.domain.external.service.auth.EmailAuthLogService;
+import com.zzaug.member.domain.external.service.member.MemberContactsQuery;
 import com.zzaug.member.domain.external.service.member.MemberSourceQuery;
 import com.zzaug.member.domain.model.auth.EmailAuthSource;
 import com.zzaug.member.domain.model.auth.TryCountElement;
+import com.zzaug.member.domain.model.member.MemberAuthentication;
+import com.zzaug.member.domain.model.member.MemberContacts;
 import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.EmailAuthSourceConverter;
+import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.log.EmailAuthLogEntity;
@@ -28,6 +36,10 @@ import com.zzaug.member.entity.member.ContactType;
 import com.zzaug.member.entity.member.ExternalContactEntity;
 import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.member.redis.email.EmailAuthSession;
+import com.zzaug.security.authentication.authority.Roles;
+import com.zzaug.security.token.AuthToken;
+import com.zzaug.security.token.TokenGenerator;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +60,15 @@ public class CheckEmailAuthUseCase {
 
 	private final MemberSourceQuery memberSourceQuery;
 	private final EmailAuthLogService emailAuthLogService;
+	private final MemberContactsQuery memberContactsQuery;
 
 	private final ApplicationEventPublisher applicationEventPublisher;
+
+	// security
+	private final AuthTokenValidator authTokenValidator;
+	private final TokenGenerator tokenGenerator;
+	private final BlackTokenAuthCommand blackTokenAuthCommand;
+	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
 
 	@UseCaseTransactional
 	public CheckEmailAuthUseCaseResponse execute(CheckEmailAuthUseCaseRequest request) {
@@ -58,6 +77,10 @@ public class CheckEmailAuthUseCase {
 		final EmailData email = EmailData.builder().email(request.getEmail()).build();
 		final String nonce = request.getNonce();
 		final String sessionId = request.getSessionId();
+		final String accessToken = request.getAccessToken();
+		final String refreshToken = request.getRefreshToken();
+
+		authTokenValidator.execute(refreshToken, accessToken, memberId);
 
 		log.debug("Check email auth session. sessionId: {}", sessionId);
 		Optional<EmailAuthSession> emailAuthSessionSource = emailAuthDao.findBySessionId(sessionId);
@@ -114,6 +137,7 @@ public class CheckEmailAuthUseCase {
 		// 일치하는 이메일을 외부 연락처로 저장
 		ExternalContactEntity externalContactEntity =
 				ExternalContactEntity.builder()
+						.memberId(memberSource.getId())
 						.contactType(ContactType.EMAIL)
 						.source(email.getEmail())
 						.build();
@@ -137,13 +161,29 @@ public class CheckEmailAuthUseCase {
 		if (authenticationSource.isEmpty()) {
 			throw new SourceNotFoundException(DBSource.AUTHENTICATION, "MemberId", memberId);
 		}
-		AuthenticationEntity authenticationEntity = authenticationSource.get();
+		MemberAuthentication memberAuthentication =
+				MemberAuthenticationConverter.from(authenticationSource.get());
 
-		publishEvent(memberId, authenticationEntity, email);
+		MemberContacts memberContacts = memberContactsQuery.execute(memberAuthentication);
 
-		return CheckEmailAuthUseCaseResponse.builder()
+		AuthToken authToken =
+				tokenGenerator.generateAuthToken(
+						memberSource.getId(),
+						List.of(Roles.ROLE_USER),
+						memberAuthentication.getCertification(),
+						memberContacts.getEmail(),
+						memberContacts.getGithub());
+
+		blackTokenAuthCommand.execute(accessToken, refreshToken);
+		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+
+		publishEvent(memberId, memberAuthentication, email);
+
+		return SuccessCheckEmailAuthUseCaseResponse.builder()
 				.authentication(true)
 				.tryCount(emailAuthLogEntity.getTryCount())
+				.accessToken(authToken.getAccessToken())
+				.refreshToken(authToken.getRefreshToken())
 				.build();
 	}
 
@@ -180,12 +220,11 @@ public class CheckEmailAuthUseCase {
 		}
 	}
 
-	private void publishEvent(
-			Long memberId, AuthenticationEntity authenticationEntity, EmailData email) {
+	private void publishEvent(Long memberId, MemberAuthentication authentication, EmailData email) {
 		applicationEventPublisher.publishEvent(
 				AddEmailEvent.builder()
 						.memberId(memberId)
-						.memberCertification(authenticationEntity.getCertification().getCertification())
+						.memberCertification(authentication.getCertification())
 						.memberEmail(email.getEmail())
 						.build());
 	}
