@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MemberAuthToken {
+public class UpdateMemberUseCaseResponse {
 
 	private String accessToken;
 	private String refreshToken;
