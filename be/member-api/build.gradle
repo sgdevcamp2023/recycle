@@ -4,6 +4,5 @@ apply from: '../tasks/docs-task.gradle'
 
 dependencies {
     implementation project(':flyway')
-    implementation project(':security')
     implementation project(':web')
 }

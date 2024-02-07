@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface MemberSourceDao {
 
 	Optional<MemberEntity> findByIdAndStatusAndDeletedFalse(Long id, MemberStatus status);
+
+	MemberEntity saveSource(MemberEntity memberEntity);
 }

@@ -1,7 +1,5 @@
-package com.zzaug.member.web.dto.member;
+package com.zzaug.member.domain.dto.member;
 
-import com.zzaug.member.web.dto.validator.Certification;
-import com.zzaug.member.web.dto.validator.Password;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -15,8 +13,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MemberSaveRequest {
+public class PostMemberUseCaseResponse {
 
-	@Certification private String certification;
-	@Password private String password;
+	private Long memberId;
+	private String certification;
+	private String password;
 }

@@ -11,6 +11,7 @@ import com.zzaug.member.domain.dto.member.SearchMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
 import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
+import com.zzaug.member.domain.usecase.member.PostMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
@@ -24,6 +25,7 @@ import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -48,14 +50,16 @@ public class MemberController {
 	private final TokenGenerator tokenGenerator;
 
 	private final GetMemberUseCase getMemberUseCase;
+	private final PostMemberUseCase postMemberUseCase;
 
 	@PostMapping()
-	public ApiResponse<ApiResponse.Success> save(@RequestBody MemberSaveRequest request) {
+	public ApiResponse<ApiResponse.Success> save(@Valid @RequestBody MemberSaveRequest request) {
 		PostMemberUseCaseRequest useCaseRequest =
 				PostMemberUseCaseRequest.builder()
 						.certification(request.getCertification())
 						.password(request.getPassword())
 						.build();
+		//		postMemberUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(HttpStatus.CREATED, MessageCode.RESOURCE_CREATED);
 	}
 
