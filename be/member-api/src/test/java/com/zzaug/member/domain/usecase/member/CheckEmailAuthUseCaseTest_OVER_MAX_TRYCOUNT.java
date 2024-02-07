@@ -2,6 +2,7 @@ package com.zzaug.member.domain.usecase.member;
 
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
+import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthLogDao;
@@ -43,8 +44,11 @@ class CheckEmailAuthUseCaseTest_OVER_MAX_TRYCOUNT extends AbstractUseCaseTest {
 		// Given
 
 		// When
-		Assertions.assertThatThrownBy(() -> checkEmailAuthUseCase.execute(request))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("request try count is over");
+		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(request);
+
+		// Then
+		org.junit.jupiter.api.Assertions.assertAll(
+			() -> Assertions.assertThat(response.getAuthentication()).isFalse(),
+			() -> Assertions.assertThat(response.getTryCount()).isEqualTo(3L));
 	}
 }
