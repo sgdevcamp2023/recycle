@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -6,13 +6,14 @@ import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState('');
   const [reviewMarkdown, setReviewMarkdown] = useState('');
-  const [selectedLine, setSelectedLine] = useState<number>();
+  const [selectedLine, setSelectedLine] = useState(-1);
   const [editorContent, setEditorContent] = useState('');
-  const [reviewEditorContent, setReviewEditorContent] = useState('');
+  // const [reviewEditorContent, setReviewEditorContent] = useState('');
   const [originLines, setOriginLines] = useState<string[]>([]);
-  const [changedLines, setChangedLines] = useState<number[]>([]);
+  // const [changedLines, setChangedLines] = useState<number[]>([]);
+  const [isCodeRivew, setIsCodeReview] = useState(false);
 
-  const handleLineClick = (lineNumber) => {
+  const handleLineClick = (lineNumber: number) => {
     console.log(`Clicked on line ${lineNumber}`);
 
     // 현재 Markdown 텍스트에서 코드 블록을 추출하고 각 라인을 배열로 저장
@@ -23,12 +24,12 @@ const MarkdownEditor = () => {
     setSelectedLine(lineNumber);
 
     // 코드 라인을 클릭하면 code_review div를 보이도록 설정
-    document.getElementById('code_review').style.display = 'block';
+    setIsCodeReview(true);
   };
 
   useEffect(() => {
     // selectedLine, originLines중 하나라도 변경될 때마다 실행
-    if (selectedLine !== undefined) {
+    if (selectedLine !== -1) {
       // 현재 선택된 라인에 해당하는 내용을 originLines 배열에서 가져와 editorContent 상태를 업데이트
       setEditorContent(originLines[selectedLine]);
     }
@@ -36,19 +37,20 @@ const MarkdownEditor = () => {
 
   // 에디터를 닫을 때 선택라인을 초기화
   const handleEditorClose = () => {
-    setSelectedLine(undefined);
+    setSelectedLine(-1);
     // 에디터를 닫을 때 code_review div를 숨기도록 설정
-    document.getElementById('code_review').style.display = 'none';
+    setIsCodeReview(false);
   };
 
   // 에디터 콘텐츠를 현재 에디터의 내용으로 업데이트
-  const handleEditorChange = (e) => {
+  const handleEditorChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setEditorContent(e.target.value);
     // 리뷰 에디터 업데이트하기
-    setReviewEditorContent(e.target.value);
+    // setReviewEditorContent(e.target.value);
   };
 
   const handleEditorSave = () => {
+    if (selectedLine === -1) return;
     // 기존 코드 블록의 시작과 끝 위치를 찾음
     const codeBlockStart = markdown.indexOf('```');
     const codeBlockEnd = markdown.lastIndexOf('```');
@@ -61,7 +63,7 @@ const MarkdownEditor = () => {
     const updatedCodeBlock = lines.map((line) => `${line}`).join('\n');
     // 기존 코드내용 복사하여, 수정된 코드 블록으로 업데이트
     const copiedLines = [...originLines];
-    copiedLines[selectedLine!] = updatedCodeBlock;
+    copiedLines[selectedLine] = updatedCodeBlock;
 
     const reviewCodeBlock = '```' + `${copiedLines.join('\n')}\n` + '```';
     // 기존 Markdown의 코드 블록 부분을 수정된 내용으로 업데이트
@@ -154,8 +156,8 @@ const MarkdownEditor = () => {
           {reviewMarkdown}
         </ReactMarkdown>
       </div>
-      {selectedLine !== null && (
-        <div id="code_review" style={{ display: 'none' }}>
+      {selectedLine && isCodeRivew !== null && (
+        <div>
           <h4>Selected Line Editor</h4>
 
           <textarea
