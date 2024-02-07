@@ -20,14 +20,15 @@ task buildDockerImage {
     doLast {
         exec {
             workingDir '.'
-            commandLine 'docker', 'build','--platform=linux/amd64', '-t', "${imageName}", '--build-arg', "RELEASE_VERSION=${releaseVersion}", '.'
+            commandLine 'docker','run','--privileged','--rm','tonistiigi/binfmt','--install','all'
         }
-    }
-}
-
-task pushDockerImage {
-    exec {
-        workingDir '.'
-        commandLine 'docker', 'push', "${imageName}"
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx','create','--use'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${imageName}", '--build-arg', "RELEASE_VERSION=${releaseVersion}", '.', '--push'
+        }
     }
 }
