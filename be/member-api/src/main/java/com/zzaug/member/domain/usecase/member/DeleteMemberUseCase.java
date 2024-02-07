@@ -25,7 +25,6 @@ public class DeleteMemberUseCase {
 
 	private final MemberSourceDao memberSourceDao;
 
-
 	private final ApplicationEventPublisher applicationEventPublisher;
 
 	// security
