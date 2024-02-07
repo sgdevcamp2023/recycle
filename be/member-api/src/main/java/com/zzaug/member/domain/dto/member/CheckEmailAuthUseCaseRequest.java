@@ -20,4 +20,6 @@ public class CheckEmailAuthUseCaseRequest {
 	private String code;
 	private String email;
 	private String nonce;
+	private String accessToken;
+	private String refreshToken;
 }
