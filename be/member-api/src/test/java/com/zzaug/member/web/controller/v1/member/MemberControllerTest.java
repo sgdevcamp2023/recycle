@@ -9,6 +9,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.epages.restdocs.apispec.HeaderDescriptorWithType;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,8 @@ import com.zzaug.member.web.controller.v1.description.Description;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
+import java.util.UUID;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +49,16 @@ class MemberControllerTest {
 	private static final String PUT_BASE_URL_DNAME = "[PUT] " + BASE_URL;
 	private static final String DELETE_BASE_URL_DNAME = "[DELETE] " + BASE_URL;
 
+	private static final String X_ZZAUG_ID = "X-ZZAUG-ID";
+	private static final String CERTIFICATION = "certification";
+	private static final String PASSWORD = "password@123";
+
 	@Test
 	@DisplayName(POST_BASE_URL_DNAME)
 	void save() throws Exception {
 		// set service mock
 		MemberSaveRequest request =
-				MemberSaveRequest.builder().certification("certification").password("password").build();
+				MemberSaveRequest.builder().certification(CERTIFICATION).password(PASSWORD).build();
 
 		String content = objectMapper.writeValueAsString(request);
 
@@ -60,8 +67,7 @@ class MemberControllerTest {
 						post(BASE_URL, 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(content)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -72,10 +78,7 @@ class MemberControllerTest {
 												.description("회원가입을 진행합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("SaveMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("SaveMemberResponse"))
 												.responseFields(Description.success())
 												.build())));
@@ -86,7 +89,7 @@ class MemberControllerTest {
 	void update() throws Exception {
 		// set service mock
 		MemberUpdateRequest request =
-				MemberUpdateRequest.builder().certification("certification").password("password").build();
+				MemberUpdateRequest.builder().certification(CERTIFICATION).password(PASSWORD).build();
 
 		String content = objectMapper.writeValueAsString(request);
 		mockMvc
@@ -94,8 +97,7 @@ class MemberControllerTest {
 						put(BASE_URL, 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(content)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -106,10 +108,7 @@ class MemberControllerTest {
 												.description("회원정보를 수정합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("UpdateMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("UpdateMemberResponse"))
 												.responseFields(Description.modified())
 												.build())));
@@ -124,8 +123,7 @@ class MemberControllerTest {
 				.perform(
 						RestDocumentationRequestBuilders.delete(BASE_URL, 0)
 								.contentType(MediaType.APPLICATION_JSON)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -136,10 +134,7 @@ class MemberControllerTest {
 												.description("회원 탈퇴를 진행합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("UpdateMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("UpdateMemberResponse"))
 												.responseFields(Description.deleted())
 												.build())));
@@ -150,7 +145,7 @@ class MemberControllerTest {
 	void login() throws Exception {
 		// set service mock
 		LoginRequest request =
-				LoginRequest.builder().certification("certification").password("password").build();
+				LoginRequest.builder().certification(CERTIFICATION).password(PASSWORD).build();
 
 		String content = objectMapper.writeValueAsString(request);
 
@@ -159,8 +154,7 @@ class MemberControllerTest {
 						post(BASE_URL + "/login", 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(content)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -171,10 +165,7 @@ class MemberControllerTest {
 												.description("로그인을 진행합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("LoginMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("LoginMemberResponse"))
 												.responseFields(
 														Description.success(
@@ -185,10 +176,9 @@ class MemberControllerTest {
 																	fieldWithPath("data.accessToken")
 																			.type(JsonFieldType.STRING)
 																			.description("어세스 토큰"),
-																	fieldWithPath("data.refreshToken")
-																			.type(JsonFieldType.STRING)
-																			.description("리프레시 토큰"),
 																}))
+												.responseHeaders(
+														new HeaderDescriptorWithType[] {Description.setCookieHeader()})
 												.build())));
 	}
 
@@ -197,13 +187,15 @@ class MemberControllerTest {
 	void logout() throws Exception {
 		// set service mock
 
+		Cookie cookie = new Cookie("refreshToken", "refreshToken");
+
 		mockMvc
 				.perform(
 						post(BASE_URL + "/logout", 0)
 								.contentType(MediaType.APPLICATION_JSON)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
-								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+								.header(X_ZZAUG_ID, UUID.randomUUID())
+								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+								.cookie(cookie))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
@@ -213,10 +205,7 @@ class MemberControllerTest {
 												.description("로그아웃을 진행합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("LogoutMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("LogoutMemberResponse"))
 												.responseFields(Description.success())
 												.build())));
@@ -231,8 +220,7 @@ class MemberControllerTest {
 				.perform(
 						get(BASE_URL + "/{id}", 1)
 								.contentType(MediaType.APPLICATION_JSON)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -243,10 +231,7 @@ class MemberControllerTest {
 												.description("멤버 정보를 조회합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("ReadMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.pathParameters(parameterWithName("id").description("조회할 멤버의 아이디"))
 												.responseSchema(Schema.schema("ReadMemberResponse"))
 												.responseFields(
@@ -278,8 +263,7 @@ class MemberControllerTest {
 						get(BASE_URL, 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.queryParam("certification", "{certification}")
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
+								.header(X_ZZAUG_ID, UUID.randomUUID())
 								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
@@ -292,10 +276,7 @@ class MemberControllerTest {
 														parameterWithName("certification").description("증명(아이디)").optional())
 												.tag(TAG)
 												.requestSchema(Schema.schema("SearchMemberRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("SearchMemberResponse"))
 												.responseFields(
 														Description.success(
@@ -321,13 +302,15 @@ class MemberControllerTest {
 	void token() throws Exception {
 		// set service mock
 
+		Cookie refreshTokenCookie = new Cookie("refreshToken", "refreshToken");
+
 		mockMvc
 				.perform(
 						post(BASE_URL + "/token", 0)
 								.contentType(MediaType.APPLICATION_JSON)
-								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
-								.header(HttpHeaders.REFERER, "referer")
-								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+								.header(X_ZZAUG_ID, UUID.randomUUID())
+								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+								.cookie(refreshTokenCookie))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
@@ -337,10 +320,7 @@ class MemberControllerTest {
 												.description("토큰을 갱신합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("MemberTokenRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("MemberTokenResponse"))
 												.responseFields(
 														Description.success(
@@ -351,10 +331,9 @@ class MemberControllerTest {
 																	fieldWithPath("data.accessToken")
 																			.type(JsonFieldType.STRING)
 																			.description("어세스 토큰"),
-																	fieldWithPath("data.refreshToken")
-																			.type(JsonFieldType.STRING)
-																			.description("리프레시 토큰"),
 																}))
+												.responseHeaders(
+														new HeaderDescriptorWithType[] {Description.setCookieHeader()})
 												.build())));
 	}
 }
