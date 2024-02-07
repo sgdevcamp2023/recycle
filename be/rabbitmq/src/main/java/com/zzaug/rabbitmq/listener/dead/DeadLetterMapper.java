@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DeadLetterMapper {
 
-    private final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
-    public DeadLetterMessage map(byte[] body) throws Exception {
-        return objectMapper.readValue(body, DeadLetterMessage.class);
-    }
+	public DeadLetterMessage map(byte[] body) throws Exception {
+		return objectMapper.readValue(body, DeadLetterMessage.class);
+	}
 }
