@@ -30,7 +30,7 @@ public class UMockAuthenticationDao implements AuthenticationDao, ApplicationCon
 
 	public static final Long AUTHENTICATION_ID = 1L;
 	public static final Long MEMBER_ID = 1L;
-	public static final String CERTIFICATION = "sample@email.com";
+	public static final String CERTIFICATION = "sample";
 	public static final String PASSWORD_SOURCE = "123@abc";
 
 	private List<String> activeProfiles;
