@@ -1,12 +1,12 @@
 package com.zzaug.member.web.controller.v1.member;
 
+import com.zzaug.member.domain.dto.member.AccessTokenResponse;
 import com.zzaug.member.domain.dto.member.DeleteMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.GetMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.GetMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.LogOutUseCaseRequest;
 import com.zzaug.member.domain.dto.member.LoginUseCaseRequest;
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
-import com.zzaug.member.domain.dto.member.MemberAuthToken.AccessTokenResponse;
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.RenewalTokenUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseRequest;
