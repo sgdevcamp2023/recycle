@@ -8,6 +8,7 @@ import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockAuthenticationDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockExternalContactDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockLoginLogDao;
+import com.zzaug.member.domain.usecase.config.mock.security.UMockEnrollTokenCacheService;
 import com.zzaug.member.domain.usecase.validator.MemberAuthTokenValidator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 			MemberApp.class,
 			UMockAuthenticationDao.class,
 			UMockExternalContactDao.class,
-			UMockLoginLogDao.class
+			UMockLoginLogDao.class,
+			UMockEnrollTokenCacheService.class
 		})
 class LoginUseCaseTest extends AbstractUseCaseTest {
 

@@ -3,18 +3,30 @@ package com.zzaug.member.domain.usecase.member;
 import com.zzaug.member.MemberApp;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
 import com.zzaug.member.domain.exception.PasswordNotMatchException;
+import com.zzaug.member.domain.external.security.auth.ReplaceTokenCacheService;
 import com.zzaug.member.domain.usecase.AbstractUseCaseTest;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockAuthenticationDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockMemberSourceDao;
+import com.zzaug.member.domain.usecase.config.mock.security.UMockBlackTokenAuthCommand;
 import com.zzaug.member.domain.usecase.config.mock.service.UMockMemberSourceQuery;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(
-		classes = {MemberApp.class, UMockAuthenticationDao.class, UMockMemberSourceQuery.class})
+		classes = {
+			MemberApp.class,
+			UMockAuthenticationDao.class,
+			UMockMemberSourceQuery.class,
+			UMockBlackTokenAuthCommand.class,
+			ReplaceTokenCacheService.class
+		})
 class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
+
+	@Value("${token.test}")
+	public String token;
 
 	@Autowired private UpdateMemberUseCase updateMemberUseCase;
 
@@ -25,6 +37,8 @@ class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
 						.certification(UMockAuthenticationDao.CERTIFICATION)
 						.password(UMockAuthenticationDao.PASSWORD_SOURCE)
+						.refreshToken(token)
+						.accessToken(token)
 						.build();
 
 		updateMemberUseCase.execute(request);
@@ -37,6 +51,8 @@ class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
 						.certification(UMockAuthenticationDao.CERTIFICATION)
 						.password("wrong-password")
+						.refreshToken(token)
+						.accessToken(token)
 						.build();
 
 		Assertions.assertThatThrownBy(() -> updateMemberUseCase.execute(request))
