@@ -92,6 +92,13 @@
 | code    | String | resource.created | O  |
 | message | String | 새로 생성되었습니다       | O  |
 
+### 예외
+
+| 상황                     | http_code | code                          | message    |
+|------------------------|-----------|-------------------------------|------------|
+| 증명(아이디) 조건을 만족하지 않습니다. | 400       | request.certification.invalid | 잘못된 요청입니다. |
+| 비밀번호 조건을 만족하지 않습니다.    | 400       | request.password.invalid      | 잘못된 요청입니다. |
+
 ## 아이디 중복 검사를 진행합니다.
 
 ### 기본 정보
@@ -114,11 +121,11 @@
 
 #### 본문
 
-| 이름        | 타입      | 설명          | 필수 |
-|-----------|---------|-------------|----|
-| code      | String  | success     | O  |
-| message   | String  | 성공          | O  |
-| duplicate | Boolean | 중복 확인 성공 여부 | O  |
+| 이름        | 타입      | 설명      | 필수 |
+|-----------|---------|---------|----|
+| code      | String  | success | O  |
+| message   | String  | 성공      | O  |
+| duplicate | Boolean | 중복 여부   | O  |
 
 ## 이메일 인증 요청을 진행합니다.
 

@@ -17,6 +17,7 @@ import com.zzaug.member.web.controller.v1.description.Description;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,10 @@ class MemberControllerTest {
 	void save() throws Exception {
 		// set service mock
 		MemberSaveRequest request =
-				MemberSaveRequest.builder().certification("certification").password("password").build();
+				MemberSaveRequest.builder()
+						.certification("certification123")
+						.password("password@123")
+						.build();
 
 		String content = objectMapper.writeValueAsString(request);
 
@@ -197,13 +201,16 @@ class MemberControllerTest {
 	void logout() throws Exception {
 		// set service mock
 
+		Cookie cookie = new Cookie("refreshToken", "refreshToken");
+
 		mockMvc
 				.perform(
 						post(BASE_URL + "/logout", 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
 								.header(HttpHeaders.REFERER, "referer")
-								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+								.cookie(cookie))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
@@ -321,13 +328,16 @@ class MemberControllerTest {
 	void token() throws Exception {
 		// set service mock
 
+		Cookie refreshTokenCookie = new Cookie("refreshToken", "refreshToken");
+
 		mockMvc
 				.perform(
 						post(BASE_URL + "/token", 0)
 								.contentType(MediaType.APPLICATION_JSON)
 								.header("X-ZZAUG-ID", "X-ZZAUG-ID")
 								.header(HttpHeaders.REFERER, "referer")
-								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+								.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+								.cookie(refreshTokenCookie))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(
 						document(
