@@ -20,7 +20,7 @@ public class ViewMemberQuestionUseCase {
 	@Transactional
 	public List<QuestionQueryResponse> execute(ViewMemberQuestionUseCaseRequest request) {
 		List<QuestionQueryEntity> result =
-				questionQueryRepository.findAllByAuthorId(request.getAuthorId());
+				questionQueryRepository.findAllByAuthorIdAndIsDeletedIsFalse(request.getAuthorId());
 		return result.stream().map(QuestionQueryResponseConverter::from).collect(Collectors.toList());
 	}
 }
