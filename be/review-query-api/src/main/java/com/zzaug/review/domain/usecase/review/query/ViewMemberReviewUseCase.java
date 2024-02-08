@@ -22,13 +22,15 @@ public class ViewMemberReviewUseCase {
 	@Transactional
 	public List<Map<String, Object>> execute(ViewMemberReviewUseCaseRequest request) {
 		List<ReviewQueryEntity> reviewResult =
-				reviewQueryRepository.findAllByAuthorId(request.getAuthorId());
+				reviewQueryRepository.findAllByAuthorIdAndIsDeletedIsFalse(request.getAuthorId());
 		LinkedHashSet<QuestionQueryEntity> questionResult = new LinkedHashSet<>();
 
 		for (ReviewQueryEntity reviewQueryEntity : reviewResult) {
 			Long questionId = reviewQueryEntity.getQuestionId();
-			QuestionQueryEntity result = questionQueryRepository.findByQuestionId(questionId);
-			questionResult.add(result);
+			QuestionQueryEntity result = questionQueryRepository.findByQuestionIdAndIsDeletedIsFalse(questionId);
+			if (result != null) {
+				questionResult.add(result);
+			}
 		}
 
 		List<Map<String, Object>> responses = new ArrayList<>();
