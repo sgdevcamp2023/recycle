@@ -23,14 +23,16 @@ public class SearchByReviewUseCase {
 	@Transactional
 	public List<Map<String, Object>> execute(SearchByReviewUseCaseRequest request) {
 		List<ReviewQueryEntity> reviewResult =
-				reviewQueryRepository.findAllByAuthorIdAndContentContaining(
+				reviewQueryRepository.findAllByAuthorIdAndContentContainingAndIsDeletedIsFalse(
 						request.getAuthorId(), request.getQuery());
 		LinkedHashSet<QuestionQueryEntity> questionResult = new LinkedHashSet<>();
 
 		for (ReviewQueryEntity reviewQueryEntity : reviewResult) {
 			Long questionId = reviewQueryEntity.getQuestionId();
-			QuestionQueryEntity result = questionQueryRepository.findByQuestionId(questionId);
-			questionResult.add(result);
+			QuestionQueryEntity result = questionQueryRepository.findByQuestionIdAndIsDeletedIsFalse(questionId);
+			if (result != null) {
+				questionResult.add(result);
+			}
 		}
 
 		List<Map<String, Object>> responses = new ArrayList<>();
