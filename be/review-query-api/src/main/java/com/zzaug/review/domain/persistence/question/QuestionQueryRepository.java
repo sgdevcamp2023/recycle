@@ -11,7 +11,7 @@ public interface QuestionQueryRepository
 	Page<QuestionQueryEntity> findAllByAuthorIdAndContentContaining(
 			Pageable pageable, Long authorId, String query);
 
-	List<QuestionQueryEntity> findAllByAuthorId(Long authorId);
+	List<QuestionQueryEntity> findAllByAuthorIdAndIsDeletedIsFalse(Long authorId);
 
 	QuestionQueryEntity findByQuestionIdAndIsDeletedIsFalse(Long questionId);
 
