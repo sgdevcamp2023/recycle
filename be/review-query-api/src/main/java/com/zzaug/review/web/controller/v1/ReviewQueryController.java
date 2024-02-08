@@ -19,11 +19,15 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class ReviewQueryController {
 
 	private final ReviewByQuestionUseCase reviewByQuestionUseCase;
@@ -32,7 +36,7 @@ public class ReviewQueryController {
 
 	@GetMapping("/question-query/{question_id}/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<List<ReviewQueryResponse>>> viewQuestionReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable Long question_id) {
+			@PathVariable @Valid Long question_id) {
 
 		ReviewByQuestionUseCaseRequest useCaseRequest =
 				ReviewByQuestionUseCaseRequestConverter.from(question_id);
@@ -44,9 +48,9 @@ public class ReviewQueryController {
 	@GetMapping("/review-query/search")
 	public ApiResponse<ApiResponse.SuccessBody<List<Map<String, Object>>>> searchReviewList(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestParam Boolean me,
-			@RequestParam Boolean validQuestion,
-			@RequestParam String query) {
+			@RequestParam @Valid Boolean me,
+			@RequestParam @Valid Boolean validQuestion,
+			@RequestParam @Valid String query) {
 
 		List<Map<String, Object>> responses = new ArrayList<>();
 		if (me) {
@@ -64,7 +68,7 @@ public class ReviewQueryController {
 
 			} else {
 				ReviewSearchRequest request =
-						ReviewSearchRequest.builder().authorId(102L).query(query).build();
+						ReviewSearchRequest.builder().authorId(Long.valueOf(userDetails.getId())).query(query).build();
 				SearchByReviewUseCaseRequest useCaseRequest =
 						SearchByReviewUseCaseRequestConverter.from(request);
 				responses = searchByReviewUseCase.execute(useCaseRequest);
