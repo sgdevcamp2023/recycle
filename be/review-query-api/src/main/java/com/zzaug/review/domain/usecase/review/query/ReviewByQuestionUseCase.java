@@ -20,7 +20,7 @@ public class ReviewByQuestionUseCase {
 	@Transactional
 	public List<ReviewQueryResponse> execute(ReviewByQuestionUseCaseRequest request) {
 		List<ReviewQueryEntity> result =
-				reviewQueryRepository.findAllByQuestionId(request.getQuestionId());
+				reviewQueryRepository.findAllByQuestionIdAndIsDeletedIsFalse(request.getQuestionId());
 		return result.stream().map(ReviewQueryResponseConverter::from).collect(Collectors.toList());
 	}
 }
