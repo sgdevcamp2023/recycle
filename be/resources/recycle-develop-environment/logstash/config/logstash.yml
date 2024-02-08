@@ -1,0 +1,8 @@
+http.host: "0.0.0.0"
+
+#X-Pack관련 내용 주석 처리 (유료 라이선스이기 때문에 주석처리합니다.)
+#xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+## X-Pack security credentials
+#xpack.monitoring.enabled: true
+#xpack.monitoring.elasticsearch.username: elastic
+#xpack.monitoring.elasticsearch.password: changeme
