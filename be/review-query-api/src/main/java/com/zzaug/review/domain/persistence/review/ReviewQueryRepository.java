@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface ReviewQueryRepository extends ElasticsearchRepository<ReviewQueryEntity, Long> {
-	List<ReviewQueryEntity> findAllByQuestionId(Long questionId);
+	List<ReviewQueryEntity> findAllByQuestionIdAndIsDeletedIsFalse(Long questionId);
 
-	List<ReviewQueryEntity> findAllByAuthorIdAndContentContaining(Long authorId, String query);
+	List<ReviewQueryEntity> findAllByAuthorIdAndContentContainingAndIsDeletedIsFalse(Long authorId, String query);
 
-	List<ReviewQueryEntity> findAllByAuthorId(Long authorId);
+	List<ReviewQueryEntity> findAllByAuthorIdAndIsDeletedIsFalse(Long authorId);
 }
