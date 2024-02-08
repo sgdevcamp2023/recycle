@@ -1,6 +1,8 @@
 package com.zzaug.rabbitmq.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = ZRabbiMQConfig.BASE_PACKAGE)
+@EnableRabbit
 @EnableAutoConfiguration(exclude = RabbitAutoConfiguration.class)
 public class ZRabbiMQConfig {
 
