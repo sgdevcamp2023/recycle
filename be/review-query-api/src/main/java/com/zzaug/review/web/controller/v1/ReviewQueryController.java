@@ -4,9 +4,7 @@ import com.zzaug.review.domain.dto.review.query.*;
 import com.zzaug.review.domain.usecase.review.query.ReviewByQuestionUseCase;
 import com.zzaug.review.domain.usecase.review.query.SearchByQuestionUseCase;
 import com.zzaug.review.domain.usecase.review.query.SearchByReviewUseCase;
-import com.zzaug.review.support.ApiResponse;
-import com.zzaug.review.support.ApiResponseGenerator;
-import com.zzaug.review.support.MessageCode;
+
 import com.zzaug.review.web.dto.review.query.ReviewSearchByQuestionRequest;
 import com.zzaug.review.web.dto.review.query.ReviewSearchRequest;
 import com.zzaug.review.web.support.usecase.ReviewByQuestionUseCaseRequestConverter;
@@ -16,6 +14,10 @@ import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.zzaug.web.support.ApiResponse;
+import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
