@@ -12,6 +12,7 @@ import com.zzaug.member.domain.usecase.member.EmailAuthUseCase;
 import com.zzaug.member.web.dto.member.CheckEmailAuthRequest;
 import com.zzaug.member.web.dto.validator.Certification;
 import com.zzaug.security.authentication.token.TokenUserDetails;
+import com.zzaug.security.filter.token.AccessTokenResolver;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
@@ -22,9 +23,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +41,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberCheckController {
 
+	private static final String SESSION_ID_KEY = "sessionId";
+	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+
 	private final CheckDuplicationUseCase checkDuplicationUseCase;
 	private final EmailAuthUseCase emailAuthUseCase;
 	private final CheckEmailAuthUseCase checkEmailAuthUseCase;
@@ -47,9 +53,7 @@ public class MemberCheckController {
 			@Certification @RequestParam(value = "certification", required = true) String certification) {
 		CheckDuplicationUseCaseRequest useCaseRequest =
 				CheckDuplicationUseCaseRequest.builder().certification(certification).build();
-		CheckDuplicationUseCaseResponse response =
-				CheckDuplicationUseCaseResponse.builder().duplication(true).build();
-		//		CheckDuplicationUseCaseResponse response = checkDuplicationUseCase.execute(useCaseRequest);
+		CheckDuplicationUseCaseResponse response = checkDuplicationUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
@@ -59,9 +63,9 @@ public class MemberCheckController {
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Email @RequestParam(value = "email", required = true) String email,
 			@NotNull @NotEmpty @RequestParam(value = "nonce", required = true) String nonce) {
-		//		Long memberId = Long.valueOf(userDetails.getId());
-		Long memberId = 1L;
+		Long memberId = Long.valueOf(userDetails.getId());
 		HttpSession session = servletRequest.getSession();
+		session.setAttribute(SESSION_ID_KEY, session.getId());
 		EmailAuthUseCaseRequest useCaseRequest =
 				EmailAuthUseCaseRequest.builder()
 						.memberId(memberId)
@@ -69,31 +73,33 @@ public class MemberCheckController {
 						.email(email)
 						.nonce(nonce)
 						.build();
-		EmailAuthUseCaseResponse response =
-				EmailAuthUseCaseResponse.builder().duplication(true).build();
-		//		EmailAuthUseCaseResponse response = emailAuthUseCase.execute(useCaseRequest);
+		EmailAuthUseCaseResponse response = emailAuthUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@PostMapping("/email")
 	public ApiResponse<ApiResponse.SuccessBody<CheckEmailAuthUseCaseResponse>> checkEmailAuth(
+			@CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshTokenValue,
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Valid @RequestBody CheckEmailAuthRequest request,
 			HttpServletRequest httpServletRequest) {
-		//		Long memberId = Long.valueOf(userDetails.getId());
-		Long memberId = 1L;
+		Long memberId = Long.valueOf(userDetails.getId());
+		String authorization = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+		String accessTokenValue = AccessTokenResolver.resolve(authorization);
 		HttpSession session = httpServletRequest.getSession();
+		String sessionId = (String) session.getAttribute(SESSION_ID_KEY);
 		CheckEmailAuthUseCaseRequest useCaseRequest =
 				CheckEmailAuthUseCaseRequest.builder()
 						.memberId(memberId)
 						.code(request.getCode())
-						.sessionId(session.getId())
+						.sessionId(sessionId)
 						.email(request.getEmail())
 						.nonce(request.getNonce())
+						.accessToken(accessTokenValue)
+						.refreshToken(refreshTokenValue)
 						.build();
-		CheckEmailAuthUseCaseResponse response =
-				CheckEmailAuthUseCaseResponse.builder().authentication(true).tryCount(2L).build();
-		//		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
+		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
+		session.invalidate();
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
