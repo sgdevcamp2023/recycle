@@ -55,6 +55,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public Optional<AuthenticationEntity> findByCertificationAndDeletedFalse(
+			CertificationData certification) {
+		return authenticationRepository.findByCertificationAndDeletedFalse(certification);
+	}
+
+	@Override
 	public AuthenticationEntity saveAuthentication(AuthenticationEntity authenticationEntity) {
 		return authenticationRepository.save(authenticationEntity);
 	}

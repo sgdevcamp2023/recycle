@@ -1,4 +1,4 @@
-package com.zzaug.member.domain.dto.member;
+package com.zzaug.member.domain.model.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class LoginUseCaseRequest {
-
-	private String certification;
-	private String password;
-	private String userAgent;
+public class MemberContacts {
+	private String email;
+	private String github;
 }

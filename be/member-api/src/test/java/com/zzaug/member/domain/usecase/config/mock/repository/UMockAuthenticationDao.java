@@ -29,7 +29,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UMockAuthenticationDao implements AuthenticationDao, ApplicationContextAware {
 
 	public static final Long AUTHENTICATION_ID = 1L;
-	public static final String CERTIFICATION = "sample@email.com";
+	public static final Long MEMBER_ID = 1L;
+	public static final String CERTIFICATION = "sample";
 	public static final String PASSWORD_SOURCE = "123@abc";
 
 	private List<String> activeProfiles;
@@ -55,6 +56,19 @@ public class UMockAuthenticationDao implements AuthenticationDao, ApplicationCon
 				AuthenticationEntity.builder()
 						.id(AUTHENTICATION_ID)
 						.memberId(memberId)
+						.certification(CertificationData.builder().certification(CERTIFICATION).build())
+						.password(
+								PasswordData.builder().password(passwordEncoder.encode(PASSWORD_SOURCE)).build())
+						.build());
+	}
+
+	@Override
+	public Optional<AuthenticationEntity> findByCertificationAndDeletedFalse(
+			CertificationData certification) {
+		return Optional.of(
+				AuthenticationEntity.builder()
+						.id(AUTHENTICATION_ID)
+						.memberId(MEMBER_ID)
 						.certification(CertificationData.builder().certification(CERTIFICATION).build())
 						.password(
 								PasswordData.builder().password(passwordEncoder.encode(PASSWORD_SOURCE)).build())
