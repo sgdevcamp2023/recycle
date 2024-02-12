@@ -13,9 +13,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class DeleteMemberUseCaseRequest {
+public class UpdateMemberUseCaseResponse {
 
-	private Long memberId;
 	private String accessToken;
 	private String refreshToken;
+
+	public AccessTokenResponse toResponse() {
+		return new AccessTokenResponse(this.accessToken);
+	}
 }

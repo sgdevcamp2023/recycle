@@ -21,17 +21,4 @@ public class MemberAuthToken {
 	public AccessTokenResponse toResponse() {
 		return new AccessTokenResponse(this.accessToken);
 	}
-
-	@Getter
-	@ToString
-	@EqualsAndHashCode
-	@NoArgsConstructor
-	@Builder(toBuilder = true)
-	public static class AccessTokenResponse {
-		private String accessToken;
-
-		public AccessTokenResponse(String accessToken) {
-			this.accessToken = accessToken;
-		}
-	}
 }

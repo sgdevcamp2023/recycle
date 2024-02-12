@@ -10,6 +10,7 @@ import com.zzaug.member.domain.usecase.config.mock.service.UMockMemberSourceQuer
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -17,6 +18,9 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(
 		classes = {MemberApp.class, UMockAuthenticationDao.class, UMockMemberSourceQuery.class})
 class UpdateMemberUseCaseTest_EXIST_CERTIFICATION extends AbstractUseCaseTest {
+
+	@Value("${token.test}")
+	public String token;
 
 	@Autowired private UpdateMemberUseCase updateMemberUseCase;
 
@@ -27,6 +31,8 @@ class UpdateMemberUseCaseTest_EXIST_CERTIFICATION extends AbstractUseCaseTest {
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
 						.certification(UMockAuthenticationDao.CERTIFICATION + "edit")
 						.password(UMockAuthenticationDao.PASSWORD_SOURCE)
+						.refreshToken(token)
+						.accessToken(token)
 						.build();
 
 		Assertions.assertThatThrownBy(() -> updateMemberUseCase.execute(request))

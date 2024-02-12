@@ -1,21 +1,20 @@
 package com.zzaug.member.domain.dto.member;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@ToString
-@EqualsAndHashCode
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(toBuilder = true)
-public class DeleteMemberUseCaseRequest {
+@SuperBuilder(toBuilder = true)
+public class SuccessCheckEmailAuthUseCaseResponse extends CheckEmailAuthUseCaseResponse {
 
-	private Long memberId;
 	private String accessToken;
 	private String refreshToken;
 }

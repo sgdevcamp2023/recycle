@@ -7,15 +7,14 @@ import com.zzaug.member.domain.exception.DBSource;
 import com.zzaug.member.domain.exception.PasswordNotMatchException;
 import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
-import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
+import com.zzaug.member.domain.external.security.auth.EnrollTokenCacheService;
 import com.zzaug.member.domain.external.service.log.LoginLogCommand;
+import com.zzaug.member.domain.external.service.member.MemberContactsQuery;
 import com.zzaug.member.domain.model.member.MemberAuthentication;
 import com.zzaug.member.domain.model.member.MemberContacts;
 import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
-import com.zzaug.member.domain.support.entity.MemberContactExtractor;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
-import com.zzaug.member.entity.member.ExternalContactEntity;
 import com.zzaug.member.entity.member.PasswordData;
 import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.security.authentication.authority.Roles;
@@ -35,8 +34,8 @@ import org.springframework.stereotype.Service;
 public class LoginUseCase {
 
 	private final AuthenticationDao authenticationDao;
-	private final ExternalContactDao externalContactDao;
 
+	private final MemberContactsQuery memberContactsQuery;
 	private final LoginLogCommand loginLogCommand;
 
 	private final PasswordEncoder passwordEncoder;
@@ -44,6 +43,9 @@ public class LoginUseCase {
 	private final TokenGenerator tokenGenerator;
 
 	private final ApplicationEventPublisher applicationEventPublisher;
+
+	// security
+	private final EnrollTokenCacheService enrollWhiteTokenCacheServiceImpl;
 
 	@UseCaseTransactional
 	public MemberAuthToken execute(LoginUseCaseRequest request) {
@@ -66,10 +68,7 @@ public class LoginUseCase {
 			throw new PasswordNotMatchException();
 		}
 
-		log.debug("Get member contacts. memberId: {}", memberAuthentication.getMemberId());
-		List<ExternalContactEntity> contacts =
-				externalContactDao.findAllByMemberIdAndDeletedFalse(memberAuthentication.getMemberId());
-		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);
+		MemberContacts memberContacts = memberContactsQuery.execute(memberAuthentication);
 
 		AuthToken authToken =
 				tokenGenerator.generateAuthToken(
@@ -81,6 +80,9 @@ public class LoginUseCase {
 
 		log.debug("Save login log. memberId: {}", memberAuthentication.getMemberId());
 		loginLogCommand.saveLoginLog(memberAuthentication.getMemberId(), userAgent);
+
+		// check duplication
+		enrollWhiteTokenCacheServiceImpl.execute(authToken.getAccessToken());
 
 		publishEvent(memberAuthentication);
 

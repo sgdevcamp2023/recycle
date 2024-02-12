@@ -1,6 +1,6 @@
 package com.zzaug.member.redis;
 
-import com.zzaug.member.config.JpaDataSourceConfig;
+import com.zzaug.member.config.MemberJpaDataSourceConfig;
 import com.zzaug.member.config.MemberRedisConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -25,6 +25,6 @@ import org.springframework.test.context.TestPropertySource;
 		})
 @TestPropertySource(locations = "classpath:application-test.yml")
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@ContextConfiguration(classes = {MemberRedisConfig.class, JpaDataSourceConfig.class})
+@ContextConfiguration(classes = {MemberRedisConfig.class, MemberJpaDataSourceConfig.class})
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public abstract class AbstractRedisTest {}

@@ -1,6 +1,5 @@
 package com.zzaug.member.domain.dto.member;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,12 +9,12 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class DeleteMemberUseCaseRequest {
-
-	private Long memberId;
+public class AccessTokenResponse {
 	private String accessToken;
-	private String refreshToken;
+
+	public AccessTokenResponse(String accessToken) {
+		this.accessToken = accessToken;
+	}
 }

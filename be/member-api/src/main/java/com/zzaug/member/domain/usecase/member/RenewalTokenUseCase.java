@@ -4,20 +4,17 @@ import com.zzaug.member.domain.dto.member.MemberAuthToken;
 import com.zzaug.member.domain.dto.member.RenewalTokenUseCaseRequest;
 import com.zzaug.member.domain.exception.DBSource;
 import com.zzaug.member.domain.exception.SourceNotFoundException;
-import com.zzaug.member.domain.external.dao.auth.BlackTokenAuthDao;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
-import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
+import com.zzaug.member.domain.external.security.auth.BlackTokenAuthCommand;
+import com.zzaug.member.domain.external.security.auth.EnrollTokenCacheService;
+import com.zzaug.member.domain.external.security.auth.ReplaceTokenCacheService;
+import com.zzaug.member.domain.external.service.member.MemberContactsQuery;
 import com.zzaug.member.domain.external.service.member.MemberSourceQuery;
 import com.zzaug.member.domain.model.member.MemberAuthentication;
 import com.zzaug.member.domain.model.member.MemberContacts;
 import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
-import com.zzaug.member.domain.support.entity.MemberContactExtractor;
-import com.zzaug.member.entity.auth.BlackTokenAuthEntity;
-import com.zzaug.member.entity.auth.TokenData;
-import com.zzaug.member.entity.auth.TokenType;
 import com.zzaug.member.entity.member.AuthenticationEntity;
-import com.zzaug.member.entity.member.ExternalContactEntity;
 import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
@@ -35,14 +32,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RenewalTokenUseCase {
 
-	private final BlackTokenAuthDao blackTokenAuthDao;
 	private final AuthenticationDao authenticationDao;
-	private final ExternalContactDao externalContactDao;
 
 	private final MemberSourceQuery memberSourceQuery;
+	private final MemberContactsQuery memberContactsQuery;
 
+	// security
 	private final TokenGenerator tokenGenerator;
 	private final TokenResolver tokenResolver;
+	private final BlackTokenAuthCommand blackTokenAuthCommand;
+	private final EnrollTokenCacheService enrollBlackTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
 
 	@UseCaseTransactional
 	public MemberAuthToken execute(RenewalTokenUseCaseRequest request) {
@@ -62,10 +62,7 @@ public class RenewalTokenUseCase {
 		MemberAuthentication memberAuthentication =
 				MemberAuthenticationConverter.from(authenticationSource.get());
 
-		log.debug("Get member's contacts. memberId: {}", memberSource.getId());
-		List<ExternalContactEntity> contacts =
-				externalContactDao.findAllByMemberIdAndDeletedFalse(memberSource.getId());
-		MemberContacts memberContacts = MemberContactExtractor.execute(contacts);
+		MemberContacts memberContacts = memberContactsQuery.execute(memberAuthentication);
 
 		AuthToken authToken =
 				tokenGenerator.generateAuthToken(
@@ -75,11 +72,9 @@ public class RenewalTokenUseCase {
 						memberContacts.getEmail(),
 						memberContacts.getGithub());
 
-		log.debug(
-				"Save All used token to black list. accessToken: {}, refreshToken: {}",
-				accessToken,
-				refreshToken);
-		saveAllUsedTokenToBlackList(accessToken, refreshToken);
+		blackTokenAuthCommand.execute(accessToken, refreshToken);
+		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
+		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
 
 		return MemberAuthToken.builder()
 				.accessToken(authToken.getAccessToken())
@@ -94,18 +89,5 @@ public class RenewalTokenUseCase {
 			throw new IllegalStateException("MemberId is not found in refreshToken.");
 		}
 		return idSource.get();
-	}
-
-	private void saveAllUsedTokenToBlackList(String accessToken, String refreshToken) {
-		blackTokenAuthDao.saveAllBlackTokenAuth(
-				List.of(
-						BlackTokenAuthEntity.builder()
-								.token(TokenData.builder().token(accessToken).build())
-								.tokenType(TokenType.ACCESSTOKEN)
-								.build(),
-						BlackTokenAuthEntity.builder()
-								.token(TokenData.builder().token(refreshToken).build())
-								.tokenType(TokenType.REFRESHTOKEN)
-								.build()));
 	}
 }

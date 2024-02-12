@@ -5,6 +5,7 @@ import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.redis.email.EmailAuthSession;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Profile;
 
@@ -19,6 +20,9 @@ import org.springframework.context.annotation.Profile;
 @TestComponent
 public class UMockEmailAuthDao implements EmailAuthDao {
 
+	public static final Long EMAIL_AUTH_ID = 1L;
+	public static final String EMAIL_AUTH_SESSION_ID = UUID.randomUUID().toString();
+
 	public static String EMAIL = "sample@email.com";
 	public static String CODE = "thisiscode";
 
@@ -27,7 +31,7 @@ public class UMockEmailAuthDao implements EmailAuthDao {
 			Long memberId, EmailData email, String nonce) {
 		return Optional.of(
 				EmailAuthEntity.builder()
-						.id(1L)
+						.id(EMAIL_AUTH_ID)
 						.memberId(memberId)
 						.email(email)
 						.nonce(nonce)
@@ -48,7 +52,7 @@ public class UMockEmailAuthDao implements EmailAuthDao {
 
 	@Override
 	public EmailAuthSession saveEmailAuthSession(EmailAuthSession emailAuthSession) {
-		return emailAuthSession;
+		return emailAuthSession.toBuilder().id(EMAIL_AUTH_SESSION_ID).build();
 	}
 
 	@Override

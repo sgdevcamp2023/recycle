@@ -7,9 +7,11 @@ import com.zzaug.member.redis.email.EmailAuthSession;
 import com.zzaug.member.redis.email.EmailAuthSessionRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Profile("!usecase-test")
 @Repository
 @RequiredArgsConstructor
@@ -46,7 +48,7 @@ public class EmailAuthDaoImpl implements EmailAuthDao {
 		Optional<EmailAuthSession> emailAuthSessionSource =
 				emailAuthSessionRepository.findBySessionId(sessionId);
 		if (emailAuthSessionSource.isEmpty()) {
-			throw new IllegalArgumentException("request email auth session is not found");
+			log.warn("EmailAuthSession is not found. sessionId: {}", sessionId);
 		}
 		emailAuthSessionRepository.delete(emailAuthSessionSource.get());
 	}

@@ -11,8 +11,10 @@ import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockEmailAuthLogDao;
 import com.zzaug.member.domain.usecase.config.mock.repository.UMockExternalContactDao;
 import com.zzaug.member.domain.usecase.config.mock.service.UMockMemberSourceQuery;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -27,19 +29,30 @@ import org.springframework.test.context.ActiveProfiles;
 		})
 class CheckEmailAuthUseCaseTest_OVER_MAX_TRYCOUNT extends AbstractUseCaseTest {
 
+	@Value("${token.test}")
+	public String token;
+
 	@Autowired private CheckEmailAuthUseCase checkEmailAuthUseCase;
 
 	Long memberId = 1L;
 	String code = UMockEmailAuthDao.CODE;
 	String email = UMockEmailAuthDao.EMAIL;
 	String nonce = "nonce";
-	final CheckEmailAuthUseCaseRequest request =
-			CheckEmailAuthUseCaseRequest.builder()
-					.memberId(memberId)
-					.code(code)
-					.email(email)
-					.nonce(nonce)
-					.build();
+
+	CheckEmailAuthUseCaseRequest request;
+
+	@BeforeEach
+	void setUp() {
+		request =
+				CheckEmailAuthUseCaseRequest.builder()
+						.memberId(memberId)
+						.code(code)
+						.email(email)
+						.nonce(nonce)
+						.refreshToken(token)
+						.accessToken(token)
+						.build();
+	}
 
 	@Test
 	void 이메일_인증시도_초과로_인한_실패() {

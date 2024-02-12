@@ -36,7 +36,7 @@ public class UMockLoginLogDao implements LoginLogDao, ApplicationContextAware {
 
 	@Override
 	public LoginLogEntity saveLoginLog(LoginLogEntity entity) {
-		return entity;
+		return entity.toBuilder().id(LOGIN_LOG_ID).build();
 	}
 
 	@Override
