@@ -6,7 +6,10 @@ import com.zzaug.member.entity.member.ContactType;
 import com.zzaug.member.entity.member.ExternalContactEntity;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.test.context.TestComponent;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Profile;
 
 /**
@@ -19,13 +22,24 @@ import org.springframework.context.annotation.Profile;
  * <p>이메일: sample@email.com
  *
  * <p>깃허브: git
+ *
+ * <p>프로파일이 exist-external-contact인 경우 이미 외부 연락처가 존재합니다.
+ *
+ * <p>프로파일이 exist-external-contact가 아닌 경우 이미 외부 연락처가 존재하지 않습니다.
  */
 @Profile("usecase-test")
 @TestComponent
-public class UMockExternalContactDao implements ExternalContactDao {
+public class UMockExternalContactDao implements ExternalContactDao, ApplicationContextAware {
 
 	public static final String EMAIL = "sampel@emai.com";
 	public static final String GITHUB = "git";
+
+	private List<String> activeProfiles;
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		activeProfiles = List.of(applicationContext.getEnvironment().getActiveProfiles());
+	}
 
 	@Override
 	public List<ExternalContactEntity> findAllByMemberIdAndDeletedFalse(Long memberId) {
@@ -52,5 +66,13 @@ public class UMockExternalContactDao implements ExternalContactDao {
 		sources.add(email);
 		sources.add(github);
 		return sources;
+	}
+
+	@Override
+	public boolean existsByContactTypeAndSourceAndDeletedFalse(ContactType type, String source) {
+		if (activeProfiles.contains("exist-contact")) {
+			return true;
+		}
+		return false;
 	}
 }

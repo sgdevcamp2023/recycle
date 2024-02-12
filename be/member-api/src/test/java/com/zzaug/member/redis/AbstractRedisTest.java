@@ -1,7 +1,7 @@
-package com.zzaug.member.persistence;
+package com.zzaug.member.redis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzaug.member.config.JpaDataSourceConfig;
+import com.zzaug.member.config.MemberRedisConfig;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
@@ -25,6 +25,6 @@ import org.springframework.test.context.TestPropertySource;
 		})
 @TestPropertySource(locations = "classpath:application-test.yml")
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@ContextConfiguration(classes = {JpaDataSourceConfig.class, ObjectMapper.class})
+@ContextConfiguration(classes = {MemberRedisConfig.class, JpaDataSourceConfig.class})
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public abstract class AbstractRepositoryTest {}
+public abstract class AbstractRedisTest {}

@@ -1,5 +1,7 @@
-package com.zzaug.member.domain.dto.member;
+package com.zzaug.member.domain.message;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,10 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class EmailAuthUseCaseRequest {
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class EmailAuthMessage {
 
 	private Long memberId;
-	private String sessionId;
 	private String email;
-	private String nonce;
+	private String code;
 }
