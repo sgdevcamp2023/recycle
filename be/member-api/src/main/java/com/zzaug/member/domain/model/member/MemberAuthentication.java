@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MemberAuthentication {
+public class MemberAuthentication implements GetMemberId {
 
 	private Long id;
 	private Long memberId;
