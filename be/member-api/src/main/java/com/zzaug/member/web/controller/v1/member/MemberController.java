@@ -6,6 +6,7 @@ import com.zzaug.member.domain.dto.member.GetMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.LogOutUseCaseRequest;
 import com.zzaug.member.domain.dto.member.LoginUseCaseRequest;
 import com.zzaug.member.domain.dto.member.MemberAuthToken;
+import com.zzaug.member.domain.dto.member.MemberAuthToken.AccessTokenResponse;
 import com.zzaug.member.domain.dto.member.PostMemberUseCaseRequest;
 import com.zzaug.member.domain.dto.member.RenewalTokenUseCaseRequest;
 import com.zzaug.member.domain.dto.member.SearchMemberUseCaseRequest;
@@ -23,14 +24,17 @@ import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
 import com.zzaug.member.web.dto.validator.PositiveId;
+import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.security.filter.token.AccessTokenResolver;
+import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.CookieGenerator;
 import com.zzaug.web.support.CookieSameSite;
 import com.zzaug.web.support.MessageCode;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -59,7 +63,6 @@ public class MemberController {
 	private static final String COOKIE_HEADER_KEY = "Set-Cookie";
 	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
-	//	private final CookieGenerator cookieGenerator;
 	private final TokenGenerator tokenGenerator;
 	private final CookieGenerator cookieGenerator;
 
@@ -111,9 +114,9 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ApiResponse<ApiResponse.SuccessBody<MemberAuthToken>> login(
+	public ApiResponse<ApiResponse.SuccessBody<AccessTokenResponse>> login(
 			HttpServletRequest httpServletRequest,
-			@RequestBody LoginRequest request,
+			@Valid @RequestBody LoginRequest request,
 			HttpServletResponse httpServletResponse) {
 		LoginUseCaseRequest useCaseRequest =
 				LoginUseCaseRequest.builder()
@@ -121,14 +124,21 @@ public class MemberController {
 						.password(request.getPassword())
 						.userAgent(httpServletRequest.getHeader("User-Agent"))
 						.build();
-		MemberAuthToken response =
-				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
+		AuthToken authToken =
+				tokenGenerator.generateAuthToken(
+						1L, List.of(Roles.ROLE_USER), "sample", "sample@email.com", "github");
+		MemberAuthToken memberAuthToken =
+				MemberAuthToken.builder()
+						.accessToken(authToken.getAccessToken())
+						.refreshToken(authToken.getRefreshToken())
+						.build();
 		//		MemberAuthToken response = loginUseCase.execute(useCaseRequest);
 		ResponseCookie refreshToken =
 				cookieGenerator.createCookie(
-						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, response.getRefreshToken());
+						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, memberAuthToken.getRefreshToken());
 		httpServletResponse.addHeader(COOKIE_HEADER_KEY, refreshToken.toString());
-		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		return ApiResponseGenerator.success(
+				memberAuthToken.toResponse(), HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@PostMapping("/logout")
@@ -162,7 +172,11 @@ public class MemberController {
 		GetMemberUseCaseRequest useCaseRequest =
 				GetMemberUseCaseRequest.builder().memberId(memberId).queryMemberId(id).build();
 		GetMemberUseCaseResponse response =
-				GetMemberUseCaseResponse.builder().id(1L).email("email").github("github").build();
+				GetMemberUseCaseResponse.builder()
+						.id(1L)
+						.email("sample@email.com")
+						.github("github")
+						.build();
 		//		GetMemberUseCaseResponse response = getMemberUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
@@ -180,23 +194,40 @@ public class MemberController {
 						.build();
 		//		SearchMemberUseCaseResponse response = searchMemberUseCase.execute(useCaseRequest);
 		SearchMemberUseCaseResponse response =
-				SearchMemberUseCaseResponse.builder().id(1L).email("email").github("github").build();
+				SearchMemberUseCaseResponse.builder()
+						.id(1L)
+						.email("sample@email.com")
+						.github("github")
+						.build();
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
 	@PostMapping("/token")
-	public ApiResponse<ApiResponse.SuccessBody<MemberAuthToken>> token(
+	public ApiResponse<ApiResponse.SuccessBody<AccessTokenResponse>> token(
 			@CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshTokenValue,
+			HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) {
+		String authorization = httpServletRequest.getHeader("Authorization");
+		String accessTokenValue = AccessTokenResolver.resolve(authorization);
 		RenewalTokenUseCaseRequest useCaseRequest =
-				RenewalTokenUseCaseRequest.builder().refreshToken(refreshTokenValue).build();
+				RenewalTokenUseCaseRequest.builder()
+						.accessToken(accessTokenValue)
+						.refreshToken(refreshTokenValue)
+						.build();
 		//		MemberAuthToken response = renewalTokenUseCase.execute(useCaseRequest);
-		MemberAuthToken response =
-				MemberAuthToken.builder().accessToken("accessToken").refreshToken("refreshToken").build();
+		AuthToken authToken =
+				tokenGenerator.generateAuthToken(
+						1L, List.of(Roles.ROLE_USER), "sample", "sample@email.com", "github");
+		MemberAuthToken memberAuthToken =
+				MemberAuthToken.builder()
+						.accessToken(authToken.getAccessToken())
+						.refreshToken(authToken.getRefreshToken())
+						.build();
 		ResponseCookie refreshToken =
 				cookieGenerator.createCookie(
-						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, response.getRefreshToken());
+						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, memberAuthToken.getRefreshToken());
 		httpServletResponse.addHeader(COOKIE_HEADER_KEY, refreshToken.toString());
-		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		return ApiResponseGenerator.success(
+				memberAuthToken.toResponse(), HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }

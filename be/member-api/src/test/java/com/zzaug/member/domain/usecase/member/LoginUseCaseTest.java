@@ -54,6 +54,6 @@ class LoginUseCaseTest extends AbstractUseCaseTest {
 
 		// When
 		org.assertj.core.api.Assertions.assertThatThrownBy(() -> loginUseCase.execute(request))
-			.isInstanceOf(PasswordNotMatchException.class);
+				.isInstanceOf(PasswordNotMatchException.class);
 	}
 }

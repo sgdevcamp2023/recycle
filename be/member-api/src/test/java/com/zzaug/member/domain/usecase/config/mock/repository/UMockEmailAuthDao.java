@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Profile;
 @TestComponent
 public class UMockEmailAuthDao implements EmailAuthDao {
 
+	public static String EMAIL = "sample@email.com";
 	public static String CODE = "thisiscode";
 
 	@Override

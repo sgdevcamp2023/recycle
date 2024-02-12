@@ -23,7 +23,7 @@ class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
 		UpdateMemberUseCaseRequest request =
 				UpdateMemberUseCaseRequest.builder()
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
-						.certification("edit")
+						.certification(UMockAuthenticationDao.CERTIFICATION)
 						.password(UMockAuthenticationDao.PASSWORD_SOURCE)
 						.build();
 
@@ -36,7 +36,7 @@ class UpdateMemberUseCaseTest extends AbstractUseCaseTest {
 				UpdateMemberUseCaseRequest.builder()
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
 						.certification(UMockAuthenticationDao.CERTIFICATION)
-						.password("wrongpassword")
+						.password("wrong-password")
 						.build();
 
 		Assertions.assertThatThrownBy(() -> updateMemberUseCase.execute(request))

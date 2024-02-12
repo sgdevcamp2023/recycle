@@ -25,7 +25,7 @@ class UpdateMemberUseCaseTest_EXIST_CERTIFICATION extends AbstractUseCaseTest {
 		UpdateMemberUseCaseRequest request =
 				UpdateMemberUseCaseRequest.builder()
 						.memberId(UMockMemberSourceDao.MEMBER_ID)
-						.certification("edit")
+						.certification(UMockAuthenticationDao.CERTIFICATION + "edit")
 						.password(UMockAuthenticationDao.PASSWORD_SOURCE)
 						.build();
 
