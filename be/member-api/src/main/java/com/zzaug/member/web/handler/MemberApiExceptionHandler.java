@@ -1,5 +1,6 @@
 package com.zzaug.member.web.handler;
 
+import static com.zzaug.web.handler.ExceptionMessage.ACCESS_DENIED;
 import static com.zzaug.web.handler.ExceptionMessage.FAIL_NOT_FOUND;
 import static com.zzaug.web.handler.ExceptionMessage.FAIL_REQUEST;
 import static com.zzaug.web.handler.ExceptionMessage.REQUEST_INVALID;
@@ -7,6 +8,7 @@ import static com.zzaug.web.handler.ExceptionMessage.REQUEST_INVALID_FORMAT;
 
 import com.zzaug.member.domain.exception.InvalidRequestException;
 import com.zzaug.member.domain.exception.OverMaxTryCountException;
+import com.zzaug.member.domain.exception.PasswordNotMatchException;
 import com.zzaug.member.domain.exception.SourceNotFoundException;
 import com.zzaug.web.handler.LoggingHandler;
 import com.zzaug.web.support.ApiResponse;
@@ -54,5 +56,13 @@ public class MemberApiExceptionHandler {
 		loggingHandler.writeLog(ex, request);
 		return ApiResponseGenerator.fail(
 				FAIL_REQUEST.getCode(), FAIL_REQUEST.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler({PasswordNotMatchException.class})
+	public ApiResponse<ApiResponse.FailureBody> handleAccessDeniedRequest(
+			final Exception ex, final HttpServletRequest request) {
+		loggingHandler.writeLog(ex, request);
+		return ApiResponseGenerator.fail(
+				ACCESS_DENIED.getCode(), ACCESS_DENIED.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 }

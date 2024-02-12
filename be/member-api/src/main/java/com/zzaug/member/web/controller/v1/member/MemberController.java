@@ -12,6 +12,7 @@ import com.zzaug.member.domain.dto.member.SearchMemberUseCaseResponse;
 import com.zzaug.member.domain.dto.member.UpdateMemberUseCaseRequest;
 import com.zzaug.member.domain.usecase.member.GetMemberUseCase;
 import com.zzaug.member.domain.usecase.member.PostMemberUseCase;
+import com.zzaug.member.domain.usecase.member.UpdateMemberUseCase;
 import com.zzaug.member.web.dto.member.LoginRequest;
 import com.zzaug.member.web.dto.member.MemberSaveRequest;
 import com.zzaug.member.web.dto.member.MemberUpdateRequest;
@@ -50,6 +51,7 @@ public class MemberController {
 	private final TokenGenerator tokenGenerator;
 
 	private final GetMemberUseCase getMemberUseCase;
+	private final UpdateMemberUseCase updateMemberUseCase;
 	private final PostMemberUseCase postMemberUseCase;
 
 	@PostMapping()
@@ -75,6 +77,7 @@ public class MemberController {
 						.certification(request.getCertification())
 						.password(request.getPassword())
 						.build();
+		//		updateMemberUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
 	}
 
