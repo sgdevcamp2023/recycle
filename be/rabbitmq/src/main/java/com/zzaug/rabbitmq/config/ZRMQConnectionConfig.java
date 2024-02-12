@@ -1,5 +1,7 @@
 package com.zzaug.rabbitmq.config;
 
+import static com.zzaug.rabbitmq.config.ZRabbiMQConfig.BEAN_NAME_PREFIX;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -22,13 +24,13 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class ZRMQConnectionConfig {
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "RabbitProperties")
 	@ConfigurationProperties(prefix = "spring.rabbitmq")
 	RabbitProperties rabbitMQProperties() {
 		return new RabbitProperties();
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "ConnectionFactory")
 	ConnectionFactory connectionFactory() {
 		RabbitProperties properties = rabbitMQProperties();
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
@@ -39,18 +41,17 @@ public class ZRMQConnectionConfig {
 		return connectionFactory;
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "ConnectionFactoryConfigurer")
 	@ConditionalOnMissingBean
 	CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(
-			RabbitProperties rabbitProperties,
 			ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
 		CachingConnectionFactoryConfigurer configurer =
-				new CachingConnectionFactoryConfigurer(rabbitProperties);
+				new CachingConnectionFactoryConfigurer(rabbitMQProperties());
 		configurer.setConnectionNameStrategy(connectionNameStrategy.getIfUnique());
 		return configurer;
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "RabbitTemplate")
 	public RabbitTemplate rabbitTemplate(ObjectProvider<MessageConverter> messageConverter) {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate();
 		rabbitTemplate.setConnectionFactory(connectionFactory());
@@ -61,12 +62,12 @@ public class ZRMQConnectionConfig {
 		return rabbitTemplate;
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "AmqpAdmin")
 	public AmqpAdmin amqpAdmin(ConnectionFactory connectionFactory) {
 		return new RabbitAdmin(connectionFactory);
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "RabbitMessagingTemplate")
 	@ConditionalOnSingleCandidate(RabbitTemplate.class)
 	public RabbitMessagingTemplate rabbitMessagingTemplate(RabbitTemplate rabbitTemplate) {
 		return new RabbitMessagingTemplate(rabbitTemplate);
