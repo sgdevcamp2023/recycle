@@ -1,4 +1,4 @@
-package com.zzaug.member.domain.dto.member;
+package com.zzaug.member.domain.model.log;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class LogOutUseCaseRequest {
+public class LoginLog {
 
+	private Long id;
 	private Long memberId;
-	private String accessToken;
-	private String refreshToken;
+	private boolean isLogin;
+	private String userAgent;
 }
