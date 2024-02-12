@@ -1,5 +1,6 @@
 package com.zzaug.member.config;
 
+import com.zzaug.flyway.datasource.EntityDataSource;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -28,9 +29,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories(
 		basePackages = MemberAppConfig.BASE_PACKAGE,
-		transactionManagerRef = JpaDataSourceConfig.TRANSACTION_MANAGER_NAME,
-		entityManagerFactoryRef = JpaDataSourceConfig.ENTITY_MANAGER_FACTORY_NAME)
-public class JpaDataSourceConfig {
+		transactionManagerRef = MemberJpaDataSourceConfig.TRANSACTION_MANAGER_NAME,
+		entityManagerFactoryRef = MemberJpaDataSourceConfig.ENTITY_MANAGER_FACTORY_NAME)
+public class MemberJpaDataSourceConfig {
 
 	private static final String ENTITY_PROPERTY_PREFIX = MemberAppConfig.PROPERTY_PREFIX + ".entity";
 
@@ -53,6 +54,11 @@ public class JpaDataSourceConfig {
 	@ConfigurationProperties(prefix = ENTITY_PROPERTY_PREFIX + ".datasource")
 	public DataSource dataSource() {
 		return DataSourceBuilder.create().build();
+	}
+
+	@Bean
+	public EntityDataSource entityDataSource() {
+		return new EntityDataSource(dataSource());
 	}
 
 	@Bean(name = JPA_PROPERTIES_NAME)

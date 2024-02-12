@@ -4,10 +4,10 @@ import com.zzaug.member.domain.dto.member.CheckDuplicationUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckDuplicationUseCaseResponse;
 import com.zzaug.member.domain.external.dao.member.AuthenticationDao;
 import com.zzaug.member.entity.member.CertificationData;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -16,7 +16,7 @@ public class CheckDuplicationUseCase {
 
 	private final AuthenticationDao authenticationDao;
 
-	@Transactional(readOnly = true)
+	@UseCaseTransactional(readOnly = true)
 	public CheckDuplicationUseCaseResponse execute(CheckDuplicationUseCaseRequest certification) {
 		final CertificationData certificationData =
 				CertificationData.builder().certification(certification.getCertification()).build();

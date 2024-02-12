@@ -1,16 +1,23 @@
 package com.zzaug.member.config;
 
+import static com.zzaug.member.config.MemberRedisConfig.REDIS_CONNECTION_FACTORY_NAME;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.session.data.redis.config.annotation.SpringSessionRedisConnectionFactory;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.http.CookieHttpSessionIdResolver;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 
 @Configuration
+@EnableRedisHttpSession(redisNamespace = "zzuag:session")
 public class MemberSessionConfig {
 	public static final String SESSION_BEAN_NAME_PREFIX =
 			MemberAppConfig.BEAN_NAME_PREFIX + "Session";
@@ -52,5 +59,12 @@ public class MemberSessionConfig {
 	@Bean(name = SPRING_SESSION_DEFAULT_REDIS_SERIALIZER_BEAN_NAME)
 	public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
 		return new GenericJackson2JsonRedisSerializer();
+	}
+
+	@SpringSessionRedisConnectionFactory
+	@Bean
+	public RedisConnectionFactory springSessionRedisConnectionFactory(
+			@Qualifier(REDIS_CONNECTION_FACTORY_NAME) RedisConnectionFactory redisConnectionFactory) {
+		return redisConnectionFactory;
 	}
 }

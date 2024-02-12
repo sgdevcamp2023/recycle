@@ -5,10 +5,10 @@ import com.zzaug.member.domain.model.log.LoginLog;
 import com.zzaug.member.domain.support.entity.LoginLogConverter;
 import com.zzaug.member.entity.log.LoginLogEntity;
 import com.zzaug.member.entity.log.LoginStatus;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -18,7 +18,7 @@ public class LoginLogCommandImpl implements LoginLogCommand {
 	private final LoginLogDao loginLogDao;
 
 	@Override
-	@Transactional
+	@UseCaseTransactional
 	public void saveLoginLog(Long memberId, String userAgent) {
 		loginLogDao.saveLoginLog(
 				LoginLogEntity.builder()

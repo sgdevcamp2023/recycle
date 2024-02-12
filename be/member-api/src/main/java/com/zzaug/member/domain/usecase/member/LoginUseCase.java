@@ -17,6 +17,7 @@ import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
 import com.zzaug.member.entity.member.ExternalContactEntity;
 import com.zzaug.member.entity.member.PasswordData;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
@@ -27,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -45,7 +45,7 @@ public class LoginUseCase {
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@Transactional
+	@UseCaseTransactional
 	public MemberAuthToken execute(LoginUseCaseRequest request) {
 		final CertificationData certification =
 				CertificationData.builder().certification(request.getCertification()).build();

@@ -13,12 +13,12 @@ import com.zzaug.member.domain.support.entity.MemberContactExtractor;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
 import com.zzaug.member.entity.member.ExternalContactEntity;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -28,7 +28,7 @@ public class SearchMemberUseCase {
 	private final AuthenticationDao authenticationDao;
 	private final ExternalContactDao externalContactDao;
 
-	@Transactional(readOnly = true)
+	@UseCaseTransactional(readOnly = true)
 	public SearchMemberUseCaseResponse execute(SearchMemberUseCaseRequest request) {
 		final CertificationData certification =
 				CertificationData.builder().certification(request.getCertification()).build();

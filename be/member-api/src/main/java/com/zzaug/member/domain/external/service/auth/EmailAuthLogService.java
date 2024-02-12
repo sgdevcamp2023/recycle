@@ -3,10 +3,10 @@ package com.zzaug.member.domain.external.service.auth;
 import com.zzaug.member.domain.model.auth.EmailAuthResult;
 import com.zzaug.member.domain.model.auth.TryCountElement;
 import com.zzaug.member.entity.log.EmailAuthLogEntity;
+import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -15,7 +15,7 @@ public class EmailAuthLogService {
 
 	private final EmailAuthLogCommand emailAuthLogCommand;
 
-	@Transactional
+	@UseCaseTransactional
 	public EmailAuthLogEntity saveLog(
 			TryCountElement tryCount, Long memberId, Long emailAuthId, String reason) {
 		if (tryCount.isNew()) {

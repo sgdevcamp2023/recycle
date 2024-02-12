@@ -13,10 +13,6 @@ spring:
     host: localhost
     port: 16379
     password:
-  session:
-    store-type: redis
-    redis:
-      namespace: zzuag:session
 
 logging:
   level:
