@@ -32,7 +32,22 @@ public class EmailAuthDaoImpl implements EmailAuthDao {
 	}
 
 	@Override
+	public Optional<EmailAuthSession> findBySessionId(String sessionId) {
+		return emailAuthSessionRepository.findBySessionId(sessionId);
+	}
+
+	@Override
 	public EmailAuthSession saveEmailAuthSession(EmailAuthSession emailAuthSession) {
 		return emailAuthSessionRepository.save(emailAuthSession);
+	}
+
+	@Override
+	public void deleteBySessionId(String sessionId) {
+		Optional<EmailAuthSession> emailAuthSessionSource =
+				emailAuthSessionRepository.findBySessionId(sessionId);
+		if (emailAuthSessionSource.isEmpty()) {
+			throw new IllegalArgumentException("request email auth session is not found");
+		}
+		emailAuthSessionRepository.delete(emailAuthSessionSource.get());
 	}
 }

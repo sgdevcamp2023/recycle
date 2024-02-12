@@ -75,4 +75,9 @@ public class UMockExternalContactDao implements ExternalContactDao, ApplicationC
 		}
 		return false;
 	}
+
+	@Override
+	public ExternalContactEntity saveContact(ExternalContactEntity externalContactEntity) {
+		return externalContactEntity;
+	}
 }

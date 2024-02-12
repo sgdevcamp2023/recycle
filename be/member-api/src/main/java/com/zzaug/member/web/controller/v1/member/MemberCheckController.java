@@ -7,6 +7,7 @@ import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
 import com.zzaug.member.domain.usecase.member.CheckDuplicationUseCase;
+import com.zzaug.member.domain.usecase.member.CheckEmailAuthUseCase;
 import com.zzaug.member.domain.usecase.member.EmailAuthUseCase;
 import com.zzaug.member.web.dto.member.CheckEmailAuthRequest;
 import com.zzaug.member.web.dto.validator.Certification;
@@ -16,6 +17,7 @@ import com.zzaug.web.support.ApiResponseGenerator;
 import com.zzaug.web.support.MessageCode;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -38,6 +40,7 @@ public class MemberCheckController {
 
 	private final CheckDuplicationUseCase checkDuplicationUseCase;
 	private final EmailAuthUseCase emailAuthUseCase;
+	private final CheckEmailAuthUseCase checkEmailAuthUseCase;
 
 	@GetMapping()
 	public ApiResponse<ApiResponse.SuccessBody<CheckDuplicationUseCaseResponse>> check(
@@ -75,18 +78,22 @@ public class MemberCheckController {
 	@PostMapping("/email")
 	public ApiResponse<ApiResponse.SuccessBody<CheckEmailAuthUseCaseResponse>> checkEmailAuth(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@RequestBody CheckEmailAuthRequest request) {
+			@Valid @RequestBody CheckEmailAuthRequest request,
+			HttpServletRequest httpServletRequest) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
+		HttpSession session = httpServletRequest.getSession();
 		CheckEmailAuthUseCaseRequest useCaseRequest =
 				CheckEmailAuthUseCaseRequest.builder()
 						.memberId(memberId)
 						.code(request.getCode())
+						.sessionId(session.getId())
 						.email(request.getEmail())
 						.nonce(request.getNonce())
 						.build();
 		CheckEmailAuthUseCaseResponse response =
-				CheckEmailAuthUseCaseResponse.builder().authentication(true).tryCount(3).build();
+				CheckEmailAuthUseCaseResponse.builder().authentication(true).tryCount(3L).build();
+		//		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }

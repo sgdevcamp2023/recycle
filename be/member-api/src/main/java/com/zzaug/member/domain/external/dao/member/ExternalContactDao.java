@@ -9,4 +9,6 @@ public interface ExternalContactDao {
 	boolean existsByContactTypeAndSourceAndDeletedFalse(ContactType type, String source);
 
 	List<ExternalContactEntity> findAllByMemberIdAndDeletedFalse(Long memberId);
+
+	ExternalContactEntity saveContact(ExternalContactEntity externalContactEntity);
 }

@@ -11,5 +11,9 @@ public interface EmailAuthDao {
 
 	EmailAuthEntity saveEmailAuth(EmailAuthEntity emailAuthEntity);
 
+	Optional<EmailAuthSession> findBySessionId(String sessionId);
+
 	EmailAuthSession saveEmailAuthSession(EmailAuthSession emailAuthSession);
+
+	void deleteBySessionId(String sessionId);
 }
