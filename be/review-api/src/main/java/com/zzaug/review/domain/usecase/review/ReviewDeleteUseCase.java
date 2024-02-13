@@ -4,11 +4,9 @@ import com.zzaug.review.domain.dto.review.ReviewDeleteUseCaseRequest;
 import com.zzaug.review.domain.exception.AlreadyDeletedException;
 import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.event.review.DeleteReviewEvent;
-import com.zzaug.review.domain.event.review.ReviewCntEvent;
 import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.domain.persistence.review.ReviewRepository;
 import com.zzaug.review.domain.usecase.review.event.converter.DeleteReviewEventConverter;
-import com.zzaug.review.domain.usecase.review.event.converter.ReviewCntEventConverter;
 import com.zzaug.review.entity.question.QuestionEntity;
 import com.zzaug.review.entity.review.ReviewEntity;
 import java.util.NoSuchElementException;
@@ -49,7 +47,6 @@ public class ReviewDeleteUseCase {
 
 		publishEvent(DeleteReviewEventConverter.from(review));
 
-		publishEvent(ReviewCntEventConverter.from(resultDec));
 	}
 
 	private QuestionEntity decReviewCount(Long questionId) {
@@ -65,7 +62,4 @@ public class ReviewDeleteUseCase {
 		publisher.publishEvent(event);
 	}
 
-	private void publishEvent(ReviewCntEvent event) {
-		publisher.publishEvent(event);
-	}
 }
