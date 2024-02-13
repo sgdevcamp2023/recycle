@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class QuestionReqViewUseCase {
+public class QuestionRequestViewUseCase {
 	private final QuestionRequestRepository questionRequestRepository;
 	private final QuestionRepository questionRepository;
 
