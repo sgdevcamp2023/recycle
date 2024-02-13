@@ -16,4 +16,6 @@ import lombok.ToString;
 public class DeleteMemberUseCaseRequest {
 
 	private Long memberId;
+	private String accessToken;
+	private String refreshToken;
 }

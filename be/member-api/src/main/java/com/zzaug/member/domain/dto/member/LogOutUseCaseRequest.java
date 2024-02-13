@@ -16,4 +16,6 @@ import lombok.ToString;
 public class LogOutUseCaseRequest {
 
 	private Long memberId;
+	private String accessToken;
+	private String refreshToken;
 }

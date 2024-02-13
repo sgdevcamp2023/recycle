@@ -1,8 +1,34 @@
+def imageName = project.hasProperty('imageName') ? imageName : "belljun3395/zzuag-member"
+def releaseVersion = project.hasProperty('releaseVersion') ? releaseVersion : null
+
 apply from: '../dependencies/web-dependencies.gradle'
 apply from: '../dependencies/database-dependencies.gradle'
 apply from: '../tasks/docs-task.gradle'
 
 dependencies {
     implementation project(':flyway')
-    implementation project(':security')
+    implementation project(':web')
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.session:spring-session-data-redis'
+
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+task buildDockerImage {
+    dependsOn bootJar
+
+    doLast {
+        exec {
+            workingDir '.'
+            commandLine 'docker','run','--privileged','--rm','tonistiigi/binfmt','--install','all'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx','create','--use'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${imageName}", '--build-arg', "RELEASE_VERSION=${releaseVersion}", '.', '--push'
+        }
+    }
 }

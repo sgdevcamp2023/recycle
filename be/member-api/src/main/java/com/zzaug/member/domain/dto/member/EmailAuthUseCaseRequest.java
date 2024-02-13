@@ -16,6 +16,7 @@ import lombok.ToString;
 public class EmailAuthUseCaseRequest {
 
 	private Long memberId;
+	private String sessionId;
 	private String email;
 	private String nonce;
 }

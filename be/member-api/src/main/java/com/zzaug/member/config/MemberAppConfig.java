@@ -1,14 +1,14 @@
 package com.zzaug.member.config;
 
 import com.zzaug.flyway.FlywayConfig;
-import com.zzaug.security.config.SecurityConfig;
+import com.zzaug.web.config.WebModuleConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = MemberAppConfig.BASE_PACKAGE)
-@Import(value = {FlywayConfig.class, SecurityConfig.class})
+@Import(value = {FlywayConfig.class, WebModuleConfig.class})
 public class MemberAppConfig {
 
 	public static final String BASE_PACKAGE = "com.zzaug.member";
