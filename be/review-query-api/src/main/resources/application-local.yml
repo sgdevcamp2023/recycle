@@ -8,7 +8,7 @@ spring:
       - mysql-local
       - security-local
       - elasticsearch-local
-
+      - rabbit-local
 logging:
   level:
     root: DEBUG
