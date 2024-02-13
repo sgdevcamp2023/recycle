@@ -2,6 +2,7 @@ package com.zzaug.review.entity.question.query;
 
 import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
@@ -38,4 +39,8 @@ public class QuestionQueryEntity {
 			format = DateFormat.custom,
 			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime updatedAt;
+
+	@ColumnDefault("false")
+	private boolean isDeleted;
+
 }
