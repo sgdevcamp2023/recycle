@@ -17,4 +17,8 @@ public class MemberAuthToken {
 
 	private String accessToken;
 	private String refreshToken;
+
+	public AccessTokenResponse toResponse() {
+		return new AccessTokenResponse(this.accessToken);
+	}
 }

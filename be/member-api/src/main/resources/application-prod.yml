@@ -8,3 +8,8 @@ spring:
       - mysql-prod
       - flyway-member
       - security-prod
+      - cookie-prod
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
