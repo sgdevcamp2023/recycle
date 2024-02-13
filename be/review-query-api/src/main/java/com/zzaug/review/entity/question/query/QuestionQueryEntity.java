@@ -43,4 +43,11 @@ public class QuestionQueryEntity {
 	@ColumnDefault("false")
 	private boolean isDeleted;
 
+	public void incReviewCnt() {
+		this.reviewCnt++;
+	}
+
+	public void decReviewCnt() {
+		this.reviewCnt--;
+	}
 }
