@@ -4,6 +4,7 @@ import com.zzaug.review.domain.dto.review.ReviewDeleteUseCaseRequest;
 import com.zzaug.review.domain.exception.AlreadyDeletedException;
 import com.zzaug.review.domain.exception.UnAuthorizationException;
 import com.zzaug.review.domain.event.review.DeleteReviewEvent;
+import com.zzaug.review.domain.persistence.member.ReviewerListRepository;
 import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.domain.persistence.review.ReviewRepository;
 import com.zzaug.review.domain.usecase.review.event.converter.DeleteReviewEventConverter;
@@ -23,6 +24,7 @@ public class ReviewDeleteUseCase {
 	private final ReviewRepository reviewRepository;
 	private final QuestionRepository questionRepository;
 	private final ApplicationEventPublisher publisher;
+	private final ReviewerListRepository reviewerListRepository;
 
 	@Transactional
 	public void execute(ReviewDeleteUseCaseRequest request) {
@@ -43,8 +45,13 @@ public class ReviewDeleteUseCase {
 
 		QuestionEntity resultDec = decReviewCount(request.getQuestionId());
 
-		// 리뷰 삭제 이벤트 발행 ( effect : 리뷰 삭제 및 리뷰 카운트 감소 )
+		// 리뷰 목록에 해당 사용자의 다른 리뷰가 있는지 확인
+		if (!reviewRepository.existsByAuthorIdAndQuestionIdAndIsDeletedFalse(request.getAuthorId(), request.getQuestionId())) {
+			// 리뷰 목록에 사용자의 다른 리뷰가 없으면 리뷰어 목록에서 삭제
+			reviewerListRepository.deleteByReviewerIdAndQuestionId(request.getAuthorId(), request.getQuestionId());
+		}
 
+		// 리뷰 삭제 이벤트 발행 ( effect : 리뷰 삭제 및 리뷰 카운트 감소 )
 		publishEvent(DeleteReviewEventConverter.from(review));
 
 	}
