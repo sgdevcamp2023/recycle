@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 public class UMockEnrollTokenCacheService implements EnrollTokenCacheService {
 
 	@Override
-	public void execute(String token) {
+	public void execute(String token, Long ttl) {
 		// Do nothing
 	}
 
