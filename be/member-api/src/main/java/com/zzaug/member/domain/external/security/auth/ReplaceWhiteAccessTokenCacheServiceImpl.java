@@ -22,13 +22,12 @@ public class ReplaceWhiteAccessTokenCacheServiceImpl implements ReplaceTokenCach
 
 	@Override
 	@SecurityTransactional
-	public void execute(String oldToken, String newToken) {
+	public void execute(String oldToken, String newToken, Long memberId) {
 		log.debug("Evict old token.\ntoken: {}", oldToken);
 		evictTokenCacheService.execute(oldToken);
 		log.debug("Enroll old token to black list.\ntoken: {}", oldToken);
-		// todo fix
-		enrollBlackTokenCacheService.execute(oldToken, 1000 * 60L);
+		enrollBlackTokenCacheService.execute(oldToken, 1000 * 60L, memberId);
 		log.debug("Enroll new token.\ntoken: {}", newToken);
-		enrollTokenCacheService.execute(newToken, accessTokenValidTime);
+		enrollTokenCacheService.execute(newToken, accessTokenValidTime, memberId);
 	}
 }

@@ -175,7 +175,8 @@ public class CheckEmailAuthUseCase {
 						memberContacts.getGithub());
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
-		replaceWhiteAccessTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		publishEvent(memberId, memberAuthentication, email);
 
