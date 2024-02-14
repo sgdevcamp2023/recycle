@@ -1,6 +1,6 @@
-package com.zzaug.security.persistence.transaction;
+package com.zzaug.member.persistence.support.transaction;
 
-import com.zzaug.security.config.SecurityJpaDataSourceConfig;
+import com.zzaug.member.config.MemberJpaDataSourceConfig;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -17,13 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Inherited
 @Documented
 @Transactional
-public @interface SecurityTransactional {
+public @interface MemberSecurityChainedTransactional {
 
 	@AliasFor(annotation = Transactional.class, attribute = "value")
-	String value() default SecurityJpaDataSourceConfig.TRANSACTION_MANAGER_NAME;
+	String value() default MemberJpaDataSourceConfig.MEMBER_SECURITY_TRANSACTION_MANAGER_NAME;
 
 	@AliasFor(annotation = Transactional.class, attribute = "transactionManager")
-	String transactionManager() default SecurityJpaDataSourceConfig.TRANSACTION_MANAGER_NAME;
+	String transactionManager() default
+			MemberJpaDataSourceConfig.MEMBER_SECURITY_TRANSACTION_MANAGER_NAME;
 
 	@AliasFor(annotation = Transactional.class, attribute = "readOnly")
 	boolean readOnly() default false;

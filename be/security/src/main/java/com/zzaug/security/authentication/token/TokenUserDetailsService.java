@@ -90,14 +90,14 @@ public class TokenUserDetailsService implements UserDetailsService {
 		log.debug("Check token on BlackList. \ntoken: {}", token);
 		boolean isOnCache = blackAuthTokenHashRepository.existsByToken(token);
 		if (isOnCache) {
-			log.warn("Token is onn BlackList \n{}", token);
+			log.warn("Token is on BlackList \n{}", token);
 			throw new AccessTokenInvalidException("Invalid access token. accessToken: " + token);
 		}
 		boolean isOnDB =
 				blackTokenAuthRepository.existsByTokenAndDeletedFalse(
 						TokenData.builder().token(token).build());
 		if (isOnDB) {
-			log.warn("Token is onn BlackList \n{}", token);
+			log.warn("Token is on BlackList \n{}", token);
 			blackAuthTokenHashRepository.save(BlackAuthTokenHash.builder().token(token).build());
 			throw new AccessTokenInvalidException("Invalid access token. accessToken: " + token);
 		}

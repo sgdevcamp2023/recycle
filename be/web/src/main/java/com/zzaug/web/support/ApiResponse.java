@@ -1,5 +1,10 @@
 package com.zzaug.web.support;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -22,6 +27,10 @@ public class ApiResponse<B> extends ResponseEntity<B> {
 
 		private String code;
 		private String message;
+
+		@JsonSerialize(using = LocalDateTimeSerializer.class)
+		@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime timestamp;
 
 		public FailureBody(String code, String message) {
@@ -41,6 +50,10 @@ public class ApiResponse<B> extends ResponseEntity<B> {
 		private D data;
 		private String message;
 		private String code;
+
+		@JsonSerialize(using = LocalDateTimeSerializer.class)
+		@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime timestamp;
 
 		public SuccessBody(D data, String message, String code) {
@@ -55,6 +68,10 @@ public class ApiResponse<B> extends ResponseEntity<B> {
 	public static class Success implements Serializable {
 		private String message;
 		private String code;
+
+		@JsonSerialize(using = LocalDateTimeSerializer.class)
+		@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime timestamp;
 
 		public Success(String message, String code) {
