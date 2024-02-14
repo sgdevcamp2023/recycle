@@ -2,8 +2,8 @@ package com.zzaug.review.domain.usecase.question.query;
 
 import com.zzaug.review.domain.dto.question.query.QuestionQueryCreateUseCaseRequest;
 import com.zzaug.review.domain.dto.question.query.QuestionQueryEditUseCaseRequest;
-import com.zzaug.review.domain.event.DeleteQuestionEvent;
-import com.zzaug.review.domain.event.SaveQuestionEvent;
+import com.zzaug.review.domain.event.question.DeleteQuestionEvent;
+import com.zzaug.review.domain.event.question.SaveQuestionEvent;
 import com.zzaug.review.domain.model.question.query.QuestionQuery;
 import com.zzaug.review.entity.question.query.QuestionQueryEntity;
 import org.springframework.stereotype.Component;
@@ -30,19 +30,19 @@ public class QuestionQueryConverter {
 				.authorId(source.getAuthorId())
 				.reviewCnt(source.getReviewCnt())
 				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
 				.build();
 	}
 
-	public QuestionQuery from(DeleteQuestionEvent source) {
+	public QuestionQuery from(DeleteQuestionEvent source, QuestionQueryEntity questionQueryEntity) {
 		return QuestionQuery.builder()
 				.questionId(source.getQuestionId())
-				.content(source.getContent())
+				.content(questionQueryEntity.getContent())
 				.author(source.getAuthor())
 				.authorId(source.getAuthorId())
-				.reviewCnt(source.getReviewCnt())
-				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
+				.reviewCnt(questionQueryEntity.getReviewCnt())
+				.createdAt(questionQueryEntity.getCreatedAt())
+				.deletedAt(source.getDeletedAt())
+				.isDeleted(true)
 				.build();
 	}
 
@@ -55,7 +55,6 @@ public class QuestionQueryConverter {
 				.authorId(questionQueryEntity.getAuthorId())
 				.reviewCnt(questionQueryEntity.getReviewCnt())
 				.createdAt(questionQueryEntity.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
 				.build();
 	}
 }
