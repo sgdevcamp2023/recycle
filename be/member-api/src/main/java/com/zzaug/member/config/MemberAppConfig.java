@@ -14,6 +14,6 @@ public class MemberAppConfig {
 	public static final String BASE_PACKAGE = "com.zzaug.member";
 	public static final String SERVICE_NAME = "recycle";
 	public static final String MODULE_NAME = "member";
-	public static final String BEAN_NAME_PREFIX = "Member";
+	public static final String BEAN_NAME_PREFIX = "member";
 	public static final String PROPERTY_PREFIX = SERVICE_NAME + "." + MODULE_NAME;
 }
