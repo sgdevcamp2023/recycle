@@ -14,7 +14,8 @@ public class QuestionQueryEntityConverter {
 				.authorId(source.getAuthorId())
 				.reviewCnt(source.getReviewCnt())
 				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
+				.deletedAt(source.getDeletedAt())
+				.isDeleted(source.isDeleted())
 				.build();
 	}
 }
