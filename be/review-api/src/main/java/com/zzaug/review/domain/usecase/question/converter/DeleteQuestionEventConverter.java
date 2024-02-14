@@ -4,18 +4,17 @@ import com.zzaug.review.domain.event.question.DeleteQuestionEvent;
 import com.zzaug.review.entity.question.QuestionEntity;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+
 @Component
 public class DeleteQuestionEventConverter {
 	public static DeleteQuestionEvent from(QuestionEntity source) {
 		return DeleteQuestionEvent.builder()
 				.questionId(source.getQuestionId())
-				.content(source.getContent())
 				.author(source.getAuthor())
 				.authorId(source.getAuthorId())
-				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
-				.reviewCnt(source.getReviewCnt())
-				.isDeleted(true)
+				.deletedAt(source.getDeletedAt())
+				.eventAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
 }
