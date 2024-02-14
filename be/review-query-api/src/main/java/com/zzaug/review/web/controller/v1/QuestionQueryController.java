@@ -29,7 +29,6 @@ public class QuestionQueryController {
 						.author_id(1L)
 						.review_cnt(1)
 						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
 	}
@@ -51,7 +50,6 @@ public class QuestionQueryController {
 						.author_id(1L)
 						.review_cnt(1)
 						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		responses.add(res);
 		return ApiResponseGenerator.success(responses, HttpStatus.OK, MessageCode.SUCCESS);
