@@ -13,7 +13,6 @@ public class QuestionReqResponseConverter {
 				.author(source.getAuthor())
 				.authorId(source.getAuthorId())
 				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
 				.reviewCnt(source.getReviewCnt())
 				.build();
 	}
