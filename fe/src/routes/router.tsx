@@ -20,8 +20,8 @@ const Router = () => {
         '/Review',
         '/Setting',
         '/Request',
-        '/newQuestion',
-        '/newReview',
+        '/CreateQuestion',
+        '/CreateReview',
         '/*',
       ].map((path) => (
         <Route key={path} element={<GridTemplate />}>
