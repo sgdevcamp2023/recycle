@@ -1,5 +1,6 @@
 package com.zzaug.review.entity.question;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
@@ -32,13 +33,14 @@ public class QuestionEntity {
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 
 	@ColumnDefault("false")
 	private boolean isDeleted;
 
 	public void deleteQuestion() {
+		this.deletedAt = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
 		this.isDeleted = true;
 	}
 }
