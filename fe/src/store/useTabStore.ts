@@ -1,7 +1,14 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-export type TabType = 'Question' | 'Review' | 'Request' | 'Setting' | null;
+export type TabType =
+  | 'Question'
+  | 'Review'
+  | 'Request'
+  | 'Setting'
+  | 'CreateQuestion'
+  | 'CreateReview'
+  | null;
 export type QuestionTabType = 'myQuestion' | 'questionDrafts' | null; //내 질문 - 임시보관 - 빈 선택지
 export type ReviewTabType = 'myReview' | 'reviewDrafts' | null; //내 리뷰 - 임시보관 - 빈 선택지
 export type DefaultTabType =

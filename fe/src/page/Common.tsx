@@ -24,9 +24,10 @@ const Common = () => {
   const [selectedContent, setSelectedContent] = useState<React.ReactNode | null>('');
   const { tabType, setTabType } = useTabStore();
   useEffect(() => {
-    if (pathname.startsWith('/newQuestion')) {
-      setSelectedContent(Content.createQuestion);
+    if (pathname.startsWith('/createQuestion')) {
+      setSelectedContent(Content.CreateQuestion);
     } else if (tabType != null) {
+      console.log(tabType);
       setSelectedContent(Content[pathname.replace('/', '')]);
       const tabTypeFromPath = pathname.replace('/', '') as TabType;
       setTabType(tabTypeFromPath);

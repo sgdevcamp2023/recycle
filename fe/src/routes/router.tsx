@@ -7,7 +7,6 @@ import GridTemplate from '@components/layout/GridTemplate';
 import Main from '@page/Main';
 import RegisterEmail from '@page/RegisterEmail';
 import AccountLinking from '@page/AccountLinking';
-import MarkdownEditor from '@page/MarkdownEditor';
 import LineComment from '@page/LineComment';
 
 const Router = () => {
@@ -20,8 +19,8 @@ const Router = () => {
         '/Review',
         '/Setting',
         '/Request',
-        '/newQuestion',
-        '/newReview',
+        '/CreateQuestion',
+        '/CreateReview',
         '/*',
       ].map((path) => (
         <Route key={path} element={<GridTemplate />}>
@@ -39,7 +38,6 @@ const Router = () => {
       {/* 나중에 Common 안에 넣어주기 */}
       <Route path="/registeremail" element={<RegisterEmail />} />
       <Route path="/accountlinking" element={<AccountLinking />} />
-      <Route path="/MarkdownEditor" element={<MarkdownEditor />} />
       <Route path="/linecomment" element={<LineComment />} />
     </Routes>
   );
