@@ -7,8 +7,8 @@ import GridTemplate from '@components/layout/GridTemplate';
 import Main from '@page/Main';
 import RegisterEmail from '@page/RegisterEmail';
 import AccountLinking from '@page/AccountLinking';
-import MarkdownEditor from '@page/MarkdownEditor';
 import LineComment from '@page/LineComment';
+import TestPageThree from '@page/TestPageThree';
 
 const Router = () => {
   return (
@@ -39,8 +39,8 @@ const Router = () => {
       {/* 나중에 Common 안에 넣어주기 */}
       <Route path="/registeremail" element={<RegisterEmail />} />
       <Route path="/accountlinking" element={<AccountLinking />} />
-      <Route path="/MarkdownEditor" element={<MarkdownEditor />} />
       <Route path="/linecomment" element={<LineComment />} />
+      <Route path="/test" element={<TestPageThree />} />
     </Routes>
   );
 };
