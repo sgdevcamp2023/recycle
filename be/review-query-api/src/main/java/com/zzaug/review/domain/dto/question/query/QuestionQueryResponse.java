@@ -15,5 +15,4 @@ public class QuestionQueryResponse {
 	private Long author_id;
 	private int review_cnt;
 	private Timestamp created_at;
-	private Timestamp updated_at;
 }
