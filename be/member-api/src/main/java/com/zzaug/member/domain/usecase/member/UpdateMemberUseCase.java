@@ -20,7 +20,7 @@ import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
-import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
+import com.zzaug.member.persistence.support.transaction.MemberSecurityChainedTransactional;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
@@ -52,7 +52,7 @@ public class UpdateMemberUseCase {
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@UseCaseTransactional
+	@MemberSecurityChainedTransactional
 	public UpdateMemberUseCaseResponse execute(UpdateMemberUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 		final CertificationData certification =
