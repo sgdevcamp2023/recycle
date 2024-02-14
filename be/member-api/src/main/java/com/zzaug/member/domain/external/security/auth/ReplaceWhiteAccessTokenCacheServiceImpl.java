@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Profile("!usecase-test")
 @Service
 @RequiredArgsConstructor
-public class ReplaceWhiteTokenCacheServiceImpl implements ReplaceTokenCacheService {
+public class ReplaceWhiteAccessTokenCacheServiceImpl implements ReplaceTokenCacheService {
 
 	private final EvictWhiteTokenCacheServiceImpl evictTokenCacheService;
-	private final EnrollWhiteTokenCacheServiceImpl enrollTokenCacheService;
+	private final EnrollWhiteAccessTokenCacheServiceImpl enrollTokenCacheService;
 	private final EnrollBlackTokenCacheServiceImpl enrollBlackTokenCacheService;
 
 	@Override
