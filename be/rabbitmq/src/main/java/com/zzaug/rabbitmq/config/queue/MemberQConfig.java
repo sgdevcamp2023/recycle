@@ -20,8 +20,13 @@ public class MemberQConfig {
 	private static final String WILD_CARD = ".#";
 
 	@Bean
-	Queue memberQueue() {
-		return QueueBuilder.durable(ZRMQProperties.MEMBER_QUEUE_NAME)
+	TopicExchange memberTopic() {
+		return new TopicExchange(ZRMQProperties.MEMBER_TOPIC_NAME);
+	}
+
+	@Bean
+	Queue memberUpdatedQueue() {
+		return QueueBuilder.durable(ZRMQProperties.MEMBER_UPDATE_QUEUE_NAME)
 				.withArgument(X_DEAD_LETTER_EXCHANGE_KEY, ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME)
 				.withArgument(X_DEAD_LETTER_ROUTING_KEY, ZRMQProperties.DEAD_LETTER_KEY_NAME + ".member")
 				.withArgument(X_MESSAGE_TTL_KEY, X_MESSAGE_TTL)
@@ -29,14 +34,25 @@ public class MemberQConfig {
 	}
 
 	@Bean
-	TopicExchange memberTopic() {
-		return new TopicExchange(ZRMQProperties.MEMBER_TOPIC_NAME);
+	Binding memberUpdatedQBinding() {
+		return BindingBuilder.bind(memberUpdatedQueue())
+				.to(memberTopic())
+				.with(ZRMQProperties.MEMBER_UPDATED_KEY_NAME + WILD_CARD);
 	}
 
 	@Bean
-	Binding memberQBinding() {
-		return BindingBuilder.bind(memberQueue())
+	Queue memberStatusQueue() {
+		return QueueBuilder.durable(ZRMQProperties.MEMBER_STATUS_QUEUE_NAME)
+				.withArgument(X_DEAD_LETTER_EXCHANGE_KEY, ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME)
+				.withArgument(X_DEAD_LETTER_ROUTING_KEY, ZRMQProperties.DEAD_LETTER_KEY_NAME + ".member")
+				.withArgument(X_MESSAGE_TTL_KEY, X_MESSAGE_TTL)
+				.build();
+	}
+
+	@Bean
+	Binding memberStatusQBinding() {
+		return BindingBuilder.bind(memberStatusQueue())
 				.to(memberTopic())
-				.with(ZRMQProperties.MEMBER_KEY_NAME + WILD_CARD);
+				.with(ZRMQProperties.MEMBER_STATUS_KEY_NAME + WILD_CARD);
 	}
 }
