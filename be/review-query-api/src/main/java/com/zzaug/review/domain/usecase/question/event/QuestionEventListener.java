@@ -1,7 +1,7 @@
 package com.zzaug.review.domain.usecase.question.event;
 
-import com.zzaug.review.domain.event.DeleteQuestionEvent;
-import com.zzaug.review.domain.event.SaveQuestionEvent;
+import com.zzaug.review.domain.event.question.DeleteQuestionEvent;
+import com.zzaug.review.domain.event.question.SaveQuestionEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
