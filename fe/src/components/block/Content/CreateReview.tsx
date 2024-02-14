@@ -1,14 +1,48 @@
 import Text from '@components/atom/Text';
 import useQuestionStore from '@store/useQuestionStore';
 import MDEditor from '@uiw/react-md-editor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import ReviewWriteModal from '../modal/ReviewWriteModal';
 
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
   const [show, setShow] = useState(
     "## 대충 코드임\n안녕하세요\n\n저는 이규민입니다\n\n- 이건 코드입니다\n```js\nconst a = '규민'\nconsole.log(a)\n```\n\n- 이건 두번째 코드입니다\n```js\nconst b = '재진'\nconsole.log(b)\n```\n\n모든 코드를 전부 작성하였습니다",
   );
+  const [showCodeComment, setShowCodeComment] = useState(false);
+
+  const handleClickOnCodeBlock = (e) => {
+    console.log(e.target.textContent);
+    setShowCodeComment(true);
+  };
+
+  useEffect(() => {
+    const codeBlocks = document.querySelectorAll('code');
+
+    codeBlocks.forEach((codeBlock) => {
+      codeBlock.addEventListener('click', handleClickOnCodeBlock);
+      codeBlock.addEventListener('mouseenter', () => {
+        codeBlock.style.border = '1px solid red';
+      });
+      codeBlock.addEventListener('mouseleave', () => {
+        codeBlock.style.border = 'none';
+      });
+      codeBlock.style.cursor = 'pointer';
+    });
+
+    return () => {
+      codeBlocks.forEach((codeBlock) => {
+        codeBlock.removeEventListener('click', handleClickOnCodeBlock);
+        codeBlock.removeEventListener('mouseenter', () => {
+          codeBlock.style.border = '1px solid red';
+        });
+        codeBlock.removeEventListener('mouseleave', () => {
+          codeBlock.style.border = 'none';
+        });
+      });
+    };
+  }, [show]); // 추후 content로 변경 필요
 
   return (
     <>
@@ -17,6 +51,7 @@ const CreateReview = () => {
       </TitleWrapper>
       <MarkdownBox>
         <MDEditor.Markdown source={show} />
+        {showCodeComment && <ReviewWriteModal />}
       </MarkdownBox>
     </>
   );
