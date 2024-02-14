@@ -9,6 +9,7 @@ import RegisterEmail from '@page/RegisterEmail';
 import AccountLinking from '@page/AccountLinking';
 import LineComment from '@page/LineComment';
 import TestPageThree from '@page/TestPageThree';
+import CreateReview from '@components/block/Content/CreateReview';
 
 const Router = () => {
   return (
@@ -41,6 +42,7 @@ const Router = () => {
       <Route path="/accountlinking" element={<AccountLinking />} />
       <Route path="/linecomment" element={<LineComment />} />
       <Route path="/test" element={<TestPageThree />} />
+      <Route path="/test2" element={<CreateReview />} />
     </Routes>
   );
 };

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import MarkdownEditor from '@uiw/react-md-editor';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import Text from '@components/atom/Text';
+import useQuestionStore from '@store/useQuestionStore';
 
 const MarkdownBox = styled.div`
   box-sizing: border-box;
@@ -26,12 +27,13 @@ const ButtonBox = styled.div`
 `;
 
 const CreateQuestion = () => {
-  const [markdown, setMarkdown] = useState('');
+  // const [content, setContent] = useState('');
+  const { content, setContent } = useQuestionStore();
   const [title, setTitle] = useState('');
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
-      setMarkdown(value);
+      setContent(value);
     }
   };
 
@@ -40,8 +42,8 @@ const CreateQuestion = () => {
   useEffect(() => {}, [ref?.current?.value]);
 
   const handleSubmit = () => {
-    console.log(markdown);
     console.log(ref?.current?.value);
+    console.log(content);
   };
 
   return (
@@ -58,7 +60,7 @@ const CreateQuestion = () => {
         />
       </TitleWrapper>
       <MarkdownBox>
-        <MarkdownEditor height={'90%'} value={markdown} onChange={handleMarkdownChange} />
+        <MarkdownEditor height={'90%'} value={content} onChange={handleMarkdownChange} />
         <ButtonBox>
           <DefaultButton width={5.5} height={2.25} onClick={handleSubmit}>
             <Text fontSize="sm">게시하기</Text>
