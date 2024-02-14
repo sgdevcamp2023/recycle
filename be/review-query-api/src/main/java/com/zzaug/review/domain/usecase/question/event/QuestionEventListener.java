@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@RabbitListener(queues = "zzaug.review")
+@RabbitListener(containerFactory = "RabbitMQrabbitListenerContainerFactory", queues = "zzuag.review")
 public class QuestionEventListener {
     private final ApplicationEventPublisher publisher;
 
