@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class QuestionEventListener {
     private final ApplicationEventPublisher publisher;
 
-    @RabbitListener(queues = "")
+    @RabbitListener(containerFactory = "RabbitMQrabbitListenerContainerFactory", queues = "")
     private void receiveEvent(QuestionRequestEvent event) {
         log.debug("Event received: {}", event);
         publisher.publishEvent(event);
