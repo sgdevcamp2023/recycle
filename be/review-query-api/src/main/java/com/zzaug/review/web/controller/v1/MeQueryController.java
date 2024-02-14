@@ -57,7 +57,6 @@ public class MeQueryController {
 						.author_id(1L)
 						.review_cnt(1)
 						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		res.add(element);
 		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
@@ -93,7 +92,6 @@ public class MeQueryController {
 						.author_id(1L)
 						.review_cnt(1)
 						.created_at(new Timestamp(System.currentTimeMillis()))
-						.updated_at(new Timestamp(System.currentTimeMillis()))
 						.build();
 		res.add(element);
 		return ApiResponseGenerator.success(res, HttpStatus.OK, MessageCode.SUCCESS);
