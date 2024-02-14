@@ -1,6 +1,6 @@
-package com.zzaug.member.persistence.log;
+package com.zzaug.security.persistence.log;
 
-import com.zzaug.member.entity.log.InvalidTokenAccessEntity;
+import com.zzaug.security.entity.log.InvalidTokenAccessEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InvalidTokenAccessRepository

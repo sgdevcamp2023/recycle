@@ -1,6 +1,6 @@
-package com.zzaug.member.entity.log;
+package com.zzaug.security.entity.log;
 
-import com.zzaug.member.entity.BlackTokenAuthFKBaseEntity;
+import com.zzaug.security.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -21,7 +21,10 @@ import org.hibernate.annotations.SQLDelete;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "invalid_access_token_log")
 @SQLDelete(sql = "UPDATE invalid_access_token_log SET deleted=true where id=?")
-public class InvalidTokenAccessEntity extends BlackTokenAuthFKBaseEntity {
+public class InvalidTokenAccessEntity extends BaseEntity {
+
+	@Column(name = "token", nullable = false)
+	private String token;
 
 	@Column(name = "ip", nullable = false)
 	private String ip;
