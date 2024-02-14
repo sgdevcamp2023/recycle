@@ -17,10 +17,13 @@ import org.springframework.context.annotation.Import;
 @Import({ZRMQConnectionConfig.class})
 public class ZRMQListenerConfig {
 
+	public static final String RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME =
+			BEAN_NAME_PREFIX + "rabbitListenerContainerFactory";
+
 	private final ConnectionFactory connectionFactory;
 	private final MessageConverter messageConverter;
 
-	@Bean(name = BEAN_NAME_PREFIX + "rabbitListenerContainerFactory")
+	@Bean(name = RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME)
 	SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
 		final SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 		factory.setConnectionFactory(connectionFactory);
