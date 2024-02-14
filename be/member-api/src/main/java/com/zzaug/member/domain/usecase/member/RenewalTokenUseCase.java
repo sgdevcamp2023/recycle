@@ -42,7 +42,7 @@ public class RenewalTokenUseCase {
 	private final TokenResolver tokenResolver;
 	private final BlackTokenAuthCommand blackTokenAuthCommand;
 	private final EnrollTokenCacheService enrollBlackTokenCacheServiceImpl;
-	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteAccessTokenCacheServiceImpl;
 
 	@UseCaseTransactional
 	public MemberAuthToken execute(RenewalTokenUseCaseRequest request) {
@@ -74,9 +74,10 @@ public class RenewalTokenUseCase {
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
 		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
-		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
 
 		return MemberAuthToken.builder()
+				.memberId(memberSource.getId())
 				.accessToken(authToken.getAccessToken())
 				.refreshToken(authToken.getRefreshToken())
 				.build();
