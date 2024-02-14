@@ -14,6 +14,7 @@ import SignInModal from '@components/block/modal/SignInModal';
 import styled from 'styled-components';
 import RegisterEmail from './RegisterEmail';
 import SendEmailModal from '@components/block/modal/SendEmailModal';
+import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
 
 const CenterModalBox = styled.div`
   width: 100vw;
@@ -42,7 +43,8 @@ const TestPageThree = () => {
           fontSize="xs"
         /> */}
         {/* <RegisterEmail/> */}
-        <SendEmailModal />
+        {/* <SendEmailModal /> */}
+        <ReviewWriteModal />
       </CenterModalBox>
     </>
   );
