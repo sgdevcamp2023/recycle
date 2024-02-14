@@ -4,6 +4,8 @@ import com.zzaug.review.domain.event.question.SaveQuestionEvent;
 import com.zzaug.review.entity.question.QuestionEntity;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+
 @Component
 public class SaveQuestionEventConverter {
 	public static SaveQuestionEvent from(QuestionEntity source) {
@@ -13,8 +15,9 @@ public class SaveQuestionEventConverter {
 				.author(source.getAuthor())
 				.authorId(source.getAuthorId())
 				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
+				.deletedAt(source.getDeletedAt())
 				.reviewCnt(source.getReviewCnt())
+				.eventAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
 }
