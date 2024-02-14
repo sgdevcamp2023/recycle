@@ -38,7 +38,7 @@ public class QuestionQueryEntity {
 			type = FieldType.Date,
 			format = DateFormat.custom,
 			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
-	private LocalDateTime updatedAt;
+	private LocalDateTime deletedAt;
 
 	@ColumnDefault("false")
 	private boolean isDeleted;
