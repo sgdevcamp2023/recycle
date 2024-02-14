@@ -45,7 +45,7 @@ public class LoginUseCase {
 	private final ApplicationEventPublisher applicationEventPublisher;
 
 	// security
-	private final EnrollTokenCacheService enrollWhiteTokenCacheServiceImpl;
+	private final EnrollTokenCacheService enrollWhiteAccessTokenCacheServiceImpl;
 
 	@UseCaseTransactional
 	public MemberAuthToken execute(LoginUseCaseRequest request) {
@@ -82,11 +82,12 @@ public class LoginUseCase {
 		loginLogCommand.saveLoginLog(memberAuthentication.getMemberId(), userAgent);
 
 		// check duplication
-		enrollWhiteTokenCacheServiceImpl.execute(authToken.getAccessToken());
+		enrollWhiteAccessTokenCacheServiceImpl.execute(authToken.getAccessToken());
 
 		publishEvent(memberAuthentication);
 
 		return MemberAuthToken.builder()
+				.memberId(memberAuthentication.getMemberId())
 				.accessToken(authToken.getAccessToken())
 				.refreshToken(authToken.getRefreshToken())
 				.build();
