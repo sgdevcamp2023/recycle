@@ -87,7 +87,7 @@ public class LoginUseCase {
 
 		// check duplication
 		enrollWhiteAccessTokenCacheServiceImpl.execute(
-				authToken.getAccessToken(), accessTokenValidTime);
+				authToken.getAccessToken(), accessTokenValidTime, memberAuthentication.getMemberId());
 
 		publishEvent(memberAuthentication);
 
@@ -99,7 +99,6 @@ public class LoginUseCase {
 	}
 
 	private void publishEvent(MemberAuthentication memberAuthentication) {
-		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
 		log.debug("Publish login event. memberId: {}", memberAuthentication.getMemberId());
 		applicationEventPublisher.publishEvent(
 				LoginEvent.builder().memberId(memberAuthentication.getMemberId()).build());
