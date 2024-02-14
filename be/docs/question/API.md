@@ -2,29 +2,29 @@
 
 코드리뷰를 필요로 하는 질문 글의 작성, 임시저장, 조회, 목록 조회, 업데이트, 삭제기능을 제공합니다.
 
-| API 종류 | 메서드 | URI | 설명 | 바로가기                                              |
-| --- | --- | --- | --- |---------------------------------------------------|
-| Questions | POST | /api/v1/questions | 질문 글 생성 | [링크](#질문-글-생성)                                    |
-|  | POST | /api/v1/questions/temp | 질문 글 임시 저장 | [링크](#질문-글-임시-저장)                                 |
-|  | GET | /api/v1/questions/{question_id} | 질문 글 조회 | [링크](#질문-글-조회)                                    |
-|  | GET | /api/v1/me/questions | 멤버의 질문 글 목록 조회 | [링크](#멤버-기준-질문-글-목록-조회)                         |
-|  | GET | /api/v1/me/questions/temp?t_id={temp_question_id:nullable} | 멤버의 임시 질문 글 목록 조회, 멤버의 임시 질문 글 조회, | [링크](#멤버의-임시-질문-글-목록-조회-멤버의-임시-질문-글-조회)         |
-|  | GET | /api/v1/questions/search?me={boolean:false}&query={검색내용}&page={페이지수:nullable}&size={한 페이지에 담을수:nullable} | 멤버의 질문 글 목록에서 검색 | [링크](#멤버-기준-질문-글-목록에서-검색어를-포함한-내용을-가진-글-리스트-조회) |
-|  | DELETE | /api/v1/questions/{question_id} | 질문 글 삭제 | [링크](#질문-글-삭제)                                  |
-|  | GET | /api/v1/me/requests/reviews | 리뷰 요청 목록 조회 | [링크](#리뷰-요청-목록-조회)                              |
-|  | GET | /api/v1/me/questions/reviewers?question_id={question_id:nullable} | 질문 글에 리뷰 단 리뷰어 목록 | [링크](#질문-글에-리뷰-단-리뷰어-목록)                        |
+| API 종류 | 메서드 | URI                                                                                                           | 설명 | 바로가기                                              |
+| --- | --- |---------------------------------------------------------------------------------------------------------------| --- |---------------------------------------------------|
+| Questions | POST | /api/v1/questions                                                                                             | 질문 글 생성 | [링크](#질문-글-생성)                                    |
+|  | POST | /api/v1/questions/temp                                                                                        | 질문 글 임시 저장 | [링크](#질문-글-임시-저장)                                 |
+|  | GET | /api/v1/question-query/{questionId}                                                                           | 질문 글 조회 | [링크](#질문-글-조회)                                    |
+|  | GET | /api/v1/me-query/questions                                                                                    | 멤버의 질문 글 목록 조회 | [링크](#멤버-기준-질문-글-목록-조회)                         |
+|  | GET | /api/v1/questions/temp?tempId={tempId:nullable}                                                               | 멤버의 임시 질문 글 목록 조회, 멤버의 임시 질문 글 조회, | [링크](#멤버의-임시-질문-글-목록-조회-멤버의-임시-질문-글-조회)         |
+|  | GET | /api/v1/question-query/search?me={boolean:false}&query={검색내용}&page={페이지수:nullable}&size={한 페이지에 담을수:nullable} | 멤버의 질문 글 목록에서 검색 | [링크](#멤버-기준-질문-글-목록에서-검색어를-포함한-내용을-가진-글-리스트-조회) |
+|  | DELETE | /api/v1/questions/{questionId}                                                                                | 질문 글 삭제 | [링크](#질문-글-삭제)                                  |
+|  | GET | /api/v1/me/requests/reviews                                                                                   | 리뷰 요청 목록 조회 | [링크](#리뷰-요청-목록-조회)                              |
+|  | GET | /api/v1/me/question-query/reviewers                                                                           | 질문 글에 리뷰 단 리뷰어 목록 | [링크](#질문-글에-리뷰-단-리뷰어-목록)                        |
 
 ### Question 도메인
 
-| 필드 | 타입 | 제약 조건 | 설명             |
-| --- | --- | --- |----------------|
-| question_id | Long | NOT NULL, PK | 질문 글 고유 번호     |
-| content | String | NOT NULL | 질문 글 본문        |
-| author | String | NOT NULL | 질문 글 작성자       |
-| author_id | Long | NOT NULL | 질문 글 작성자의 id   |
-| review_cnt | Int | NOT NULL | 질문 글에 달린 리뷰 갯수 |
-| created_at | Timestamp | NOT NULL | 질문 글 작성일자      |
-| updated_at | Timestamp |  | 질문 글 수정일자      |
+| 필드         | 타입 | 제약 조건 | 설명             |
+|------------| --- | --- |----------------|
+| questionId | Long | NOT NULL, PK | 질문 글 고유 번호     |
+| content    | String | NOT NULL | 질문 글 본문        |
+| author     | String | NOT NULL | 질문 글 작성자       |
+| authorId   | Long | NOT NULL | 질문 글 작성자의 id   |
+| reviewCnt  | Int | NOT NULL | 질문 글에 달린 리뷰 갯수 |
+| createdAt  | Timestamp | NOT NULL | 질문 글 작성일자      |
+| updatedAt  | Timestamp |  | 질문 글 수정일자      |
 
 ### Exception
 
@@ -102,9 +102,9 @@ Error code
 
 **Request Elements**
 
-| 파라미터 | 타입 | 제약 조건 | 설명 |
-| --- | --- | --- | --- |
-| t_id | String | NOT NULL | 임시저장 식별을 위한 키값 |
+| 파라미터    | 타입 | 제약 조건 | 설명 |
+|---------| --- | --- | --- |
+| tempId  | String | NOT NULL | 임시저장 식별을 위한 키값 |
 | content | String | NOT NULL | 내용 |
 
 ### Response
@@ -116,11 +116,11 @@ Error code
 | 200 | X | OK | 성공 |
 
 ### Exception
-| HTTP status code | error                   | message    | 설명                  |
-|---------------|-------------------------|------------|---------------------|
-|       400     | request.content.invalid | 잘못된 요청입니다. | content가 없거나 잘못된 경우 |
-| 400 | request.t_id.invalid | 잘못된 요청입니다. | t_id가 없거나 잘못된 경우 |
-| 401 | fail.authentication | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
+| HTTP status code | error                   | message    | 설명                           |
+|---------------|-------------------------|------------|------------------------------|
+|       400     | request.content.invalid | 잘못된 요청입니다. | content가 없거나 잘못된 경우          |
+| 400 | request.tempId.invalid  | 잘못된 요청입니다. | tempId가 없거나 잘못된 경우           |
+| 401 | fail.authentication     | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
 ---
 
 ## 질문 글 조회
@@ -131,9 +131,9 @@ Error code
 
 **Request Syntax**
 
-| 매서드 | 요청 URL |
-| --- | --- |
-| GET | https://{SERVER_URL}/api/v1/questions/{question_id} |
+| 매서드 | 요청 URL                                                  |
+| --- |---------------------------------------------------------|
+| GET | https://{SERVER_URL}/api/v1/question-query/{questionId} |
 
 **Request Header**
 
@@ -143,23 +143,35 @@ Error code
 
 **PathVariable**
 
-| 파라미터 | 타입 | 제약 조건 | 설명 |
-| --- | --- | --- | --- |
-| question_id | Long | NOT NULL | 조회 할 질문 글의 id  |
+| 파라미터       | 타입 | 제약 조건 | 설명 |
+|------------| --- | --- | --- |
+| questionId | Long | NOT NULL | 조회 할 질문 글의 id  |
 
 ### Response
 
 **Response Elements**
 
-| 필드 | 타입 | 제약 조건 | 설명             |
-| --- | --- | --- |----------------|
-| question_id | Long | NOT NULL, PK | 질문 글 고유 번호     |
-| content | String | NOT NULL | 질문 글 본문        |
-| author | String | NOT NULL | 질문 글 작성자       |
-| author_id | Long | NOT NULL | 질문 글 작성자의 id   |
-| review_cnt | Int | NOT NULL | 질문 글에 달린 리뷰 갯수 |
-| created_at | Timestamp | NOT NULL | 질문 글 작성일자      |
-| updated_at | Timestamp |  | 질문 글 수정일자      |
+| 필드         | 타입 | 제약 조건 | 설명             |
+|------------| --- | --- |----------------|
+| questionId | Long | NOT NULL, PK | 질문 글 고유 번호     |
+| content    | String | NOT NULL | 질문 글 본문        |
+| author     | String | NOT NULL | 질문 글 작성자       |
+| authorId   | Long | NOT NULL | 질문 글 작성자의 id   |
+| reviewCnt  | Int | NOT NULL | 질문 글에 달린 리뷰 갯수 |
+| createdAt  | Timestamp | NOT NULL | 질문 글 작성일자      |
+| updatedAt  | Timestamp |  | 질문 글 수정일자      |
+
+```json
+{
+    "questionId": 1,
+    "content": "첫 번째 질문에 대한 내용입니다.",
+    "author": "John Doe",
+    "authorId": 123,
+    "reviewCnt": 5,
+    "createdAt": "2024-02-01T12:00:00",
+    "updatedAt": "2024-02-01T13:00:00"
+}
+```
 
 **HTTP status code**
 
@@ -170,7 +182,7 @@ Error code
 ### Exception
 | HTTP status code | error                       | message    | 설명                           |
 |---------------|-----------------------------|------------|------------------------------|
-|       400     | request.question_id.invalid | 잘못된 요청입니다. | question_id가 없거나 잘못된 경우      |
+|       400     | request.questionId.invalid | 잘못된 요청입니다. | questionId가 없거나 잘못된 경우      |
 | 401 | fail.authentication         | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
 
 ---
@@ -183,9 +195,9 @@ Error code
 
 **Request Syntax**
 
-| 매서드 | 요청 URL |
-| --- | --- |
-| GET | https://{SERVER_URL}/api/v1/me/questions&page={페이지수}&size={한페이지에담을수} |
+| 매서드 | 요청 URL                                                                     |
+| --- |----------------------------------------------------------------------------|
+| GET | https://{SERVER_URL}/api/v1/me-query/questions&page={페이지수}&size={한페이지에담을수} |
 
 **Request Header**
 
@@ -233,9 +245,9 @@ Error code
 
 **Request Syntax**
 
-| 매서드 | 요청 URL |
-| --- | --- |
-| GET | https://{SERVER_URL}/api/v1/me/questions/temp?t_id={temp_question_id:nullable}&page={페이지수:nullable}&size={한 페이지에 담을수:nullable} |
+| 매서드 | 요청 URL                                                                                                                          |
+| --- |---------------------------------------------------------------------------------------------------------------------------------|
+| GET | https://{SERVER_URL}/api/v1/questions/temp?tempId={tempId:nullable}&page={페이지수:nullable}&size={한 페이지에 담을수:nullable} |
 
 **Request Header**
 
@@ -245,11 +257,11 @@ Error code
 
 **Request Elements**
 
-| 파라미터 | 타입 | 제약 조건 | 설명                                                 |
-|------| --- | --- |----------------------------------------------------|
-| t_id | string | NOT NULL | 조회 할 임시저장된 질문 글의 id, null이면 목록 조회하고 값이 있으면 해당 글 조회 |
-| page | int |  | 페이지 번호, t_id가 있으면 페이지 없음                           |
-| size | int |  | 한 페이지에 담을 질문 글 수, t_id가 있으면 페이지 없음                 |
+| 파라미터   | 타입 | 제약 조건 | 설명                                                 |
+|--------| --- | --- |----------------------------------------------------|
+| tempId | string | NOT NULL | 조회 할 임시저장된 질문 글의 id, null이면 목록 조회하고 값이 있으면 해당 글 조회 |
+| page   | int |  | 페이지 번호, tempId가 있으면 페이지 없음                         |
+| size   | int |  | 한 페이지에 담을 질문 글 수, tempId가 있으면 페이지 없음               |
 
 ### Response
 
@@ -258,11 +270,11 @@ Error code
 | 구분                 | 필드                 | 타입                 | 제약 조건    | 설명              |
 |--------------------|--------------------|--------------------|----------|-----------------|
 | QuestionResponse[] | QuestionResponse[] | QuestionResponse[] |          | 임시 저장한 질문 글의 목록 |
-| QuestionResponse   | t_id               | String             | NOT NULL | 식별을 위한 키값       |
+| QuestionResponse   | tempId             | String             | NOT NULL | 식별을 위한 키값       |
 |                    | content            | String             | NOT NULL | 내용              |
 |                    | author             | String             | NOT NULL | 작성자             |
-|                    | author_id          | Long               | NOT NULL | 작성자의 id         |
-|                    | created_at         | timestamp          | NOT NULL | 만들어진 시간         |
+|                    | authorId           | Long               | NOT NULL | 작성자의 id         |
+|                    | createdAt          | LocalDateTime      | NOT NULL | 만들어진 시간         |
 
 **HTTP status code**
 
@@ -271,11 +283,11 @@ Error code
 | 200 | X | OK | 성공 |
 
 ### Exception
-| HTTP status code | error                | message    | 설명                          |
-|---------------|----------------------|------------|-----------------------------|
-|       400     | request.t_id.invalid | 잘못된 요청입니다. | t_id가 없거나 잘못된 경우            |
-|       400     | request.page.invalid | 잘못된 요청입니다. | page가 잘못된 경우                |
-|       400     | request.size.invalid | 잘못된 요청입니다. | size가 잘못된 경우             |
+| HTTP status code | error                | message    | 설명                           |
+|---------------|----------------------|------------|------------------------------|
+|       400     | request.tId.invalid | 잘못된 요청입니다. | tempId가 없거나 잘못된 경우           |
+|       400     | request.page.invalid | 잘못된 요청입니다. | page가 잘못된 경우                 |
+|       400     | request.size.invalid | 잘못된 요청입니다. | size가 잘못된 경우                 |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
 
 
@@ -289,9 +301,9 @@ Error code
 
 **Request Syntax**
 
-| 매서드 | 요청 URL |
-| --- | --- |
-| GET | https://{SERVER_URL/api/v1/me/questions?query={검색내용}&page={페이지수}&size={한페이지에담을수} |
+| 매서드 | 요청 URL                                                                                                               |
+| --- |----------------------------------------------------------------------------------------------------------------------|
+| GET | https://{SERVER_URL/api/v1/question-query/search?me={boolean:true시 멤버기준 검색}&query={검색내용}&page={페이지수}&size={한페이지에담을수} |
 
 **Request Header**
 
@@ -301,11 +313,12 @@ Error code
 
 **Request Elements**
 
-| 파라미터 | 타입 | 제약 조건 | 설명 |
-| --- | --- | --- | --- |
-| query | string | NOT NULL | 검색어 |
-| page | int | NOT NULL | 페이지 번호 |
-| size | int | NOT NULL | 한 페이지에 담을 질문 글 수 |
+| 파라미터 | 타입      | 제약 조건 | 설명                           |
+| --- |---------| --- |------------------------------| 
+|  me | boolean | NOT NULL | 멤버 기준 또는 전체를 선택하기 위한 boolean |
+| query | string  | NOT NULL | 검색어                          |
+| page | int     | NOT NULL | 페이지 번호                       |
+| size | int     | NOT NULL | 한 페이지에 담을 질문 글 수             |
 
 ### Response
 
@@ -341,7 +354,7 @@ Error code
 
 | 매서드 | 요청 URL |
 | --- | --- |
-| DELETE | https://{SERVER_URL}/api/v1/questions/{question_id} |
+| DELETE | https://{SERVER_URL}/api/v1/questions/{questionId} |
 
 **Request Header**
 
@@ -351,9 +364,9 @@ Error code
 
 **PathVariable**
 
-| 파라미터 | 타입 | 제약 조건 | 설명 |
-| --- | --- | --- | --- |
-| question_id | Long | NOT NULL | 삭제 할 질문 글의 id  |
+| 파라미터       | 타입 | 제약 조건 | 설명 |
+|------------| --- | --- | --- |
+| questionId | Long | NOT NULL | 삭제 할 질문 글의 id  |
 
 ### Response
 
@@ -364,12 +377,12 @@ Error code
 | 200 | X | OK | 성공 |
 
 ### Exception
-| HTTP status code | error                       | message    | 설명                           |
-|---------------|-----------------------------|------------|------------------------------|
-|       400     | request.question_id.invalid | 잘못된 요청입니다. | question_id가 없거나 잘못된 경우      |
-| 401 | fail.authentication         | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
-| 403 | access.denied | 접근 권한이 없습니다. | 사용자가 권한이 없는 요청을 시도한 경우       |
-| 404 | resource.notfound | 요청에 대한 응답을 찾을 수 없습니다. | 삭제 하려는 게시글이 이미 없을 경우        |
+| HTTP status code | error                      | message    | 설명                           |
+|---------------|----------------------------|------------|------------------------------|
+|       400     | request.questionId.invalid | 잘못된 요청입니다. | questionId가 없거나 잘못된 경우      |
+| 401 | fail.authentication        | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
+| 403 | access.denied              | 접근 권한이 없습니다. | 사용자가 권한이 없는 요청을 시도한 경우       |
+| 404 | resource.notfound          | 요청에 대한 응답을 찾을 수 없습니다. | 삭제 하려는 게시글이 이미 없을 경우        |
 
 
 ---
@@ -399,6 +412,21 @@ Error code
 | 파라미터             | 타입                 | 제약 조건 | 설명              |
 |------------------|--------------------|-------|-----------------|
 | QuestionResponse | QuestionResponse[] |       | 멤버가 요청 받은 리뷰 목록 |
+| requester        | requester[]        |       | 리뷰를 요청한 요청자 목록  |
+| requester        | String             |       | 리뷰를 요청한 요청자     |
+
+```json
+{
+  "questionId": 1,
+  "content": "This is a sample question content.",
+  "author": "John Doe",
+  "authorId": 123456,
+  "reviewCnt": 5,
+  "createdAt": "2024-02-01T08:30:00",
+  "updatedAt": "2024-02-01T10:45:00",
+  "requester": ["규민", "종준"]
+}
+```
 
 **HTTP status code**
 
@@ -424,7 +452,7 @@ Error code
 
 | 매서드 | 요청 URL |
 | --- | --- |
-| GET | https://{SERVER_URL}/api/questions/{question_id}/reviewers |
+| GET | https://{SERVER_URL}/api/questions/{questionId}/reviewers |
 
 **Request Header**
 
@@ -436,18 +464,17 @@ Error code
 
 | 파라미터 | 타입 | 제약 조건 | 설명 |
 | --- | --- | --- | --- |
-| question_id | Long | NOT NULL | 조회 할 질문 글의 id  |
+| questionId | Long | NOT NULL | 조회 할 질문 글의 id  |
 
 ### Response
 
 **Response Elements**
 
-| 구분               | 필드               | 타입      | 제약 조건    | 설명                       |
-|------------------|------------------|---------|----------|--------------------------|
+| 구분              | 필드               | 타입      | 제약 조건    | 설명                       |
+|-----------------|------------------|---------|----------|--------------------------|
 | MemberResponse[] | MemberResponse[] | user[]  | NOT NULL | 해당 질문 글에 리뷰를 단 리뷰어들의 목록  |
-| MemberResponse   | question_id      | Long    | NOT NULL | 질문 글의 고유 id              |
-|                  | author_id        | Long    | NOT NULL | 리뷰어의 고유 id               |
-|                  | author           | String  | NOT NULL | 리뷰어의 이름                  |
+| MemberResponse  | reviewerName     | String  | NOT NULL | 리뷰어의 이름                  |
+|                 | reviewerId       | Long    | NOT NULL | 리뷰어의 고유 id               |
 
 **HTTP status code**
 
@@ -458,5 +485,5 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-|      400     | request.question_id.invalid | 잘못된 요청입니다. | question_id가 없거나 잘못된 경우      |
+|      400     | request.questionId.invalid | 잘못된 요청입니다. | questionId가 없거나 잘못된 경우      |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
