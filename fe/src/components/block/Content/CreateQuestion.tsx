@@ -2,10 +2,12 @@ import styled from 'styled-components';
 import DefaultInput from '../Search/DefaultInput';
 import { useEffect, useRef, useState } from 'react';
 import MarkdownEditor from '@uiw/react-md-editor';
+import DefaultButton from '@components/atom/Button/DefaultButton';
+import Text from '@components/atom/Text';
 
 const MarkdownBox = styled.div`
   box-sizing: border-box;
-  height: 90%;
+  height: 100%;
   padding: 0.25rem 0.25rem 0.25rem 3rem;
   background-color: white;
   border: 1px solid black;
@@ -14,10 +16,18 @@ const MarkdownBox = styled.div`
   &:hover {
     overflow-y: auto; /* 마우스를 올렸을 때 수직 스크롤바를 표시 */
   }
+  position: relative;
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  right: 0.25rem;
+  margin-top: 0.5rem;
+  position: absolute;
 `;
 
 const CreateQuestion = () => {
   const [markdown, setMarkdown] = useState('');
+  const [title, setTitle] = useState('');
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
@@ -28,6 +38,11 @@ const CreateQuestion = () => {
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {}, [ref?.current?.value]);
+
+  const handleSubmit = () => {
+    console.log(markdown);
+    console.log(ref?.current?.value);
+  };
 
   return (
     <>
@@ -43,7 +58,12 @@ const CreateQuestion = () => {
         />
       </TitleWrapper>
       <MarkdownBox>
-        <MarkdownEditor height={'100%'} value={markdown} onChange={handleMarkdownChange} />
+        <MarkdownEditor height={'90%'} value={markdown} onChange={handleMarkdownChange} />
+        <ButtonBox>
+          <DefaultButton width={5.5} height={2.25} onClick={handleSubmit}>
+            <Text fontSize="sm">게시하기</Text>
+          </DefaultButton>
+        </ButtonBox>
       </MarkdownBox>
     </>
   );

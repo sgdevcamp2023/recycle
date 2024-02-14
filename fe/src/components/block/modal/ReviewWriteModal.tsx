@@ -23,7 +23,7 @@ const ButtonBox = styled.div`
   margin-top: 0.3125rem;
   position: absolute;
   bottom: 0.3125rem;
-  right: 0.3125rem;
+  right: 0.25rem;
 `;
 
 const ReviewWriteModal = () => {
