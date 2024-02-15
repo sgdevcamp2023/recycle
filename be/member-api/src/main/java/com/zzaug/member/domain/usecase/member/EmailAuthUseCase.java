@@ -53,7 +53,6 @@ public class EmailAuthUseCase {
 
 		publishEvent(memberId, email, authCode);
 
-		// todo 이메일 인증 요청 메시지를 보낸다.
 		return EmailAuthUseCaseResponse.builder().duplication(false).build();
 	}
 
@@ -86,7 +85,6 @@ public class EmailAuthUseCase {
 	}
 
 	private void publishEvent(Long memberId, EmailData email, String authCode) {
-		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
 		log.debug(
 				"Publish email auth event. memberId: {}, email: {}, code: {}",
 				memberId,

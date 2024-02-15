@@ -74,7 +74,8 @@ public class RenewalTokenUseCase {
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
 		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
-		replaceWhiteAccessTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		return MemberAuthToken.builder()
 				.memberId(memberSource.getId())

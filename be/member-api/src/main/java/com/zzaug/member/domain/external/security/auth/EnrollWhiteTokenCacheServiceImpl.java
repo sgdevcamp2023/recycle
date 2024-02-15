@@ -26,7 +26,7 @@ public class EnrollWhiteTokenCacheServiceImpl implements EnrollTokenCacheService
 
 	@Override
 	@SecurityTransactional
-	public void execute(String token, Long ttl) {
+	public void execute(String token, Long ttl, Long memberId) {
 		whiteAuthTokenHashRepository.save(WhiteAuthTokenHash.builder().token(token).ttl(ttl).build());
 	}
 

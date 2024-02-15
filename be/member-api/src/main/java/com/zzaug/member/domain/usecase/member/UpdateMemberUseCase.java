@@ -116,7 +116,8 @@ public class UpdateMemberUseCase {
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
 		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
-		replaceWhiteAccessTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		publishEvent(memberId, memberAuthentication);
 
@@ -127,7 +128,6 @@ public class UpdateMemberUseCase {
 	}
 
 	private void publishEvent(Long memberId, MemberAuthentication memberAuthentication) {
-		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
 		log.debug("Publish update member event. memberId: {}", memberId);
 		applicationEventPublisher.publishEvent(
 				UpdateMemberEvent.builder()

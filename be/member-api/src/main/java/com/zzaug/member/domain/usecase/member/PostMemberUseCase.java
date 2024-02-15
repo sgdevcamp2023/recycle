@@ -75,7 +75,6 @@ public class PostMemberUseCase {
 	}
 
 	private void publishEvent(Long memberId, CertificationData certification) {
-		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
 		log.debug("Publish save member event. memberId: {}");
 		applicationEventPublisher.publishEvent(
 				SaveMemberEvent.builder()
