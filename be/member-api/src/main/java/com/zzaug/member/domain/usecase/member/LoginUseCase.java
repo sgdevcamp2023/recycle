@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginUseCase {
+
+	@Value("${security.jwt.token.validtime.access}")
+	private Long accessTokenValidTime;
 
 	private final AuthenticationDao authenticationDao;
 
@@ -45,7 +49,7 @@ public class LoginUseCase {
 	private final ApplicationEventPublisher applicationEventPublisher;
 
 	// security
-	private final EnrollTokenCacheService enrollWhiteTokenCacheServiceImpl;
+	private final EnrollTokenCacheService enrollWhiteAccessTokenCacheServiceImpl;
 
 	@UseCaseTransactional
 	public MemberAuthToken execute(LoginUseCaseRequest request) {
@@ -82,11 +86,13 @@ public class LoginUseCase {
 		loginLogCommand.saveLoginLog(memberAuthentication.getMemberId(), userAgent);
 
 		// check duplication
-		enrollWhiteTokenCacheServiceImpl.execute(authToken.getAccessToken());
+		enrollWhiteAccessTokenCacheServiceImpl.execute(
+				authToken.getAccessToken(), accessTokenValidTime);
 
 		publishEvent(memberAuthentication);
 
 		return MemberAuthToken.builder()
+				.memberId(memberAuthentication.getMemberId())
 				.accessToken(authToken.getAccessToken())
 				.refreshToken(authToken.getRefreshToken())
 				.build();

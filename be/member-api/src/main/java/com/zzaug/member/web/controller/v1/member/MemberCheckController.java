@@ -99,7 +99,7 @@ public class MemberCheckController {
 						.refreshToken(refreshTokenValue)
 						.build();
 		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
-		session.invalidate();
+		session.removeAttribute(SESSION_ID_KEY);
 		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }

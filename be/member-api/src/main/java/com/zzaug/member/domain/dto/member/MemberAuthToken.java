@@ -15,6 +15,7 @@ import lombok.ToString;
 @Builder(toBuilder = true)
 public class MemberAuthToken {
 
+	private Long memberId;
 	private String accessToken;
 	private String refreshToken;
 

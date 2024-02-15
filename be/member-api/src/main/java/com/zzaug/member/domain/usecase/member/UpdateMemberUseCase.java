@@ -48,7 +48,7 @@ public class UpdateMemberUseCase {
 	private final AuthTokenValidator authTokenValidator;
 	private final BlackTokenAuthCommand blackTokenAuthCommand;
 	private final EnrollTokenCacheService enrollBlackTokenCacheServiceImpl;
-	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteAccessTokenCacheServiceImpl;
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -116,7 +116,7 @@ public class UpdateMemberUseCase {
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
 		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
-		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
 
 		publishEvent(memberId, memberAuthentication);
 
