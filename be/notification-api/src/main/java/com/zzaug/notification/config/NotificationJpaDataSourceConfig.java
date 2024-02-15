@@ -29,9 +29,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories(
 		basePackages = NotificationAppConfig.BASE_PACKAGE,
-		transactionManagerRef = JpaDataSourceConfig.TRANSACTION_MANAGER_NAME,
-		entityManagerFactoryRef = JpaDataSourceConfig.ENTITY_MANAGER_FACTORY_NAME)
-public class JpaDataSourceConfig {
+		transactionManagerRef = NotificationJpaDataSourceConfig.TRANSACTION_MANAGER_NAME,
+		entityManagerFactoryRef = NotificationJpaDataSourceConfig.ENTITY_MANAGER_FACTORY_NAME)
+public class NotificationJpaDataSourceConfig {
 
 	private static final String ENTITY_PROPERTY_PREFIX =
 			NotificationAppConfig.PROPERTY_PREFIX + ".entity";
