@@ -26,6 +26,8 @@ const Common = () => {
   useEffect(() => {
     if (pathname.startsWith('/createQuestion')) {
       setSelectedContent(Content.CreateQuestion);
+    } else if (pathname.startsWith('/createReview')) {
+      setSelectedContent(Content.CreateReview);
     } else if (tabType != null) {
       console.log(tabType);
       setSelectedContent(Content[pathname.replace('/', '')]);

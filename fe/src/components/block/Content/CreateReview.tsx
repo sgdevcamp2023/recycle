@@ -12,16 +12,14 @@ const CreateReview = () => {
   );
   const [showCodeComment, setShowCodeComment] = useState(false);
 
-  const handleClickOnCodeBlock = (e) => {
-    console.log(e.target.textContent);
-    setShowCodeComment(true);
-  };
-
   useEffect(() => {
     const codeBlocks = document.querySelectorAll('code');
 
-    codeBlocks.forEach((codeBlock) => {
-      codeBlock.addEventListener('click', handleClickOnCodeBlock);
+    codeBlocks.forEach((codeBlock, index) => {
+      const id = index + 1;
+      codeBlock.id = id;
+
+      codeBlock.addEventListener('click', (e) => handleClickOnCodeBlock(e, id));
       codeBlock.addEventListener('mouseenter', () => {
         codeBlock.style.border = '1px solid red';
       });
@@ -32,8 +30,11 @@ const CreateReview = () => {
     });
 
     return () => {
-      codeBlocks.forEach((codeBlock) => {
-        codeBlock.removeEventListener('click', handleClickOnCodeBlock);
+      codeBlocks.forEach((codeBlock, index) => {
+        const id = index + 1;
+        codeBlock.id = id;
+
+        codeBlock.removeEventListener('click', () => handleClickOnCodeBlock(id));
         codeBlock.removeEventListener('mouseenter', () => {
           codeBlock.style.border = '1px solid red';
         });
@@ -42,7 +43,13 @@ const CreateReview = () => {
         });
       });
     };
-  }, [show]); // 추후 content로 변경 필요
+  }, []); // 추후 content로 변경 필요
+
+  const handleClickOnCodeBlock = (e, id) => {
+    console.log(e.target.textContent);
+    console.log(id);
+    setShowCodeComment(true);
+  };
 
   return (
     <>
