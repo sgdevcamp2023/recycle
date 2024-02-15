@@ -1,10 +1,14 @@
 package com.zzaug.review.entity.review.query;
 
-import java.time.LocalDateTime;
-import javax.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString
@@ -12,7 +16,8 @@ import org.springframework.data.elasticsearch.annotations.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Document(indexName = "review")
-@Mapping(mappingPath = "elasticsearch/mappings/review-query-mapping.json")
+@Mapping(mappingPath = "elasticsearch/mappings/review-mapping.json")
+@Setting(settingPath = "elasticsearch/settings/review-setting.json")
 public class ReviewQueryEntity {
 
 	@Id private Long reviewId;
@@ -52,4 +57,6 @@ public class ReviewQueryEntity {
 	private ReviewPoint endPoint;
 
 	private ReviewType tag;
+
+    private boolean isDeleted;
 }
