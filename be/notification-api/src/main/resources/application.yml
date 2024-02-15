@@ -9,3 +9,4 @@ spring:
       - flyway-notification
       - security
       - mail
+      - rabbit
