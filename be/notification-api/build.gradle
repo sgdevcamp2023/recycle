@@ -7,6 +7,9 @@ apply from: '../tasks/docs-task.gradle'
 
 dependencies {
     implementation project(':flyway')
+    implementation project(':rabbitmq')
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 task buildDockerImage {

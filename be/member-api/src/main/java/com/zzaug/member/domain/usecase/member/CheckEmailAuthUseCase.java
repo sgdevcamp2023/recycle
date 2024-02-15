@@ -68,7 +68,7 @@ public class CheckEmailAuthUseCase {
 	private final AuthTokenValidator authTokenValidator;
 	private final TokenGenerator tokenGenerator;
 	private final BlackTokenAuthCommand blackTokenAuthCommand;
-	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteAccessTokenCacheServiceImpl;
 
 	@MemberSecurityChainedTransactional
 	public CheckEmailAuthUseCaseResponse execute(CheckEmailAuthUseCaseRequest request) {
@@ -175,7 +175,8 @@ public class CheckEmailAuthUseCase {
 						memberContacts.getGithub());
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
-		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		publishEvent(memberId, memberAuthentication, email);
 

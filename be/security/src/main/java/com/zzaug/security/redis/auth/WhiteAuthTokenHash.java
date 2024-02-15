@@ -22,8 +22,8 @@ public class WhiteAuthTokenHash {
 
 	@Id private String id;
 	@Indexed private String token;
+	@Indexed private Long memberId;
 
-	@Builder.Default
-	@TimeToLive(unit = TimeUnit.MINUTES)
-	private Long ttl = 5L;
+	@TimeToLive(unit = TimeUnit.MILLISECONDS)
+	private Long ttl;
 }

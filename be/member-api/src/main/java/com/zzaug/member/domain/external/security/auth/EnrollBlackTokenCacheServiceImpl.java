@@ -19,8 +19,8 @@ public class EnrollBlackTokenCacheServiceImpl implements EnrollTokenCacheService
 
 	@Override
 	@SecurityTransactional
-	public void execute(String token) {
-		blackAuthTokenHashRepository.save(BlackAuthTokenHash.builder().token(token).build());
+	public void execute(String token, Long ttl, Long memberId) {
+		blackAuthTokenHashRepository.save(BlackAuthTokenHash.builder().token(token).ttl(ttl).build());
 	}
 
 	@Override

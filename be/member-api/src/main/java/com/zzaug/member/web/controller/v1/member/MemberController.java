@@ -34,6 +34,7 @@ import com.zzaug.web.support.CookieSameSite;
 import com.zzaug.web.support.MessageCode;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -59,6 +60,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
 	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+	private static final String MEMBER_ID_SESSION_KEY = "memberId";
 
 	private final CookieGenerator cookieGenerator;
 
@@ -130,6 +132,8 @@ public class MemberController {
 				cookieGenerator.createCookie(
 						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, response.getRefreshToken());
 		httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());
+		HttpSession session = httpServletRequest.getSession();
+		session.setAttribute(MEMBER_ID_SESSION_KEY, response.getMemberId());
 		return ApiResponseGenerator.success(response.toResponse(), HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
@@ -152,6 +156,7 @@ public class MemberController {
 		ResponseCookie clearCookie =
 				cookieGenerator.clearCookie(CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME);
 		httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, clearCookie.toString());
+		httpServletRequest.getSession().invalidate();
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
@@ -196,6 +201,7 @@ public class MemberController {
 				cookieGenerator.createCookie(
 						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, response.getRefreshToken());
 		httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());
+		httpServletRequest.getSession().setAttribute(MEMBER_ID_SESSION_KEY, response.getMemberId());
 		return ApiResponseGenerator.success(response.toResponse(), HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
