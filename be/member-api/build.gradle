@@ -8,6 +8,7 @@ apply from: '../tasks/docs-task.gradle'
 dependencies {
     implementation project(':flyway')
     implementation project(':web')
+    implementation project(':rabbitmq')
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.session:spring-session-data-redis'
 

@@ -1,6 +1,7 @@
 package com.zzaug.member.config;
 
 import com.zzaug.flyway.FlywayConfig;
+import com.zzaug.rabbitmq.config.ZRabbiMQConfig;
 import com.zzaug.web.config.WebModuleConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = MemberAppConfig.BASE_PACKAGE)
-@Import(value = {FlywayConfig.class, WebModuleConfig.class})
+@Import(value = {FlywayConfig.class, WebModuleConfig.class, ZRabbiMQConfig.class})
 public class MemberAppConfig {
 
 	public static final String BASE_PACKAGE = "com.zzaug.member";

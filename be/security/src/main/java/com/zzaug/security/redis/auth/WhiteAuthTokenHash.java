@@ -22,6 +22,7 @@ public class WhiteAuthTokenHash {
 
 	@Id private String id;
 	@Indexed private String token;
+	@Indexed private Long memberId;
 
 	@TimeToLive(unit = TimeUnit.MILLISECONDS)
 	private Long ttl;
