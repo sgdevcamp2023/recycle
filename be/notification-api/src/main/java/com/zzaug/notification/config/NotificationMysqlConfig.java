@@ -13,4 +13,4 @@ import org.springframework.context.annotation.Configuration;
 			DataSourceTransactionManagerAutoConfiguration.class,
 			HibernateJpaAutoConfiguration.class,
 		})
-public class MysqlConfig {}
+public class NotificationMysqlConfig {}

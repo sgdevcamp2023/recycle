@@ -8,3 +8,5 @@ spring:
       - mysql
       - flyway-notification
       - security
+      - mail
+      - rabbit
