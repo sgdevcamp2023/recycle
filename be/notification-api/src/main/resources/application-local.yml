@@ -5,9 +5,7 @@ spring:
     use-legacy-processing: true
   profiles:
     include:
+      - flyway-notification
       - mysql-local
       - security-local
-
-logging:
-  level:
-    root: DEBUG
+      - mail-local

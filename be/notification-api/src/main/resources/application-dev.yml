@@ -8,3 +8,4 @@ spring:
       - mysql-dev
       - flyway-notification
       - security-dev
+      - mail-dev

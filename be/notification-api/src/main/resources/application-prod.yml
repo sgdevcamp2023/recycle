@@ -8,3 +8,4 @@ spring:
       - mysql-prod
       - flyway-notification
       - security-prod
+      - mail-prod
