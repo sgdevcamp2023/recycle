@@ -9,6 +9,7 @@ spring:
       - flyway-member
       - security
       - cookie
+      - rabbit
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
