@@ -17,4 +17,9 @@ public interface ZRMQProperties {
 	String REVIEW_KEY_NAME = "zzuag.review";
 	String REVIEW_QUEUE_NAME = "zzuag.review";
 	String REVIEW_TOPIC_NAME = "topic.zzuag.review";
+
+	String NOTIFICATION_TOPIC_NAME = "topic.zzuag.notification";
+	String NOTIFICATION_KEY_NAME = "zzuag.notification";
+	String NOTIFICATION_QUEUE_NAME = "zzuag.notification";
+	String NOTIFICATION_EMAIL_QUEUE_NAME = NOTIFICATION_QUEUE_NAME + ".email";
 }
