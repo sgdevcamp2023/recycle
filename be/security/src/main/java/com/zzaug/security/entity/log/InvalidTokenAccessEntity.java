@@ -3,6 +3,7 @@ package com.zzaug.security.entity.log;
 import com.zzaug.security.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.SQLDelete;
 @SQLDelete(sql = "UPDATE invalid_access_token_log SET deleted=true where id=?")
 public class InvalidTokenAccessEntity extends BaseEntity {
 
+	@Lob
 	@Column(name = "token", nullable = false)
 	private String token;
 
