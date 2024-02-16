@@ -7,8 +7,11 @@ jar {
 }
 
 apply from: '../dependencies/web-dependencies.gradle'
+apply from: '../dependencies/database-dependencies.gradle'
 
 dependencies {
+    implementation project(':flyway')
+
     // security
     api 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -23,4 +26,7 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
     implementation "io.jsonwebtoken:jjwt-impl:${jsonwebtokenVersion}"
     implementation "io.jsonwebtoken:jjwt-jackson:${jsonwebtokenVersion}"
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }

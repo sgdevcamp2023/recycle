@@ -8,3 +8,7 @@ spring:
       - mysql-dev
       - flyway-notification
       - security-dev
+      - mail-dev
+      - rabbit-dev
+      - cookie-dev
+      - log-dev
