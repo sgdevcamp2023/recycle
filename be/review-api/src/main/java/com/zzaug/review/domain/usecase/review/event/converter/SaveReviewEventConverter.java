@@ -4,6 +4,8 @@ import com.zzaug.review.domain.event.review.SaveReviewEvent;
 import com.zzaug.review.entity.review.ReviewEntity;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+
 @Component
 public class SaveReviewEventConverter {
 	public static SaveReviewEvent from(ReviewEntity source) {
@@ -17,6 +19,7 @@ public class SaveReviewEventConverter {
 				.startPoint(source.getStartPoint())
 				.endPoint(source.getEndPoint())
 				.tag(source.getTag())
+				.eventAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
 }
