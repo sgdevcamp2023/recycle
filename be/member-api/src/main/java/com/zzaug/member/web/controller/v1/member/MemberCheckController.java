@@ -3,6 +3,7 @@ package com.zzaug.member.web.controller.v1.member;
 import com.zzaug.member.domain.dto.member.CheckDuplicationUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckDuplicationUseCaseResponse;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
+import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
 import com.zzaug.member.domain.dto.member.SuccessCheckEmailAuthUseCaseResponse;
@@ -84,7 +85,7 @@ public class MemberCheckController {
 	}
 
 	@PostMapping("/email")
-	public ApiResponse<ApiResponse.SuccessBody<SuccessCheckEmailAuthUseCaseResponse>> checkEmailAuth(
+	public ApiResponse<ApiResponse.SuccessBody<CheckEmailAuthUseCaseResponse>> checkEmailAuth(
 			@CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshTokenValue,
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Valid @RequestBody CheckEmailAuthRequest request,
@@ -105,13 +106,17 @@ public class MemberCheckController {
 						.accessToken(accessTokenValue)
 						.refreshToken(refreshTokenValue)
 						.build();
-		SuccessCheckEmailAuthUseCaseResponse response =
-				(SuccessCheckEmailAuthUseCaseResponse) checkEmailAuthUseCase.execute(useCaseRequest);
+		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
+		if (!(response instanceof SuccessCheckEmailAuthUseCaseResponse)) {
+			return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		}
+		SuccessCheckEmailAuthUseCaseResponse successResponse =
+				(SuccessCheckEmailAuthUseCaseResponse) response;
 		ResponseCookie refreshToken =
 				cookieGenerator.createCookie(
-						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, response.getRefreshToken());
+						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, successResponse.getRefreshToken());
 		httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());
 		session.removeAttribute(SESSION_ID_KEY);
-		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		return ApiResponseGenerator.success(successResponse, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
