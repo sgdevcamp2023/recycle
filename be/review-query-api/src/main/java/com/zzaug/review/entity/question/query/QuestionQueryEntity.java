@@ -39,7 +39,8 @@ public class QuestionQueryEntity {
 			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
 	private LocalDateTime updatedAt;
 
-    private boolean isDeleted;
+	private boolean isDeleted;
+
 	@Override
 	public int hashCode() {
 		return questionId.hashCode();
@@ -52,6 +53,4 @@ public class QuestionQueryEntity {
 		}
 		return false;
 	}
-
-
 }

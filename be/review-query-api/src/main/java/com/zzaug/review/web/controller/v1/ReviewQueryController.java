@@ -16,13 +16,12 @@ import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -68,7 +67,10 @@ public class ReviewQueryController {
 
 			} else {
 				ReviewSearchRequest request =
-						ReviewSearchRequest.builder().authorId(Long.valueOf(userDetails.getId())).query(query).build();
+						ReviewSearchRequest.builder()
+								.authorId(Long.valueOf(userDetails.getId()))
+								.query(query)
+								.build();
 				SearchByReviewUseCaseRequest useCaseRequest =
 						SearchByReviewUseCaseRequestConverter.from(request);
 				responses = searchByReviewUseCase.execute(useCaseRequest);
