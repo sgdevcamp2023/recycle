@@ -24,7 +24,7 @@ public class SendEmailAuthService {
 	private final JavaMailSender emailSender;
 	private final SpringTemplateEngine templateEngine;
 
-	public void sendSimpleMessage(AuthEmailDto dto) {
+	public void send(AuthEmailDto dto) {
 		final String to = dto.getTo();
 		final String code = dto.getCode();
 

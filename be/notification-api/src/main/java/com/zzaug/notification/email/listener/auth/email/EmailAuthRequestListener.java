@@ -21,7 +21,7 @@ public class EmailAuthRequestListener implements ChannelAwareMessageListener {
 	@Override
 	public void onMessage(Message message, @Nullable Channel channel) throws Exception {
 		AuthEmailDto dto = emailAuthRequestMapper.map(message);
-		sendEmailAuthService.sendSimpleMessage(dto);
+		sendEmailAuthService.send(dto);
 		channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 	}
 }
