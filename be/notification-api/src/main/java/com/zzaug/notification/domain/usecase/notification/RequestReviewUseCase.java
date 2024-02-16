@@ -4,11 +4,11 @@ import com.zzaug.notification.domain.dto.notification.RequestReviewUseCaseReques
 import com.zzaug.notification.domain.event.RequestReviewEvent;
 import com.zzaug.notification.domain.external.dao.RequestReviewHistoryDao;
 import com.zzaug.notification.entity.notification.RequestReviewHistoryEntity;
+import com.zzaug.notification.persistence.support.transaction.UseCaseTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -18,7 +18,7 @@ public class RequestReviewUseCase {
 	private final RequestReviewHistoryDao requestReviewHistoryDao;
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@Transactional
+	@UseCaseTransactional
 	public void execute(RequestReviewUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 		final Long questionId = request.getQuestionId();
