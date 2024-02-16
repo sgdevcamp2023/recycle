@@ -6,6 +6,7 @@ import com.zzaug.security.filter.token.TokenAuthenticationFilter;
 import com.zzaug.security.handler.DelegatedAccessDeniedHandler;
 import com.zzaug.security.handler.DelegatedAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,8 @@ public class WebSecurityConfig {
 	private final DelegatedAccessDeniedHandler accessDeniedHandler;
 	private final TokenAuthProvider tokenAuthProvider;
 	private final CorsConfigurationSourceProperties corsProperties;
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 
 	@Bean
 	@Profile("!prod")
@@ -83,7 +86,7 @@ public class WebSecurityConfig {
 	}
 
 	public OncePerRequestFilter getTokenInvalidExceptionHandlerFilter() {
-		return new TokenInvalidExceptionHandlerFilter();
+		return new TokenInvalidExceptionHandlerFilter(applicationEventPublisher);
 	}
 
 	@Bean
@@ -99,8 +102,13 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
-								"/reports/**")
-						.antMatchers(HttpMethod.POST, "/api/v1/members/token");
+								"/reports/**",
+								"/api/v1/members/check")
+						.antMatchers(
+								HttpMethod.POST,
+								"/api/v1/members",
+								"/api/v1/members/token",
+								"/api/v1/members/login");
 	}
 
 	@Bean
@@ -116,8 +124,13 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
-								"/reports/**")
-						.antMatchers(HttpMethod.POST, "/api/v1/members/token");
+								"/reports/**",
+								"/api/v1/members/check")
+						.antMatchers(
+								HttpMethod.POST,
+								"/api/v1/members",
+								"/api/v1/members/token",
+								"/api/v1/members/login");
 	}
 
 	@Bean

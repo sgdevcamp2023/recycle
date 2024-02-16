@@ -18,4 +18,6 @@ public class UpdateMemberUseCaseRequest {
 	private Long memberId;
 	private String certification;
 	private String password;
+	private String accessToken;
+	private String refreshToken;
 }
