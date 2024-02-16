@@ -2,7 +2,7 @@ version: '3.1'
 services:
   member-api:
     container_name: member-api
-    image: belljun3395/zzuag-member:latest
+    image: zzuag/member-api:latest
     ports:
       - "18081:8081"
     environment:
@@ -36,7 +36,7 @@ services:
 
   notification-api:
     container_name: notification-api
-    image: belljun3395/zzuag-notification:latest
+    image: zzuag/notification-api:latest
     ports:
       - "18084:8084"
     environment:
