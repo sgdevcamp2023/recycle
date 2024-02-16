@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class BrowseReviewsUseCase {
+public class BrowseNotificationUseCaseRequest {
 
 	private Long memberId;
 }
