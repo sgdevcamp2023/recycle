@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.usecase.review;
 
+import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.ReviewCreateUseCaseRequest;
 import com.zzaug.review.domain.event.review.SaveReviewEvent;
 import com.zzaug.review.domain.model.member.ReviewerList;
@@ -14,11 +15,12 @@ import com.zzaug.review.domain.usecase.review.event.converter.SaveReviewEventCon
 import com.zzaug.review.entity.question.QuestionEntity;
 import com.zzaug.review.entity.review.ReviewEntity;
 import java.util.NoSuchElementException;
-import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -31,7 +33,7 @@ public class ReviewCreateUseCase {
 	private final ReviewerListRepository reviewerListRepository;
 	private final ApplicationEventPublisher publisher;
 
-	@Transactional
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public void execute(ReviewCreateUseCaseRequest request) {
 		Review review = reviewConverter.from(request);
 		ReviewEntity result = reviewRepository.save(ReviewEntityConverter.from(review));
