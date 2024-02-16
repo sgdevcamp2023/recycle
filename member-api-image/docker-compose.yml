@@ -30,7 +30,7 @@ services:
       COOKIE_MAX_AGE: 1800
       TZ: "Asia/Seoul"
       JAVA_OPTS: "-Xmx512m -Xms256m"
-      LOGSTASH_URL: "-logstash:5000"
+      LOGSTASH_URL: "logstash:5000"
     networks:
       - member
 
@@ -64,7 +64,7 @@ services:
       COOKIE_MAX_AGE: 1800
       TZ: "Asia/Seoul"
       JAVA_OPTS: "-Xmx512m -Xms256m"
-      LOGSTASH_URL: "-logstash:5000"
+      LOGSTASH_URL: "logstash:5000"
       MAIL_HOST: "smtp.gmail.com"
       MAIL_PORT: 587
       MAIL_USERNAME: "zzuag.dev@gmail.com"
