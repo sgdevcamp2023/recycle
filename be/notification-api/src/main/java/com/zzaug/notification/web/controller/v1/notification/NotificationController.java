@@ -1,6 +1,6 @@
 package com.zzaug.notification.web.controller.v1.notification;
 
-import com.zzaug.notification.domain.dto.notification.BrowseReviewsUseCase;
+import com.zzaug.notification.domain.dto.notification.BrowseNotificationUseCaseRequest;
 import com.zzaug.notification.domain.dto.notification.NotificationResponse;
 import com.zzaug.notification.domain.dto.notification.NotificationResponses;
 import com.zzaug.notification.domain.dto.notification.RequestReviewUseCaseRequest;
@@ -47,7 +47,8 @@ public class NotificationController {
 			@AuthenticationPrincipal TokenUserDetails userDetails) {
 		//		Long memberId = Long.valueOf(userDetails.getId());
 		Long memberId = 1L;
-		BrowseReviewsUseCase useCaseRequest = BrowseReviewsUseCase.builder().memberId(memberId).build();
+		BrowseNotificationUseCaseRequest useCaseRequest =
+				BrowseNotificationUseCaseRequest.builder().memberId(memberId).build();
 		NotificationResponse info =
 				NotificationResponse.builder()
 						.type("type")
