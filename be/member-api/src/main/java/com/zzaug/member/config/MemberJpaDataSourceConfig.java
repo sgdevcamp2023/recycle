@@ -15,6 +15,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.transaction.ChainedTransactionManager;
@@ -114,6 +115,7 @@ public class MemberJpaDataSourceConfig {
 		return new JpaTransactionManager(emf);
 	}
 
+	@Profile("!repository-test")
 	@Bean(name = MEMBER_SECURITY_TRANSACTION_MANAGER_NAME)
 	public PlatformTransactionManager chainedTransactionManager(
 			@Qualifier(TRANSACTION_MANAGER_NAME) PlatformTransactionManager emf,
