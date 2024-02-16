@@ -1,5 +1,6 @@
 package com.zzaug.member.domain.dto.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,5 +17,5 @@ import lombok.experimental.SuperBuilder;
 public class SuccessCheckEmailAuthUseCaseResponse extends CheckEmailAuthUseCaseResponse {
 
 	private String accessToken;
-	private String refreshToken;
+	@JsonIgnore private String refreshToken;
 }

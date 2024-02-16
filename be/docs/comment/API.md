@@ -4,23 +4,23 @@
 
 | API 종류 | 메서드 | URI | 설명 |
 | --- | --- | --- | --- |
-| Comments | POST | /api/quetions/{quetion_id}/comments | 댓글 코멘트 생성 |
-|  | GET | /api/quetions/{quetion_id}/comments | 질문 글 기준 댓글 코멘트 조회 |
-|  | PUT | /api/quetions/{quetion_id}/comments/{comment_id} | 댓글 코멘트 수정 |
-|  | DELETE | /api/quetions/{quetion_id}/comments/{comment_id} | 댓글 코멘트 삭제 |
+| Comments | POST | /api/quetions/{quetionId}/comments | 댓글 코멘트 생성 |
+|  | GET | /api/quetions/{quetionId}/comments | 질문 글 기준 댓글 코멘트 조회 |
+|  | PUT | /api/quetions/{quetionId}/comments/{commentId} | 댓글 코멘트 수정 |
+|  | DELETE | /api/quetions/{quetionId}/comments/{commentId} | 댓글 코멘트 삭제 |
 
 Comment 도메인
 
 | 필드         | 타입        | 제약 조건        | 설명                                                |
 |------------|-----------|--------------|---------------------------------------------------|
-| comment_id | Long      | NOT NULL, PK | 댓글 코멘트 고유 번호                                      |
-| quetion_id | Long      | NOT NULL     | 댓글이 달린 질문 글의 id                                   |
+| commentId | Long      | NOT NULL, PK | 댓글 코멘트 고유 번호                                      |
+| quetionId | Long      | NOT NULL     | 댓글이 달린 질문 글의 id                                   |
 | content    | String    | NOT NULL     | 댓글 코멘트 본문                                         |
 | author     | String    | NOT NULL     | 댓글 코멘트 작성자                                        |
-| author_id  | Long      | NOT NULL     | 댓글 코멘트 작성자 id                                     |
-| parent_id  | Long      | NOT NULL     | 대댓글의 부모 댓글 고유번호 0일경우 댓글 0 이외의 양수 일 경우 해당 댓글의 대댓글  |
-| created_at | Timestamp | NOT NULL     | 댓글 코멘트 작성일자                                       |
-| updated_at | Timestamp |              |                                                   |
+| authorId  | Long      | NOT NULL     | 댓글 코멘트 작성자 id                                     |
+| parentId  | Long      | NOT NULL     | 대댓글의 부모 댓글 고유번호 0일경우 댓글 0 이외의 양수 일 경우 해당 댓글의 대댓글  |
+| createdAt | Timestamp | NOT NULL     | 댓글 코멘트 작성일자                                       |
+| updatedAt | Timestamp |              |                                                   |
 
 ### Exception
 
@@ -47,7 +47,7 @@ Error code
 
 | 매서드  | 요청 URL                                                  |
 |------|---------------------------------------------------------|
-| POST | https://{SERVER_URL}/api/quetions/{quetion_id}/comments |
+| POST | https://{SERVER_URL}/api/quetions/{quetionId}/comments |
 
 **Request Header**
 
@@ -60,13 +60,13 @@ Error code
 
 | 파라미터       | 타입   | 제약 조건    | 설명                    |
 |------------|------|----------|-----------------------|
-| quetion_id | Long | NOT NULL | 댓글 코멘트를 생성 할 질문 글의 id |
+| quetionId | Long | NOT NULL | 댓글 코멘트를 생성 할 질문 글의 id |
 
 **Request Elements**
 
 | 파라미터                             | 타입     | 제약 조건    | 설명                                               |
 |----------------------------------|--------|----------|--------------------------------------------------|
-| parent_id                        | Long   | NOT NULL | 대댓글의 부모 댓글 고유번호 0일경우 댓글 0 이외의 양수 일 경우 해당 댓글의 대댓글 |
+| parentId                        | Long   | NOT NULL | 대댓글의 부모 댓글 고유번호 0일경우 댓글 0 이외의 양수 일 경우 해당 댓글의 대댓글 |
 | content                          | String | NOT NULL | 내용                                               |
 
 ### Response
@@ -80,8 +80,8 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
-| 400 | request.parent_id.invalid | 잘못된 요청입니다. | 부모 댓글이 존재하지 않는 경우            |
+| 400 | request.quetionId.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
+| 400 | request.parentId.invalid | 잘못된 요청입니다. | 부모 댓글이 존재하지 않는 경우            |
 | 400 | request.content.invalid | 잘못된 요청입니다. | 내용이 없는 경우                    |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
 
@@ -98,7 +98,7 @@ Error code
 
 | 매서드 | 요청 URL |
 | --- | --- |
-| GET | https://{SERVER_URL}/api/quetions/{quetion_id}/comments |
+| GET | https://{SERVER_URL}/api/quetions/{quetionId}/comments |
 
 **Request Header**
 
@@ -110,7 +110,7 @@ Error code
 
 | 파라미터 | 타입 | 제약 조건 | 설명 |
 | --- | --- | --- | --- |
-| quetion_id | Long | NOT NULL | 조회 할 댓글 코멘트가 달린 질문 글의 id  |
+| quetionId | Long | NOT NULL | 조회 할 댓글 코멘트가 달린 질문 글의 id  |
 
 ### Response
 
@@ -129,7 +129,7 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
+| 400 | request.quetionId.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
 
 
@@ -145,7 +145,7 @@ Error code
 
 | 매서드 | 요청 URL |
 | --- | --- |
-| PUT | https://{SERVER_URL}/api/quetions/{quetion_id}/comments/{comment_id} |
+| PUT | https://{SERVER_URL}/api/quetions/{quetionId}/comments/{commentId} |
 
 **Request Header**
 
@@ -157,14 +157,14 @@ Error code
 
 | 파라미터 | 타입 | 제약 조건 | 설명 |
 | --- | --- | --- | --- |
-| quetion_id | Long | NOT NULL | 수정 할 댓글 코멘트가 달린 질문 글의 id  |
-| comment_id | Long | NOT NULL | 수정 할 댓글 코멘트의 id |
+| quetionId | Long | NOT NULL | 수정 할 댓글 코멘트가 달린 질문 글의 id  |
+| commentId | Long | NOT NULL | 수정 할 댓글 코멘트의 id |
 
 **Request Elements**
 
 | 파라미터      | 타입     | 제약 조건    | 설명                                               |
 |-----------|--------|----------|--------------------------------------------------|
-| parent_id | Long   | NOT NULL | 대댓글의 부모 댓글 고유번호 0일경우 댓글 0 이외의 양수 일 경우 해당 댓글의 대댓글 |
+| parentId | Long   | NOT NULL | 대댓글의 부모 댓글 고유번호 0일경우 댓글 0 이외의 양수 일 경우 해당 댓글의 대댓글 |
 | content   | String | NOT NULL | 내용                                               |
 
 ### Response
@@ -178,8 +178,8 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
-| 400 | request.comment_id.invalid | 잘못된 요청입니다. | 댓글 코멘트가 존재하지 않는 경우           |
+| 400 | request.quetionId.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
+| 400 | request.commentId.invalid | 잘못된 요청입니다. | 댓글 코멘트가 존재하지 않는 경우           |
 | 400 | request.content.invalid | 잘못된 요청입니다. | 내용이 없는 경우                    |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |
 
@@ -195,7 +195,7 @@ Error code
 
 | 매서드    | 요청 URL                                                               |
 |--------|----------------------------------------------------------------------|
-| DELETE | https://{SERVER_URL}/api/quetions/{quetion_id}/comments/{comment_id} |
+| DELETE | https://{SERVER_URL}/api/quetions/{quetionId}/comments/{commentId} |
 
 **Request Header**
 
@@ -207,8 +207,8 @@ Error code
 
 | 파라미터       | 타입   | 제약 조건    | 설명                       |
 |------------|------|----------|--------------------------|
-| quetion_id | Long | NOT NULL | 삭제 할 댓글 코멘트가 달린 질문 글의 id |
-| comment_id | Long | NOT NULL | 삭제 할 댓글 코멘트의 id          |
+| quetionId | Long | NOT NULL | 삭제 할 댓글 코멘트가 달린 질문 글의 id |
+| commentId | Long | NOT NULL | 삭제 할 댓글 코멘트의 id          |
 
 ### Response
 
@@ -221,6 +221,6 @@ Error code
 ### Exception
 | HTTP status code | error                | message    | 설명                           |
 |---------------|----------------------|------------|------------------------------|
-| 400 | request.quetion_id.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
-| 400 | request.comment_id.invalid | 잘못된 요청입니다. | 댓글 코멘트가 존재하지 않는 경우           |
+| 400 | request.quetionId.invalid | 잘못된 요청입니다. | 질문 글이 존재하지 않는 경우             |
+| 400 | request.commentId.invalid | 잘못된 요청입니다. | 댓글 코멘트가 존재하지 않는 경우           |
 | 401 | fail.authentication  | 인증이 필요합니다. | 로그인이 되어있지 않은 경우 / 토큰이 만료된 경우 |

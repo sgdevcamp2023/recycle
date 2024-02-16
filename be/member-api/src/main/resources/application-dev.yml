@@ -9,6 +9,8 @@ spring:
       - flyway-member
       - security-dev
       - cookie-dev
+      - rabbit-dev
+      - log-dev
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
