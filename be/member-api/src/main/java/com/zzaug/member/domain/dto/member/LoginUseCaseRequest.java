@@ -17,4 +17,5 @@ public class LoginUseCaseRequest {
 
 	private String certification;
 	private String password;
+	private String userAgent;
 }

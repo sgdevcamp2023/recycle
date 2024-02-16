@@ -8,7 +8,21 @@ spring:
       - mysql-local
       - flyway-member
       - security-local
+      - cookie-local
+      - rabbit-local
+      - log-local
+  redis:
+    host: localhost
+    port: 16379
+    password:
 
 logging:
   level:
     root: DEBUG
+    com:
+      zzaug: DEBUG
+    org:
+      springframework:
+        transaction:
+          interceptor: DEBUG
+    sql: DEBUG

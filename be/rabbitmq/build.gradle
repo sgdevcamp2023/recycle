@@ -7,7 +7,7 @@ jar {
 }
 
 dependencies {
-    implementation 'org.springframework.amqp:spring-rabbit'
+    api 'org.springframework.amqp:spring-rabbit'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
