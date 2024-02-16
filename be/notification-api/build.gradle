@@ -1,6 +1,3 @@
-def imageName = project.hasProperty('imageName') ? imageName : "belljun3395/zzuag-notification"
-def releaseVersion = project.hasProperty('releaseVersion') ? releaseVersion : null
-
 apply from: '../dependencies/web-dependencies.gradle'
 apply from: '../dependencies/database-dependencies.gradle'
 apply from: '../tasks/docs-task.gradle'
@@ -27,7 +24,7 @@ task buildDockerImage {
         }
         exec {
             workingDir '.'
-            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${imageName}", '--build-arg', "RELEASE_VERSION=${releaseVersion}", '.', '--push'
+            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${notificationImageName}", '--build-arg', "RELEASE_VERSION=${notificationReleaseVersion}", '.', '--push'
         }
     }
 }
