@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "repository-test"})
 @DataJpaTest(
 		excludeAutoConfiguration = {
 			DataSourceAutoConfiguration.class,

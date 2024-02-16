@@ -9,6 +9,8 @@ spring:
       - flyway-member
       - security-prod
       - cookie-prod
+      - rabbit-prod
+      - log-prod
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}

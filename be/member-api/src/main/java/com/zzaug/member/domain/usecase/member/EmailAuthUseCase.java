@@ -5,6 +5,7 @@ import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
 import com.zzaug.member.domain.external.dao.auth.EmailAuthDao;
 import com.zzaug.member.domain.external.dao.member.ExternalContactDao;
 import com.zzaug.member.domain.message.EmailAuthMessage;
+import com.zzaug.member.domain.support.usecase.RandomAuthCodeGenerator;
 import com.zzaug.member.entity.auth.EmailAuthEntity;
 import com.zzaug.member.entity.auth.EmailData;
 import com.zzaug.member.entity.member.ContactType;
@@ -12,7 +13,6 @@ import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
 import com.zzaug.member.redis.email.EmailAuthSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,7 @@ public class EmailAuthUseCase {
 
 	private final ExternalContactDao externalContactDao;
 	private final EmailAuthDao emailAuthDao;
+	private final RandomAuthCodeGenerator randomAuthCodeGenerator;
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -32,7 +33,7 @@ public class EmailAuthUseCase {
 		final String sessionId = request.getSessionId();
 		final EmailData email = EmailData.builder().email(request.getEmail()).build();
 		final String nonce = request.getNonce();
-		final String authCode = RandomStringUtils.random(7, true, true);
+		final String authCode = randomAuthCodeGenerator.generate(7);
 		log.debug("AuthCode is generated : {}", authCode);
 
 		log.debug("Check duplicate email. email: {}", email.getEmail());
@@ -53,7 +54,6 @@ public class EmailAuthUseCase {
 
 		publishEvent(memberId, email, authCode);
 
-		// todo 이메일 인증 요청 메시지를 보낸다.
 		return EmailAuthUseCaseResponse.builder().duplication(false).build();
 	}
 
@@ -86,7 +86,6 @@ public class EmailAuthUseCase {
 	}
 
 	private void publishEvent(Long memberId, EmailData email, String authCode) {
-		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
 		log.debug(
 				"Publish email auth event. memberId: {}, email: {}, code: {}",
 				memberId,

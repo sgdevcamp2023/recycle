@@ -24,6 +24,6 @@ public class BlackAuthTokenHash {
 	@Indexed private String token;
 
 	@Builder.Default
-	@TimeToLive(unit = TimeUnit.MINUTES)
-	private Long ttl = 5L;
+	@TimeToLive(unit = TimeUnit.MILLISECONDS)
+	private Long ttl = 1000 * 60L;
 }
