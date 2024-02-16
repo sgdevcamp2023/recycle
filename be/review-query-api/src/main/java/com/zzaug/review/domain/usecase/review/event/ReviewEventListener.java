@@ -1,8 +1,8 @@
 package com.zzaug.review.domain.usecase.review.event;
 
-import com.zzaug.review.domain.event.DeleteReviewEvent;
-import com.zzaug.review.domain.event.EditReviewEvent;
-import com.zzaug.review.domain.event.SaveReviewEvent;
+import com.zzaug.review.domain.event.review.DeleteReviewEvent;
+import com.zzaug.review.domain.event.review.EditReviewEvent;
+import com.zzaug.review.domain.event.review.SaveReviewEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@RabbitListener(queues = "zzaug.review")
+@RabbitListener(containerFactory = "RabbitMQrabbitListenerContainerFactory", queues = "zzuag.review")
 public class ReviewEventListener {
 
     private final ApplicationEventPublisher publisher;
