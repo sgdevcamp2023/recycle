@@ -4,6 +4,8 @@ import com.zzaug.review.domain.event.review.EditReviewEvent;
 import com.zzaug.review.entity.review.ReviewEntity;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+
 @Component
 public class EditReviewEventConverter {
 	public static EditReviewEvent from(ReviewEntity source) {
@@ -13,10 +15,11 @@ public class EditReviewEventConverter {
 				.content(source.getContent())
 				.author(source.getAuthor())
 				.authorId(source.getAuthorId())
-				.createdAt(source.getCreatedAt())
+				.updatedAt(source.getUpdatedAt())
 				.startPoint(source.getStartPoint())
 				.endPoint(source.getEndPoint())
 				.tag(source.getTag())
+				.eventAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
 }
