@@ -11,3 +11,4 @@ spring:
       - mail-local
       - rabbit-local
       - cookie-local
+      - log-local

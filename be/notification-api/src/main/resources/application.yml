@@ -11,3 +11,4 @@ spring:
       - mail
       - rabbit
       - cookie
+      - log

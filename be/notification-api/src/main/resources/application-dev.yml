@@ -11,3 +11,4 @@ spring:
       - mail-dev
       - rabbit-dev
       - cookie-dev
+      - log-dev

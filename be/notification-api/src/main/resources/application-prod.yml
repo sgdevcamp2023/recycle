@@ -11,3 +11,4 @@ spring:
       - mail-prod
       - rabbit-prod
       - cookie-prod
+      - log-prod
