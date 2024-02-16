@@ -11,7 +11,7 @@ const MarkdownBox = styled.div`
   height: 100%;
   padding: 0.25rem 0.25rem 0.25rem 3rem;
   background-color: white;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   overflow-y: hidden; /* 항상 수직 스크롤바를 감춤 */
   overflow-x: hidden; /* 가로 스크롤바를 감춤 */
   &:hover {

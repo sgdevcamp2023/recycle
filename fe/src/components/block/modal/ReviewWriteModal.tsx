@@ -5,6 +5,8 @@ import DefaultButton from '@components/atom/Button/DefaultButton';
 import Text from '@components/atom/Text';
 import GreyButton from '@components/atom/Button/GreyButton';
 import ReverseButton from '@components/atom/Button/ReverseButton';
+import { useMarkdownStore } from '@store/useMarkdownStore';
+import useReviewStore from '@store/useReviewStore';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -30,23 +32,33 @@ const ButtonBox = styled.div`
 `;
 
 const ReviewWriteModal = ({ top }) => {
-  const [markdown, setMarkdown] = useState('');
+  const { review, setReview, id } = useReviewStore();
+  const { showCodeComment, setShowCodeComment } = useMarkdownStore();
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
-      setMarkdown(value);
+      setReview(value);
     }
+  };
+
+  const handleSubmit = () => {
+    console.log(review);
+    console.log(id);
+  };
+
+  const handleCloseClick = () => {
+    setShowCodeComment(false);
   };
 
   return (
     <div style={{ position: 'absolute', top }}>
       <LoginBox>
-        <MarkdownEditor height={'90%'} value={markdown} onChange={handleMarkdownChange} />
+        <MarkdownEditor height={'90%'} value={review} onChange={handleMarkdownChange} />
         <ButtonBox>
-          <DefaultButton width={4} height={2} padding={0}>
+          <DefaultButton width={4} height={2} padding={0} onClick={handleSubmit}>
             <Text fontSize="xs">Submit</Text>
           </DefaultButton>
-          <ReverseButton width={4} height={2} padding={0}>
+          <ReverseButton width={4} height={2} padding={0} onClick={handleCloseClick}>
             <Text fontSize="xs">Close</Text>
           </ReverseButton>
         </ButtonBox>
