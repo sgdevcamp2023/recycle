@@ -4,6 +4,7 @@ import com.zzaug.notification.domain.dto.notification.BrowseNotificationUseCaseR
 import com.zzaug.notification.domain.dto.notification.NotificationResponse;
 import com.zzaug.notification.domain.dto.notification.NotificationResponses;
 import com.zzaug.notification.domain.dto.notification.RequestReviewUseCaseRequest;
+import com.zzaug.notification.domain.usecase.notification.RequestReviewUseCase;
 import com.zzaug.notification.web.dto.notification.RequestReviewRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.web.support.ApiResponse;
@@ -27,12 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NotificationController {
 
+	private final RequestReviewUseCase requestReviewUseCase;
+
 	@PostMapping("/request/reviews")
 	public ApiResponse<ApiResponse.Success> requestReview(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Validated @RequestBody RequestReviewRequest request) {
-		//		Long memberId = Long.valueOf(userDetails.getId());
-		Long memberId = 1L;
+		Long memberId = Long.valueOf(userDetails.getId());
 		Long questionId = request.getQuestionId();
 		Long requestMemberId = request.getRequestMemberId();
 		RequestReviewUseCaseRequest useCaseRequest =
@@ -41,6 +43,7 @@ public class NotificationController {
 						.questionId(questionId)
 						.requestMemberId(requestMemberId)
 						.build();
+		requestReviewUseCase.execute(useCaseRequest);
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
 	}
 
