@@ -1,14 +1,16 @@
 package com.zzaug.review.entity.review.query;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -20,7 +22,8 @@ import lombok.ToString;
 @Setting(settingPath = "elasticsearch/settings/review-setting.json")
 public class ReviewQueryEntity {
 
-	@Id private Long reviewId;
+	@Id
+	private Long reviewId;
 
 	private Long questionId;
 
