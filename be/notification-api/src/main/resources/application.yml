@@ -10,3 +10,4 @@ spring:
       - security
       - mail
       - rabbit
+      - cookie

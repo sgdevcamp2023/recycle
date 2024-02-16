@@ -10,3 +10,4 @@ spring:
       - security-prod
       - mail-prod
       - rabbit-prod
+      - cookie-prod
