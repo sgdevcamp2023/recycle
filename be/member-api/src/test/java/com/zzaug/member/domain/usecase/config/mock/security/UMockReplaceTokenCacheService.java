@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 public class UMockReplaceTokenCacheService implements ReplaceTokenCacheService {
 
 	@Override
-	public void execute(String oldToken, String newToken) {
+	public void execute(String oldToken, String newToken, Long memberId) {
 		// Do nothing
 	}
 }

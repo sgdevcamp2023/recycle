@@ -12,6 +12,7 @@ import com.zzaug.security.redis.auth.WhiteAuthTokenHashRepository;
 import com.zzaug.security.token.TokenResolver;
 import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,17 @@ public class TokenUserDetailsService implements UserDetailsService {
 		if (!isWhite) {
 			isValidToken(token);
 			log.debug("Save token to WhiteList. \ntoken: {}", token);
-			whiteAuthTokenHashRepository.save(WhiteAuthTokenHash.builder().token(token).build());
+			Long exp =
+					tokenResolver
+							.resolveExp(token)
+							.orElseThrow(
+									() ->
+											new AccessTokenInvalidException(
+													"Invalid access token. accessToken: " + token));
+			Date now = new Date();
+			long restExp = now.getTime() - exp;
+			whiteAuthTokenHashRepository.save(
+					WhiteAuthTokenHash.builder().token(token).ttl(restExp).build());
 		}
 
 		Claims claims =
@@ -79,14 +90,14 @@ public class TokenUserDetailsService implements UserDetailsService {
 		log.debug("Check token on BlackList. \ntoken: {}", token);
 		boolean isOnCache = blackAuthTokenHashRepository.existsByToken(token);
 		if (isOnCache) {
-			log.warn("Token is onn BlackList \n{}", token);
+			log.warn("Token is on BlackList \n{}", token);
 			throw new AccessTokenInvalidException("Invalid access token. accessToken: " + token);
 		}
 		boolean isOnDB =
 				blackTokenAuthRepository.existsByTokenAndDeletedFalse(
 						TokenData.builder().token(token).build());
 		if (isOnDB) {
-			log.warn("Token is onn BlackList \n{}", token);
+			log.warn("Token is on BlackList \n{}", token);
 			blackAuthTokenHashRepository.save(BlackAuthTokenHash.builder().token(token).build());
 			throw new AccessTokenInvalidException("Invalid access token. accessToken: " + token);
 		}

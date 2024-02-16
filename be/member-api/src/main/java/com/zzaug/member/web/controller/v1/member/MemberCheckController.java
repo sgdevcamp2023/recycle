@@ -6,6 +6,7 @@ import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.CheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseRequest;
 import com.zzaug.member.domain.dto.member.EmailAuthUseCaseResponse;
+import com.zzaug.member.domain.dto.member.SuccessCheckEmailAuthUseCaseResponse;
 import com.zzaug.member.domain.usecase.member.CheckDuplicationUseCase;
 import com.zzaug.member.domain.usecase.member.CheckEmailAuthUseCase;
 import com.zzaug.member.domain.usecase.member.EmailAuthUseCase;
@@ -15,8 +16,11 @@ import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.security.filter.token.AccessTokenResolver;
 import com.zzaug.web.support.ApiResponse;
 import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.CookieGenerator;
+import com.zzaug.web.support.CookieSameSite;
 import com.zzaug.web.support.MessageCode;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -25,6 +29,7 @@ import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -43,6 +48,8 @@ public class MemberCheckController {
 
 	private static final String SESSION_ID_KEY = "sessionId";
 	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+
+	private final CookieGenerator cookieGenerator;
 
 	private final CheckDuplicationUseCase checkDuplicationUseCase;
 	private final EmailAuthUseCase emailAuthUseCase;
@@ -82,6 +89,7 @@ public class MemberCheckController {
 			@CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshTokenValue,
 			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Valid @RequestBody CheckEmailAuthRequest request,
+			HttpServletResponse httpServletResponse,
 			HttpServletRequest httpServletRequest) {
 		Long memberId = Long.valueOf(userDetails.getId());
 		String authorization = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
@@ -99,7 +107,16 @@ public class MemberCheckController {
 						.refreshToken(refreshTokenValue)
 						.build();
 		CheckEmailAuthUseCaseResponse response = checkEmailAuthUseCase.execute(useCaseRequest);
-		session.invalidate();
-		return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		if (!(response instanceof SuccessCheckEmailAuthUseCaseResponse)) {
+			return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.SUCCESS);
+		}
+		SuccessCheckEmailAuthUseCaseResponse successResponse =
+				(SuccessCheckEmailAuthUseCaseResponse) response;
+		ResponseCookie refreshToken =
+				cookieGenerator.createCookie(
+						CookieSameSite.LAX, REFRESH_TOKEN_COOKIE_NAME, successResponse.getRefreshToken());
+		httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());
+		session.removeAttribute(SESSION_ID_KEY);
+		return ApiResponseGenerator.success(successResponse, HttpStatus.OK, MessageCode.SUCCESS);
 	}
 }
