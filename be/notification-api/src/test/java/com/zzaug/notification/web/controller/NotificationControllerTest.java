@@ -66,10 +66,7 @@ class NotificationControllerTest {
 												.description("다른 멤버에게 리뷰를 요청합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("RequestReviewRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("RequestReviewResponse"))
 												.responseFields(Description.success())
 												.build())));
@@ -96,10 +93,7 @@ class NotificationControllerTest {
 												.description("다른 멤버에게 리뷰를 요청합니다.")
 												.tag(TAG)
 												.requestSchema(Schema.schema("RequestReviewRequest"))
-												.requestHeaders(
-														Description.authHeader(),
-														Description.xZzaugIdHeader(),
-														Description.refererHeader())
+												.requestHeaders(Description.authHeader(), Description.xZzaugIdHeader())
 												.responseSchema(Schema.schema("RequestReviewResponse"))
 												.responseFields(
 														Description.success(
@@ -122,6 +116,9 @@ class NotificationControllerTest {
 																	fieldWithPath("data.notifications[].notice_at")
 																			.type(JsonFieldType.STRING)
 																			.description("알림 시간"),
+																	fieldWithPath("timestamp")
+																			.type(JsonFieldType.STRING)
+																			.description("응답 시간"),
 																}))
 												.build())));
 	}

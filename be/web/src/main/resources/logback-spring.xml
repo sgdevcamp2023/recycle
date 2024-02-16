@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+  <property resource="application.yml" />
+  <springProfile name="dev">
+    <property resource="application-log-dev.yml" />
+  </springProfile>
+  <springProfile name="local">
+    <property resource="application-log-local.yml" />
+  </springProfile>
+  <springProfile name="prod">
+    <property resource="application-log-prod.yml" />
+  </springProfile>
+  <springProperty name="LOGSTASH_URL" source= "logstash.url" />
+  <property name="LOGS_ABSOLUTE_PATH" value="./logs"/>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>${LOGSTASH_URL}</destination>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <providers>
+        <mdc/>
+        <pattern>
+          <!--          <pattern></pattern> set MDC key value-->
+        </pattern>
+        <timestamp/>
+        <context/>
+        <threadName/>
+        <loggerName/>
+        <logLevel/>
+        <message/>
+        <logstashMarkers/>
+        <stackTrace/>
+        <callerData/>
+      </providers>
+    </encoder>
+  </appender>
+
+  <logger name="com.zzaug" level="INFO" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="LOGSTASH"/>
+  </logger>
+
+  <root level="DEBUG">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>
