@@ -2,7 +2,6 @@ package com.zzaug.review.entity.question.query;
 
 import java.time.LocalDateTime;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
