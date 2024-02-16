@@ -63,7 +63,9 @@ const CreateReview = () => {
   return (
     <>
       <TitleWrapper>
-        <Text fontSize="lg">제목이 들어갈 자리입니다</Text>
+        <Text fontSize="xl" fontWeight="bold">
+          제목이 들어갈 자리입니다
+        </Text>
       </TitleWrapper>
       <MarkdownBox>
         <MDEditor.Markdown source={show} />
