@@ -3,6 +3,8 @@ import MarkdownEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import Text from '@components/atom/Text';
+import GreyButton from '@components/atom/Button/GreyButton';
+import ReverseButton from '@components/atom/Button/ReverseButton';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -24,9 +26,10 @@ const ButtonBox = styled.div`
   position: absolute;
   bottom: 0.3125rem;
   right: 0.25rem;
+  gap: 0.25rem;
 `;
 
-const ReviewWriteModal = () => {
+const ReviewWriteModal = ({ top }) => {
   const [markdown, setMarkdown] = useState('');
 
   const handleMarkdownChange = (value: string | undefined) => {
@@ -36,14 +39,16 @@ const ReviewWriteModal = () => {
   };
 
   return (
-    <div>
-      <h2>리뷰어가 리뷰를 작성할 모달입니다</h2>
+    <div style={{ position: 'absolute', top }}>
       <LoginBox>
         <MarkdownEditor height={'90%'} value={markdown} onChange={handleMarkdownChange} />
         <ButtonBox>
-          <DefaultButton width={4} height={2}>
+          <DefaultButton width={4} height={2} padding={0}>
             <Text fontSize="xs">Submit</Text>
           </DefaultButton>
+          <ReverseButton width={4} height={2} padding={0}>
+            <Text fontSize="xs">Close</Text>
+          </ReverseButton>
         </ButtonBox>
       </LoginBox>
     </div>

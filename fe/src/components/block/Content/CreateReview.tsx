@@ -4,13 +4,14 @@ import MDEditor from '@uiw/react-md-editor';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReviewWriteModal from '../modal/ReviewWriteModal';
+import { useMarkdownStore } from '@store/useMarkdownStore';
 
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
   const [show, setShow] = useState(
     "## 대충 코드임\n안녕하세요\n\n저는 이규민입니다\n\n- 이건 코드입니다\n```js\nconst a = '규민'\nconsole.log(a)\n```\n\n- 이건 두번째 코드입니다\n```js\nconst b = '재진'\nconsole.log(b)\n```\n\n모든 코드를 전부 작성하였습니다",
   );
-  const [showCodeComment, setShowCodeComment] = useState(false);
+  const { showCodeComment, setShowCodeComment } = useMarkdownStore();
 
   useEffect(() => {
     const codeBlocks = document.querySelectorAll('code');
@@ -46,9 +47,20 @@ const CreateReview = () => {
   }, []); // 추후 content로 변경 필요
 
   const handleClickOnCodeBlock = (e, id) => {
-    console.log(e.target.textContent);
-    console.log(id);
-    setShowCodeComment(true);
+    // console.log(e.target.textContent);
+    // console.log(id);
+    const parentDiv = e.currentTarget.parentElement;
+
+    const parentBorderTop = parentDiv.getBoundingClientRect().top + window.scrollY;
+
+    const modalTop = parentBorderTop;
+
+    setShowCodeComment({
+      id,
+      top: modalTop,
+    });
+
+    // setShowCodeComment(true);
   };
 
   return (
@@ -58,7 +70,7 @@ const CreateReview = () => {
       </TitleWrapper>
       <MarkdownBox>
         <MDEditor.Markdown source={show} />
-        {showCodeComment && <ReviewWriteModal />}
+        {/* {showCodeComment && <ReviewWriteModal top={showCodeComment.top} />} */}
       </MarkdownBox>
     </>
   );
@@ -71,7 +83,7 @@ const MarkdownBox = styled.div`
   height: 100%;
   padding: 0.25rem 0.25rem 0.25rem 3rem;
   background-color: white;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   overflow-y: hidden; /* 항상 수직 스크롤바를 감춤 */
   overflow-x: hidden; /* 가로 스크롤바를 감춤 */
   &:hover {
