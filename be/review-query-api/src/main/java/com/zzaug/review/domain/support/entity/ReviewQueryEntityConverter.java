@@ -19,6 +19,7 @@ public class ReviewQueryEntityConverter {
 				.startPoint(source.getStartPoint())
 				.endPoint(source.getEndPoint())
 				.tag(source.getTag())
+				.isDeleted(source.getIsDeleted())
 				.build();
 	}
 }
