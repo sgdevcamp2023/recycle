@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
+  <property resource="application.yml" />
+  <springProfile name="dev">
+    <property resource="application-log-dev.yml" />
+  </springProfile>
+  <springProfile name="local">
+    <property resource="application-log-local.yml" />
+  </springProfile>
+  <springProfile name="prod">
+    <property resource="application-log-prod.yml" />
+  </springProfile>
+  <springProperty name="LOGSTASH_URL" source= "logstash.url" />
   <property name="LOGS_ABSOLUTE_PATH" value="./logs"/>
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -10,8 +20,7 @@
   </appender>
 
   <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-    <!-- 로그 스태시 주소 -->
-    <destination>${LOGSTASH_URL:-localhost:5000}</destination>
+    <destination>${LOGSTASH_URL}</destination>
     <encoder class="net.logstash.logback.encoder.LogstashEncoder">
       <providers>
         <mdc/>
