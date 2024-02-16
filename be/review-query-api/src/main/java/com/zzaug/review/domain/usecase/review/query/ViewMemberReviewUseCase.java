@@ -27,7 +27,8 @@ public class ViewMemberReviewUseCase {
 
 		for (ReviewQueryEntity reviewQueryEntity : reviewResult) {
 			Long questionId = reviewQueryEntity.getQuestionId();
-			QuestionQueryEntity result = questionQueryRepository.findByQuestionIdAndIsDeletedIsFalse(questionId);
+			QuestionQueryEntity result =
+					questionQueryRepository.findByQuestionIdAndIsDeletedIsFalse(questionId);
 			if (result != null) {
 				questionResult.add(result);
 			}

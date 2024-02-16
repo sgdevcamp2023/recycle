@@ -15,5 +15,6 @@ public interface QuestionQueryRepository
 
 	QuestionQueryEntity findByQuestionIdAndIsDeletedIsFalse(Long questionId);
 
-	QuestionQueryEntity findByQuestionIdAndContentContainingAndIsDeletedIsFalse(Long questionId, String query);
+	QuestionQueryEntity findByQuestionIdAndContentContainingAndIsDeletedIsFalse(
+			Long questionId, String query);
 }
