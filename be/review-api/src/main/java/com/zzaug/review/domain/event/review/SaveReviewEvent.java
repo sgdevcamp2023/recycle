@@ -1,5 +1,7 @@
 package com.zzaug.review.domain.event.review;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.zzaug.review.entity.review.ReviewPoint;
@@ -13,6 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SaveReviewEvent {
 
 	private Long reviewId;
@@ -28,12 +31,12 @@ public class SaveReviewEvent {
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime createdAt;
 
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	private LocalDateTime updatedAt;
-
 	@Embedded private ReviewPoint startPoint;
 
 	@Embedded private ReviewPoint endPoint;
 
 	private ReviewType tag;
+
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	private LocalDateTime eventAt;
 }
