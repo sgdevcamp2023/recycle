@@ -1,20 +1,20 @@
 package com.zzaug.member.domain.dto.member;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(toBuilder = true)
+@SuperBuilder(toBuilder = true)
 public class CheckEmailAuthUseCaseResponse {
 
 	private Boolean authentication;
-	private Integer tryCount;
+	private Long tryCount;
 }
