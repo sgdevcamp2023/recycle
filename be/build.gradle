@@ -23,6 +23,12 @@ buildscript {
 
         // flyway
         flywayVersion = '9.16.0'
+
+        // image
+        memberImageName = 'zzuag/member-api'
+        memberReleaseVersion = projectVersion
+        notificationImageName = 'zzuag/notification-api'
+        notificationReleaseVersion = projectVersion
     }
 }
 

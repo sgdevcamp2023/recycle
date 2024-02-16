@@ -1,5 +1,7 @@
 package com.zzaug.rabbitmq.config;
 
+import static com.zzaug.rabbitmq.config.ZRabbiMQConfig.BEAN_NAME_PREFIX;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -22,13 +24,21 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class ZRMQConnectionConfig {
 
-	@Bean
+	public static final String RABBITMQ_PROPERTIES_BEAN_NAME = BEAN_NAME_PREFIX + "RabbitProperties";
+	public static final String RABBIT_CONNECTION_FACTORY_CONFIGURER_BEAN_NAME =
+			BEAN_NAME_PREFIX + "ConnectionFactoryConfigurer";
+	public static final String RABBIT_TEMPLATE_BEAN_NAME = BEAN_NAME_PREFIX + "RabbitTemplate";
+	public static final String AMQP_ADMIN_BEAN_NAME = BEAN_NAME_PREFIX + "AmqpAdmin";
+	public static final String RABBIT_MESSAGING_TEMPLATE_BEAN_NAME =
+			BEAN_NAME_PREFIX + "RabbitMessagingTemplate";
+
+	@Bean(name = RABBITMQ_PROPERTIES_BEAN_NAME)
 	@ConfigurationProperties(prefix = "spring.rabbitmq")
 	RabbitProperties rabbitMQProperties() {
 		return new RabbitProperties();
 	}
 
-	@Bean
+	@Bean(name = BEAN_NAME_PREFIX + "ConnectionFactory")
 	ConnectionFactory connectionFactory() {
 		RabbitProperties properties = rabbitMQProperties();
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
@@ -39,18 +49,17 @@ public class ZRMQConnectionConfig {
 		return connectionFactory;
 	}
 
-	@Bean
+	@Bean(name = RABBIT_CONNECTION_FACTORY_CONFIGURER_BEAN_NAME)
 	@ConditionalOnMissingBean
 	CachingConnectionFactoryConfigurer rabbitConnectionFactoryConfigurer(
-			RabbitProperties rabbitProperties,
 			ObjectProvider<ConnectionNameStrategy> connectionNameStrategy) {
 		CachingConnectionFactoryConfigurer configurer =
-				new CachingConnectionFactoryConfigurer(rabbitProperties);
+				new CachingConnectionFactoryConfigurer(rabbitMQProperties());
 		configurer.setConnectionNameStrategy(connectionNameStrategy.getIfUnique());
 		return configurer;
 	}
 
-	@Bean
+	@Bean(name = RABBIT_TEMPLATE_BEAN_NAME)
 	public RabbitTemplate rabbitTemplate(ObjectProvider<MessageConverter> messageConverter) {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate();
 		rabbitTemplate.setConnectionFactory(connectionFactory());
@@ -61,12 +70,12 @@ public class ZRMQConnectionConfig {
 		return rabbitTemplate;
 	}
 
-	@Bean
+	@Bean(name = AMQP_ADMIN_BEAN_NAME)
 	public AmqpAdmin amqpAdmin(ConnectionFactory connectionFactory) {
 		return new RabbitAdmin(connectionFactory);
 	}
 
-	@Bean
+	@Bean(name = RABBIT_MESSAGING_TEMPLATE_BEAN_NAME)
 	@ConditionalOnSingleCandidate(RabbitTemplate.class)
 	public RabbitMessagingTemplate rabbitMessagingTemplate(RabbitTemplate rabbitTemplate) {
 		return new RabbitMessagingTemplate(rabbitTemplate);

@@ -13,6 +13,7 @@ public class TokenResolver {
 
 	private static final String MEMBER_ID_CLAIM_KEY = "memberId";
 	private static final String MEMBER_ROLE_CLAIM_KEY = "memberRole";
+	private static final String EXPIRE_TIME_KEY = "exp";
 
 	@Value("${security.jwt.token.secretkey}")
 	private String secretKey;
@@ -55,6 +56,21 @@ public class TokenResolver {
 							.parseClaimsJws(token)
 							.getBody()
 							.get(MEMBER_ROLE_CLAIM_KEY, String.class));
+		} catch (Exception e) {
+			log.warn("Failed to get memberId. token: {}", token);
+			return Optional.empty();
+		}
+	}
+
+	public Optional<Long> resolveExp(String token) {
+		try {
+			return Optional.ofNullable(
+					Jwts.parserBuilder()
+							.setSigningKey(secretKey.getBytes())
+							.build()
+							.parseClaimsJws(token)
+							.getBody()
+							.get(EXPIRE_TIME_KEY, Long.class));
 		} catch (Exception e) {
 			log.warn("Failed to get memberId. token: {}", token);
 			return Optional.empty();

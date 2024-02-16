@@ -1,10 +1,18 @@
 package com.zzaug.security.authentication.token;
 
 import com.zzaug.security.authentication.authority.Roles;
+import com.zzaug.security.entity.auth.TokenData;
 import com.zzaug.security.exception.AccessTokenInvalidException;
+import com.zzaug.security.persistence.auth.BlackTokenAuthRepository;
+import com.zzaug.security.persistence.transaction.SecurityTransactional;
+import com.zzaug.security.redis.auth.BlackAuthTokenHash;
+import com.zzaug.security.redis.auth.BlackAuthTokenHashRepository;
+import com.zzaug.security.redis.auth.WhiteAuthTokenHash;
+import com.zzaug.security.redis.auth.WhiteAuthTokenHashRepository;
 import com.zzaug.security.token.TokenResolver;
 import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +35,31 @@ public class TokenUserDetailsService implements UserDetailsService {
 
 	private final TokenResolver tokenResolver;
 
+	private final BlackTokenAuthRepository blackTokenAuthRepository;
+
+	// cache
+	private final WhiteAuthTokenHashRepository whiteAuthTokenHashRepository;
+	private final BlackAuthTokenHashRepository blackAuthTokenHashRepository;
+
 	@Override
+	@SecurityTransactional
 	public UserDetails loadUserByUsername(String token) throws UsernameNotFoundException {
+		boolean isWhite = isWhiteToken(token);
+		if (!isWhite) {
+			isValidToken(token);
+			log.debug("Save token to WhiteList. \ntoken: {}", token);
+			Long exp =
+					tokenResolver
+							.resolveExp(token)
+							.orElseThrow(
+									() ->
+											new AccessTokenInvalidException(
+													"Invalid access token. accessToken: " + token));
+			Date now = new Date();
+			long restExp = now.getTime() - exp;
+			whiteAuthTokenHashRepository.save(
+					WhiteAuthTokenHash.builder().token(token).ttl(restExp).build());
+		}
 
 		Claims claims =
 				tokenResolver
@@ -48,6 +79,28 @@ public class TokenUserDetailsService implements UserDetailsService {
 				.certification(certification)
 				.authorities(authorities)
 				.build();
+	}
+
+	private boolean isWhiteToken(String token) {
+		log.debug("Check token. \ntoken: {}", token);
+		return whiteAuthTokenHashRepository.existsByToken(token);
+	}
+
+	private void isValidToken(String token) {
+		log.debug("Check token on BlackList. \ntoken: {}", token);
+		boolean isOnCache = blackAuthTokenHashRepository.existsByToken(token);
+		if (isOnCache) {
+			log.warn("Token is on BlackList \n{}", token);
+			throw new AccessTokenInvalidException("Invalid access token. accessToken: " + token);
+		}
+		boolean isOnDB =
+				blackTokenAuthRepository.existsByTokenAndDeletedFalse(
+						TokenData.builder().token(token).build());
+		if (isOnDB) {
+			log.warn("Token is on BlackList \n{}", token);
+			blackAuthTokenHashRepository.save(BlackAuthTokenHash.builder().token(token).build());
+			throw new AccessTokenInvalidException("Invalid access token. accessToken: " + token);
+		}
 	}
 
 	private static List<GrantedAuthority> toAuthorities(String roles) {

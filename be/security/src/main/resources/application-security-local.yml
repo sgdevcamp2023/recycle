@@ -1,3 +1,9 @@
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - flyway-security
 security:
   jwt:
     token:
@@ -13,3 +19,31 @@ security:
     exposed-headers: "Set-Cookie, Authorization, Content-Type, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin, Access-Control-Allow-Credentials"
     allow-credentials: true
     max-age: 1800
+
+recycle:
+  security:
+    entity:
+      datasource:
+        jdbcUrl: jdbc:mysql://localhost:13306/security?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+        username: root
+        password: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        hibernate:
+          ddl-auto: update
+        properties:
+          hibernate:
+            format_sql: true
+    redis:
+      host: localhost
+      port: 16379
+      password:
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
