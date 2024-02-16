@@ -26,7 +26,7 @@ Review 도메인
 | updatedAt | Timestamp |  | 리뷰 수정일자 |
 | startPoint | Object | NOT NULL | 리뷰 시작점 |
 |startPoint_index | int | NOT NULL | 리뷰 시작점 인덱스 |
-|startPoint_point | int | NOT NULL | 리뷰 시작점 포인트 | 
+|startPoint_point | int | NOT NULL | 리뷰 시작점 포인트 |
 | endPoint | Object | NOT NULL | 리뷰 끝점 |
 |endPoint_index | int | NOT NULL | 리뷰 끝점 인덱스 |
 |endPoint_point | int | NOT NULL | 리뷰 끝점 포인트 |
@@ -99,7 +99,7 @@ Error code
 | content | String | NOT NULL | 내용                                      |
 | startPoint | Object | NOT NULL | 리뷰 시작점                                  |
 |startPoint_index | int | NOT NULL | 리뷰 시작점 인덱스                              |
-|startPoint_point | int | NOT NULL | 리뷰 시작점 포인트                              | 
+|startPoint_point | int | NOT NULL | 리뷰 시작점 포인트                              |
 | endPoint | Object | NOT NULL | 리뷰 끝점                                   |
 |endPoint_index | int | NOT NULL | 리뷰 끝점 인덱스                               |
 |endPoint_point | int | NOT NULL | 리뷰 끝점 포인트                               |
@@ -169,7 +169,7 @@ Error code
 | content  | String | NOT NULL | 내용 |
 | startPoint | Object | NOT NULL | 리뷰 시작점                                  |
 |startPoint_index | int | NOT NULL | 리뷰 시작점 인덱스                              |
-|startPoint_point | int | NOT NULL | 리뷰 시작점 포인트                              | 
+|startPoint_point | int | NOT NULL | 리뷰 시작점 포인트                              |
 | endPoint | Object | NOT NULL | 리뷰 끝점                                   |
 |endPoint_index | int | NOT NULL | 리뷰 끝점 인덱스                               |
 |endPoint_point | int | NOT NULL | 리뷰 끝점 포인트                               |

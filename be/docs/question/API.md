@@ -314,7 +314,7 @@ Error code
 **Request Elements**
 
 | 파라미터 | 타입      | 제약 조건 | 설명                           |
-| --- |---------| --- |------------------------------| 
+| --- |---------| --- |------------------------------|
 |  me | boolean | NOT NULL | 멤버 기준 또는 전체를 선택하기 위한 boolean |
 | query | string  | NOT NULL | 검색어                          |
 | page | int     | NOT NULL | 페이지 번호                       |
