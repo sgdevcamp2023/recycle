@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.usecase.review;
 
+import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.ReviewTempResponse;
 import com.zzaug.review.domain.dto.review.ReviewTempViewUseCaseRequest;
 import com.zzaug.review.domain.persistence.review.ReviewTempRepository;
@@ -7,10 +8,11 @@ import com.zzaug.review.domain.usecase.review.converter.ReviewTempResponseConver
 import com.zzaug.review.entity.review.ReviewTempEntity;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -19,7 +21,7 @@ public class ReviewTempViewUseCase {
 
 	private final ReviewTempRepository reviewTempRepository;
 
-	@Transactional
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public List<ReviewTempResponse> execute(ReviewTempViewUseCaseRequest request) {
 
 		if (request.getTempId() != null) {
