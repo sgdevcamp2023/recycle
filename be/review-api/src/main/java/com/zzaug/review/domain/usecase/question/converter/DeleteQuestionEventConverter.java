@@ -2,9 +2,8 @@ package com.zzaug.review.domain.usecase.question.converter;
 
 import com.zzaug.review.domain.event.question.DeleteQuestionEvent;
 import com.zzaug.review.entity.question.QuestionEntity;
-import org.springframework.stereotype.Component;
-
 import java.sql.Timestamp;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteQuestionEventConverter {

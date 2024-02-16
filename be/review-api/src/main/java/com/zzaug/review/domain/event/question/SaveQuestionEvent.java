@@ -19,11 +19,13 @@ public class SaveQuestionEvent {
 	private String author;
 	private Long authorId;
 	private int reviewCnt;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime createdAt;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime deletedAt;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime eventAt;
-
 }

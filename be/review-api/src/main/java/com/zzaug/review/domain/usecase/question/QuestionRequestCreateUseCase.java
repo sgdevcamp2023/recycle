@@ -4,7 +4,6 @@ import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.event.question.QuestionRequestEvent;
 import com.zzaug.review.domain.persistence.question.QuestionRequestRepository;
 import com.zzaug.review.domain.support.entity.QuestionRequestEntityConverter;
-import com.zzaug.review.entity.question.QuestionRequestEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -15,13 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class QuestionRequestCreateUseCase {
-    private final QuestionRequestRepository questionRequestRepository;
+	private final QuestionRequestRepository questionRequestRepository;
 
-    @Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
-    @EventListener
-    public void execute(QuestionRequestEvent event) {
-        log.debug("Event received: {}", event);
-        questionRequestRepository.save(QuestionRequestEntityConverter.from(event));
-        log.debug("Event saved: {}", event);
-    }
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
+	@EventListener
+	public void execute(QuestionRequestEvent event) {
+		log.debug("Event received: {}", event);
+		questionRequestRepository.save(QuestionRequestEntityConverter.from(event));
+		log.debug("Event saved: {}", event);
+	}
 }

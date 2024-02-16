@@ -9,7 +9,6 @@ import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.domain.usecase.question.converter.DeleteQuestionEventConverter;
 import com.zzaug.review.entity.question.QuestionEntity;
 import java.util.NoSuchElementException;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

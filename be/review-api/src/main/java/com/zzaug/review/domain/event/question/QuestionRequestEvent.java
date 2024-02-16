@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionRequestEvent {
-    private Long questionReqId;
-    private String requester;
-    private Long requesterId;
+	private Long questionReqId;
+	private String requester;
+	private Long requesterId;
 }

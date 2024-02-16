@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.*;
 
@@ -20,8 +18,10 @@ public class DeleteQuestionEvent {
 	private Long questionId;
 	private String author;
 	private Long authorId;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime deletedAt;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime eventAt;
 }

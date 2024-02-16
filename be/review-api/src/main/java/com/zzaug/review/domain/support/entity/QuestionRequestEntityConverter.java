@@ -6,11 +6,11 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class QuestionRequestEntityConverter {
-    public QuestionRequestEntity from(QuestionRequestEvent source) {
-        return QuestionRequestEntity.builder()
-                .questionReqId(source.getQuestionReqId())
-                .requester(source.getRequester())
-                .requesterId(source.getRequesterId())
-                .build();
-    }
+	public QuestionRequestEntity from(QuestionRequestEvent source) {
+		return QuestionRequestEntity.builder()
+				.questionReqId(source.getQuestionReqId())
+				.requester(source.getRequester())
+				.requesterId(source.getRequesterId())
+				.build();
+	}
 }

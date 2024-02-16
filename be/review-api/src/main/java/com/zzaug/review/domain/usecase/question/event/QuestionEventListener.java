@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class QuestionEventListener {
-    private final ApplicationEventPublisher publisher;
+	private final ApplicationEventPublisher publisher;
 
-    @RabbitListener(containerFactory = "RabbitMQrabbitListenerContainerFactory", queues = "")
-    private void receiveEvent(QuestionRequestEvent event) {
-        log.debug("Event received: {}", event);
-        publisher.publishEvent(event);
-        log.debug("Event published: {}", event);
-    }
+	@RabbitListener(containerFactory = "RabbitMQrabbitListenerContainerFactory", queues = "")
+	private void receiveEvent(QuestionRequestEvent event) {
+		log.debug("Event received: {}", event);
+		publisher.publishEvent(event);
+		log.debug("Event published: {}", event);
+	}
 }
