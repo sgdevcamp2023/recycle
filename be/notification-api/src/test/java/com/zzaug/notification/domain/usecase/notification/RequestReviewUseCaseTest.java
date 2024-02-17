@@ -18,9 +18,9 @@ class RequestReviewUseCaseTest extends AbstractUseCaseTest {
 		// Given
 		RequestReviewUseCaseRequest useCaseRequest =
 				RequestReviewUseCaseRequest.builder()
-						.memberId(1L)
-						.questionId(1L)
-						.requestMemberId(1L)
+						.memberId(UMockRequestReviewHistoryDao.MEMBER_ID)
+						.questionId(UMockRequestReviewHistoryDao.QUESTION_ID)
+						.requestMemberId(UMockRequestReviewHistoryDao.REQUEST_MEMBER_ID)
 						.build();
 
 		// When
