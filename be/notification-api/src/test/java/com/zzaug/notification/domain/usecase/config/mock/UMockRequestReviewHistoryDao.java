@@ -7,6 +7,10 @@ import org.springframework.boot.test.context.TestComponent;
 @TestComponent
 public class UMockRequestReviewHistoryDao implements RequestReviewHistoryDao {
 
+	public static final Long MEMBER_ID = 1L;
+	public static final Long QUESTION_ID = 1L;
+	public static final Long REQUEST_MEMBER_ID = 2L;
+
 	@Override
 	public RequestReviewHistoryEntity saveRequestReviewHistory(
 			RequestReviewHistoryEntity requestReviewHistoryEntity) {
