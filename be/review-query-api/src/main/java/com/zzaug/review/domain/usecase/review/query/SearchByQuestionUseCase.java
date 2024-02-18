@@ -1,26 +1,29 @@
 package com.zzaug.review.domain.usecase.review.query;
 
+import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.query.SearchByQuestionUseCaseRequest;
 import com.zzaug.review.domain.persistence.question.QuestionQueryRepository;
+import com.zzaug.review.domain.persistence.question.QuestionSearchQueryRepository;
 import com.zzaug.review.domain.persistence.review.ReviewQueryRepository;
 import com.zzaug.review.entity.question.query.QuestionQueryEntity;
 import com.zzaug.review.entity.review.query.ReviewQueryEntity;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SearchByQuestionUseCase {
-	private final QuestionQueryRepository questionQueryRepository;
+	private final QuestionSearchQueryRepository questionQueryRepository;
 	private final ReviewQueryRepository reviewQueryRepository;
 
-	@Transactional
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public List<Map<String, Object>> execute(SearchByQuestionUseCaseRequest request) {
 		List<ReviewQueryEntity> reviewResult =
 				reviewQueryRepository.findAllByAuthorIdAndIsDeletedIsFalse(request.getAuthorId());
