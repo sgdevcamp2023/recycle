@@ -3,13 +3,11 @@ package com.zzaug.review.domain.usecase.review.query;
 import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.query.SearchByReviewUseCaseRequest;
 import com.zzaug.review.domain.persistence.question.QuestionQueryRepository;
-import com.zzaug.review.domain.persistence.review.ReviewQueryRepository;
 import com.zzaug.review.domain.persistence.review.ReviewSearchQueryRepository;
 import com.zzaug.review.entity.question.query.QuestionQueryEntity;
 import com.zzaug.review.entity.review.query.ReviewQueryEntity;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

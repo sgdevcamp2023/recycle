@@ -2,7 +2,6 @@ package com.zzaug.review.domain.usecase.review.query;
 
 import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.query.SearchByQuestionUseCaseRequest;
-import com.zzaug.review.domain.persistence.question.QuestionQueryRepository;
 import com.zzaug.review.domain.persistence.question.QuestionSearchQueryRepository;
 import com.zzaug.review.domain.persistence.review.ReviewQueryRepository;
 import com.zzaug.review.entity.question.query.QuestionQueryEntity;
@@ -10,7 +9,6 @@ import com.zzaug.review.entity.review.query.ReviewQueryEntity;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

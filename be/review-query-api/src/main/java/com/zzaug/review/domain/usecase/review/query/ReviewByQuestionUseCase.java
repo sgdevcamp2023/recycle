@@ -7,7 +7,6 @@ import com.zzaug.review.domain.persistence.review.ReviewQueryRepository;
 import com.zzaug.review.entity.review.query.ReviewQueryEntity;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

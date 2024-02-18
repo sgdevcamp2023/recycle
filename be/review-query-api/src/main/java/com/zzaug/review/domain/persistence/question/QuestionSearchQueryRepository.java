@@ -12,27 +12,30 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class QuestionSearchQueryRepository {
-    private final ElasticsearchOperations elasticsearchOperations;
+	private final ElasticsearchOperations elasticsearchOperations;
 
-    @Autowired
-    public QuestionSearchQueryRepository(ElasticsearchOperations elasticsearchOperations) {
-        this.elasticsearchOperations = elasticsearchOperations;
-    }
+	@Autowired
+	public QuestionSearchQueryRepository(ElasticsearchOperations elasticsearchOperations) {
+		this.elasticsearchOperations = elasticsearchOperations;
+	}
 
-    public QuestionQueryEntity findByQuestionIdAndContentContainingAndIsDeletedIsFalse(
-            Long questionId, String query){
-        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.boolQuery()
-                        .must(QueryBuilders.matchQuery("questionId", questionId))
-                        .must(QueryBuilders.matchQuery("content", query))
-                        .must(QueryBuilders.matchQuery("isDeleted", false)))
-                .build();
-        SearchHit<QuestionQueryEntity> searchHits = elasticsearchOperations
-                .searchOne(searchQuery, QuestionQueryEntity.class, IndexCoordinates.of("question"));
-        if (searchHits != null) {
-            return searchHits.getContent();
-        } else {
-            return null;
-        }
-    }
+	public QuestionQueryEntity findByQuestionIdAndContentContainingAndIsDeletedIsFalse(
+			Long questionId, String query) {
+		NativeSearchQuery searchQuery =
+				new NativeSearchQueryBuilder()
+						.withQuery(
+								QueryBuilders.boolQuery()
+										.must(QueryBuilders.matchQuery("questionId", questionId))
+										.must(QueryBuilders.matchQuery("content", query))
+										.must(QueryBuilders.matchQuery("isDeleted", false)))
+						.build();
+		SearchHit<QuestionQueryEntity> searchHits =
+				elasticsearchOperations.searchOne(
+						searchQuery, QuestionQueryEntity.class, IndexCoordinates.of("question"));
+		if (searchHits != null) {
+			return searchHits.getContent();
+		} else {
+			return null;
+		}
+	}
 }
