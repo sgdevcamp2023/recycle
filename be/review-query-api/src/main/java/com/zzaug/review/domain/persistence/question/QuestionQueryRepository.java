@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.Optional;
+
 public interface QuestionQueryRepository
 		extends ElasticsearchRepository<QuestionQueryEntity, Long> {
 	Page<QuestionQueryEntity> findAllByAuthorIdAndContentContaining(
@@ -17,4 +19,6 @@ public interface QuestionQueryRepository
 
 	QuestionQueryEntity findByQuestionIdAndContentContainingAndIsDeletedIsFalse(
 			Long questionId, String query);
+
+	Optional<QuestionQueryEntity> findByQuestionId(Long questionId);
 }
