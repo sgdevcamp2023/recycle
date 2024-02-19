@@ -7,7 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MemberResponse {
-	private String reviewerName;
-	private Long reviewerId;
+public class ViewReviewerUseCaseRequest {
+	private Long questionId;
 }

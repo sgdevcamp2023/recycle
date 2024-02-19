@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionResponse {
+public class QuestionCreateUseCaseRequest {
 	private Long questionId;
 	private String content;
 	private String author;
@@ -18,4 +18,5 @@ public class QuestionResponse {
 	private int reviewCnt;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private boolean isDeleted;
 }
