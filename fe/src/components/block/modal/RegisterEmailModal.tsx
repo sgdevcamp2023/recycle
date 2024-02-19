@@ -83,8 +83,9 @@ const RegisterEmailModal = () => {
           </Text>
           <CustomInput
             type="email"
-            width={22.375}
+            width={22}
             height={3}
+            padding={1}
             placeholder="이메일 입력"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           />

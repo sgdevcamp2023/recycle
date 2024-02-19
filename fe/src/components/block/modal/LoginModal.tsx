@@ -25,7 +25,8 @@ const LoginBox = styled.div`
 const FlexBox = styled.div`
   display: flex;
   flex-direction: column;
-  ${flexCenter}
+  align-items: center;
+  justify-content: center;
   position: absolute;
   flex-wrap: wrap;
   gap: 16px;
@@ -112,6 +113,7 @@ const LoginModal = () => {
           <CustomInput
             width={22}
             height={3}
+            padding={1}
             type="email"
             placeholder="아이디 입력"
             fontSize="base"
@@ -120,6 +122,7 @@ const LoginModal = () => {
           <CustomInput
             width={22}
             height={3}
+            padding={1}
             type="password"
             placeholder="비밀번호 입력"
             fontSize="base"

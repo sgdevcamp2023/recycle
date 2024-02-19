@@ -103,13 +103,21 @@ const SignInModal = () => {
         >
           회원가입
         </Text>
-        <Text fontSize="lg">아이디</Text>
+        <Text
+          fontSize="lg"
+          style={{
+            marginBottom: '0.5rem',
+          }}
+        >
+          아이디
+        </Text>
         <IdBox>
           <CustomInput
             type="email"
             placeholder="이름 입력"
             width={15.5}
             height={3}
+            padding={1}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           />
           <DefaultButton
@@ -117,9 +125,8 @@ const SignInModal = () => {
               handleIdDuplicate();
             }}
             width={5.5}
-            height={3}
-            padding={0.5}
-            $backgroundColor={'green200'}
+            height={3.25}
+            padding={1}
           >
             중복 확인
           </DefaultButton>
@@ -129,6 +136,7 @@ const SignInModal = () => {
           fontSize="lg"
           style={{
             marginTop: '1.5rem',
+            marginBottom: '0.5rem',
           }}
         >
           비밀번호
@@ -139,6 +147,7 @@ const SignInModal = () => {
             type="password"
             width={22}
             height={3}
+            padding={1}
             placeholder="비밀번호 입력"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             // value=''
@@ -147,6 +156,7 @@ const SignInModal = () => {
             type="password"
             width={22}
             height={3}
+            padding={1}
             placeholder="비밀번호 확인"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPasswordConfirm(e.target.value)
