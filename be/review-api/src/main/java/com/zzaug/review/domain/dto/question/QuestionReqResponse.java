@@ -6,11 +6,12 @@ import java.time.LocalDateTime;
 import lombok.*;
 
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionResponse {
+public class QuestionReqResponse {
 	private Long questionId;
 	private String content;
 	private String author;
@@ -18,4 +19,5 @@ public class QuestionResponse {
 	private int reviewCnt;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private String[] requester;
 }
