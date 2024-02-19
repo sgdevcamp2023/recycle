@@ -21,7 +21,9 @@ const SideBar = () => {
 
   return (
     <SideBarContainer>
-      <SideBarHeader></SideBarHeader>
+      <SideBarHeader>
+        <h2>ZZAUG</h2>
+      </SideBarHeader>
       <SideBarContent>
         <Text fontSize="lg" color="black" fontWeight="bold">
           Menu
