@@ -1,5 +1,6 @@
 package com.zzaug.review.entity.review;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,9 @@ public class ReviewEntity {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
+
 	@Embedded
 	@AttributeOverrides({
 		@AttributeOverride(name = "point", column = @Column(name = "start_point_point")),
@@ -67,6 +71,7 @@ public class ReviewEntity {
 	}
 
 	public void deleteReview() {
+		this.deletedAt = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
 		this.isDeleted = true;
 	}
 }
