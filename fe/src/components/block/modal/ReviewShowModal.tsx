@@ -3,6 +3,8 @@ import MDEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import Text from '@components/atom/Text';
+import useReviewStore from '@store/useReviewStore';
+import { useMarkdownStore } from '@store/useMarkdownStore';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -37,20 +39,22 @@ const ButtonBox = styled.div`
   right: 0.3125rem;
 `;
 
-const ReviewShowModal = () => {
-  const [content, setContent] = useState(
-    "## 대충 코드임\n안녕하세요\n\n저는 이규민입니다\n\n- 이건 코드입니다\n```js\nconst a = '규민'\nconsole.log(a)\n```\n\n- 이건 두번째 코드입니다\n```js\nconst b = '재진'\nconsole.log(b)\n```\n\n모든 코드를 전부 작성하였습니다",
-  );
+const ReviewShowModal = ({ top }) => {
+  const { review, setReview, id } = useReviewStore();
+  const { showCodeComment, setShowCodeComment } = useMarkdownStore();
+
+  const handleCloseClick = () => {
+    setShowCodeComment(false);
+  };
 
   return (
-    <div>
-      <h2>질문자가 리뷰를 보게 될 모달입니다</h2>
+    <div style={{ position: 'absolute', top }}>
       <LoginBox>
         <EditorBox>
-          <MDEditor.Markdown source={content} />
+          <MDEditor.Markdown source={review} />
         </EditorBox>
         <ButtonBox>
-          <DefaultButton width={4} height={2}>
+          <DefaultButton width={4} height={2} onClick={handleCloseClick}>
             <Text fontSize="xs">Close</Text>
           </DefaultButton>
         </ButtonBox>
