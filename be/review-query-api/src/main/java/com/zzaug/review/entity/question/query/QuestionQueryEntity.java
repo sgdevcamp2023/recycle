@@ -40,4 +40,17 @@ public class QuestionQueryEntity {
 	private LocalDateTime updatedAt;
 
 	private boolean isDeleted;
+
+	@Override
+	public int hashCode() {
+		return questionId.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof QuestionQueryEntity) {
+			return questionId.equals(((QuestionQueryEntity) obj).questionId);
+		}
+		return false;
+	}
 }

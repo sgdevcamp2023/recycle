@@ -12,7 +12,8 @@ import org.springframework.data.elasticsearch.annotations.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Document(indexName = "review")
-@Mapping(mappingPath = "elasticsearch/mappings/review-query-mapping.json")
+@Mapping(mappingPath = "elasticsearch/mappings/review-mapping.json")
+@Setting(settingPath = "elasticsearch/settings/review-setting.json")
 public class ReviewQueryEntity {
 
 	@Id private Long reviewId;
@@ -28,13 +29,13 @@ public class ReviewQueryEntity {
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
 	private LocalDateTime createdAt;
 
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
 	private LocalDateTime updatedAt;
 
 	@Embedded
@@ -52,4 +53,6 @@ public class ReviewQueryEntity {
 	private ReviewPoint endPoint;
 
 	private ReviewType tag;
+
+	private boolean isDeleted;
 }
