@@ -15,6 +15,5 @@ public class QuestionQuery {
 	private Long authorId;
 	private int reviewCnt;
 	private LocalDateTime createdAt;
-	private LocalDateTime deletedAt;
-	private boolean isDeleted;
+	private LocalDateTime updatedAt;
 }

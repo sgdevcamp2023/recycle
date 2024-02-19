@@ -8,7 +8,6 @@ spring:
       - mysql-local
       - security-local
       - elasticsearch-local
-      - rabbit-local
       - cookie-local
 
 

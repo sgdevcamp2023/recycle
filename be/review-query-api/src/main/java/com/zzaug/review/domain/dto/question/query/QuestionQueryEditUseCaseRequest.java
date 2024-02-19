@@ -16,5 +16,5 @@ public class QuestionQueryEditUseCaseRequest {
 	private Long authorId;
 	private int reviewCnt;
 	private LocalDateTime createdAt;
-	private LocalDateTime deletedAt;
+	private LocalDateTime updatedAt;
 }
