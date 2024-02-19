@@ -1,4 +1,4 @@
-package com.zzaug.review.domain.dto.question.query;
+package com.zzaug.review.domain.model.question.query;
 
 import java.time.LocalDateTime;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionQueryResponse {
+public class QuestionQuery {
 	private Long questionId;
 	private String content;
 	private String author;

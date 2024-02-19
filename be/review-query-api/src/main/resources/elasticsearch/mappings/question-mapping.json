@@ -1,0 +1,31 @@
+{
+  "properties": {
+    "questionId": {
+      "type": "long"
+    },
+    "content": {
+      "type": "text",
+      "analyzer": "korean"
+    },
+    "author": {
+      "type": "text"
+    },
+    "authorId": {
+      "type": "long"
+    },
+    "reviewCnt": {
+      "type": "integer"
+    },
+    "createdAt": {
+      "type": "date",
+      "format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis"
+    },
+    "updatedAt": {
+      "type": "date",
+      "format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis"
+    },
+    "isDeleted": {
+      "type": "boolean"
+    }
+  }
+}
