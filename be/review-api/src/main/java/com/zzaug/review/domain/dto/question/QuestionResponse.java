@@ -15,5 +15,4 @@ public class QuestionResponse {
 	private Long authorId;
 	private int reviewCnt;
 	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
 }

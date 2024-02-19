@@ -16,6 +16,5 @@ public class QuestionReqResponse {
 	private Long authorId;
 	private int reviewCnt;
 	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
 	private String[] requester;
 }
