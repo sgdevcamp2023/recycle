@@ -8,7 +8,7 @@ public interface ReviewQueryRepository extends ElasticsearchRepository<ReviewQue
 	List<ReviewQueryEntity> findAllByQuestionIdAndIsDeletedIsFalse(Long questionId);
 
 	List<ReviewQueryEntity> findAllByAuthorIdAndContentContainingAndIsDeletedIsFalse(
-			Long authorId, String query);
+			Long authorId, String content);
 
 	List<ReviewQueryEntity> findAllByAuthorIdAndIsDeletedIsFalse(Long authorId);
 }
