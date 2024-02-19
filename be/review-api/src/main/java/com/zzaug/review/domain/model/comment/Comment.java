@@ -1,8 +1,6 @@
-package com.zzaug.review.domain.dto.question;
+package com.zzaug.review.domain.model.comment;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
 import lombok.*;
 
 @Getter
@@ -10,12 +8,20 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionResponse {
+public class Comment {
+	private Long commentId;
+
 	private Long questionId;
+
 	private String content;
+
 	private String author;
+
 	private Long authorId;
-	private int reviewCnt;
+
+	private Long parentId;
+
 	private LocalDateTime createdAt;
+
 	private LocalDateTime updatedAt;
 }

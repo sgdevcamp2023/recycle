@@ -1,6 +1,5 @@
-package com.zzaug.review.web.dto.question;
+package com.zzaug.review.domain.model.question;
 
-import javax.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Getter
@@ -9,5 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionRequest {
-	@NotEmpty private String content;
+	private Long questionReqId;
+	private String requester;
+	private Long requesterId;
 }

@@ -1,4 +1,4 @@
-package com.zzaug.review.domain.dto.member;
+package com.zzaug.review.domain.model.member;
 
 import lombok.*;
 
@@ -7,7 +7,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MemberResponse {
+public class ReviewerList {
+	private Long reviewerListId;
+
 	private String reviewerName;
+
 	private Long reviewerId;
+
+	private Long questionId;
 }

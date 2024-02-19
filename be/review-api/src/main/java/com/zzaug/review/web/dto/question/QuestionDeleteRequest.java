@@ -1,6 +1,5 @@
 package com.zzaug.review.web.dto.question;
 
-import javax.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Getter
@@ -8,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionRequest {
-	@NotEmpty private String content;
+public class QuestionDeleteRequest {
+	private Long questionId;
+	private Long authorId;
 }
