@@ -1,6 +1,6 @@
 package com.zzaug.review.domain.dto.question.query;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Getter
@@ -9,10 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionQueryResponse {
-	private Long question_id;
+	private Long questionId;
 	private String content;
 	private String author;
-	private Long author_id;
-	private int review_cnt;
-	private Timestamp created_at;
+	private Long authorId;
+	private int reviewCnt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

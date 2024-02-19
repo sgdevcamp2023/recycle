@@ -28,3 +28,27 @@ task buildDockerImage {
         }
     }
 }
+
+task runWithNotificationAPIPinpointAgent {
+    dependsOn bootJar
+
+    def agentPath = System.getenv("AGENT_PATH")
+    def profiles = System.getenv("PROFILES")
+    def apiPort = System.getenv("API_PORT")
+    def agentId = "notification-api"
+    def apiJar = "notification-api-0.0.1-SNAPSHOT.jar"
+
+    doLast {
+        exec {
+            workingDir './build/libs'
+            commandLine 'cp', apiJar, 'app.jar'
+        }
+    }
+
+    doLast {
+        exec {
+            workingDir './build/libs'
+            commandLine 'java', '-jar', '-javaagent:' + agentPath, '-Dpinpoint.agentId=' + agentId, '-Dpinpoint.applicationName=' + agentId, '-Dspring.profiles.active=' + profiles,  "app.jar" , "--server.port=" + apiPort
+        }
+    }
+}
