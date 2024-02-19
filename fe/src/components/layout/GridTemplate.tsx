@@ -37,12 +37,14 @@ const GridTemplate = () => {
     setInitialReviewList(updatedReviewList);
   };
 
-  const handleAddLineComment = (item: reviewData) => {
+  const handleAddLineComment = ({ item, index: indexToDelete }) => {
     console.log(item);
     console.log('addline');
     setData([...data, item]);
     console.log(data);
     console.log(reviewData);
+    const updatedReviewList = initialReviewList.filter((item, index) => index !== indexToDelete);
+    setInitialReviewList(updatedReviewList);
   };
   return (
     <LayoutWrapper>
