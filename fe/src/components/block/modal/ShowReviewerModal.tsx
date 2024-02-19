@@ -8,12 +8,16 @@ const LoginBox = styled.div`
   width: 25.25rem;
   max-height: 23.375rem; /* 최대 높이 설정 */
   min-height: 23.375rem; /* 최대 높이 설정 */
-  overflow: auto; /* 스크롤이 필요한 경우 활성화 */
   padding: 0.25rem 1rem;
   background-color: white;
   color: black;
   border: 0.0625rem solid #1eb649;
   border-radius: 1.25rem;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const UpperBox = styled.div`
@@ -84,7 +88,7 @@ const ShowReviewerModal = () => {
           </Text>
         </UpperBox>
         <MiddleBox>
-          <Text fontSize="base">&quot 두 SQL문의 차이가 뭘까요? &quot 글의 리뷰어 목록</Text>
+          <Text fontSize="base">두 SQL문의 차이가 뭘까요? 글의 리뷰어 목록</Text>
         </MiddleBox>
         <UserBox>
           <UserLeftBox>

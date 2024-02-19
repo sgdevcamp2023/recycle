@@ -16,6 +16,12 @@ import RegisterEmail from './RegisterEmail';
 import SendEmailModal from '@components/block/modal/SendEmailModal';
 import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
 import ReviewShowModal from '@components/block/modal/ReviewShowModal';
+import AskLoginModal from '@components/block/modal/AskLoginModal';
+import LockModal from '@components/block/modal/LockModal';
+import ReviewToGitModal from '@components/block/modal/ReviewToGitModal';
+import SaveModal from '@components/block/modal/SaveModal';
+import SharingModal from '@components/block/modal/SharingModal';
+import ShowReviewerModal from '@components/block/modal/ShowReviewerModal';
 
 const CenterModalBox = styled.div`
   width: 100vw;
@@ -30,23 +36,14 @@ const TestPageThree = () => {
   return (
     <>
       <CenterModalBox>
-        {/* <CustomInput width={22} height={3} type='email' /> */}
-        {/* <LoginModal /> */}
-        {/* <SignInModal /> */}
-        {/* <RegisterEmailModal /> */}
-        {/* <BelowCommentModal /> */}
-        {/* <LineCommentWrite />
-        <LineCommentView /> */}
-        {/* <BelowCommentWrite
-          width={44.25}
-          height={6.25}
-          placeholder="댓글을 작성하세요."
-          fontSize="xs"
-        /> */}
-        {/* <RegisterEmail/> */}
-        {/* <SendEmailModal /> */}
-        {/* <ReviewWriteModal /> */}
-        <ReviewShowModal />
+        {/* <AskLoginModal />
+        <LockModal />
+        <RegisterEmailModal />
+        <ReviewToGitModal />
+        <SaveModal />
+        <SendEmailModal />
+        <SharingModal /> */}
+        <ShowReviewerModal />
       </CenterModalBox>
     </>
   );
