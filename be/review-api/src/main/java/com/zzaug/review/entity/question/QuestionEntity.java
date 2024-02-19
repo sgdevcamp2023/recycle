@@ -35,6 +35,14 @@ public class QuestionEntity {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
+	public void incReviewCnt() {
+		this.reviewCnt++;
+	}
+
+	public void decReviewCnt() {
+		this.reviewCnt--;
+	}
+
 	@ColumnDefault("false")
 	private boolean isDeleted;
 
