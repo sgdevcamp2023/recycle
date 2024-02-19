@@ -9,6 +9,9 @@ spring:
       - security-local
       - elasticsearch-local
       - rabbit-local
+      - cookie-local
+
+
 logging:
   level:
     root: DEBUG
