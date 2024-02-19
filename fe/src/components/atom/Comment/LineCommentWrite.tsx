@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 const UploadButton = styled.button`
@@ -59,13 +60,20 @@ const CommentWriteContainer = styled.textarea`
   }
 `;
 
-const LineCommentWrite = () => {
+interface LineCommentWriteProps {
+  uploadOnClick?: MouseEventHandler<HTMLButtonElement>;
+  cancelOnClick?: MouseEventHandler<HTMLButtonElement>;
+}
+
+const LineCommentWrite = ({ cancelOnClick, uploadOnClick }: LineCommentWriteProps) => {
   return (
     <div>
       <LineCommentViewBox>
         <CommentWriteContainer placeholder="댓글 추가" />
         <UploadButton>▶</UploadButton>
       </LineCommentViewBox>
+      <br />
+      <button onClick={cancelOnClick}>취소</button>
     </div>
   );
 };
