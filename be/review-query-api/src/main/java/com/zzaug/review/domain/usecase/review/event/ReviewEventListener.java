@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.usecase.review.event;
 
+import com.zzaug.rabbitmq.config.ZRMQListenerConfig;
 import com.zzaug.review.domain.event.review.DeleteReviewEvent;
 import com.zzaug.review.domain.event.review.EditReviewEvent;
 import com.zzaug.review.domain.event.review.SaveReviewEvent;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@RabbitListener(containerFactory = "RabbitMQrabbitListenerContainerFactory", queues = "zzuag.review")
+@RabbitListener(containerFactory = ZRMQListenerConfig.RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME, queues = "zzuag.review")
 public class ReviewEventListener {
 
     private final ApplicationEventPublisher publisher;

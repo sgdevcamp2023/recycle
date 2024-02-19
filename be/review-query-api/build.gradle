@@ -5,8 +5,8 @@ apply from: '../tasks/docs-task.gradle'
 dependencies {
     implementation project(':flyway')
     implementation project(':security')
-    api project(':rabbitmq')
     api project(':web')
+    api project(':rabbitmq')
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     implementation 'jakarta.json:jakarta.json-api:2.0.1'
     implementation 'org.springframework.amqp:spring-rabbit'

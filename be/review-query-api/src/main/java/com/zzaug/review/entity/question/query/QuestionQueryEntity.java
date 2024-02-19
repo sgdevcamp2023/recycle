@@ -43,4 +43,23 @@ public class QuestionQueryEntity {
 	@ColumnDefault("false")
 	private boolean isDeleted;
 
+	@Override
+	public int hashCode() {
+		return questionId.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof QuestionQueryEntity) {
+			return questionId.equals(((QuestionQueryEntity) obj).questionId);
+		}
+		return false;
+	}
+	public void incReviewCnt() {
+		this.reviewCnt++;
+	}
+
+	public void decReviewCnt() {
+		this.reviewCnt--;
+	}
 }

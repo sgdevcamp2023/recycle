@@ -102,11 +102,24 @@ public class WebSecurityConfig {
 								"/swagger-resources/**",
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
+								"/api/v1/questions/**",
+								"/api/v1/question-query/**",
+								"/api/v1/review-query/**",
 								"/reports/**",
 								"/api/v1/members/check")
 						.antMatchers(
+								HttpMethod.PUT,
+								"/api/v1/questions/**"
+						)
+						.antMatchers(
+								HttpMethod.DELETE,
+								"/api/v1/questions/**"
+						)
+						.antMatchers(
 								HttpMethod.POST,
 								"/api/v1/members",
+								"/api/v1/questions",
+								"/api/v1/questions/**",
 								"/api/v1/members/token",
 								"/api/v1/members/login");
 	}

@@ -10,6 +10,7 @@ spring:
       - elasticsearch-local
       - rabbit-local
       - cookie-local
+      - log-local
 
 
 logging:

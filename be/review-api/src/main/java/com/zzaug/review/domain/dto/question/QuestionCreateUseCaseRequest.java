@@ -15,6 +15,6 @@ public class QuestionCreateUseCaseRequest {
 	private Long authorId;
 	private int reviewCnt;
 	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
+	private LocalDateTime deletedAt;
 	private boolean isDeleted;
 }

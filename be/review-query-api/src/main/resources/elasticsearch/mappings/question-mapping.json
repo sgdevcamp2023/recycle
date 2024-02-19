@@ -1,6 +1,6 @@
 {
   "properties": {
-    "question_id": {
+    "questionId": {
       "type": "long"
     },
     "content": {
@@ -10,21 +10,21 @@
     "author": {
       "type": "text"
     },
-    "author_id": {
+    "authorId": {
       "type": "long"
     },
-    "review_cnt": {
+    "reviewCnt": {
       "type": "integer"
     },
-    "created_at": {
+    "createdAt": {
       "type": "date",
       "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis"
     },
-    "deleted_at": {
+    "updatedAt": {
       "type": "date",
       "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis"
     },
-    "is_deleted": {
+    "isDeleted": {
       "type": "boolean"
     }
   }

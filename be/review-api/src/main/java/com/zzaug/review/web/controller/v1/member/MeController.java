@@ -5,7 +5,7 @@ import com.zzaug.review.domain.dto.member.ViewReviewerUseCaseRequest;
 import com.zzaug.review.domain.dto.question.QuestionReqResponse;
 import com.zzaug.review.domain.dto.question.QuestionReqViewUseCaseRequest;
 import com.zzaug.review.domain.usecase.member.ViewReviewerUseCase;
-import com.zzaug.review.domain.usecase.question.QuestionReqViewUseCase;
+import com.zzaug.review.domain.usecase.question.QuestionRequestViewUseCase;
 import com.zzaug.review.web.support.usecase.QuestionReqViewUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.ViewReviewerUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class MeController {
 
-	private final QuestionReqViewUseCase questionReqViewUseCase;
+	private final QuestionRequestViewUseCase questionRequestViewUseCase;
 	private final ViewReviewerUseCase viewReviewerUseCase;
 
 	@GetMapping("/questions/reviewers")
@@ -57,7 +57,7 @@ public class MeController {
 		try {
 			QuestionReqViewUseCaseRequest useCaseRequest =
 					QuestionReqViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
-			List<QuestionReqResponse> result = questionReqViewUseCase.execute(useCaseRequest);
+			List<QuestionReqResponse> result = questionRequestViewUseCase.execute(useCaseRequest);
 			PageRequest pageRequest = PageRequest.of(page, size);
 			int start = (int) pageRequest.getOffset();
 			int end = Math.min((start + pageRequest.getPageSize()), result.size());

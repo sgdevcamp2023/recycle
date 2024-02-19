@@ -16,7 +16,6 @@ public class QuestionQueryResponseConverter {
 				.authorId(source.getAuthorId())
 				.reviewCnt(source.getReviewCnt())
 				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
 				.build();
 	}
 
@@ -28,7 +27,6 @@ public class QuestionQueryResponseConverter {
 				.authorId(source.getAuthorId())
 				.reviewCnt(source.getReviewCnt())
 				.createdAt(source.getCreatedAt())
-				.updatedAt(source.getUpdatedAt())
 				.build();
 	}
 }
