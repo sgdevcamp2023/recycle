@@ -30,8 +30,9 @@ const CreateReview = () => {
     const { anchorNode, focusNode, anchorOffset, focusOffset } = window.getSelection() as Selection;
     const startNode = anchorNode?.parentElement;
     const endNode = focusNode?.parentElement;
-
-    if (startNode == endNode) {
+    if (startNode?.parentElement?.className == 'code-line') {
+      alert('code는 라인코멘트를 달 수 없습니다!');
+    } else if (startNode == endNode) {
       console.log('same');
       const text = anchorNode?.textContent || '';
       const start = anchorOffset;
