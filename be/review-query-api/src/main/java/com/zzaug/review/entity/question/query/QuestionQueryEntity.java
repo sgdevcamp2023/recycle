@@ -38,4 +38,6 @@ public class QuestionQueryEntity {
 			format = DateFormat.custom,
 			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime updatedAt;
+
+	private boolean isDeleted;
 }

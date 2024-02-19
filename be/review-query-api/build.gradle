@@ -5,6 +5,7 @@ apply from: '../tasks/docs-task.gradle'
 dependencies {
     implementation project(':flyway')
     implementation project(':security')
+    api project(':web')
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     implementation 'jakarta.json:jakarta.json-api:2.0.1'
 }
