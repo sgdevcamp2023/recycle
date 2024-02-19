@@ -1,7 +1,6 @@
 package com.zzaug.review.config;
 
 import com.zzaug.flyway.FlywayConfig;
-import com.zzaug.rabbitmq.config.ZRabbiMQConfig;
 import com.zzaug.security.config.SecurityConfig;
 import com.zzaug.web.config.WebModuleConfig;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,8 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = ReviewAppConfig.BASE_PACKAGE)
-@Import(
-		value = {FlywayConfig.class, SecurityConfig.class, WebModuleConfig.class, ZRabbiMQConfig.class})
+@Import(value = {FlywayConfig.class, SecurityConfig.class, WebModuleConfig.class})
 public class ReviewAppConfig {
 
 	public static final String BASE_PACKAGE = "com.zzaug.review";
