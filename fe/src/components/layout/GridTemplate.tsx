@@ -1,6 +1,6 @@
 import SideBar from '@components/block/sideBar/SideBar';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import ContentTab from '@components/block/navbar/ContentTab';
 import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
@@ -47,6 +47,8 @@ const GridTemplate = () => {
     const updatedReviewList = initialReviewList.filter((item, index) => index !== indexToDelete);
     setInitialReviewList(updatedReviewList);
   };
+
+  const location = useLocation();
   return (
     <LayoutWrapper>
       <div>
@@ -60,8 +62,12 @@ const GridTemplate = () => {
           <Outlet />
         </MainContent>
         <RightContent>
-          {/* {showCodeComment && <ReviewWriteModal top={showCodeComment.top} />} */}
-          {showCodeComment && <ReviewShowModal top={showCodeComment.top} />}
+          {location.pathname === '/createReview' && showCodeComment && (
+            <ReviewWriteModal top={showCodeComment.top} />
+          )}
+          {location.pathname === '/readQuestion' && showCodeComment && (
+            <ReviewShowModal top={showCodeComment.top} />
+          )}
           <div>
             {reviewList &&
               reviewList.map((item: reviewData, index) => {
