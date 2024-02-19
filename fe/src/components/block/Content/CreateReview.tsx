@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import ReviewWriteModal from '../modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
-import useReviewStore from '@store/useReviewStore';
+import useReviewStore, { reviewData } from '@store/useReviewStore';
 import { Popover } from '@page/PopOver';
 
 const CreateReview = () => {
@@ -20,7 +20,7 @@ const CreateReview = () => {
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [temp, setTemp] = useState<string[]>([]);
   // const [type, setType] = useState<NodeType>();
-  const [refId, setRefId] = useState<string | null>(null);
+  const [refId, setRefId] = useState<string | null>();
   const testRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setTarget(document.getElementById('wrapper'));
@@ -38,7 +38,13 @@ const CreateReview = () => {
       const start = anchorOffset;
       const end = focusOffset;
       setTemp([...temp, text.substring(start, end)]);
-      setReviewList([...reviewList, text.substring(start, end)]);
+      const newData: reviewData = {
+        startIdx: start,
+        endIdx: end,
+        reviewText: text.substring(start, end),
+        reviewId: refId,
+      };
+      setReviewList([...reviewList, newData]);
     } else if (startNode && endNode) {
       const startIndex = Array.from(startNode.childNodes).indexOf(anchorNode);
       const endIndex = Array.from(endNode.childNodes).indexOf(focusNode);
@@ -58,7 +64,13 @@ const CreateReview = () => {
           const start = anchorOffset;
           const end = focusOffset;
           setTemp([...temp, text.substring(start, end)]);
-          setReviewList([...reviewList, text.substring(start, end)]);
+          const newData: reviewData = {
+            startIdx: start,
+            endIdx: end,
+            reviewText: text.substring(start, end),
+            reviewId: refId,
+          };
+          setReviewList([...reviewList, newData]);
         });
       }
     }
@@ -77,7 +89,13 @@ const CreateReview = () => {
           const start = anchorOffset;
           const end = focusOffset;
           setTemp([...temp, text.substring(start, end)]);
-          setReviewList([...reviewList, text.substring(start, end)]);
+          const newData: reviewData = {
+            startIdx: start,
+            endIdx: end,
+            reviewText: text.substring(start, end),
+            reviewId: refId,
+          };
+          setReviewList([...reviewList, newData]);
         });
       }
     }

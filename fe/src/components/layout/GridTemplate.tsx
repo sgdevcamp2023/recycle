@@ -5,29 +5,45 @@ import ContentTab from '@components/block/navbar/ContentTab';
 import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
 import { useEffect, useState } from 'react';
-import useReviewStore from '@store/useReviewStore';
+import useReviewStore, { reviewData } from '@store/useReviewStore';
 import LineCommentWrite from '@components/atom/Comment/LineCommentWrite';
+import LineCommentView from '@components/atom/Comment/LineCommentView';
 
 const GridTemplate = () => {
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
   const [reviewList, setReviewList] = useState([]);
+  const [reviewData, setReviewData] = useState([]);
 
   // useReviewStore 훅으로부터 리뷰 목록 가져오기
-  const { reviewList: initialReviewList, setReviewList: setInitialReviewList } = useReviewStore();
+  const {
+    reviewList: initialReviewList,
+    setReviewList: setInitialReviewList,
+    setData,
+    data,
+  } = useReviewStore();
 
   // 컴포넌트가 마운트될 때와 리뷰 목록이 변경될 때마다 실행되는 useEffect 설정
   useEffect(() => {
     // 초기 리뷰 목록 설정
     setReviewList(initialReviewList);
-    console.log(initialReviewList);
   }, [initialReviewList]);
 
-  const handleCancelLineReview = (indexToDelete) => {
-    console.log('handleCancel');
+  useEffect(() => {
+    setReviewData(data);
+  }, [data]);
+
+  const handleCancelLineComment = (indexToDelete) => {
     const updatedReviewList = initialReviewList.filter((item, index) => index !== indexToDelete);
     setInitialReviewList(updatedReviewList);
   };
 
+  const handleAddLineComment = (item: reviewData) => {
+    console.log(item);
+    console.log('addline');
+    setData([...data, item]);
+    console.log(data);
+    console.log(reviewData);
+  };
   return (
     <LayoutWrapper>
       <div>
@@ -44,11 +60,22 @@ const GridTemplate = () => {
           {showCodeComment && <ReviewWriteModal top={showCodeComment.top} />}
           <div>
             {reviewList &&
-              reviewList.map((item, index) => {
+              reviewList.map((item: reviewData, index) => {
                 return (
                   <>
-                    <h3 key={index}>{item}</h3>
-                    <LineCommentWrite cancelOnClick={() => handleCancelLineReview(index)} />
+                    <h3 key={index}>{item.reviewText}</h3>
+                    <LineCommentWrite
+                      cancelOnClick={() => handleCancelLineComment(index)}
+                      uploadOnClick={() => handleAddLineComment(item)}
+                    />
+                  </>
+                );
+              })}
+            {reviewData &&
+              reviewData.map((item: reviewData, index) => {
+                return (
+                  <>
+                    <LineCommentView />
                   </>
                 );
               })}
