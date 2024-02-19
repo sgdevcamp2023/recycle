@@ -20,9 +20,12 @@
       "type": "date",
       "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis"
     },
-    "updated_at": {
+    "deleted_at": {
       "type": "date",
       "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis"
+    },
+    "is_deleted": {
+      "type": "boolean"
     }
   }
 }
