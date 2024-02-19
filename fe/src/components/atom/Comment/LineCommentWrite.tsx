@@ -27,7 +27,7 @@ const UploadButton = styled.button`
 `;
 
 const LineCommentViewBox = styled.div`
-  width: 276px;
+  width: 17rem;
   min-height: 96px;
   height: auto; /* 높이를 자동으로 조정 */
   padding: 4px;
@@ -70,7 +70,7 @@ const LineCommentWrite = ({ cancelOnClick, uploadOnClick }: LineCommentWriteProp
     <div>
       <LineCommentViewBox>
         <CommentWriteContainer placeholder="댓글 추가" />
-        <UploadButton>▶</UploadButton>
+        <UploadButton onClick={uploadOnClick}>▶</UploadButton>
       </LineCommentViewBox>
       <br />
       <button onClick={cancelOnClick}>취소</button>

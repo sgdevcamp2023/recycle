@@ -3,7 +3,7 @@ import GreyButton from '../Button/GreyButton';
 import Text from '../Text';
 
 const LineCommentViewBox = styled.div`
-  width: 17.25rem;
+  width: 15.5rem;
   height: auto; /* 높이를 자동으로 조정 */
   padding: 0.25rem 1rem;
   background-color: white;
@@ -12,6 +12,7 @@ const LineCommentViewBox = styled.div`
   border-radius: 0.625rem;
   position: relative;
   box-shadow: 4px 4px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
 `;
 
 const CommentContainer = styled.div`
