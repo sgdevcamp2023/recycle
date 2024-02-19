@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class MemberResponse {
+
 	private String reviewerName;
 	private Long reviewerId;
 }

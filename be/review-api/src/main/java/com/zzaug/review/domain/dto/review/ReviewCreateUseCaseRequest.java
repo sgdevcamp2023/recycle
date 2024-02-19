@@ -1,4 +1,4 @@
-package com.zzaug.review.domain.model.review;
+package com.zzaug.review.domain.dto.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
 import com.zzaug.review.entity.review.ReviewType;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class Review {
+public class ReviewCreateUseCaseRequest {
 
 	private Long reviewId;
 
