@@ -36,4 +36,6 @@ public class ReviewQuery {
 	private ReviewPoint endPoint;
 
 	private ReviewType tag;
+
+	private Boolean isDeleted;
 }

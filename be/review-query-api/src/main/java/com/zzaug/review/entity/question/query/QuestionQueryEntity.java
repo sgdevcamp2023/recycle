@@ -55,4 +55,11 @@ public class QuestionQueryEntity {
 		}
 		return false;
 	}
+	public void incReviewCnt() {
+		this.reviewCnt++;
+	}
+
+	public void decReviewCnt() {
+		this.reviewCnt--;
+	}
 }

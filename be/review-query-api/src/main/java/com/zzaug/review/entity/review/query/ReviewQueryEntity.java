@@ -1,10 +1,16 @@
 package com.zzaug.review.entity.review.query;
 
-import java.time.LocalDateTime;
 import javax.persistence.*;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -16,7 +22,8 @@ import org.springframework.data.elasticsearch.annotations.*;
 @Setting(settingPath = "elasticsearch/settings/review-setting.json")
 public class ReviewQueryEntity {
 
-	@Id private Long reviewId;
+	@Id
+	private Long reviewId;
 
 	private Long questionId;
 
@@ -29,13 +36,13 @@ public class ReviewQueryEntity {
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime createdAt;
 
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime updatedAt;
 
 	@Embedded
@@ -54,5 +61,5 @@ public class ReviewQueryEntity {
 
 	private ReviewType tag;
 
-	private boolean isDeleted;
+    private boolean isDeleted;
 }

@@ -21,4 +21,6 @@ public interface QuestionQueryRepository
 			Long questionId, String query);
 
 	Optional<QuestionQueryEntity> findByQuestionId(Long questionId);
+
+	QuestionQueryEntity findByQuestionIdAndContentContainingAndIsDeletedIsFalse(Long questionId, String query);
 }
