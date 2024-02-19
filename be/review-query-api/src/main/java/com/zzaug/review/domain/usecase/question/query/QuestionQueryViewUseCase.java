@@ -25,9 +25,10 @@ public class QuestionQueryViewUseCase {
 		QuestionQuery result =
 				questionQueryConverter.from(
 						questioinQueryRepository
-								.findByQuestionIdAndIsDeletedIsFalse(request.getQuestionId())
-								.orElseThrow(() -> new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다.")));
-
+								.findByQuestionIdAndIsDeletedIsFalse(request.getQuestionId()));
+		if (result == null) {
+			throw new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다.");
+		}
 		return questionQueryResponseConverter.from(result);
 	}
 }

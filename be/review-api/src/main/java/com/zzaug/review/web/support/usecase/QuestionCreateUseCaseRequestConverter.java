@@ -8,12 +8,23 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class QuestionCreateUseCaseRequestConverter {
+//	public static QuestionCreateUseCaseRequest from(
+//			QuestionRequest request, TokenUserDetails userDetails) {
+//		return QuestionCreateUseCaseRequest.builder()
+//				.content(request.getContent())
+//				.author(userDetails.getUsername())
+//				.authorId(Long.valueOf(userDetails.getId()))
+//				.reviewCnt(0)
+//				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+//				.build();
+//	}
+
 	public static QuestionCreateUseCaseRequest from(
-			QuestionRequest request, TokenUserDetails userDetails) {
+			QuestionRequest request, String username, Long id) {
 		return QuestionCreateUseCaseRequest.builder()
 				.content(request.getContent())
-				.author(userDetails.getUsername())
-				.authorId(Long.valueOf(userDetails.getId()))
+				.author(username)
+				.authorId(id)
 				.reviewCnt(0)
 				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();

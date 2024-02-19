@@ -21,6 +21,16 @@ public class QuestionQueryConverter {
 				.createdAt(source.getCreatedAt())
 				.build();
 	}
+	public QuestionQuery from(QuestionQueryEntity source) {
+		return QuestionQuery.builder()
+				.questionId(source.getQuestionId())
+				.content(source.getContent())
+				.author(source.getAuthor())
+				.authorId(source.getAuthorId())
+				.reviewCnt(source.getReviewCnt())
+				.createdAt(source.getCreatedAt())
+				.build();
+	}
 
 	public QuestionQuery from(SaveQuestionEvent source) {
 		return QuestionQuery.builder()

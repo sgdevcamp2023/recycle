@@ -39,13 +39,24 @@ public class QuestionController {
 	private final QuestionDeleteUseCase questionDeleteUseCase;
 	private final QuestionTempViewUseCase questionTempViewUseCase;
 
+//	@PostMapping
+//	public ApiResponse<ApiResponse.Success> createQuestion(
+//			@AuthenticationPrincipal TokenUserDetails userDetails,
+//			@RequestBody @Valid QuestionRequest request) {
+//
+//		QuestionCreateUseCaseRequest useCaseRequest =
+//				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
+//		questionCreateUseCase.execute(useCaseRequest);
+//
+//		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
+//	}
+
 	@PostMapping
 	public ApiResponse<ApiResponse.Success> createQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestBody @Valid QuestionRequest request) {
 
 		QuestionCreateUseCaseRequest useCaseRequest =
-				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
+				QuestionCreateUseCaseRequestConverter.from(request, "test", 1L);
 		questionCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
