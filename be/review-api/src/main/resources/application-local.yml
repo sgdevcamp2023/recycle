@@ -11,6 +11,7 @@ spring:
       - cookie-local
       - rabbit-local
       - rabbitmq-local
+      - log-local
 
 logging:
   level:

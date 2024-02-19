@@ -90,7 +90,7 @@ public class QuestionController {
 	@GetMapping("/temp")
 	public ApiResponse<ApiResponse.SuccessBody<List<QuestionTempResponse>>> viewTempQuestionList(
 			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@Valid @RequestParam @NotEmpty String tempId) {
+			@RequestParam(required = false) String tempId) {
 
 		QuestionTempViewUseCaseRequest useCaseRequest = new QuestionTempViewUseCaseRequest();
 
