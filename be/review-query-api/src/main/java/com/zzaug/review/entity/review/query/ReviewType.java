@@ -1,4 +1,4 @@
-package com.zzaug.review.domain.model.review;
+package com.zzaug.review.entity.review.query;
 
 import lombok.Getter;
 
