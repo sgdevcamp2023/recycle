@@ -1,5 +1,7 @@
 package com.zzaug.review.web.dto.question;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Getter
@@ -8,6 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionTempRequest {
-	private String t_id;
-	private String content;
+	@NotBlank private String tempId;
+	@NotEmpty private String content;
 }
