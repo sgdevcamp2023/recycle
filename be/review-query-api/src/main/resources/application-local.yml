@@ -7,6 +7,7 @@ spring:
     include:
       - mysql-local
       - security-local
+      - elasticsearch-local
 
 logging:
   level:
