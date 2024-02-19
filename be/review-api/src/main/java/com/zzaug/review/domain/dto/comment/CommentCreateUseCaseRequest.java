@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class CommentResponse {
+public class CommentCreateUseCaseRequest {
 	private Long commentId;
 	private Long questionId;
 	private String content;
@@ -17,4 +17,5 @@ public class CommentResponse {
 	private Long parentId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private boolean isDeleted;
 }
