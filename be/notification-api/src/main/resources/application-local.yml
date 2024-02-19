@@ -12,3 +12,14 @@ spring:
       - rabbit-local
       - cookie-local
       - log-local
+
+logging:
+  level:
+    root: DEBUG
+    com:
+      zzaug: DEBUG
+    org:
+      springframework:
+        transaction:
+          interceptor: DEBUG
+    sql: DEBUG

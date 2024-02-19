@@ -9,6 +9,7 @@ spring:
       - security-local
       - elasticsearch-local
       - cookie-local
+      - log-local
 
 
 logging:
