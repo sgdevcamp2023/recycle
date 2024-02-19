@@ -1,4 +1,4 @@
-package com.zzaug.review.web.dto.question;
+package com.zzaug.review.domain.dto.question;
 
 import lombok.*;
 
@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuestionViewRequest {
+public class QuestionDeleteUseCaseRequest {
 	private Long questionId;
+	private Long authorId;
 }

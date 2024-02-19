@@ -5,4 +5,6 @@ apply from: '../tasks/docs-task.gradle'
 dependencies {
     implementation project(':flyway')
     implementation project(':security')
+    api project(':web')
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
