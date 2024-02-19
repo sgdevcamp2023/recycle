@@ -1,23 +1,18 @@
-package com.zzaug.review.domain.model.review;
+package com.zzaug.review.domain.dto.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
 import com.zzaug.review.entity.review.ReviewType;
 import java.time.LocalDateTime;
 import javax.persistence.Embedded;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class Review {
-
-	private Long reviewId;
+public class ReviewTempCreateUseCaseRequest {
+	private String tempId;
 
 	private Long questionId;
 
@@ -29,13 +24,9 @@ public class Review {
 
 	private LocalDateTime createdAt;
 
-	private LocalDateTime updatedAt;
-
 	@Embedded private ReviewPoint startPoint;
 
 	@Embedded private ReviewPoint endPoint;
 
 	private ReviewType tag;
-
-	private boolean isDeleted;
 }
