@@ -30,27 +30,12 @@ public class QuestionQueryEntity {
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime createdAt;
 
 	@Field(
 			type = FieldType.Date,
 			format = DateFormat.custom,
-			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS||epoch_millis")
+			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
 	private LocalDateTime updatedAt;
-
-	private boolean isDeleted;
-
-	@Override
-	public int hashCode() {
-		return questionId.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof QuestionQueryEntity) {
-			return questionId.equals(((QuestionQueryEntity) obj).questionId);
-		}
-		return false;
-	}
 }
