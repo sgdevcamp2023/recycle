@@ -54,10 +54,8 @@ const ReviewShowModal = ({ top }) => {
           <MDEditor.Markdown source={review} />
         </EditorBox>
         <ButtonBox>
-          <DefaultButton width={4} height={2}>
-            <Text fontSize="xs" onClick={handleCloseClick}>
-              Close
-            </Text>
+          <DefaultButton width={4} height={2} onClick={handleCloseClick}>
+            <Text fontSize="xs">Close</Text>
           </DefaultButton>
         </ButtonBox>
       </LoginBox>
