@@ -8,5 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuestionViewRequest {
-	private Long question_id;
+	private Long questionId;
 }
