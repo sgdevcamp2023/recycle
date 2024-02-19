@@ -3,6 +3,10 @@ import MarkdownEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import Text from '@components/atom/Text';
+import GreyButton from '@components/atom/Button/GreyButton';
+import ReverseButton from '@components/atom/Button/ReverseButton';
+import { useMarkdownStore } from '@store/useMarkdownStore';
+import useReviewStore from '@store/useReviewStore';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -23,27 +27,40 @@ const ButtonBox = styled.div`
   margin-top: 0.3125rem;
   position: absolute;
   bottom: 0.3125rem;
-  right: 0.3125rem;
+  right: 0.25rem;
+  gap: 0.25rem;
 `;
 
-const ReviewWriteModal = () => {
-  const [markdown, setMarkdown] = useState('');
+const ReviewWriteModal = ({ top }) => {
+  const { review, setReview, id } = useReviewStore();
+  const { showCodeComment, setShowCodeComment } = useMarkdownStore();
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
-      setMarkdown(value);
+      setReview(value);
     }
   };
 
+  const handleSubmit = () => {
+    console.log(review);
+    console.log(id);
+  };
+
+  const handleCloseClick = () => {
+    setShowCodeComment(false);
+  };
+
   return (
-    <div>
-      <h2>리뷰어가 리뷰를 작성할 모달입니다</h2>
+    <div style={{ position: 'absolute', top }}>
       <LoginBox>
-        <MarkdownEditor height={'90%'} value={markdown} onChange={handleMarkdownChange} />
+        <MarkdownEditor height={'90%'} value={review} onChange={handleMarkdownChange} />
         <ButtonBox>
-          <DefaultButton width={4} height={2}>
+          <DefaultButton width={4} height={2} padding={0} onClick={handleSubmit}>
             <Text fontSize="xs">Submit</Text>
           </DefaultButton>
+          <ReverseButton width={4} height={2} padding={0} onClick={handleCloseClick}>
+            <Text fontSize="xs">Close</Text>
+          </ReverseButton>
         </ButtonBox>
       </LoginBox>
     </div>

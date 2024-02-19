@@ -2,8 +2,12 @@ import SideBar from '@components/block/sideBar/SideBar';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import ContentTab from '@components/block/navbar/ContentTab';
+import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
+import { useMarkdownStore } from '@store/useMarkdownStore';
 
 const GridTemplate = () => {
+  const { showCodeComment, setShowCodeComment } = useMarkdownStore();
+
   return (
     <LayoutWrapper>
       <div>
@@ -16,7 +20,9 @@ const GridTemplate = () => {
         <MainContent>
           <Outlet />
         </MainContent>
-        <RightContent>RightBar</RightContent>
+        <RightContent>
+          {showCodeComment && <ReviewWriteModal top={showCodeComment.top} />}
+        </RightContent>
       </MainWrapper>
     </LayoutWrapper>
   );
