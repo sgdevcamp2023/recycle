@@ -8,6 +8,7 @@ const SettingBody = lazy(() => import('@components/block/Content/Setting'));
 const RequestBody = lazy(() => import('@components/block/Content/Request'));
 const CreateQuestionBody = lazy(() => import('@components/block/Content/CreateQuestion'));
 const CreateReviewBody = lazy(() => import('@components/block/Content/CreateReview'));
+const ReadQuestioBody = lazy(() => import('@components/block/Content/ReadQuestion'));
 
 //변수면 대소문자
 const Content: Record<string, ReactNode> = {
@@ -17,6 +18,7 @@ const Content: Record<string, ReactNode> = {
   Setting: <SettingBody />,
   CreateQuestion: <CreateQuestionBody />,
   CreateReview: <CreateReviewBody />,
+  ReadQuestion: <ReadQuestioBody />,
 };
 
 const Common = () => {
@@ -28,6 +30,8 @@ const Common = () => {
       setSelectedContent(Content.CreateQuestion);
     } else if (pathname.startsWith('/createReview')) {
       setSelectedContent(Content.CreateReview);
+    } else if (pathname.startsWith('/readQuestion')) {
+      setSelectedContent(Content.ReadQuestion);
     } else if (tabType != null) {
       console.log(tabType);
       setSelectedContent(Content[pathname.replace('/', '')]);

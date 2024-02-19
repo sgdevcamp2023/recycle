@@ -20,7 +20,7 @@ const Button = styled.button`
   top: ${(props) => props.top}px;
   margin-left: -50px;
   width: 100px;
-  background: blue;
+  background: ${({ theme }) => theme.backgroundColor.green100};
   border: none;
   text-align: center;
   color: white;
@@ -69,7 +69,7 @@ export const Popover = ({ target, onClick }: PopoverProps) => {
   return (
     <Portal>
       <Button left={buttonPosition.left} top={buttonPosition.top} onClick={onClick}>
-        share me
+        Line Comment
       </Button>
     </Portal>
   );

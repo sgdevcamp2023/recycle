@@ -7,6 +7,7 @@ import DefaultCard, { DefaultCardProps, DefaultCardType } from '@components/atom
 import useGetQuestions from '@hooks/query/question/useGetQuestions';
 import useGetQuestionDrafts from '@hooks/query/question/useGetQuestionDrafts';
 import { SyncLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 
 const Question = () => {
   const items: Record<string, DefaultTabType> = {
@@ -26,6 +27,7 @@ const Question = () => {
   const { data: questionDraftsData, isLoading: isQuestionDraftsLoading } = useGetQuestionDrafts({
     tId,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     setQuestionsArray(questionData?.data.data);
@@ -41,7 +43,7 @@ const Question = () => {
   //  "question" | "review" | "add"
   const handleCardClick = ({ type }: handleCardClickProps) => {
     if (type == 'add') {
-      alert('새로운 질문 추가하기');
+      navigate('/createQuestion');
     }
   };
 

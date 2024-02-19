@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 const UploadButton = styled.button`
@@ -26,7 +27,7 @@ const UploadButton = styled.button`
 `;
 
 const LineCommentViewBox = styled.div`
-  width: 276px;
+  width: 17rem;
   min-height: 96px;
   height: auto; /* 높이를 자동으로 조정 */
   padding: 4px;
@@ -59,13 +60,20 @@ const CommentWriteContainer = styled.textarea`
   }
 `;
 
-const LineCommentWrite = () => {
+interface LineCommentWriteProps {
+  uploadOnClick?: MouseEventHandler<HTMLButtonElement>;
+  cancelOnClick?: MouseEventHandler<HTMLButtonElement>;
+}
+
+const LineCommentWrite = ({ cancelOnClick, uploadOnClick }: LineCommentWriteProps) => {
   return (
     <div>
       <LineCommentViewBox>
         <CommentWriteContainer placeholder="댓글 추가" />
-        <UploadButton>▶</UploadButton>
+        <UploadButton onClick={uploadOnClick}>▶</UploadButton>
       </LineCommentViewBox>
+      <br />
+      <button onClick={cancelOnClick}>취소</button>
     </div>
   );
 };
