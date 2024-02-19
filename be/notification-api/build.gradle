@@ -4,5 +4,51 @@ apply from: '../tasks/docs-task.gradle'
 
 dependencies {
     implementation project(':flyway')
-    implementation project(':security')
+    implementation project(':rabbitmq')
+    implementation project(':web')
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}
+
+task buildDockerImage {
+    dependsOn bootJar
+
+    doLast {
+        exec {
+            workingDir '.'
+            commandLine 'docker','run','--privileged','--rm','tonistiigi/binfmt','--install','all'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx','create','--use'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${notificationImageName}", '--build-arg', "RELEASE_VERSION=${notificationReleaseVersion}", '.', '--push'
+        }
+    }
+}
+
+task runWithNotificationAPIPinpointAgent {
+    dependsOn bootJar
+
+    def agentPath = System.getenv("AGENT_PATH")
+    def profiles = System.getenv("PROFILES")
+    def apiPort = System.getenv("API_PORT")
+    def agentId = "notification-api"
+    def apiJar = "notification-api-0.0.1-SNAPSHOT.jar"
+
+    doLast {
+        exec {
+            workingDir './build/libs'
+            commandLine 'cp', apiJar, 'app.jar'
+        }
+    }
+
+    doLast {
+        exec {
+            workingDir './build/libs'
+            commandLine 'java', '-jar', '-javaagent:' + agentPath, '-Dpinpoint.agentId=' + agentId, '-Dpinpoint.applicationName=' + agentId, '-Dspring.profiles.active=' + profiles,  "app.jar" , "--server.port=" + apiPort
+        }
+    }
 }

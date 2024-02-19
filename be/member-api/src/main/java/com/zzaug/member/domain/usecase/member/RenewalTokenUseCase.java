@@ -15,7 +15,7 @@ import com.zzaug.member.domain.model.member.MemberContacts;
 import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
 import com.zzaug.member.entity.member.AuthenticationEntity;
-import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
+import com.zzaug.member.persistence.support.transaction.MemberSecurityChainedTransactional;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
@@ -42,9 +42,9 @@ public class RenewalTokenUseCase {
 	private final TokenResolver tokenResolver;
 	private final BlackTokenAuthCommand blackTokenAuthCommand;
 	private final EnrollTokenCacheService enrollBlackTokenCacheServiceImpl;
-	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteAccessTokenCacheServiceImpl;
 
-	@UseCaseTransactional
+	@MemberSecurityChainedTransactional
 	public MemberAuthToken execute(RenewalTokenUseCaseRequest request) {
 		final String refreshToken = request.getRefreshToken();
 		final String accessToken = request.getAccessToken();
@@ -74,9 +74,11 @@ public class RenewalTokenUseCase {
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
 		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
-		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		return MemberAuthToken.builder()
+				.memberId(memberSource.getId())
 				.accessToken(authToken.getAccessToken())
 				.refreshToken(authToken.getRefreshToken())
 				.build();

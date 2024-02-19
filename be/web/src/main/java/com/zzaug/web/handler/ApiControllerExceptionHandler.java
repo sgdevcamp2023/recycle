@@ -2,7 +2,6 @@ package com.zzaug.web.handler;
 
 import static com.zzaug.web.handler.ExceptionMessage.ACCESS_DENIED;
 import static com.zzaug.web.handler.ExceptionMessage.FAIL;
-import static com.zzaug.web.handler.ExceptionMessage.FAIL_AUTHENTICATION;
 import static com.zzaug.web.handler.ExceptionMessage.FAIL_NOT_FOUND;
 import static com.zzaug.web.handler.ExceptionMessage.FAIL_REQUEST;
 import static com.zzaug.web.handler.ExceptionMessage.REQUEST_INVALID_FORMAT;
@@ -20,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -77,6 +75,10 @@ public class ApiControllerExceptionHandler {
 			return handleRequestDetail((ConstraintViolationException) ex);
 		}
 
+		if (ex instanceof MissingServletRequestParameterException) {
+			return handleRequestDetail((MissingServletRequestParameterException) ex);
+		}
+
 		if (ex instanceof MethodArgumentNotValidException) {
 			return handleRequestDetail((MethodArgumentNotValidException) ex);
 		}
@@ -103,6 +105,15 @@ public class ApiControllerExceptionHandler {
 				requestInvalidCode, REQUEST_INVALID_FORMAT.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
+	private ApiResponse<FailureBody> handleRequestDetail(MissingServletRequestParameterException ex) {
+		MissingServletRequestParameterException rex = ex;
+		String message = rex.getMessage();
+		String parameter = message.split("\'")[1].split("\'")[0];
+		String requestInvalidCode = String.format(REQUEST_INVALID_FORMAT.getCode(), parameter);
+		return ApiResponseGenerator.fail(
+				requestInvalidCode, REQUEST_INVALID_FORMAT.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
 	private ApiResponse<FailureBody> handleRequestDetail(MethodArgumentNotValidException ex) {
 		MethodArgumentNotValidException rex = ex;
 		List<ObjectError> errors = rex.getAllErrors();
@@ -120,14 +131,6 @@ public class ApiControllerExceptionHandler {
 		ValidationException rex = ex;
 		return ApiResponseGenerator.fail(
 				FAIL_REQUEST.getCode(), FAIL_REQUEST.getMessage(), HttpStatus.BAD_REQUEST);
-	}
-
-	@ExceptionHandler({AuthenticationException.class})
-	public ApiResponse<ApiResponse.FailureBody> handle(
-			final Exception ex, final HttpServletRequest request) {
-		loggingHandler.writeLog(ex, request);
-		return ApiResponseGenerator.fail(
-				FAIL_AUTHENTICATION.getCode(), FAIL_AUTHENTICATION.getMessage(), HttpStatus.UNAUTHORIZED);
 	}
 
 	@ExceptionHandler({NoHandlerFoundException.class})

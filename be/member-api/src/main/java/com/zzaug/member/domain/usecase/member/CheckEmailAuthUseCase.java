@@ -34,7 +34,7 @@ import com.zzaug.member.entity.log.EmailAuthLogEntity;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.ContactType;
 import com.zzaug.member.entity.member.ExternalContactEntity;
-import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
+import com.zzaug.member.persistence.support.transaction.MemberSecurityChainedTransactional;
 import com.zzaug.member.redis.email.EmailAuthSession;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
@@ -68,9 +68,9 @@ public class CheckEmailAuthUseCase {
 	private final AuthTokenValidator authTokenValidator;
 	private final TokenGenerator tokenGenerator;
 	private final BlackTokenAuthCommand blackTokenAuthCommand;
-	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteAccessTokenCacheServiceImpl;
 
-	@UseCaseTransactional
+	@MemberSecurityChainedTransactional
 	public CheckEmailAuthUseCaseResponse execute(CheckEmailAuthUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 		final String code = request.getCode();
@@ -175,7 +175,8 @@ public class CheckEmailAuthUseCase {
 						memberContacts.getGithub());
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
-		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		publishEvent(memberId, memberAuthentication, email);
 

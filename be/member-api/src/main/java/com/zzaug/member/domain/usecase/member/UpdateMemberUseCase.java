@@ -20,7 +20,7 @@ import com.zzaug.member.domain.model.member.MemberSource;
 import com.zzaug.member.domain.support.entity.MemberAuthenticationConverter;
 import com.zzaug.member.entity.member.AuthenticationEntity;
 import com.zzaug.member.entity.member.CertificationData;
-import com.zzaug.member.persistence.support.transaction.UseCaseTransactional;
+import com.zzaug.member.persistence.support.transaction.MemberSecurityChainedTransactional;
 import com.zzaug.security.authentication.authority.Roles;
 import com.zzaug.security.token.AuthToken;
 import com.zzaug.security.token.TokenGenerator;
@@ -48,11 +48,11 @@ public class UpdateMemberUseCase {
 	private final AuthTokenValidator authTokenValidator;
 	private final BlackTokenAuthCommand blackTokenAuthCommand;
 	private final EnrollTokenCacheService enrollBlackTokenCacheServiceImpl;
-	private final ReplaceTokenCacheService replaceWhiteTokenCacheServiceImpl;
+	private final ReplaceTokenCacheService replaceWhiteAccessTokenCacheServiceImpl;
 
 	private final ApplicationEventPublisher applicationEventPublisher;
 
-	@UseCaseTransactional
+	@MemberSecurityChainedTransactional
 	public UpdateMemberUseCaseResponse execute(UpdateMemberUseCaseRequest request) {
 		final Long memberId = request.getMemberId();
 		final CertificationData certification =
@@ -116,7 +116,8 @@ public class UpdateMemberUseCase {
 
 		blackTokenAuthCommand.execute(accessToken, refreshToken);
 		enrollBlackTokenCacheServiceImpl.execute(accessToken, refreshToken);
-		replaceWhiteTokenCacheServiceImpl.execute(accessToken, authToken.getAccessToken());
+		replaceWhiteAccessTokenCacheServiceImpl.execute(
+				accessToken, authToken.getAccessToken(), memberAuthentication.getMemberId());
 
 		publishEvent(memberId, memberAuthentication);
 
@@ -127,7 +128,6 @@ public class UpdateMemberUseCase {
 	}
 
 	private void publishEvent(Long memberId, MemberAuthentication memberAuthentication) {
-		// todo listener에서 해당 이벤트를 rabbitmq로 publish하여야 한다.
 		log.debug("Publish update member event. memberId: {}", memberId);
 		applicationEventPublisher.publishEvent(
 				UpdateMemberEvent.builder()

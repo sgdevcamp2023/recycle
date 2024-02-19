@@ -2,6 +2,7 @@ package com.zzaug.review.entity.question.query;
 
 import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
@@ -37,26 +38,9 @@ public class QuestionQueryEntity {
 			type = FieldType.Date,
 			format = DateFormat.custom,
 			pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS||epoch_millis")
-	private LocalDateTime updatedAt;
+	private LocalDateTime deletedAt;
 
-    private boolean isDeleted;
-	@Override
-	public int hashCode() {
-		return questionId.hashCode();
-	}
+	@ColumnDefault("false")
+	private boolean isDeleted;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof QuestionQueryEntity) {
-			return questionId.equals(((QuestionQueryEntity) obj).questionId);
-		}
-		return false;
-	}
-	public void incReviewCnt() {
-		this.reviewCnt++;
-	}
-
-	public void decReviewCnt() {
-		this.reviewCnt--;
-	}
 }

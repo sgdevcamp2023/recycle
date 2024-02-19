@@ -1,6 +1,3 @@
-def imageName = project.hasProperty('imageName') ? imageName : "belljun3395/zzuag-member"
-def releaseVersion = project.hasProperty('releaseVersion') ? releaseVersion : null
-
 apply from: '../dependencies/web-dependencies.gradle'
 apply from: '../dependencies/database-dependencies.gradle'
 apply from: '../tasks/docs-task.gradle'
@@ -8,6 +5,7 @@ apply from: '../tasks/docs-task.gradle'
 dependencies {
     implementation project(':flyway')
     implementation project(':web')
+    implementation project(':rabbitmq')
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.session:spring-session-data-redis'
 
@@ -28,7 +26,31 @@ task buildDockerImage {
         }
         exec {
             workingDir '.'
-            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${imageName}", '--build-arg', "RELEASE_VERSION=${releaseVersion}", '.', '--push'
+            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', "${memberImageName}", '--build-arg', "RELEASE_VERSION=${memberReleaseVersion}", '.', '--push'
+        }
+    }
+}
+
+task runMemberAPIWithPinpointAgent {
+    dependsOn bootJar
+
+    def agentPath = System.getenv("AGENT_PATH")
+    def profiles = System.getenv("PROFILES")
+    def apiPort = System.getenv("API_PORT")
+    def agentId = "member-api"
+    def apiJar = "member-api-0.0.1-SNAPSHOT.jar"
+
+    doLast {
+        exec {
+            workingDir './build/libs'
+            commandLine 'cp', apiJar, 'app.jar'
+        }
+    }
+
+    doLast {
+        exec {
+            workingDir './build/libs'
+            commandLine 'java', '-jar', '-javaagent:' + agentPath, '-Dpinpoint.agentId=' + agentId, '-Dpinpoint.applicationName=' + agentId, '-Dspring.profiles.active=' + profiles, "app.jar", "--server.port=" + apiPort
         }
     }
 }
