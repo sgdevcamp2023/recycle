@@ -6,7 +6,7 @@ import com.zzaug.review.domain.dto.question.QuestionReqResponse;
 import com.zzaug.review.domain.dto.question.QuestionReqViewUseCaseRequest;
 import com.zzaug.review.domain.usecase.member.ViewReviewerUseCase;
 import com.zzaug.review.domain.usecase.question.QuestionReqViewUseCase;
-import com.zzaug.review.web.support.usecase.QuestionReqViewUseCaseRequestConverter;
+import com.zzaug.review.web.support.usecase.question.QuestionReqViewUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.ViewReviewerUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import com.zzaug.web.support.ApiResponse;

@@ -1,4 +1,4 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.comment;
 
 import com.zzaug.review.domain.dto.comment.CommentCreateUseCaseRequest;
 import com.zzaug.review.web.dto.review.CommentRequest;

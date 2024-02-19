@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.usecase.question;
 
+import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.question.QuestionTempResponse;
 import com.zzaug.review.domain.dto.question.QuestionTempViewUseCaseRequest;
 import com.zzaug.review.domain.persistence.question.QuestionTempRepository;
@@ -7,10 +8,11 @@ import com.zzaug.review.domain.usecase.question.converter.QuestionTempResponseCo
 import com.zzaug.review.entity.question.QuestionTempEntity;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class QuestionTempViewUseCase {
 	private final QuestionTempRepository questionTempRepository;
 
-	@Transactional
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public List<QuestionTempResponse> execute(QuestionTempViewUseCaseRequest request) {
 		if (request.getTempId() != null) {
 			System.out.println(request.getTempId());

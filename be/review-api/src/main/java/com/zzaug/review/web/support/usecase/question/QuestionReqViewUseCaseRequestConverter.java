@@ -1,4 +1,4 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.question;
 
 import com.zzaug.review.domain.dto.question.QuestionReqViewUseCaseRequest;
 import lombok.experimental.UtilityClass;

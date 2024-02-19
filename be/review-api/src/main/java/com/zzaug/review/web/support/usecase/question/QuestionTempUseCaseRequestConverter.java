@@ -1,4 +1,4 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.question;
 
 import com.zzaug.review.domain.dto.question.QuestionTempCreateUseCaseRequest;
 import com.zzaug.review.web.dto.question.QuestionTempRequest;
@@ -15,6 +15,17 @@ public class QuestionTempUseCaseRequestConverter {
 				.content(request.getContent())
 				.author(userDetails.getUsername())
 				.authorId(Long.valueOf(userDetails.getId()))
+				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+				.build();
+	}
+
+	public static QuestionTempCreateUseCaseRequest from(
+			QuestionTempRequest request, String username, Long userId) {
+		return QuestionTempCreateUseCaseRequest.builder()
+				.tempId(request.getTempId())
+				.content(request.getContent())
+				.author(username)
+				.authorId(userId)
 				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}

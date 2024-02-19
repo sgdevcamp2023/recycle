@@ -1,4 +1,4 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.comment;
 
 import com.zzaug.review.domain.dto.comment.CommentDeleteUseCaseRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;

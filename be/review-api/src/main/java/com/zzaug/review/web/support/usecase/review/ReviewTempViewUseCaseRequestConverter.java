@@ -1,4 +1,4 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.review;
 
 import com.zzaug.review.domain.dto.review.ReviewTempViewUseCaseRequest;
 import lombok.experimental.UtilityClass;

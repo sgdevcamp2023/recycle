@@ -2,6 +2,8 @@ package com.zzaug.review.entity.review;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.zzaug.review.entity.review.query.ReviewType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

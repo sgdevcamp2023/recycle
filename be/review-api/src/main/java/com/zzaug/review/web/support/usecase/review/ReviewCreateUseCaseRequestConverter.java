@@ -1,25 +1,25 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.review;
 
-import com.zzaug.review.domain.dto.review.ReviewEditUseCaseRequest;
+import com.zzaug.review.domain.dto.review.ReviewCreateUseCaseRequest;
 import com.zzaug.review.web.dto.review.ReviewRequest;
 import com.zzaug.security.authentication.token.TokenUserDetails;
 import java.sql.Timestamp;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class ReviewEditUseCaseRequestConverter {
+public class ReviewCreateUseCaseRequestConverter {
 
-	public static ReviewEditUseCaseRequest from(
-			ReviewRequest request, Long reviewId, Long questionId, TokenUserDetails userDetails) {
-		return ReviewEditUseCaseRequest.builder()
-				.reviewId(reviewId)
+	public static ReviewCreateUseCaseRequest from(
+			ReviewRequest request, Long questionId, TokenUserDetails userDetails) {
+		return ReviewCreateUseCaseRequest.builder()
 				.questionId(questionId)
 				.content(request.getContent())
 				.author(userDetails.getUsername())
 				.authorId(Long.valueOf(userDetails.getId()))
-				.updatedAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.startPoint(request.getStartPoint())
 				.endPoint(request.getEndPoint())
+				.tag(request.getTag())
 				.build();
 	}
 }

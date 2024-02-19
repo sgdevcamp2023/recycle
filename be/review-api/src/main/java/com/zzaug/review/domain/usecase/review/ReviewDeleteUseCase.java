@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.usecase.review;
 
+import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.ReviewDeleteUseCaseRequest;
 import com.zzaug.review.domain.exception.AlreadyDeletedException;
 import com.zzaug.review.domain.exception.UnAuthorizationException;
@@ -7,10 +8,11 @@ import com.zzaug.review.domain.persistence.question.QuestionRepository;
 import com.zzaug.review.domain.persistence.review.ReviewRepository;
 import com.zzaug.review.entity.review.ReviewEntity;
 import java.util.NoSuchElementException;
-import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -19,7 +21,7 @@ public class ReviewDeleteUseCase {
 	private final ReviewRepository reviewRepository;
 	private final QuestionRepository questionRepository;
 
-	@Transactional
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public void execute(ReviewDeleteUseCaseRequest request) {
 		ReviewEntity review =
 				reviewRepository

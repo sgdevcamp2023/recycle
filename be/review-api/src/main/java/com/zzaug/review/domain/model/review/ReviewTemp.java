@@ -1,8 +1,9 @@
 package com.zzaug.review.domain.model.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
-import com.zzaug.review.entity.review.ReviewType;
 import java.time.LocalDateTime;
+
+import com.zzaug.review.entity.review.query.ReviewType;
 import lombok.*;
 
 @Getter

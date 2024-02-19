@@ -1,4 +1,4 @@
-package com.zzaug.review.web.support.usecase;
+package com.zzaug.review.web.support.usecase.question;
 
 import com.zzaug.review.domain.dto.question.QuestionDeleteUseCaseRequest;
 import com.zzaug.review.web.dto.question.QuestionDeleteRequest;

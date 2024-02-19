@@ -1,8 +1,9 @@
 package com.zzaug.review.web.dto.review;
 
 import com.zzaug.review.entity.review.ReviewPoint;
-import com.zzaug.review.entity.review.ReviewType;
 import javax.validation.constraints.NotEmpty;
+
+import com.zzaug.review.entity.review.query.ReviewType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
