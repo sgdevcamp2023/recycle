@@ -7,11 +7,17 @@ const ErrorModal = () => {
   return (
     <ModalBox>
       <Logo src={mainLogo} alt="zzaug main logo" />
-      <Text center={true} fontSize="xxl" fontWeight="bold">
-        404 Error
+      <Text center={true} fontSize="xl" fontWeight="bold">
+        새로고침 해주세요~
       </Text>
-      <Text center={true} fontSize="base" fontWeight="bold" color="grey">
-        ~~~에러로 인하여. ~~~ 문제가 생겼고 어쩌구 저쩌구
+      <Text
+        center={true}
+        fontSize="base"
+        fontWeight="bold"
+        color="grey"
+        style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
+      >
+        에러가 발생했어요. 새로고침이 안되면, 메인으로 돌아가주세요
       </Text>
       <DefaultButton height="2.5">이전 페이지로 돌아가기</DefaultButton>
     </ModalBox>
