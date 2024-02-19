@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import useReviewStore, { reviewData } from '@store/useReviewStore';
 import LineCommentWrite from '@components/atom/Comment/LineCommentWrite';
 import LineCommentView from '@components/atom/Comment/LineCommentView';
+import ReviewShowModal from '@components/block/modal/ReviewShowModal';
 
 const GridTemplate = () => {
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
@@ -59,7 +60,8 @@ const GridTemplate = () => {
           <Outlet />
         </MainContent>
         <RightContent>
-          {showCodeComment && <ReviewWriteModal top={showCodeComment.top} />}
+          {/* {showCodeComment && <ReviewWriteModal top={showCodeComment.top} />} */}
+          {showCodeComment && <ReviewShowModal top={showCodeComment.top} />}
           <div>
             {reviewList &&
               reviewList.map((item: reviewData, index) => {
