@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useMarkdownStore } from '@store/useMarkdownStore';
 import useReviewStore, { reviewData } from '@store/useReviewStore';
+import DefaultBadge from '@components/atom/Mui/DefaultBadge';
 
 const ReadQuestion = () => {
   const { content } = useQuestionStore((state) => state);
