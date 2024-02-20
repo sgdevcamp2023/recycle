@@ -22,4 +22,18 @@ public class ReviewCreateUseCaseRequestConverter {
 				.tag(request.getTag())
 				.build();
 	}
+
+	public static ReviewCreateUseCaseRequest from(
+			ReviewRequest request, Long questionId, String author, Long authorId) {
+		return ReviewCreateUseCaseRequest.builder()
+				.questionId(questionId)
+				.content(request.getContent())
+				.author(author)
+				.authorId(authorId)
+				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+				.startPoint(request.getStartPoint())
+				.endPoint(request.getEndPoint())
+				.tag(request.getTag())
+				.build();
+	}
 }

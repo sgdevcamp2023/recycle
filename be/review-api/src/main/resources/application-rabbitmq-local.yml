@@ -1,4 +1,6 @@
 spring:
   rabbitmq:
-    exchange: topic.zzuag.review
-    routing-key: zzuag.review
+    question-exchange: topic.zzuag.question
+    question-routing-key: zzuag.question
+    review-exchange: topic.zzuag.review
+    review-routing-key: zzuag.review

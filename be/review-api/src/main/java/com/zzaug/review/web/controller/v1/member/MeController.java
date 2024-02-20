@@ -51,12 +51,11 @@ public class MeController {
 
 	@GetMapping("/requests/reviews")
 	public ApiResponse<?> viewReviewRequestList(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@Valid @RequestParam @NotEmpty int page,
 			@Valid @RequestParam @NotEmpty int size) {
 		try {
 			QuestionReqViewUseCaseRequest useCaseRequest =
-					QuestionReqViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
+					QuestionReqViewUseCaseRequestConverter.from(1L);
 			List<QuestionReqResponse> result = questionRequestViewUseCase.execute(useCaseRequest);
 			PageRequest pageRequest = PageRequest.of(page, size);
 			int start = (int) pageRequest.getOffset();

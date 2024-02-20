@@ -35,12 +35,11 @@ public class ReviewController {
 
 	@PostMapping("/questions/{questionId}/reviews")
 	public ApiResponse<ApiResponse.Success> createReview(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@RequestBody @Valid ReviewRequest request) {
 
 		ReviewCreateUseCaseRequest useCaseRequest =
-				ReviewCreateUseCaseRequestConverter.from(request, questionId, userDetails);
+				ReviewCreateUseCaseRequestConverter.from(request, questionId, "author", 1L);
 		reviewCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
@@ -48,12 +47,11 @@ public class ReviewController {
 
 	@PostMapping("/questions/{questionId}/reviews/temp")
 	public ApiResponse<ApiResponse.Success> createTempReview(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@RequestBody @Valid ReviewTempRequest request) {
 
 		ReviewTempCreateUseCaseRequest useCaseRequest =
-				ReviewTempUseCaseRequestConverter.from(request, questionId, userDetails);
+				ReviewTempUseCaseRequestConverter.from(request, questionId, "author", 1L);
 		reviewTempCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
@@ -61,13 +59,12 @@ public class ReviewController {
 
 	@PutMapping("/questions/{questionId}/reviews/{reviewId}")
 	public ApiResponse<?> editReview(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@PathVariable @Valid Long reviewId,
 			@RequestBody @Valid ReviewRequest request) {
 
 		ReviewEditUseCaseRequest useCaseRequest =
-				ReviewEditUseCaseRequestConverter.from(request, reviewId, questionId, userDetails);
+				ReviewEditUseCaseRequestConverter.from(request, reviewId, questionId, "author", 1L);
 		try {
 			reviewEditUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
@@ -83,7 +80,6 @@ public class ReviewController {
 
 	@DeleteMapping("/questions/{questionId}/reviews/{reviewId}")
 	public ApiResponse<?> deleteReview(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@PathVariable @Valid Long reviewId) {
 
@@ -91,7 +87,7 @@ public class ReviewController {
 				ReviewDeleteRequest.builder()
 						.reviewId(reviewId)
 						.questionId(questionId)
-						.authorId(Long.valueOf(userDetails.getId()))
+						.authorId(1L)
 						.build();
 
 		ReviewDeleteUseCaseRequest useCaseRequest = ReviewDeleteUseCaseRequestConverter.from(request);
@@ -111,7 +107,6 @@ public class ReviewController {
 
 	@GetMapping("/questions/{questionId}/reviews/temp")
 	public ApiResponse<ApiResponse.SuccessBody<List<ReviewTempResponse>>> viewTempReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable Long questionId,
 			@RequestParam(required = false) String tempId) {
 
@@ -121,7 +116,7 @@ public class ReviewController {
 			useCaseRequest = ReviewTempViewUseCaseRequestConverter.from(tempId);
 		} else {
 			useCaseRequest =
-					ReviewTempViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()), questionId);
+					ReviewTempViewUseCaseRequestConverter.from(1L, questionId);
 		}
 
 		List<ReviewTempResponse> responses = reviewTempViewUseCase.execute(useCaseRequest);

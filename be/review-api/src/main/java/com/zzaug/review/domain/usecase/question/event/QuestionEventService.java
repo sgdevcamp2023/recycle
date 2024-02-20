@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class QuestionEventService {
-	@Value("${spring.rabbitmq.exchange}")
+	@Value("${spring.rabbitmq.question-exchange}")
 	private String exchangeName;
 
-	@Value("${spring.rabbitmq.routing-key}")
+	@Value("${spring.rabbitmq.question-routing-key}")
 	private String routingKey;
 
 	private final RabbitTemplate rabbitTemplate;
@@ -24,14 +24,15 @@ public class QuestionEventService {
 	@EventListener
 	public void sendEvent(SaveQuestionEvent event) {
 		log.debug("Event received: {}", event);
-		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		System.out.println("Event received: " + event);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey + ".create", event);
 		log.debug("Event sent: {}", event);
 	}
 
 	@EventListener
 	public void sendEvent(DeleteQuestionEvent event) {
 		log.debug("Event received: {}", event);
-		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey + ".delete", event);
 		log.debug("Event sent: {}", event);
 	}
 }
