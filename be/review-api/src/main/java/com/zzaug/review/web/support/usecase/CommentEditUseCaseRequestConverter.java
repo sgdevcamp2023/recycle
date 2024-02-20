@@ -9,13 +9,13 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class CommentEditUseCaseRequestConverter {
 	public static CommentEditUseCaseRequest from(
-			CommentRequest request, Long commentId, Long questionId, TokenUserDetails userDetails) {
+			CommentRequest request, Long commentId, Long questionId, String author, Long authorId) {
 		return CommentEditUseCaseRequest.builder()
 				.commentId(commentId)
 				.questionId(questionId)
 				.content(request.getContent())
-				.author(userDetails.getUsername())
-				.authorId(Long.valueOf(userDetails.getId()))
+				.author(author)
+				.authorId(authorId)
 				.parentId(request.getParentId())
 				.updatedAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();

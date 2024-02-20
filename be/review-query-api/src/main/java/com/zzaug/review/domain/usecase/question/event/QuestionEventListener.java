@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@RabbitListener(containerFactory = ZRMQListenerConfig.RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME, queues = "zzuag.review")
 public class QuestionEventListener {
     private final ApplicationEventPublisher publisher;
 
-    @RabbitHandler
+    @RabbitListener(containerFactory = ZRMQListenerConfig.RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME, queues = "zzuag.question.create")
     public void receiveEvent(SaveQuestionEvent event) {
+        System.out.println("Received event: " + event);
         log.info("Received event: {}", event);
         publisher.publishEvent(event);
     }
 
-    @RabbitHandler
+    @RabbitListener(containerFactory = ZRMQListenerConfig.RABBIT_LISTENER_CONTAINER_FACTORY_BEAN_NAME, queues = "zzuag.question.delete")
     public void receiveEvent(DeleteQuestionEvent event) {
         log.info("Received event: {}", event);
         publisher.publishEvent(event);

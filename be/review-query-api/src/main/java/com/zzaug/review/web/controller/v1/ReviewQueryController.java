@@ -50,7 +50,6 @@ public class ReviewQueryController {
 
 	@GetMapping("/review-query/search")
 	public ApiResponse<ApiResponse.SuccessBody<List<Map<String, Object>>>> searchReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid Boolean me,
 			@RequestParam @Valid Boolean validQuestion,
 			@RequestParam @Valid String query) {
@@ -61,7 +60,7 @@ public class ReviewQueryController {
 			if (validQuestion) {
 				ReviewSearchByQuestionRequest request =
 						ReviewSearchByQuestionRequest.builder()
-								.authorId(Long.valueOf(userDetails.getId()))
+								.authorId(1L)
 								.query(query)
 								.build();
 				SearchByQuestionUseCaseRequest useCaseRequest =
@@ -72,7 +71,7 @@ public class ReviewQueryController {
 			} else {
 				ReviewSearchRequest request =
 						ReviewSearchRequest.builder()
-								.authorId(Long.valueOf(userDetails.getId()))
+								.authorId(1L)
 								.query(query)
 								.build();
 				SearchByReviewUseCaseRequest useCaseRequest =

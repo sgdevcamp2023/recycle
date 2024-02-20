@@ -51,7 +51,6 @@ public class QuestionQueryController {
 
 	@GetMapping("/search")
 	public ApiResponse<ApiResponse.SuccessBody<Page<QuestionQueryResponse>>> searchQuestion(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid Boolean me,
 			@RequestParam @Valid String query,
 			@RequestParam @Valid int page,
@@ -60,7 +59,7 @@ public class QuestionQueryController {
 		if (me) {
 			QuestionQuerySearchRequest request =
 					QuestionQuerySearchRequest.builder()
-							.authorId(Long.valueOf(userDetails.getId()))
+							.authorId(1L)
 							.query(query)
 							.pageRequest(PageRequest.of(page, size))
 							.build();

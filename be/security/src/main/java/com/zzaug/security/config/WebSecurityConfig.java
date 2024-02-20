@@ -103,9 +103,19 @@ public class WebSecurityConfig {
 								"/v3/api-docs/**",
 								"/openapi3.yaml",
 								"/reports/**",
+								"/api/v1/**",
 								"/api/v1/members/check")
 						.antMatchers(
+								HttpMethod.PUT,
+								"/api/v1/**"
+								)
+						.antMatchers(
+								HttpMethod.DELETE,
+								"/api/v1/**"
+								)
+						.antMatchers(
 								HttpMethod.POST,
+								"/api/v1/**",
 								"/api/v1/members",
 								"/api/v1/members/token",
 								"/api/v1/members/login");

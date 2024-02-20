@@ -14,4 +14,13 @@ public class CommentDeleteUseCaseRequestConverter {
 				.authorId(Long.valueOf(userDetails.getId()))
 				.build();
 	}
+
+	public static CommentDeleteUseCaseRequest from(
+			Long commentId, Long questionId, Long authorId) {
+		return CommentDeleteUseCaseRequest.builder()
+				.commentId(commentId)
+				.questionId(questionId)
+				.authorId(authorId)
+				.build();
+	}
 }

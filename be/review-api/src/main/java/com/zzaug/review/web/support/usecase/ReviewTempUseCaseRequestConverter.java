@@ -21,4 +21,18 @@ public class ReviewTempUseCaseRequestConverter {
 				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
+
+	public static ReviewTempCreateUseCaseRequest from(
+			ReviewTempRequest request, Long questionId, String author, Long authorId) {
+		return ReviewTempCreateUseCaseRequest.builder()
+				.tempId(request.getTempId())
+				.questionId(questionId)
+				.content(request.getContent())
+				.author(author)
+				.authorId(authorId)
+				.startPoint(request.getStartPoint())
+				.endPoint(request.getEndPoint())
+				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
+				.build();
+	}
 }

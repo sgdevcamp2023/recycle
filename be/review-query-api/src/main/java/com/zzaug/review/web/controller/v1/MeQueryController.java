@@ -36,11 +36,10 @@ public class MeQueryController {
 
 	@GetMapping("/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<Page<Map<String, Object>>>> viewMemberReviewList(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid int page,
 			@RequestParam @Valid int size) {
 		ViewMemberReviewUseCaseRequest useCaseRequest =
-				ViewMemberReviewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
+				ViewMemberReviewUseCaseRequestConverter.from(1L);
 		List<Map<String, Object>> responseList = viewMemberReviewUseCase.execute(useCaseRequest);
 
 		PageRequest pageRequest = PageRequest.of(page, size);
@@ -55,11 +54,10 @@ public class MeQueryController {
 
 	@GetMapping("/questions")
 	public ApiResponse<ApiResponse.SuccessBody<Page<QuestionQueryResponse>>> viewMemberQuestionList(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid int page,
 			@RequestParam @Valid int size) {
 		ViewMemberQuestionUseCaseRequest useCaseRequest =
-				ViewMemberQuestionUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
+				ViewMemberQuestionUseCaseRequestConverter.from(1L);
 		List<QuestionQueryResponse> responseList = viewMemberQuestionUseCase.execute(useCaseRequest);
 
 		PageRequest pageRequest = PageRequest.of(page, size);

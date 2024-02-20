@@ -14,29 +14,29 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class ReviewEventService {
-	@Value("${spring.rabbitmq.exchange}")
+	@Value("${spring.rabbitmq.review-exchange}")
 	private String exchangeName;
 
-	@Value("${spring.rabbitmq.routing-key}")
+	@Value("${spring.rabbitmq.review-routing-key}")
 	private String routingKey;
 
 	private final RabbitTemplate rabbitTemplate;
 
 	@EventListener
 	public void sendEvent(SaveReviewEvent event) {
-		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey + ".create", event);
 		log.info("Sending event: {}", event);
 	}
 
 	@EventListener
 	public void sendEvent(EditReviewEvent event) {
-		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey + ".update", event);
 		log.info("Sending event: {}", event);
 	}
 
 	@EventListener
 	public void sendEvent(DeleteReviewEvent event) {
-		rabbitTemplate.convertAndSend(exchangeName, routingKey, event);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey + ".delete", event);
 		log.info("Sending event: {}", event);
 	}
 }
