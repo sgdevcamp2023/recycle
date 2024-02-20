@@ -1,5 +1,6 @@
 package com.zzaug.review.domain.usecase.review.query;
 
+import com.zzaug.review.config.JpaDataSourceConfig;
 import com.zzaug.review.domain.dto.review.query.ViewMemberReviewUseCaseRequest;
 import com.zzaug.review.domain.persistence.question.QuestionQueryRepository;
 import com.zzaug.review.domain.persistence.review.ReviewQueryRepository;
@@ -7,10 +8,10 @@ import com.zzaug.review.entity.question.query.QuestionQueryEntity;
 import com.zzaug.review.entity.review.query.ReviewQueryEntity;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -19,7 +20,7 @@ public class ViewMemberReviewUseCase {
 	private final ReviewQueryRepository reviewQueryRepository;
 	private final QuestionQueryRepository questionQueryRepository;
 
-	@Transactional
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public List<Map<String, Object>> execute(ViewMemberReviewUseCaseRequest request) {
 		List<ReviewQueryEntity> reviewResult =
 				reviewQueryRepository.findAllByAuthorIdAndIsDeletedIsFalse(request.getAuthorId());
