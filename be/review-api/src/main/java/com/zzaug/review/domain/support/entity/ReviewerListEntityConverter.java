@@ -6,12 +6,12 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ReviewerListEntityConverter {
-    public static ReviewerListEntity from (ReviewerList source) {
-        return ReviewerListEntity.builder()
-                .reviewerListId(source.getReviewerListId())
-                .reviewerName(source.getReviewerName())
-                .reviewerId(source.getReviewerId())
-                .questionId(source.getQuestionId())
-                .build();
-    }
+	public static ReviewerListEntity from(ReviewerList source) {
+		return ReviewerListEntity.builder()
+				.reviewerListId(source.getReviewerListId())
+				.reviewerName(source.getReviewerName())
+				.reviewerId(source.getReviewerId())
+				.questionId(source.getQuestionId())
+				.build();
+	}
 }

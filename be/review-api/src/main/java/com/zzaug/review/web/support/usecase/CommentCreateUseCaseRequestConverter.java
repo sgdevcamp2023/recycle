@@ -19,16 +19,4 @@ public class CommentCreateUseCaseRequestConverter {
 				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}
-
-	public static CommentCreateUseCaseRequest from(
-			CommentRequest request, Long questionId, String author, Long authorId) {
-		return CommentCreateUseCaseRequest.builder()
-				.questionId(questionId)
-				.content(request.getContent())
-				.author(author)
-				.authorId(authorId)
-				.parentId(request.getParentId())
-				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
-				.build();
-	}
 }

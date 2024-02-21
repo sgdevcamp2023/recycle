@@ -1,5 +1,6 @@
 package com.zzaug.review.config;
 
+import com.zzaug.flyway.datasource.EntityDataSource;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -53,6 +54,11 @@ public class JpaDataSourceConfig {
 	@ConfigurationProperties(prefix = ENTITY_PROPERTY_PREFIX + ".datasource")
 	public DataSource dataSource() {
 		return DataSourceBuilder.create().build();
+	}
+
+	@Bean
+	public EntityDataSource entityDataSource() {
+		return new EntityDataSource(dataSource());
 	}
 
 	@Bean(name = JPA_PROPERTIES_NAME)

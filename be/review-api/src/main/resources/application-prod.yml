@@ -8,3 +8,8 @@ spring:
       - mysql-prod
       - flyway-review
       - security-prod
+      - redis-prod
+      - cookie-prod
+      - rabbit-prod
+      - rabbitmq-prod
+      - log-prod

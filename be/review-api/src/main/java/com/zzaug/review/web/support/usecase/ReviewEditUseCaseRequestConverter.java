@@ -22,18 +22,4 @@ public class ReviewEditUseCaseRequestConverter {
 				.endPoint(request.getEndPoint())
 				.build();
 	}
-
-	public static ReviewEditUseCaseRequest from(
-			ReviewRequest request, Long reviewId, Long questionId, String author, Long authorId) {
-		return ReviewEditUseCaseRequest.builder()
-				.reviewId(reviewId)
-				.questionId(questionId)
-				.content(request.getContent())
-				.author(author)
-				.authorId(authorId)
-				.updatedAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
-				.startPoint(request.getStartPoint())
-				.endPoint(request.getEndPoint())
-				.build();
-	}
 }

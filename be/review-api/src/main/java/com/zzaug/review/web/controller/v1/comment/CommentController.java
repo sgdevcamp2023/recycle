@@ -26,7 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/questions")
+@RequestMapping("/api/review/v1/questions")
 @RequiredArgsConstructor
 @Validated
 public class CommentController {
@@ -38,11 +38,12 @@ public class CommentController {
 
 	@PostMapping("/{questionId}/comments")
 	public ApiResponse<ApiResponse.Success> createComment(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@RequestBody @Valid CommentRequest request) {
 
 		CommentCreateUseCaseRequest useCaseRequest =
-				CommentCreateUseCaseRequestConverter.from(request, questionId, "author", 1L);
+				CommentCreateUseCaseRequestConverter.from(request, questionId, userDetails);
 		commentCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
@@ -50,7 +51,7 @@ public class CommentController {
 
 	@GetMapping("/{questionId}/comments")
 	public ApiResponse<ApiResponse.SuccessBody<List<CommentResponse>>> viewQuestionComment(
-			 @PathVariable @Valid Long questionId) {
+			@PathVariable @Valid Long questionId) {
 
 		CommentViewUseCaseRequest useCaseRequest = CommentViewUseCaseRequestConverter.from(questionId);
 		List<CommentResponse> responses = commentViewUseCase.execute(useCaseRequest);
@@ -59,12 +60,13 @@ public class CommentController {
 
 	@PutMapping("/{questionId}/comments/{commnetId}")
 	public ApiResponse<?> editComment(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@PathVariable @Valid Long commnetId,
 			@RequestBody @Valid CommentRequest request) {
 
 		CommentEditUseCaseRequest useCaseRequest =
-				CommentEditUseCaseRequestConverter.from(request, commnetId, questionId, "author", 1L);
+				CommentEditUseCaseRequestConverter.from(request, commnetId, questionId, userDetails);
 		try {
 			commentEditUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_MODIFIED);
@@ -80,11 +82,12 @@ public class CommentController {
 
 	@DeleteMapping("/{questionId}/comments/{commnetId}")
 	public ApiResponse<?> deleteComment(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@PathVariable @Valid Long questionId,
 			@PathVariable @Valid Long commnetId) {
 
 		CommentDeleteUseCaseRequest useCaseRequest =
-				CommentDeleteUseCaseRequestConverter.from(commnetId, questionId, 1L);
+				CommentDeleteUseCaseRequestConverter.from(commnetId, questionId, userDetails);
 		try {
 			commentDeleteUseCase.execute(useCaseRequest);
 			return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);

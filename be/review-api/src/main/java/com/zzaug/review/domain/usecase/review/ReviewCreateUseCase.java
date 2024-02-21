@@ -15,7 +15,6 @@ import com.zzaug.review.domain.usecase.review.event.converter.SaveReviewEventCon
 import com.zzaug.review.entity.question.QuestionEntity;
 import com.zzaug.review.entity.review.ReviewEntity;
 import java.util.NoSuchElementException;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,14 +38,16 @@ public class ReviewCreateUseCase {
 		ReviewEntity result = reviewRepository.save(ReviewEntityConverter.from(review));
 		QuestionEntity resultInc = incReviewCount(request.getQuestionId());
 
-		//리뷰어 목록에 해당 사용자가 있는지 확인
-		if (!reviewerListRepository.existsByReviewerIdAndQuestionId(request.getAuthorId(), request.getQuestionId())) {
+		// 리뷰어 목록에 해당 사용자가 있는지 확인
+		if (!reviewerListRepository.existsByReviewerIdAndQuestionId(
+				request.getAuthorId(), request.getQuestionId())) {
 			// 리뷰어 목록에 사용자가 없으면 리뷰어 목록에 추가
-			ReviewerList writeMember = ReviewerList.builder()
-					.reviewerId(request.getAuthorId())
-					.reviewerName(request.getAuthor())
-					.questionId(request.getQuestionId())
-					.build();
+			ReviewerList writeMember =
+					ReviewerList.builder()
+							.reviewerId(request.getAuthorId())
+							.reviewerName(request.getAuthor())
+							.questionId(request.getQuestionId())
+							.build();
 			reviewerListRepository.save(ReviewerListEntityConverter.from(writeMember));
 		}
 
@@ -66,5 +67,4 @@ public class ReviewCreateUseCase {
 	private void publishEvent(SaveReviewEvent event) {
 		publisher.publishEvent(event);
 	}
-
 }

@@ -21,7 +21,6 @@ import com.zzaug.web.support.MessageCode;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/questions")
+@RequestMapping("/api/v1/review/questions")
 @RequiredArgsConstructor
 @Validated
 public class QuestionController {
@@ -41,10 +40,11 @@ public class QuestionController {
 
 	@PostMapping
 	public ApiResponse<ApiResponse.Success> createQuestion(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestBody @Valid QuestionRequest request) {
 
 		QuestionCreateUseCaseRequest useCaseRequest =
-				QuestionCreateUseCaseRequestConverter.from(request, "author", 1L);
+				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
 		questionCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
@@ -52,9 +52,10 @@ public class QuestionController {
 
 	@PostMapping("/temp")
 	public ApiResponse<ApiResponse.Success> createTempQuestion(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestBody @Valid QuestionTempRequest request) {
 		QuestionTempCreateUseCaseRequest useCaseRequest =
-				QuestionTempUseCaseRequestConverter.from(request, "author", 1L);
+				QuestionTempUseCaseRequestConverter.from(request, userDetails);
 		questionTempCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
@@ -62,12 +63,12 @@ public class QuestionController {
 
 	@DeleteMapping("/{questionId}")
 	public ApiResponse<?> deleteQuestion(
-			@Valid @PathVariable Long questionId) {
+			@AuthenticationPrincipal TokenUserDetails userDetails, @Valid @PathVariable Long questionId) {
 
 		QuestionDeleteRequest request =
 				QuestionDeleteRequest.builder()
 						.questionId(questionId)
-						.authorId(1L)
+						.authorId(Long.valueOf(userDetails.getId()))
 						.build();
 
 		QuestionDeleteUseCaseRequest useCaseRequest =
@@ -87,17 +88,18 @@ public class QuestionController {
 
 	@GetMapping("/temp")
 	public ApiResponse<ApiResponse.SuccessBody<List<QuestionTempResponse>>> viewTempQuestionList(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam(required = false) String tempId) {
 
 		QuestionTempViewUseCaseRequest useCaseRequest = new QuestionTempViewUseCaseRequest();
 
 		if (tempId == null) {
 			useCaseRequest =
-					QuestionTempViewUseCaseRequestConverter.from(1L);
+					QuestionTempViewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
 
 		} else {
 			useCaseRequest =
-					QuestionTempViewUseCaseRequestConverter.from(tempId, 1L);
+					QuestionTempViewUseCaseRequestConverter.from(tempId, Long.valueOf(userDetails.getId()));
 		}
 
 		List<QuestionTempResponse> res = questionTempViewUseCase.execute(useCaseRequest);

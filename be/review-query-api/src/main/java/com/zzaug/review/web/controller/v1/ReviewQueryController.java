@@ -4,31 +4,27 @@ import com.zzaug.review.domain.dto.review.query.*;
 import com.zzaug.review.domain.usecase.review.query.ReviewByQuestionUseCase;
 import com.zzaug.review.domain.usecase.review.query.SearchByQuestionUseCase;
 import com.zzaug.review.domain.usecase.review.query.SearchByReviewUseCase;
-
 import com.zzaug.review.web.dto.review.query.ReviewSearchByQuestionRequest;
 import com.zzaug.review.web.dto.review.query.ReviewSearchRequest;
 import com.zzaug.review.web.support.usecase.ReviewByQuestionUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.SearchByQuestionUseCaseRequestConverter;
 import com.zzaug.review.web.support.usecase.SearchByReviewUseCaseRequestConverter;
 import com.zzaug.security.authentication.token.TokenUserDetails;
+import com.zzaug.web.support.ApiResponse;
+import com.zzaug.web.support.ApiResponseGenerator;
+import com.zzaug.web.support.MessageCode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
-
-import com.zzaug.web.support.ApiResponse;
-import com.zzaug.web.support.ApiResponseGenerator;
-import com.zzaug.web.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/review-query/")
 @RequiredArgsConstructor
 @Validated
 public class ReviewQueryController {
@@ -50,6 +46,7 @@ public class ReviewQueryController {
 
 	@GetMapping("/review-query/search")
 	public ApiResponse<ApiResponse.SuccessBody<List<Map<String, Object>>>> searchReviewList(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid Boolean me,
 			@RequestParam @Valid Boolean validQuestion,
 			@RequestParam @Valid String query) {
@@ -60,7 +57,7 @@ public class ReviewQueryController {
 			if (validQuestion) {
 				ReviewSearchByQuestionRequest request =
 						ReviewSearchByQuestionRequest.builder()
-								.authorId(1L)
+								.authorId(Long.valueOf(userDetails.getId()))
 								.query(query)
 								.build();
 				SearchByQuestionUseCaseRequest useCaseRequest =
@@ -71,7 +68,7 @@ public class ReviewQueryController {
 			} else {
 				ReviewSearchRequest request =
 						ReviewSearchRequest.builder()
-								.authorId(1L)
+								.authorId(Long.valueOf(userDetails.getId()))
 								.query(query)
 								.build();
 				SearchByReviewUseCaseRequest useCaseRequest =

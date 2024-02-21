@@ -24,7 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/question-query")
+@RequestMapping("/api/v1/review-query/question-query")
 @RequiredArgsConstructor
 @Validated
 public class QuestionQueryController {
@@ -51,6 +51,7 @@ public class QuestionQueryController {
 
 	@GetMapping("/search")
 	public ApiResponse<ApiResponse.SuccessBody<Page<QuestionQueryResponse>>> searchQuestion(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid Boolean me,
 			@RequestParam @Valid String query,
 			@RequestParam @Valid int page,
@@ -59,7 +60,7 @@ public class QuestionQueryController {
 		if (me) {
 			QuestionQuerySearchRequest request =
 					QuestionQuerySearchRequest.builder()
-							.authorId(1L)
+							.authorId(Long.valueOf(userDetails.getId()))
 							.query(query)
 							.pageRequest(PageRequest.of(page, size))
 							.build();

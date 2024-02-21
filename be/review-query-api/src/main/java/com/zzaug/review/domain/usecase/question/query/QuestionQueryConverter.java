@@ -21,6 +21,7 @@ public class QuestionQueryConverter {
 				.createdAt(source.getCreatedAt())
 				.build();
 	}
+
 	public QuestionQuery from(QuestionQueryEntity source) {
 		return QuestionQuery.builder()
 				.questionId(source.getQuestionId())

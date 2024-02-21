@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/me-query")
+@RequestMapping("/api/v1/review-query/me-query")
 @RequiredArgsConstructor
 @Validated
 public class MeQueryController {
@@ -36,10 +36,11 @@ public class MeQueryController {
 
 	@GetMapping("/reviews")
 	public ApiResponse<ApiResponse.SuccessBody<Page<Map<String, Object>>>> viewMemberReviewList(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid int page,
 			@RequestParam @Valid int size) {
 		ViewMemberReviewUseCaseRequest useCaseRequest =
-				ViewMemberReviewUseCaseRequestConverter.from(1L);
+				ViewMemberReviewUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
 		List<Map<String, Object>> responseList = viewMemberReviewUseCase.execute(useCaseRequest);
 
 		PageRequest pageRequest = PageRequest.of(page, size);
@@ -54,10 +55,11 @@ public class MeQueryController {
 
 	@GetMapping("/questions")
 	public ApiResponse<ApiResponse.SuccessBody<Page<QuestionQueryResponse>>> viewMemberQuestionList(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestParam @Valid int page,
 			@RequestParam @Valid int size) {
 		ViewMemberQuestionUseCaseRequest useCaseRequest =
-				ViewMemberQuestionUseCaseRequestConverter.from(1L);
+				ViewMemberQuestionUseCaseRequestConverter.from(Long.valueOf(userDetails.getId()));
 		List<QuestionQueryResponse> responseList = viewMemberQuestionUseCase.execute(useCaseRequest);
 
 		PageRequest pageRequest = PageRequest.of(page, size);

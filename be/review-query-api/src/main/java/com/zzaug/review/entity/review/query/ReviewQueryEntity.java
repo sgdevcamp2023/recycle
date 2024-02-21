@@ -1,12 +1,12 @@
 package com.zzaug.review.entity.review.query;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import java.time.LocalDateTime;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -27,8 +25,7 @@ import java.time.LocalDateTime;
 @Setting(settingPath = "elasticsearch/settings/review-setting.json")
 public class ReviewQueryEntity {
 
-	@Id
-	private Long reviewId;
+	@Id private Long reviewId;
 
 	private Long questionId;
 
@@ -72,5 +69,5 @@ public class ReviewQueryEntity {
 
 	private ReviewType tag;
 
-    private boolean isDeleted;
+	private boolean isDeleted;
 }

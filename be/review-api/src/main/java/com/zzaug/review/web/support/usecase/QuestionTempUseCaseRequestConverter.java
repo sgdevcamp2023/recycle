@@ -9,12 +9,12 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class QuestionTempUseCaseRequestConverter {
 	public static QuestionTempCreateUseCaseRequest from(
-			QuestionTempRequest request, String author, Long authorId) {
+			QuestionTempRequest request, TokenUserDetails userDetails) {
 		return QuestionTempCreateUseCaseRequest.builder()
 				.tempId(request.getTempId())
 				.content(request.getContent())
-				.author(author)
-				.authorId(authorId)
+				.author(userDetails.getUsername())
+				.authorId(Long.valueOf(userDetails.getId()))
 				.createdAt(new Timestamp(System.currentTimeMillis()).toLocalDateTime())
 				.build();
 	}

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.zzaug.review.entity.review.ReviewPoint;
-import com.zzaug.review.entity.review.ReviewType;
 import java.time.LocalDateTime;
-import javax.persistence.Embedded;
 import lombok.*;
 
 @Getter
