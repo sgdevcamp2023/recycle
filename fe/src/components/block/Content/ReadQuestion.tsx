@@ -5,16 +5,26 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useMarkdownStore } from '@store/useMarkdownStore';
 import useReviewStore, { reviewData } from '@store/useReviewStore';
+import { useParams } from 'react-router-dom';
+import useGetQuestion from '@hooks/query/question/useGetQuestion';
 
 const ReadQuestion = () => {
+  const { questionId } = useParams<{ questionId: string }>();
   const { content } = useQuestionStore((state) => state);
+  const [title, setTitle] = useState<string>();
   const [show, setShow] = useState(
     "## 대충 코드임\n안녕하세요\n\n저는 이규민입니다\n\n- 이건 코드입니다\n```js\nconst a = '규민'\nconsole.log(a)\n```\n\n- 이건 두번째 코드입니다\n```js\nconst b = '재진'\nconsole.log(b)\n```\n\n모든 코드를 전부 작성하였습니다",
   );
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
   const { setId } = useReviewStore();
   // const { id, setId } = useReviewStore();
+  const { data } = useGetQuestion({ questionId });
+  useEffect(() => {
+    console.log(data?.data?.data?.content);
 
+    setShow(data?.data?.data?.content);
+  }, [data]);
+  console.log(data);
   useEffect(() => {
     const codeBlocks = document.querySelectorAll('code');
 
@@ -48,6 +58,17 @@ const ReadQuestion = () => {
     };
   }, []); // 추후 content로 변경 필요
 
+  const titleParser = (content: string | undefined) => {
+    const titleEndIndex = content?.indexOf('\n');
+    // const title = content?.substring(0, titleEndIndex).trim();
+    const title = content?.substring(content.indexOf('# ') + 2, titleEndIndex).trim();
+
+    // 나머지 내용 추출
+    const mainContent = content?.substring(titleEndIndex + 1).trim();
+
+    return { title, mainContent };
+  };
+
   const handleClickOnCodeBlock = (e, id) => {
     const parentDiv = e.currentTarget.parentElement;
     const parentBorderTop = parentDiv.getBoundingClientRect().top + window.scrollY;
@@ -63,11 +84,11 @@ const ReadQuestion = () => {
     <>
       <TitleWrapper>
         <Text fontSize="xl" fontWeight="bold">
-          제목이 들어갈 자리입니다
+          {show && titleParser(show).title}
         </Text>
       </TitleWrapper>
       <MarkdownBox>
-        <MDEditor.Markdown source={show} />
+        <MDEditor.Markdown source={show && titleParser(show).mainContent} />
       </MarkdownBox>
     </>
   );
