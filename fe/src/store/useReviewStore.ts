@@ -8,8 +8,8 @@ export interface reviewData {
 }
 
 const useReviewStore = create((set) => ({
-  id: '',
-  review: '안녕하세요 이규민입니다. 알아서 코드인줄 아세요~',
+  id: 0,
+  review: [],
   reviewList: <reviewData>[],
   data: <reviewData>[],
   setId: (newId) => set({ id: newId }),
