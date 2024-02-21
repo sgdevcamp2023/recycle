@@ -100,7 +100,7 @@ const Question = () => {
               <DefaultCard
                 type="question"
                 key={idx}
-                commentCount={item.review_cnt}
+                commentCount={item.reviewCnt}
                 title={titleParser(item.content)?.title}
                 content={titleParser(item.content)?.mainContent}
                 onClick={() =>
@@ -125,7 +125,7 @@ const Question = () => {
               <DefaultCard
                 type="question"
                 key={idx}
-                commentCount={item.review_cnt}
+                commentCount={item.reviewCnt}
                 title={parseTitleFromContent(item.content)}
                 content={removeH1Tag(item.content ? item.content : '')}
                 onClick={() =>
