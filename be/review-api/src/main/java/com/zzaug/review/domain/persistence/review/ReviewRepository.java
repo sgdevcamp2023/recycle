@@ -4,5 +4,5 @@ import com.zzaug.review.entity.review.ReviewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
-    boolean existsByAuthorIdAndQuestionIdAndIsDeletedFalse(Long authorId, Long questionId);
+	boolean existsByAuthorIdAndQuestionIdAndIsDeletedFalse(Long authorId, Long questionId);
 }

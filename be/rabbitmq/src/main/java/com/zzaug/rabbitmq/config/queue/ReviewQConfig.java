@@ -24,8 +24,8 @@ public class ReviewQConfig {
 	}
 
 	@Bean
-	Queue reviewQueue() {
-		return QueueBuilder.durable(ZRMQProperties.REVIEW_QUEUE_NAME)
+	Queue reviewDeleteQueue() {
+		return QueueBuilder.durable(ZRMQProperties.REVIEW_DELETE_QUEUE_NAME)
 				.withArgument(X_DEAD_LETTER_EXCHANGE_KEY, ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME)
 				.withArgument(X_MESSAGE_TTL_KEY, X_MESSAGE_TTL)
 				.withArgument(X_DEAD_LETTER_ROUTING_KEY, ZRMQProperties.DEAD_LETTER_KEY_NAME + ".review")
@@ -33,9 +33,41 @@ public class ReviewQConfig {
 	}
 
 	@Bean
-	Binding reviewQBinding() {
-		return BindingBuilder.bind(reviewQueue())
+	Binding reviewDeleteQBinding() {
+		return BindingBuilder.bind(reviewDeleteQueue())
 				.to(reviewTopic())
-				.with(ZRMQProperties.REVIEW_KEY_NAME + WILD_CARD);
+				.with(ZRMQProperties.REVIEW_DELETE_KEY_NAME + WILD_CARD);
+	}
+
+	@Bean
+	Queue reviewCreateQueue() {
+		return QueueBuilder.durable(ZRMQProperties.REVIEW_CREATE_QUEUE_NAME)
+				.withArgument(X_DEAD_LETTER_EXCHANGE_KEY, ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME)
+				.withArgument(X_MESSAGE_TTL_KEY, X_MESSAGE_TTL)
+				.withArgument(X_DEAD_LETTER_ROUTING_KEY, ZRMQProperties.DEAD_LETTER_KEY_NAME + ".review")
+				.build();
+	}
+
+	@Bean
+	Binding reviewCreateQBinding() {
+		return BindingBuilder.bind(reviewCreateQueue())
+				.to(reviewTopic())
+				.with(ZRMQProperties.REVIEW_CREATE_KEY_NAME + WILD_CARD);
+	}
+
+	@Bean
+	Queue reviewUpdateQueue() {
+		return QueueBuilder.durable(ZRMQProperties.REVIEW_UPDATE_QUEUE_NAME)
+				.withArgument(X_DEAD_LETTER_EXCHANGE_KEY, ZRMQProperties.DEAD_LETTER_EXCHANGE_NAME)
+				.withArgument(X_MESSAGE_TTL_KEY, X_MESSAGE_TTL)
+				.withArgument(X_DEAD_LETTER_ROUTING_KEY, ZRMQProperties.DEAD_LETTER_KEY_NAME + ".review")
+				.build();
+	}
+
+	@Bean
+	Binding reviewUpdateQBinding() {
+		return BindingBuilder.bind(reviewCreateQueue())
+				.to(reviewTopic())
+				.with(ZRMQProperties.REVIEW_UPDATE_KEY_NAME + WILD_CARD);
 	}
 }

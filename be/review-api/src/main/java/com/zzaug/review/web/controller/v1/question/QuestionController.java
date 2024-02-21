@@ -21,7 +21,6 @@ import com.zzaug.web.support.MessageCode;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/questions")
+@RequestMapping("/api/v1/review/questions")
 @RequiredArgsConstructor
 @Validated
 public class QuestionController {
@@ -39,24 +38,13 @@ public class QuestionController {
 	private final QuestionDeleteUseCase questionDeleteUseCase;
 	private final QuestionTempViewUseCase questionTempViewUseCase;
 
-//	@PostMapping
-//	public ApiResponse<ApiResponse.Success> createQuestion(
-//			@AuthenticationPrincipal TokenUserDetails userDetails,
-//			@RequestBody @Valid QuestionRequest request) {
-//
-//		QuestionCreateUseCaseRequest useCaseRequest =
-//				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
-//		questionCreateUseCase.execute(useCaseRequest);
-//
-//		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);
-//	}
-
 	@PostMapping
 	public ApiResponse<ApiResponse.Success> createQuestion(
+			@AuthenticationPrincipal TokenUserDetails userDetails,
 			@RequestBody @Valid QuestionRequest request) {
 
 		QuestionCreateUseCaseRequest useCaseRequest =
-				QuestionCreateUseCaseRequestConverter.from(request, "test", 1L);
+				QuestionCreateUseCaseRequestConverter.from(request, userDetails);
 		questionCreateUseCase.execute(useCaseRequest);
 
 		return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_CREATED);

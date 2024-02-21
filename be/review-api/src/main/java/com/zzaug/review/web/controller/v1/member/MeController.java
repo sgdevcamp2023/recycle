@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/me")
+@RequestMapping("/api/v1/review/me")
 @RequiredArgsConstructor
 @Validated
 public class MeController {
@@ -38,7 +39,7 @@ public class MeController {
 	private final ViewReviewerUseCase viewReviewerUseCase;
 
 	@GetMapping("/questions/reviewers")
-	public ApiResponse<?> viewReviewerList(@Valid @RequestParam @NotEmpty Long questionId) {
+	public ApiResponse<?> viewReviewerList(@Valid @RequestParam @NotNull Long questionId) {
 		try {
 			ViewReviewerUseCaseRequest useCaseRequest =
 					ViewReviewerUseCaseRequestConverter.from(questionId);

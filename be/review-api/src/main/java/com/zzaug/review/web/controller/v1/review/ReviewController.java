@@ -22,7 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
 @Validated
 public class ReviewController {
@@ -83,15 +83,13 @@ public class ReviewController {
 
 	@DeleteMapping("/questions/{questionId}/reviews/{reviewId}")
 	public ApiResponse<?> deleteReview(
-			@AuthenticationPrincipal TokenUserDetails userDetails,
-			@PathVariable @Valid Long questionId,
-			@PathVariable @Valid Long reviewId) {
+			@PathVariable @Valid Long questionId, @PathVariable @Valid Long reviewId) {
 
 		ReviewDeleteRequest request =
 				ReviewDeleteRequest.builder()
 						.reviewId(reviewId)
 						.questionId(questionId)
-						.authorId(Long.valueOf(userDetails.getId()))
+						.authorId(1L)
 						.build();
 
 		ReviewDeleteUseCaseRequest useCaseRequest = ReviewDeleteUseCaseRequestConverter.from(request);

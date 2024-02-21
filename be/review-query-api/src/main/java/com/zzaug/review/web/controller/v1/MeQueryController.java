@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/me-query")
+@RequestMapping("/api/v1/review-query/me-query")
 @RequiredArgsConstructor
 @Validated
 public class MeQueryController {

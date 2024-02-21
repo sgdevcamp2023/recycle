@@ -6,5 +6,8 @@ spring:
   profiles:
     include:
       - mysql-prod
-      - flyway-review
       - security-prod
+      - elasticsearch-prod
+      - rabbit-prod
+      - cookie-prod
+      - log-prod

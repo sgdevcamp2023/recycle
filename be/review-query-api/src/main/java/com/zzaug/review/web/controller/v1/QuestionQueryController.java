@@ -24,7 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/question-query")
+@RequestMapping("/api/v1/review-query/question-query")
 @RequiredArgsConstructor
 @Validated
 public class QuestionQueryController {

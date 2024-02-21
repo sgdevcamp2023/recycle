@@ -1,7 +1,6 @@
 package com.zzaug.review.domain.usecase.question.query;
 
 import com.zzaug.review.config.JpaDataSourceConfig;
-import com.zzaug.review.config.ReviewAppConfig;
 import com.zzaug.review.domain.event.question.SaveQuestionEvent;
 import com.zzaug.review.domain.model.question.query.QuestionQuery;
 import com.zzaug.review.domain.persistence.question.QuestionQueryRepository;
@@ -20,8 +19,8 @@ public class QuestionQueryCreateUseCase {
 	private final QuestionQueryRepository questionQueryRepository;
 	private final QuestionQueryConverter questionQueryConverter;
 
-	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	@EventListener
+	@Transactional(JpaDataSourceConfig.TRANSACTION_MANAGER_NAME)
 	public void execute(SaveQuestionEvent event) {
 		QuestionQuery questionQuery = questionQueryConverter.from(event);
 		questionQueryRepository.save(QuestionQueryEntityConverter.from(questionQuery));

@@ -2,9 +2,8 @@ package com.zzaug.review.domain.usecase.review.event.converter;
 
 import com.zzaug.review.domain.event.review.SaveReviewEvent;
 import com.zzaug.review.entity.review.ReviewEntity;
-import org.springframework.stereotype.Component;
-
 import java.sql.Timestamp;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SaveReviewEventConverter {

@@ -5,6 +5,7 @@ spring:
     use-legacy-processing: true
   profiles:
     include:
+      - flyway-review
       - mysql-local
       - security-local
       - redis-local

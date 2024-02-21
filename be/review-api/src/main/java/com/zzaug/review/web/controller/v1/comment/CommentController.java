@@ -26,7 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/questions")
+@RequestMapping("/api/review/v1/questions")
 @RequiredArgsConstructor
 @Validated
 public class CommentController {
@@ -51,7 +51,7 @@ public class CommentController {
 
 	@GetMapping("/{questionId}/comments")
 	public ApiResponse<ApiResponse.SuccessBody<List<CommentResponse>>> viewQuestionComment(
-			@AuthenticationPrincipal TokenUserDetails userDetails, @PathVariable @Valid Long questionId) {
+			@PathVariable @Valid Long questionId) {
 
 		CommentViewUseCaseRequest useCaseRequest = CommentViewUseCaseRequestConverter.from(questionId);
 		List<CommentResponse> responses = commentViewUseCase.execute(useCaseRequest);

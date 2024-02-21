@@ -24,8 +24,7 @@ public class QuestionQueryViewUseCase {
 	public QuestionQueryResponse execute(QuestionQueryViewUseCaseRequest request) {
 		QuestionQuery result =
 				questionQueryConverter.from(
-						questioinQueryRepository
-								.findByQuestionIdAndIsDeletedIsFalse(request.getQuestionId()));
+						questioinQueryRepository.findByQuestionIdAndIsDeletedIsFalse(request.getQuestionId()));
 		if (result == null) {
 			throw new NoSuchElementException("요청에 대한 응답을 찾을 수 없습니다.");
 		}
