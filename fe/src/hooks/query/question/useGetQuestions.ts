@@ -5,7 +5,7 @@ const useGetQuestions = () => {
   return useQuery({
     queryKey: ['questions'],
     queryFn: () => questionApi.getQuestions(),
-    staleTime: Infinity,
+    staleTime: 3000,
   });
 };
 
