@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import clientApi from './axios';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,13 +17,19 @@ const memberApi = {
   //!아래 API까지는 accessToken - null인 상태로 날아가게 됩니다!
   //회원가입 [post]
   signUp: async ({ certification, password }: userProps) => {
-    return await axios.post(
-      `${baseURL}/api/v1/members/`,
-      { certification, password },
-      {
-        headers: headers,
-      },
-    );
+    return await axios
+      .post(
+        `${baseURL}/api/v1/members/`,
+        { certification, password },
+        {
+          headers: headers,
+        },
+      )
+      .catch((e) => {
+        if (isAxiosError(e)) {
+          e.status;
+        }
+      });
   },
   //로그인 [post]
   login: async ({ certification, password }: userProps) => {
