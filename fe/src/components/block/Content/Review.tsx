@@ -22,11 +22,12 @@ const Review = () => {
   const [reviewArray, setReviewArray] = useState([]);
   const [reviewDraftArray, setReviewDraftArray] = useState([]);
   useEffect(() => {
+    console.log(ReviewData);
     setReviewArray(ReviewData?.data?.data);
   }, [isLoading]);
 
   const { data: ReviewDraftData, isLoading: isDraftLoading } = useGetReviewOnQuestionDraft({
-    questionId: 1,
+    questionId: '1',
     tId: 1,
   });
 

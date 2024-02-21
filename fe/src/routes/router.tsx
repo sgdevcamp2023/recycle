@@ -18,7 +18,9 @@ const Router = () => {
       {[
         '/',
         '/Question',
+        '/Question/:questionId',
         '/Review',
+        '/Review/:reviewId',
         '/Setting',
         '/Request',
         '/CreateQuestion',

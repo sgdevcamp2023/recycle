@@ -4,16 +4,19 @@ import { Outlet, useLocation } from 'react-router-dom';
 import ContentTab from '@components/block/navbar/ContentTab';
 import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useReviewStore, { reviewData } from '@store/useReviewStore';
 import LineCommentWrite from '@components/atom/Comment/LineCommentWrite';
 import LineCommentView from '@components/atom/Comment/LineCommentView';
 import ReviewShowModal from '@components/block/modal/ReviewShowModal';
+import value from '../../svg.d';
+import { reviewDataProps } from '../../store/useReviewStore';
 
 const GridTemplate = () => {
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
   const [reviewList, setReviewList] = useState([]);
   const [reviewData, setReviewData] = useState([]);
+  const commentRef = useRef(null);
 
   // useReviewStore 훅으로부터 리뷰 목록 가져오기
   const {
@@ -41,9 +44,11 @@ const GridTemplate = () => {
   const handleAddLineComment = ({ item, index: indexToDelete }) => {
     console.log(item);
     console.log('addline');
+    item.reviewComment = commentRef?.current?.value;
     setData([...data, item]);
     console.log(data);
     console.log(reviewData);
+    console.log(commentRef?.current?.value);
     const updatedReviewList = initialReviewList.filter((item, index) => index !== indexToDelete);
     setInitialReviewList(updatedReviewList);
   };
@@ -76,7 +81,8 @@ const GridTemplate = () => {
                     <h3 key={index}>{item.reviewText}</h3>
                     <LineCommentWrite
                       cancelOnClick={() => handleCancelLineComment(index)}
-                      uploadOnClick={() => handleAddLineComment(item)}
+                      uploadOnClick={() => handleAddLineComment({ item, index })}
+                      ref={commentRef}
                     />
                   </>
                 );
@@ -85,7 +91,7 @@ const GridTemplate = () => {
               reviewData.map((item: reviewData, index) => {
                 return (
                   <>
-                    <LineCommentView />
+                    <LineCommentView item={item} />
                   </>
                 );
               })}
