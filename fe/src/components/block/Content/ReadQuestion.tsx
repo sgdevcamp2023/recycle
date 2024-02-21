@@ -21,11 +21,8 @@ const ReadQuestion = () => {
   // const { id, setId } = useReviewStore();
   const { data } = useGetQuestion({ questionId });
   useEffect(() => {
-    console.log(data?.data?.data?.content);
-
     setShow(data?.data?.data?.content);
   }, [data]);
-  console.log(data);
   useEffect(() => {
     const codeBlocks = document.querySelectorAll('code');
 

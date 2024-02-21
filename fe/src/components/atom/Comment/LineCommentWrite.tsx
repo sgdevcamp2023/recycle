@@ -40,6 +40,7 @@ const LineCommentViewBox = styled.div`
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
   justify-content: center; /* 가로 중앙 정렬 */
+  margin-bottom: 2rem;
 `;
 
 const CommentWriteContainer = styled.textarea`
@@ -65,6 +66,14 @@ interface LineCommentWriteProps {
   cancelOnClick?: MouseEventHandler<HTMLButtonElement>;
   initValue?: string;
 }
+const CancelButton = styled.button`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;
 
 // const LineCommentWrite = ({ cancelOnClick, uploadOnClick }: LineCommentWriteProps) => {
 //   return (
@@ -89,9 +98,8 @@ const LineCommentWrite = forwardRef<HTMLInputElement, LineCommentWriteProps>(
         <LineCommentViewBox>
           <CommentWriteContainer ref={ref} placeholder="댓글 추가" />
           <UploadButton onClick={uploadOnClick}>▶</UploadButton>
+          <CancelButton onClick={cancelOnClick}>x</CancelButton>
         </LineCommentViewBox>
-        <br />
-        <button onClick={cancelOnClick}>취소</button>
       </div>
     );
   },

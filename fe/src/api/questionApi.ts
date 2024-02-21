@@ -36,12 +36,12 @@ const questionApi = {
 
   // 질문글 목록 조회하기 [get]
   getQuestions: async () => {
-    return await clientApi.query.get('/me-query/questions?page=0&size=3');
+    return await clientApi.query.get('/me-query/questions?page=0&size=10');
   },
 
   // 멤버가 작성한 리뷰 목록 조회 [get]
   getReviews: async () => {
-    return await clientApi.query.get('/me-query/reviews');
+    return await clientApi.query.get('/me-query/reviews?page=0&size=10');
   },
 
   // 임시 저장된 질문 글 목록 조회 [get]
@@ -65,8 +65,8 @@ const questionApi = {
   },
 
   // 질문 글에 달린 리뷰 목록 조회 [get]
-  getReviewsOnQuestion: async ({ questionId: question_id }: QuestionProps) => {
-    return await clientApi.query.get(`/question-query/${question_id}/reviews`);
+  getReviewsOnQuestion: async ({ questionId }: QuestionProps) => {
+    return await clientApi.query.get(`/question-query/${questionId}/reviews`);
   },
   // 질문 글에 달린 임시 저장된 리뷰 목록 조회[get]
   getReviewOnQuestionDraft: async ({ questionId: question_id, tId: t_id }: QuestionProps) => {

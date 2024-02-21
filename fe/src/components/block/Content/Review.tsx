@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import ReviewCard, { ReviewCardProps } from '@components/atom/card/ReviewCard';
 import useGetReviews from '@hooks/query/question/useGetReviews';
 import useGetReviewOnQuestionDraft from '@hooks/query/question/useGetReviewOnQuestionDraft';
+import { useNavigate } from 'react-router-dom';
 
 const Review = () => {
   const items: Record<string, DefaultTabType> = {
@@ -23,7 +24,7 @@ const Review = () => {
   const [reviewDraftArray, setReviewDraftArray] = useState([]);
   useEffect(() => {
     console.log(ReviewData);
-    setReviewArray(ReviewData?.data?.data);
+    setReviewArray(ReviewData?.data?.data?.content);
   }, [isLoading]);
 
   const { data: ReviewDraftData, isLoading: isDraftLoading } = useGetReviewOnQuestionDraft({
@@ -31,6 +32,7 @@ const Review = () => {
     tId: 1,
   });
 
+  const navigate = useNavigate();
   useEffect(() => {
     setReviewDraftArray(ReviewDraftData?.data);
     console.log(reviewDraftArray);
@@ -73,8 +75,11 @@ const Review = () => {
                 key={idx}
                 reviews={mockDataArray[idx].reviews}
                 type={'review'}
-                commentCount={1}
+                commentCount={item.question?.reviewCnt}
                 title={'title'}
+                onClick={() => {
+                  navigate(`/review/${item.question?.questionId}`);
+                }}
               />
             );
           })}

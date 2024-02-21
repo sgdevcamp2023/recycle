@@ -5,10 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import ReviewWriteModal from '../modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
-import useReviewStore, { reviewData } from '@store/useReviewStore';
+import useReviewStore, { reviewDataProps } from '@store/useReviewStore';
 import { Popover } from '@page/PopOver';
 import { useParams } from 'react-router-dom';
 import useGetQuestion from '@hooks/query/question/useGetQuestion';
+import useSaveReview from '@hooks/query/review/useSaveReview';
+import useGetReviewsOnQuestion from '@hooks/query/question/useGetReviewsOnQuestion';
 
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
@@ -18,7 +20,7 @@ const CreateReview = () => {
 
   const { reviewId } = useParams<{ reviewId: string }>();
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
-  const { setId, setReviewList, reviewList } = useReviewStore();
+  const { setId, setReviewList, reviewList, data: reviewData, setData } = useReviewStore();
   // const { id, setId } = useReviewStore();
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
@@ -31,10 +33,56 @@ const CreateReview = () => {
   }, []);
 
   const { data } = useGetQuestion({ questionId: reviewId });
+  console.log(reviewId);
+  const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: parseInt(reviewId) });
+  console.log(reviewResult);
 
   useEffect(() => {
     setShow(data?.data?.data?.content);
   }, [data]);
+
+  function extractTextByIdAndIndices(elementId, startIdx, endIdx) {
+    const element = document.getElementById(elementId);
+    console.log(elementId);
+    console.log(element);
+    if (!element) return '';
+
+    let extractedText = '';
+
+    // 텍스트 노드일 경우
+    if (element.nodeType === Node.TEXT_NODE) {
+      const nodeText = element.textContent || '';
+      extractedText = nodeText.substring(startIdx, endIdx);
+    } else {
+      // 자식 노드 중에서 텍스트 노드만 선택
+      const childTextNodes = Array.from(element.childNodes).filter(
+        (childNode) => childNode.nodeType === Node.TEXT_NODE,
+      );
+
+      childTextNodes.forEach((childNode) => {
+        const nodeText = childNode.textContent || '';
+        extractedText += nodeText;
+      });
+    }
+
+    return extractedText;
+  }
+
+  useEffect(() => {
+    setData(
+      reviewResult?.data?.data.map((review) => ({
+        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+        startIdx: review.startPoint.index,
+        endIdx: review.endPoint.index,
+        reviewText: review.content,
+        reviewComment: extractTextByIdAndIndices(
+          review.startPoint.point,
+          review.startPoint.index,
+          review.endPoint.index,
+        ),
+      })),
+    );
+  }, [reviewResult]);
 
   const handleShareMeClick = () => {
     const { anchorNode, focusNode, anchorOffset, focusOffset } = window.getSelection() as Selection;
@@ -43,18 +91,17 @@ const CreateReview = () => {
     if (startNode?.parentElement?.className == 'code-line') {
       alert('code는 라인코멘트를 달 수 없습니다!');
     } else if (startNode == endNode) {
-      console.log('same');
       const text = anchorNode?.textContent || '';
       const start = anchorOffset;
       const end = focusOffset;
       setTemp([...temp, text.substring(start, end)]);
-      const newData: reviewData = {
+      const newData: reviewDataProps = {
         startIdx: start,
         endIdx: end,
         reviewText: text.substring(start, end),
-        reviewId: refId,
+        reviewId: parseInt(startNode?.id),
       };
-      setReviewList([...reviewList, newData]);
+      setReviewList([newData]);
     } else if (startNode && endNode) {
       const startIndex = Array.from(startNode.childNodes).indexOf(anchorNode);
       const endIndex = Array.from(endNode.childNodes).indexOf(focusNode);
@@ -74,20 +121,19 @@ const CreateReview = () => {
           const start = anchorOffset;
           const end = focusOffset;
           setTemp([...temp, text.substring(start, end)]);
-          const newData: reviewData = {
+          const newData: reviewDataProps = {
             startIdx: start,
             endIdx: end,
             reviewText: text.substring(start, end),
             reviewId: refId,
           };
-          setReviewList([...reviewList, newData]);
+          setReviewList([newData]);
         });
       }
     }
   };
 
   useEffect(() => {
-    console.log('ID updated:', refId);
     const { anchorOffset, focusOffset } = window.getSelection() as Selection;
     if (refId) {
       const wrapperElement = testRef.current;
@@ -99,13 +145,13 @@ const CreateReview = () => {
           const start = anchorOffset;
           const end = focusOffset;
           setTemp([...temp, text.substring(start, end)]);
-          const newData: reviewData = {
+          const newData: reviewDataProps = {
             startIdx: start,
             endIdx: end,
             reviewText: text.substring(start, end),
             reviewId: refId,
           };
-          setReviewList([...reviewList, newData]);
+          setReviewList([newData]);
         });
       }
     }
@@ -118,79 +164,6 @@ const CreateReview = () => {
     }
   };
   const ref = useRef<HTMLInputElement>(null);
-  const str = `
-### Preview Markdown
-
-[![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?logo=codesandbox)](https://codesandbox.io/embed/react-md-editor-preview-markdown-vrucl?fontsize=14&hidenavigation=1&theme=dark)
-
-### hello world!
-
-#### 안녕하세요
-
-## 찬수님
-
-### “커리어 화성 갈거니까: 개발자 커리어의 억까와 행운”
-
-- 일은 받는 것이 아니다 → 스스로 찾고 알아가는 거? 쉽지 않음
-    - 일을 달라고 하는 것도 쉽지가 않음
-    - 인정 받고 싶은 욕심도 어떻게 보면 영향이 있음
-    - 이런 내용들을 잘 알지만, 한번 인간 관계가 영향이 생기면 뒤집기가 쉽지 않음
-- 이직 ㄱ
-    - 면접을 보고 솔직하게 매니저님께 얘기
-    - 찬수님이 좋아하는 일 하기
-    - 연봉 상승
-    
-    → 크레딧을 충분히 쌓았을 때 할 것. (크레딧 : 신뢰?)
-    
-- 나한테 필요한 일들을 하다 보면 다른 일도 되는?
-    - 자연스럽게 문제들이 해결(알빠 정신..?)
-- 너만 오면 ㄱ
-    - 친구 스타트업 놀러갔다가 이직 제의
-    - 스타트업 희망편 = 스톡옵션 + 린 스타트업 → 파멸편 = 2주만의 피벗 + 야근 넘치는 문화 + MVP 뽑아야됨
-    - 테크리드가 되어보니 과거의 매니저님을 대단하게 생각하게 됨 😆
-    - 인생은 새옹지마(타이밍이 언제 올 지 모른다 😅)
-    ### “커리어 화성 갈거니까: 개발자 커리어의 억까와 행운”
-
-- 일은 받는 것이 아니다 → 스스로 찾고 알아가는 거? 쉽지 않음
-    - 일을 달라고 하는 것도 쉽지가 않음
-    - 인정 받고 싶은 욕심도 어떻게 보면 영향이 있음
-    - 이런 내용들을 잘 알지만, 한번 인간 관계가 영향이 생기면 뒤집기가 쉽지 않음
-- 이직 ㄱ
-    - 면접을 보고 솔직하게 매니저님께 얘기
-    - 찬수님이 좋아하는 일 하기
-    - 연봉 상승
-    
-    → 크레딧을 충분히 쌓았을 때 할 것. (크레딧 : 신뢰?)
-    
-- 나한테 필요한 일들을 하다 보면 다른 일도 되는?
-    - 자연스럽게 문제들이 해결(알빠 정신..?)
-- 너만 오면 ㄱ
-    - 친구 스타트업 놀러갔다가 이직 제의
-    - 스타트업 희망편 = 스톡옵션 + 린 스타트업 → 파멸편 = 2주만의 피벗 + 야근 넘치는 문화 + MVP 뽑아야됨
-    - 테크리드가 되어보니 과거의 매니저님을 대단하게 생각하게 됨 😆
-    - 인생은 새옹지마(타이밍이 언제 올 지 모른다 😅)
-    ### “커리어 화성 갈거니까: 개발자 커리어의 억까와 행운”
-
-- 일은 받는 것이 아니다 → 스스로 찾고 알아가는 거? 쉽지 않음
-    - 일을 달라고 하는 것도 쉽지가 않음
-    - 인정 받고 싶은 욕심도 어떻게 보면 영향이 있음
-    - 이런 내용들을 잘 알지만, 한번 인간 관계가 영향이 생기면 뒤집기가 쉽지 않음
-- 이직 ㄱ
-    - 면접을 보고 솔직하게 매니저님께 얘기
-    - 찬수님이 좋아하는 일 하기
-    - 연봉 상승
-    
-    → 크레딧을 충분히 쌓았을 때 할 것. (크레딧 : 신뢰?)
-    
-- 나한테 필요한 일들을 하다 보면 다른 일도 되는?
-    - 자연스럽게 문제들이 해결(알빠 정신..?)
-- 너만 오면 ㄱ
-    - 친구 스타트업 놀러갔다가 이직 제의
-    - 스타트업 희망편 = 스톡옵션 + 린 스타트업 → 파멸편 = 2주만의 피벗 + 야근 넘치는 문화 + MVP 뽑아야됨
-    - 테크리드가 되어보니 과거의 매니저님을 대단하게 생각하게 됨 😆
-    - 인생은 새옹지마(타이밍이 언제 올 지 모른다 😅)
-`;
-  const [markdown, setMarkdown] = useState(str);
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
@@ -199,61 +172,126 @@ const CreateReview = () => {
     }
   };
 
-  useEffect(() => {}, [ref?.current?.value]);
+  // useEffect(() => {
+  //   const codeBlocks = document.querySelectorAll('code');
 
+  //   codeBlocks.forEach((codeBlock, index) => {
+  //     const id = index + 1;
+  //     codeBlock.id = id.toString();
+
+  //     codeBlock.addEventListener('click', (e) => handleClickOnCodeBlock(e, id));
+  //     codeBlock.addEventListener('mouseenter', () => {
+  //       codeBlock.style.border = '1px solid red';
+  //     });
+  //     codeBlock.addEventListener('mouseleave', () => {
+  //       codeBlock.style.border = 'none';
+  //     });
+  //     codeBlock.style.cursor = 'pointer';
+  //   });
+
+  //   return () => {
+  //     codeBlocks.forEach((codeBlock, index) => {
+  //       const id = index + 1;
+  //       codeBlock.id = id.toString();
+
+  //       codeBlock.removeEventListener('click', () =>
+  //         handleClickOnCodeBlock(parseInt(codeBlock.id)),
+  //       );
+  //       codeBlock.removeEventListener('mouseenter', () => {
+  //         codeBlock.style.border = '1px solid red';
+  //       });
+  //       codeBlock.removeEventListener('mouseleave', () => {
+  //         codeBlock.style.border = 'none';
+  //       });
+  //     });
+  //   };
+  // }, []); // 추후 content로 변경 필요
   useEffect(() => {
-    const codeBlocks = document.querySelectorAll('code');
-
-    codeBlocks.forEach((codeBlock, index) => {
-      const id = index + 1;
-      codeBlock.id = id;
-
-      codeBlock.addEventListener('click', (e) => handleClickOnCodeBlock(e, id));
-      codeBlock.addEventListener('mouseenter', () => {
-        codeBlock.style.border = '1px solid red';
-      });
-      codeBlock.addEventListener('mouseleave', () => {
-        codeBlock.style.border = 'none';
-      });
-      codeBlock.style.cursor = 'pointer';
-    });
-
-    return () => {
+    const markdownElement = testRef.current;
+    if (markdownElement) {
+      let id = 0;
+      const codeBlocks = markdownElement.querySelectorAll('code');
       codeBlocks.forEach((codeBlock, index) => {
-        const id = index + 1;
-        codeBlock.id = id;
-
-        codeBlock.removeEventListener('click', () => handleClickOnCodeBlock(id));
-        codeBlock.removeEventListener('mouseenter', () => {
+        id = index + 1;
+        codeBlock.id = `${id}`;
+        codeBlock.addEventListener('click', (e) => handleClickOnCodeBlock(e));
+        codeBlock.addEventListener('mouseenter', () => {
           codeBlock.style.border = '1px solid red';
         });
-        codeBlock.removeEventListener('mouseleave', () => {
+        codeBlock.addEventListener('mouseleave', () => {
           codeBlock.style.border = 'none';
         });
+        codeBlock.style.cursor = 'pointer';
       });
-    };
-  }, []); // 추후 content로 변경 필요
+      const elements = markdownElement.querySelectorAll('*:not(code)'); // 코드 블록이 아닌 모든 요소를 선택합니다.
+      elements.forEach((element, index) => {
+        const id = index + 1;
+        element.id = `${id}`;
+      });
+    }
+  }, [show]);
 
-  const handleClickOnCodeBlock = (e, id) => {
+  const handleClickOnCodeBlock = (e) => {
     const parentDiv = e.currentTarget.parentElement;
     const parentBorderTop = parentDiv.getBoundingClientRect().top + window.scrollY;
     const modalTop = parentBorderTop;
-    console.log('블럭 아이디', id);
-    setId(id);
+    setId(e.currentTarget.id);
     setShowCodeComment({
       top: modalTop,
     });
   };
 
+  const titleParser = (content: string | undefined) => {
+    const titleEndIndex = content?.indexOf('\n');
+    // const title = content?.substring(0, titleEndIndex).trim();
+    const title = content?.substring(content.indexOf('# ') + 2, titleEndIndex).trim();
+
+    // 나머지 내용 추출
+    const mainContent = content?.substring(titleEndIndex + 1).trim();
+
+    return { title, mainContent };
+  };
+  const { mutate } = useSaveReview();
+
+  interface ReviewSubmitProps {
+    content: string;
+    startPoint: PointProps;
+    endPoint: PointProps;
+    tag: 'CODE' | 'LINE';
+  }
+  interface PointProps {
+    point: number;
+    index: number;
+  }
+
+  const handleSubmimtReivew = () => {
+    console.log(reviewData);
+    const testReview: ReviewSubmitProps = {
+      content: reviewData[0].reviewComment,
+      startPoint: {
+        point: reviewData[0].reviewId,
+        index: reviewData[0].startIdx,
+      },
+      endPoint: {
+        point: reviewData[0].reviewId,
+        index: reviewData[0].endIdx,
+      },
+      tag: 'LINE',
+    };
+    console.log(reviewId);
+    mutate({ content: testReview, questionId: reviewId });
+  };
+
   return (
     <>
+      <button onClick={handleSubmimtReivew}>리뷰하기</button>
       <TitleWrapper>
         <Text fontSize="xl" fontWeight="bold">
-          제목이 들어갈 자리입니다
+          {show && titleParser(show).title}
         </Text>
       </TitleWrapper>
       <MarkdownBox ref={testRef} id="wrapper">
-        <MDEditor.Markdown source={show} />
+        <MDEditor.Markdown source={show && titleParser(show).mainContent} />
       </MarkdownBox>
       <Popover target={target} onClick={handleShareMeClick} />
     </>

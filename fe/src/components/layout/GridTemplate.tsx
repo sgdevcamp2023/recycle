@@ -67,35 +67,40 @@ const GridTemplate = () => {
           <Outlet />
         </MainContent>
         <RightContent>
+          {location.pathname.startsWith('/review/') && showCodeComment && (
+            <ReviewWriteModal top={showCodeComment.top} />
+          )}
           {location.pathname === '/createReview' && showCodeComment && (
             <ReviewWriteModal top={showCodeComment.top} />
           )}
           {location.pathname === '/readQuestion' && showCodeComment && (
             <ReviewShowModal top={showCodeComment.top} />
           )}
-          <div>
-            {reviewList &&
-              reviewList.map((item: reviewData, index) => {
-                return (
-                  <>
-                    <h3 key={index}>{item.reviewText}</h3>
-                    <LineCommentWrite
-                      cancelOnClick={() => handleCancelLineComment(index)}
-                      uploadOnClick={() => handleAddLineComment({ item, index })}
-                      ref={commentRef}
-                    />
-                  </>
-                );
-              })}
-            {reviewData &&
-              reviewData.map((item: reviewData, index) => {
-                return (
-                  <>
-                    <LineCommentView item={item} />
-                  </>
-                );
-              })}
-          </div>
+          {location.pathname.startsWith('/review/') && (
+            <div>
+              {reviewList &&
+                reviewList.map((item: reviewData, index) => {
+                  return (
+                    <>
+                      <h3 key={index}>{item.reviewText}</h3>
+                      <LineCommentWrite
+                        cancelOnClick={() => handleCancelLineComment(index)}
+                        uploadOnClick={() => handleAddLineComment({ item, index })}
+                        ref={commentRef}
+                      />
+                    </>
+                  );
+                })}
+              {reviewData &&
+                reviewData.map((item: reviewData, index) => {
+                  return (
+                    <>
+                      <LineCommentView item={item} />
+                    </>
+                  );
+                })}
+            </div>
+          )}
         </RightContent>
       </MainWrapper>
     </LayoutWrapper>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Text from '../Text';
 import { MouseEventHandler, ReactNode } from 'react';
+import MDEditor from '@uiw/react-md-editor';
 
 export type DefaultCardType = 'question' | 'review' | 'add' | null;
 
@@ -55,8 +56,13 @@ const DefaultCard = ({
             new
           </Text>
         )}
-        {type == 'question' && <>{content}</>}
-        {type == 'review' && <>{content}</>}
+        {/* {type == 'question' && <>{content}</>}
+        {type == 'review' && <>{content}</>} */}
+        {content && (
+          <MarkdownBox>
+            <MDEditor.Markdown source={content} />
+          </MarkdownBox>
+        )}
         {children}
       </ContentContainer>
       <Divider />
@@ -120,6 +126,8 @@ const HeaderContainer = styled.div`
 
 const ContentContainer = styled.div<ContentContainerProps>`
   flex: 4;
+  width: 90%;
+  height: 100%;
   padding: 1rem 0.5rem;
   text-align: center;
   display: flex;
@@ -142,4 +150,20 @@ const FooterContainer = styled.div`
 const TextBox = styled.div`
   display: flex;
   align-items: flex-end;
+`;
+
+const MarkdownBox = styled.div`
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  padding: 0.25rem;
+  background-color: white;
+  /* border: 1px solid black; */
+  overflow-y: hidden; /* 항상 수직 스크롤바를 감춤 */
+  overflow-x: hidden; /* 가로 스크롤바를 감춤 */
+  &:hover {
+    overflow-y: auto; /* 마우스를 올렸을 때 수직 스크롤바를 표시 */
+  }
+  position: relative;
 `;

@@ -45,24 +45,28 @@ const ReviewWriteModal = ({ top }) => {
   };
 
   const findObjectById = () => {
-    if (review.length > 0) {
-      return review.find((item) => item.id === id);
-    } else {
-      console.log('없음');
-    }
+    const foundItem = review.find((item) => item.id === id);
+    return foundItem ? foundItem : false;
   };
   const handleSubmit = () => {
     console.log(id, input);
     // newItem.comment = input;
     setItem({ id: id, comment: input });
-    setReview([...review, item]);
+    setReview([...review, { id: id, comment: input }]);
   };
 
+  const findObjectByIdTwo = (keyId) => {
+    const foundItem = review.find((item) => item.id === keyId);
+    return foundItem ? foundItem : false;
+  };
   useEffect(() => {
-    // setItem(findObjectById());
-    // setInput(item?.comment);
-    console.log(review);
-  }, [id]);
+    if (findObjectByIdTwo(id)) {
+      setItem(findObjectByIdTwo(id));
+    } else {
+      setItem({ id: 0, comment: '' });
+    }
+    setInput(item?.comment);
+  }, [id, item?.comment]);
 
   const handleCloseClick = () => {
     setShowCodeComment(false);
