@@ -44,28 +44,19 @@ const DefaultCard = ({
 }: DefaultCardProps) => {
   return (
     <CardWrapper height={height} width={width} onClick={onClick}>
+      <HeaderContainer>
+        <Text fontSize="xl" fontWeight="bold">
+          {title && title}
+        </Text>
+      </HeaderContainer>
       <ContentContainer type={type}>
         {type == 'add' && (
           <Text fontSize="xl" fontWeight="bold">
             new
           </Text>
         )}
-        {type == 'question' && (
-          <>
-            <Text fontSize="xl" fontWeight="bold">
-              {title}
-            </Text>
-            {content}
-          </>
-        )}
-        {type == 'review' && (
-          <>
-            <Text fontSize="xl" fontWeight="bold">
-              {title}
-            </Text>
-            {content}
-          </>
-        )}
+        {type == 'question' && <>{content}</>}
+        {type == 'review' && <>{content}</>}
         {children}
       </ContentContainer>
       <Divider />
@@ -117,6 +108,16 @@ const Divider = styled.div`
   border: 0.5px solid ${({ theme }) => theme.backgroundColor.grey400};
 `;
 
+const HeaderContainer = styled.div`
+  flex: 1;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ContentContainer = styled.div<ContentContainerProps>`
   flex: 4;
   padding: 1rem 0.5rem;
@@ -125,6 +126,8 @@ const ContentContainer = styled.div<ContentContainerProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const FooterContainer = styled.div`
