@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import GreyButton from '../Button/GreyButton';
 import Text from '../Text';
+import { reviewDataProps } from '@store/useReviewStore';
 
 const LineCommentViewBox = styled.div`
   width: 15.5rem;
@@ -50,7 +51,11 @@ const LineCommentContent = styled.p`
   margin-top: 0.5rem;
 `;
 
-const LineCommentView = () => {
+interface LineCommentViewProps {
+  item: reviewDataProps;
+}
+
+const LineCommentView = ({ item }: LineCommentViewProps) => {
   return (
     <div>
       <LineCommentViewBox>
@@ -73,20 +78,8 @@ const LineCommentView = () => {
           </GreyButton>
         </UserInfoWrapper>
         <CommentContainer>
-          <LineCommentContent>
-            아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을
-            모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까
-            차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니
-            그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을
-            모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까
-            차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니
-            그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을
-            모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까
-            차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니
-            그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을
-            모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까 차이점을 모르죠...아니 그러니까
-            차이점을 모르죠...아니
-          </LineCommentContent>
+          <LineCommentContent>{item.reviewText}</LineCommentContent>
+          <LineCommentContent>{item.reviewComment}</LineCommentContent>
         </CommentContainer>
       </LineCommentViewBox>
     </div>
