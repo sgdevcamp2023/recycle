@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MarkdownEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 import DefaultButton from '@components/atom/Button/DefaultButton';
@@ -35,26 +35,42 @@ const ButtonBox = styled.div`
 const ReviewWriteModal = ({ top }) => {
   const { review, setReview, id } = useReviewStore();
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
+  const [item, setItem] = useState({ id: 0, comment: '' });
+  const [input, setInput] = useState<string>('');
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
-      setReview(value);
+      setInput(value);
     }
   };
 
-  const handleSubmit = () => {
-    console.log(review);
-    console.log(id);
+  const findObjectById = () => {
+    if (review.length > 0) {
+      return review.find((item) => item.id === id);
+    } else {
+      console.log('없음');
+    }
   };
+  const handleSubmit = () => {
+    console.log(id, input);
+    // newItem.comment = input;
+    setItem({ id: id, comment: input });
+    setReview([...review, item]);
+  };
+
+  useEffect(() => {
+    // setItem(findObjectById());
+    // setInput(item?.comment);
+    console.log(review);
+  }, [id]);
 
   const handleCloseClick = () => {
     setShowCodeComment(false);
   };
-
   return (
     <div style={{ position: 'absolute', top }}>
       <LoginBox>
-        <MarkdownEditor height={'90%'} value={review} onChange={handleMarkdownChange} />
+        <MarkdownEditor height={'90%'} value={input} onChange={handleMarkdownChange} />
         <ButtonBox>
           <DefaultButton width={4} height={2} padding={0} onClick={handleSubmit}>
             <Text fontSize="xs">Submit</Text>

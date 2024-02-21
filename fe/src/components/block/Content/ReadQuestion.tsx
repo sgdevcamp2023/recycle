@@ -7,6 +7,7 @@ import { useMarkdownStore } from '@store/useMarkdownStore';
 import useReviewStore, { reviewData } from '@store/useReviewStore';
 import { useParams } from 'react-router-dom';
 import useGetQuestion from '@hooks/query/question/useGetQuestion';
+import DefaultBadge from '@components/atom/Mui/DefaultBadge';
 
 const ReadQuestion = () => {
   const { questionId } = useParams<{ questionId: string }>();

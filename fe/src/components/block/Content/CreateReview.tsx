@@ -238,7 +238,7 @@ const CreateReview = () => {
     const parentDiv = e.currentTarget.parentElement;
     const parentBorderTop = parentDiv.getBoundingClientRect().top + window.scrollY;
     const modalTop = parentBorderTop;
-
+    console.log('블럭 아이디', id);
     setId(id);
     setShowCodeComment({
       top: modalTop,
