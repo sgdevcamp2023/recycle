@@ -25,9 +25,6 @@ const Request = () => {
 
   const mockDataArray: DefaultCardProps[] = [
     {
-      type: 'add',
-    },
-    {
       type: 'question',
       commentCount: 8,
       title: 'Title 2',
