@@ -5,6 +5,7 @@ import MarkdownEditor from '@uiw/react-md-editor';
 import DefaultButton from '@components/atom/Button/DefaultButton';
 import Text from '@components/atom/Text';
 import useQuestionStore from '@store/useQuestionStore';
+import useCreateQuestion from '@hooks/query/question/useCreateQuestion';
 
 const MarkdownBox = styled.div`
   box-sizing: border-box;
@@ -37,6 +38,8 @@ const CreateQuestion = () => {
     }
   };
 
+  const { mutate } = useCreateQuestion();
+
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {}, [ref?.current?.value]);
@@ -44,6 +47,9 @@ const CreateQuestion = () => {
   const handleSubmit = () => {
     console.log(ref?.current?.value);
     console.log(content);
+    console.log(content);
+    const temp = '# ' + ref?.current.value + '\n' + content;
+    mutate({ content: temp.toString() });
   };
 
   return (

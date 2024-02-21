@@ -8,6 +8,7 @@ import useGetQuestions from '@hooks/query/question/useGetQuestions';
 import useGetQuestionDrafts from '@hooks/query/question/useGetQuestionDrafts';
 import { SyncLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
+import { title } from '@uiw/react-md-editor';
 
 const Question = () => {
   const items: Record<string, DefaultTabType> = {
@@ -30,8 +31,8 @@ const Question = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setQuestionsArray(questionData?.data.data);
-  }, [isQuestionsLoading]);
+    setQuestionsArray(questionData?.data?.data?.content);
+  }, [isQuestionsLoading, questionData]);
 
   useEffect(() => {
     setQuestionDraftsArray(questionDraftsData?.data.data);
@@ -39,12 +40,27 @@ const Question = () => {
 
   interface handleCardClickProps {
     type: DefaultCardType;
+    id?: number;
   }
   //  "question" | "review" | "add"
-  const handleCardClick = ({ type }: handleCardClickProps) => {
+  const handleCardClick = ({ type, id }: handleCardClickProps) => {
     if (type == 'add') {
       navigate('/createQuestion');
     }
+    if (type == 'question') {
+      navigate(`/question/${id}`);
+    }
+  };
+
+  const titleParser = (content: string | undefined) => {
+    const titleEndIndex = content?.indexOf('\n');
+    // const title = content?.substring(0, titleEndIndex).trim();
+    const title = content?.substring(content.indexOf('# ') + 2, titleEndIndex).trim();
+
+    // 나머지 내용 추출
+    const mainContent = content?.substring(titleEndIndex + 1).trim();
+
+    return { title, mainContent };
   };
 
   function parseTitleFromContent(content: string | undefined): string {
@@ -71,16 +87,13 @@ const Question = () => {
             }
           />
         )}
-        {(isQuestionDraftsLoading || isQuestionsLoading) && (
-          <DefaultCard type="question" isLoading={isQuestionDraftsLoading || isQuestionsLoading}>
-            <SyncLoader
-              size={10}
-              margin={2}
-              loading={isQuestionDraftsLoading || isQuestionsLoading}
-            />
+        {defaultTabType == 'myQuestion' && isQuestionsLoading && (
+          <DefaultCard type="question" isLoading={isQuestionsLoading}>
+            <SyncLoader size={10} margin={2} loading={isQuestionsLoading} />
           </DefaultCard>
         )}
-        {defaultTabType === 'myQuestion' &&
+        {!isQuestionsLoading &&
+          defaultTabType === 'myQuestion' &&
           questionsArray &&
           questionsArray.map((item, idx) => {
             return (
@@ -88,17 +101,24 @@ const Question = () => {
                 type="question"
                 key={idx}
                 commentCount={item.review_cnt}
-                title={parseTitleFromContent(item.content)}
-                content={removeH1Tag(item.content ? item.content : '')}
+                title={titleParser(item.content)?.title}
+                content={titleParser(item.content)?.mainContent}
                 onClick={() =>
                   handleCardClick({
-                    type: item.type,
+                    type: 'question',
+                    id: item.questionId,
                   })
                 }
               />
             );
           })}
-        {defaultTabType === 'questionDrafts' &&
+        {defaultTabType == 'questionDrafts' && isQuestionDraftsLoading && (
+          <DefaultCard type="question" isLoading={isQuestionDraftsLoading}>
+            <SyncLoader size={10} margin={2} loading={isQuestionDraftsLoading} />
+          </DefaultCard>
+        )}
+        {!isQuestionDraftsLoading &&
+          defaultTabType === 'questionDrafts' &&
           questionDraftsArray &&
           questionDraftsArray.map((item, idx) => {
             return (

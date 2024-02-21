@@ -7,12 +7,16 @@ import ReviewWriteModal from '../modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
 import useReviewStore, { reviewData } from '@store/useReviewStore';
 import { Popover } from '@page/PopOver';
+import { useParams } from 'react-router-dom';
+import useGetQuestion from '@hooks/query/question/useGetQuestion';
 
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
   const [show, setShow] = useState(
     "## 대충 코드임\n안녕하세요\n\n저는 이규민입니다\n\n- 이건 코드입니다\n```js\nconst a = '규민'\nconsole.log(a)\n```\n\n- 이건 두번째 코드입니다\n```js\nconst b = '재진'\nconsole.log(b)\n```\n\n모든 코드를 전부 작성하였습니다",
   );
+
+  const { reviewId } = useParams<{ reviewId: string }>();
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
   const { setId, setReviewList, reviewList } = useReviewStore();
   // const { id, setId } = useReviewStore();
@@ -25,6 +29,12 @@ const CreateReview = () => {
   useEffect(() => {
     setTarget(document.getElementById('wrapper'));
   }, []);
+
+  const { data } = useGetQuestion({ questionId: reviewId });
+
+  useEffect(() => {
+    setShow(data?.data?.data?.content);
+  }, [data]);
 
   const handleShareMeClick = () => {
     const { anchorNode, focusNode, anchorOffset, focusOffset } = window.getSelection() as Selection;

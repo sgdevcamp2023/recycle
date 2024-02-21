@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, RefObject, forwardRef } from 'react';
 import styled from 'styled-components';
 
 const UploadButton = styled.button`
@@ -63,19 +63,40 @@ const CommentWriteContainer = styled.textarea`
 interface LineCommentWriteProps {
   uploadOnClick?: MouseEventHandler<HTMLButtonElement>;
   cancelOnClick?: MouseEventHandler<HTMLButtonElement>;
+  initValue?: string;
 }
 
-const LineCommentWrite = ({ cancelOnClick, uploadOnClick }: LineCommentWriteProps) => {
-  return (
-    <div>
-      <LineCommentViewBox>
-        <CommentWriteContainer placeholder="댓글 추가" />
-        <UploadButton onClick={uploadOnClick}>▶</UploadButton>
-      </LineCommentViewBox>
-      <br />
-      <button onClick={cancelOnClick}>취소</button>
-    </div>
-  );
-};
+// const LineCommentWrite = ({ cancelOnClick, uploadOnClick }: LineCommentWriteProps) => {
+//   return (
+//     <div>
+//       <LineCommentViewBox>
+//         <CommentWriteContainer placeholder="댓글 추가" />
+//         <UploadButton onClick={uploadOnClick}>▶</UploadButton>
+//       </LineCommentViewBox>
+//       <br />
+//       <button onClick={cancelOnClick}>취소</button>
+//     </div>
+//   );
+// };
+
+const LineCommentWrite = forwardRef<HTMLInputElement, LineCommentWriteProps>(
+  ({ uploadOnClick, cancelOnClick, initValue = '' }, ref) => {
+    if (ref && initValue) {
+      (ref as RefObject<HTMLInputElement>)!.current!.value = initValue;
+    }
+    return (
+      <div>
+        <LineCommentViewBox>
+          <CommentWriteContainer ref={ref} placeholder="댓글 추가" />
+          <UploadButton onClick={uploadOnClick}>▶</UploadButton>
+        </LineCommentViewBox>
+        <br />
+        <button onClick={cancelOnClick}>취소</button>
+      </div>
+    );
+  },
+);
+
+LineCommentWrite.displayName = 'LineCommentWrite';
 
 export default LineCommentWrite;

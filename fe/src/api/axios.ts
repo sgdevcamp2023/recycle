@@ -9,14 +9,18 @@ interface ServiceEndpoints {
 
 const CreateServiceApi = (service: string): AxiosInstance => {
   const portMap: ServiceEndpoints = {
-    review: 8082,
-    member: 8081,
-    notifictation: 8084,
+    // review: 8082,
+    // member: 8081,
+    // 일반 요청
+    common: 8083,
+    // query 요청
+    query: 8082,
+    // notifictation: 8084,
     // 다른 서비스들의 포트 번호 추가
   };
 
   const servicePort = portMap[service];
-  const serviceEndpoint = `${baseURL}/api/v1`;
+  const serviceEndpoint = `${baseURL}:${servicePort}/api/v1`;
   const api = axios.create({
     baseURL: serviceEndpoint,
     headers: {
@@ -41,9 +45,11 @@ interface ClientAPI {
 }
 
 const clientApi: ClientAPI = {
-  review: CreateServiceApi('review'),
-  member: CreateServiceApi('member'),
-  notification: CreateServiceApi('notification'),
+  // review: CreateServiceApi('review'),
+  // member: CreateServiceApi('member'),
+  // notification: CreateServiceApi('notification'),
+  common: CreateServiceApi('common'),
+  query: CreateServiceApi('query'),
 };
 
 export default clientApi;

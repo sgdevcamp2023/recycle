@@ -1,17 +1,18 @@
 import { create } from 'zustand';
 
-export interface reviewData {
+export interface reviewDataProps {
   reviewId?: string | null;
   startIdx?: number;
   endIdx?: number;
   reviewText?: string;
+  reviewComment?: string;
 }
 
 const useReviewStore = create((set) => ({
   id: 0,
   review: [],
-  reviewList: <reviewData>[],
-  data: <reviewData>[],
+  reviewList: <reviewDataProps>[],
+  data: <reviewDataProps>[],
   setId: (newId) => set({ id: newId }),
   setReview: (newReview) => set({ review: newReview }),
   setReviewList: (reviewList) => set({ reviewList: reviewList }),

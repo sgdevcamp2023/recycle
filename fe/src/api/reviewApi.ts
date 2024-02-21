@@ -3,7 +3,7 @@ import clientApi from './axios';
 const reviewApi = {
   // 리뷰 남기기 [post]
   saveReview: async ({ questionId: question_id, content, location, tag }: never) => {
-    return await clientApi.review.post(`/questions/${question_id}/reviews`, {
+    return await clientApi.common.post(`/questions/${question_id}/reviews`, {
       content,
       location,
       tag,
@@ -18,7 +18,7 @@ const reviewApi = {
     tag,
     tId: t_id,
   }: never) => {
-    return await clientApi.review.post(`/questions/${question_id}/reviews`, {
+    return await clientApi.common.post(`/questions/${question_id}/reviews`, {
       content,
       location,
       tag,
@@ -34,7 +34,7 @@ const reviewApi = {
     tag,
     tId: t_id,
   }: never) => {
-    return await clientApi.review.put(`/questions/${question_id}/reviews/${review_id}`, {
+    return await clientApi.common.put(`/questions/${question_id}/reviews/${review_id}`, {
       content,
       location,
       tag,
@@ -43,7 +43,7 @@ const reviewApi = {
   },
   // 리뷰 삭제 하기 [delete]
   deleteReviewDraft: async ({ questionId: question_id, reviewId: review_id }: never) => {
-    return await clientApi.review.delete(`/questions/${question_id}/reviews/${review_id}`);
+    return await clientApi.common.delete(`/questions/${question_id}/reviews/${review_id}`);
   },
 };
 
