@@ -12,6 +12,17 @@ import useGetQuestion from '@hooks/query/question/useGetQuestion';
 import useSaveReview from '@hooks/query/review/useSaveReview';
 import useGetReviewsOnQuestion from '@hooks/query/question/useGetReviewsOnQuestion';
 
+export interface ReviewSubmitProps {
+  content: string;
+  startPoint: PointProps;
+  endPoint: PointProps;
+  tag: 'CODE' | 'LINE';
+}
+interface PointProps {
+  point: number;
+  index: number;
+}
+
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
   const [show, setShow] = useState(
@@ -69,9 +80,10 @@ const CreateReview = () => {
   }
 
   useEffect(() => {
+    reviewResult?.data?.data.map((review) => console.log(review));
     setData(
       reviewResult?.data?.data.map((review) => ({
-        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+        reviewId: review.startPoint.point != null ? review.startPoint.point : null,
         startIdx: review.startPoint.index,
         endIdx: review.endPoint.index,
         reviewText: review.content,
@@ -99,7 +111,7 @@ const CreateReview = () => {
         startIdx: start,
         endIdx: end,
         reviewText: text.substring(start, end),
-        reviewId: parseInt(startNode?.id),
+        reviewId: startNode?.id,
       };
       setReviewList([newData]);
     } else if (startNode && endNode) {
@@ -225,7 +237,7 @@ const CreateReview = () => {
       });
       const elements = markdownElement.querySelectorAll('*:not(code)'); // 코드 블록이 아닌 모든 요소를 선택합니다.
       elements.forEach((element, index) => {
-        const id = index + 1;
+        id = index + 1;
         element.id = `${id}`;
       });
     }
@@ -252,17 +264,6 @@ const CreateReview = () => {
     return { title, mainContent };
   };
   const { mutate } = useSaveReview();
-
-  interface ReviewSubmitProps {
-    content: string;
-    startPoint: PointProps;
-    endPoint: PointProps;
-    tag: 'CODE' | 'LINE';
-  }
-  interface PointProps {
-    point: number;
-    index: number;
-  }
 
   const handleSubmimtReivew = () => {
     console.log(reviewData);
