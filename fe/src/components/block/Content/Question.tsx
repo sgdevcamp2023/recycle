@@ -48,7 +48,7 @@ const Question = () => {
       navigate('/createQuestion');
     }
     if (type == 'question') {
-      navigate(`/question/${id}`);
+      navigate(`/review/${id}`);
     }
   };
 

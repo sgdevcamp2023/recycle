@@ -53,7 +53,8 @@ const DefaultCard = ({
       <ContentContainer type={type}>
         {type == 'add' && (
           <Text fontSize="xl" fontWeight="bold">
-            new
+            new <br />
+            <br />
           </Text>
         )}
         {/* {type == 'question' && <>{content}</>}
@@ -98,7 +99,8 @@ export default DefaultCard;
 const CardWrapper = styled.div<CardWrapperProps>`
   cursor: pointer;
   width: 100%;
-  min-height: 16rem;
+  max-height: 25rem;
+  min-height: 12.5rem;
   background-color: ${({ theme }) => theme.backgroundColor.grey300};
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
@@ -129,7 +131,7 @@ const ContentContainer = styled.div<ContentContainerProps>`
   width: 90%;
   height: 100%;
   padding: 1rem 0.5rem;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,11 +155,12 @@ const TextBox = styled.div`
 `;
 
 const MarkdownBox = styled.div`
+  border: 1px solid white;
   box-sizing: border-box;
   height: 100%;
   width: 100%;
   border-radius: 10px;
-  padding: 0.25rem;
+  padding: 0.5rem;
   background-color: white;
   /* border: 1px solid black; */
   overflow-y: hidden; /* 항상 수직 스크롤바를 감춤 */

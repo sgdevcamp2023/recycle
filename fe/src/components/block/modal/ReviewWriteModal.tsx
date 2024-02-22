@@ -7,6 +7,9 @@ import GreyButton from '@components/atom/Button/GreyButton';
 import ReverseButton from '@components/atom/Button/ReverseButton';
 import { useMarkdownStore } from '@store/useMarkdownStore';
 import useReviewStore from '@store/useReviewStore';
+import useSaveReview from '@hooks/query/review/useSaveReview';
+import { ReviewSubmitProps } from '../Content/CreateReview';
+import { useParams } from 'react-router-dom';
 
 const LoginBox = styled.div`
   box-sizing: border-box;
@@ -37,13 +40,13 @@ const ReviewWriteModal = ({ top }) => {
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
   const [item, setItem] = useState({ id: 0, comment: '' });
   const [input, setInput] = useState<string>('');
+  const { reviewId } = useParams<{ reviewId: string }>();
 
   const handleMarkdownChange = (value: string | undefined) => {
     if (value) {
       setInput(value);
     }
   };
-
   const findObjectById = () => {
     const foundItem = review.find((item) => item.id === id);
     return foundItem ? foundItem : false;
@@ -52,16 +55,44 @@ const ReviewWriteModal = ({ top }) => {
     console.log(id, input);
     // newItem.comment = input;
     setItem({ id: id, comment: input });
-    setReview([...review, { id: id, comment: input }]);
+    if (!review) {
+      setReview([{ id: parseInt(id), comment: input }]);
+    } else {
+      setReview([...review, { id: parseInt(id), comment: input }]);
+    }
+
+    const testReview: ReviewSubmitProps = {
+      content: input,
+      startPoint: {
+        point: id,
+        index: 0,
+      },
+      endPoint: {
+        point: id,
+        index: 0,
+      },
+      tag: 'CODE',
+    };
+    mutate({ content: testReview, questionId: reviewId });
+    setShowCodeComment(false);
   };
 
+  const { mutate } = useSaveReview();
+
   const findObjectByIdTwo = (keyId) => {
-    const foundItem = review.find((item) => item.id === keyId);
-    return foundItem ? foundItem : false;
+    if (review) {
+      console.log(review);
+      const foundItem = review.find((item) => item.id === keyId);
+      console.log(foundItem);
+      return foundItem ? foundItem : false;
+    } else {
+      return false;
+    }
   };
   useEffect(() => {
-    if (findObjectByIdTwo(id)) {
-      setItem(findObjectByIdTwo(id));
+    console.log(id);
+    if (findObjectByIdTwo(parseInt(id))) {
+      setItem(findObjectByIdTwo(parseInt(id)));
     } else {
       setItem({ id: 0, comment: '' });
     }
