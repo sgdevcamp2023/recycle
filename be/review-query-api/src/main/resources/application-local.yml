@@ -1,0 +1,18 @@
+server:
+  port: 8082
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - mysql-local
+      - security-local
+      - elasticsearch-local
+      - rabbit-local
+      - cookie-local
+      - log-local
+
+
+logging:
+  level:
+    root: DEBUG

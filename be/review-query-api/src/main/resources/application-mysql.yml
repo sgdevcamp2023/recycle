@@ -1,0 +1,18 @@
+recycle:
+  review:
+    entity:
+      datasource:
+        jdbcUrl: ${DB_HOSTNAME}/review?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+        user: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        hibernate:
+          ddl-auto: validate
+        properties:
+          hibernate:
+            format_sql: true
+
+logging:
+  level:
+    sql: debug

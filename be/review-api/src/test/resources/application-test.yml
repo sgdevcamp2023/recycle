@@ -1,0 +1,16 @@
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - local
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

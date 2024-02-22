@@ -1,0 +1,17 @@
+server:
+  port: 8081
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - mysql-dev
+      - flyway-member
+      - security-dev
+      - cookie-dev
+      - rabbit-dev
+      - log-dev
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}

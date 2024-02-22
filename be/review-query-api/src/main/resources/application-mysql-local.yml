@@ -1,0 +1,24 @@
+recycle:
+  review:
+    entity:
+      datasource:
+        jdbcUrl: jdbc:mysql://localhost:13306/review?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+        username: root
+        password: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        hibernate:
+          ddl-auto: update
+        properties:
+          hibernate:
+            format_sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
