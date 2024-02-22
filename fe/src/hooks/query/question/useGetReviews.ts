@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 
 const useGetReviews = () => {
   return useQuery({
-    queryKey: ['questions'],
+    queryKey: ['reviews'],
     queryFn: () => questionApi.getReviews(),
-    staleTime: Infinity,
+    staleTime: 3000,
   });
 };
 

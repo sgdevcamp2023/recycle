@@ -4,13 +4,18 @@ import useTabStore, { TabType } from '@store/useTabStore';
 import { flexCenter } from '@styles/flexCenter';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import HeaderHelmet from '@components/atom/Helmet';
+import { useState } from 'react';
 
 const SideBar = () => {
   const { setTabType, tabType } = useTabStore();
+
+  const [title, setTitle] = useState<string>();
   const navigate = useNavigate();
 
   const handleClickTab = (word: TabType) => {
     setTabType(word);
+    setTitle(word);
     navigate(`/${word}`);
   };
 
@@ -21,6 +26,7 @@ const SideBar = () => {
 
   return (
     <SideBarContainer>
+      <HeaderHelmet title={title} />
       <SideBarHeader>
         <h2>ZZAUG</h2>
       </SideBarHeader>
@@ -63,7 +69,10 @@ const SideBar = () => {
           </TabButton>
         </MenuTabContainer>
       </SideBarContent>
-      <SideBarFooter>SmileGate RE:Camp RE:Cycle</SideBarFooter>
+      <SideBarFooter>
+        <pre>SmileGate </pre>
+        <pre>RE:Camp RE:Cycle</pre>
+      </SideBarFooter>
     </SideBarContainer>
   );
 };
@@ -91,6 +100,8 @@ const SideBarContent = styled.div`
 const SideBarFooter = styled.div`
   ${flexCenter};
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const MenuTabContainer = styled.div`

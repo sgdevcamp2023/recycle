@@ -95,12 +95,21 @@ const ReviewList = ({ reviews, reviewsPerPage }: ReviewListProps) => {
 
       {/* 페이지 이동 버튼 */}
       <div>
-        <ArrowButton onClick={handlePrevPage} disabled={currentPage === 1}>
+        <ArrowButton
+          onClick={(event) => {
+            event.stopPropagation();
+            handlePrevPage();
+          }}
+          disabled={currentPage === 1}
+        >
           before
         </ArrowButton>
         <span> {currentPage} page </span>
         <ArrowButton
-          onClick={handleNextPage}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleNextPage();
+          }}
           disabled={currentPage === Math.ceil(reviews.length / reviewsPerPage)}
         >
           next

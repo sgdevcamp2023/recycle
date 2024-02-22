@@ -25,7 +25,7 @@ const Review = () => {
   useEffect(() => {
     console.log(ReviewData);
     setReviewArray(ReviewData?.data?.data?.content);
-  }, [isLoading]);
+  }, [isLoading, ReviewData]);
 
   const { data: ReviewDraftData, isLoading: isDraftLoading } = useGetReviewOnQuestionDraft({
     questionId: '1',
@@ -37,43 +37,19 @@ const Review = () => {
     setReviewDraftArray(ReviewDraftData?.data);
     console.log(reviewDraftArray);
   }, [isDraftLoading]);
-  const mockDataArray: ReviewCardProps[] = [
-    {
-      type: 'review',
-      commentCount: 8,
-      title: 'Title 2',
-      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
-    },
-    {
-      type: 'review',
-      commentCount: 8,
-      title: 'Title 2',
-      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
-    },
-    {
-      type: 'review',
-      commentCount: 8,
-      title: 'Title 2',
-      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
-    },
-    {
-      type: 'review',
-      commentCount: 8,
-      title: 'Title 2',
-      reviews: ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'],
-    },
-  ];
+
   return (
     <BoxWrapper>
       <DefaultTab items={items} />
       <SearchInput />
       <ReviewWrapper>
-        {reviewArray &&
+        {!isLoading &&
+          reviewArray &&
           reviewArray.map((item, idx) => {
             return (
               <ReviewCard
                 key={idx}
-                reviews={mockDataArray[idx].reviews}
+                reviews={item.reviews?.map((item) => item.content)}
                 type={'review'}
                 commentCount={item.question?.reviewCnt}
                 title={'title'}
@@ -98,6 +74,6 @@ const ReviewWrapper = styled.div`
   width: 100%;
   margin-top: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
 `;

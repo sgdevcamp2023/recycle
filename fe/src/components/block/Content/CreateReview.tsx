@@ -12,6 +12,17 @@ import useGetQuestion from '@hooks/query/question/useGetQuestion';
 import useSaveReview from '@hooks/query/review/useSaveReview';
 import useGetReviewsOnQuestion from '@hooks/query/question/useGetReviewsOnQuestion';
 
+export interface ReviewSubmitProps {
+  content: string;
+  startPoint: PointProps;
+  endPoint: PointProps;
+  tag: 'CODE' | 'LINE';
+}
+interface PointProps {
+  point: number;
+  index: number;
+}
+
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
   const [show, setShow] = useState(
@@ -20,7 +31,14 @@ const CreateReview = () => {
 
   const { reviewId } = useParams<{ reviewId: string }>();
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
-  const { setId, setReviewList, reviewList, data: reviewData, setData } = useReviewStore();
+  const {
+    setId,
+    setReviewList,
+    reviewList,
+    data: reviewData,
+    setData,
+    setReview,
+  } = useReviewStore();
   // const { id, setId } = useReviewStore();
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
@@ -34,7 +52,7 @@ const CreateReview = () => {
 
   const { data } = useGetQuestion({ questionId: reviewId });
   console.log(reviewId);
-  const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: parseInt(reviewId) });
+  const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: reviewId });
   console.log(reviewResult);
 
   useEffect(() => {
@@ -69,8 +87,10 @@ const CreateReview = () => {
   }
 
   useEffect(() => {
+    const lineReviews = (reviewResult?.data?.data || []).filter((review) => review.tag === 'LINE');
+    console.log(lineReviews);
     setData(
-      reviewResult?.data?.data.map((review) => ({
+      lineReviews.map((review) => ({
         reviewId: review.reviewId != null ? review.reviewId.toString() : null,
         startIdx: review.startPoint.index,
         endIdx: review.endPoint.index,
@@ -80,6 +100,15 @@ const CreateReview = () => {
           review.startPoint.index,
           review.endPoint.index,
         ),
+      })),
+    );
+    const codeReviews = (reviewResult?.data?.data || []).filter((review) => review.tag === 'CODE');
+    console.log(codeReviews);
+    setReview(
+      codeReviews.map((review) => ({
+        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+        comment: review.content,
+        id: review.startPoint.point,
       })),
     );
   }, [reviewResult]);
@@ -253,17 +282,6 @@ const CreateReview = () => {
   };
   const { mutate } = useSaveReview();
 
-  interface ReviewSubmitProps {
-    content: string;
-    startPoint: PointProps;
-    endPoint: PointProps;
-    tag: 'CODE' | 'LINE';
-  }
-  interface PointProps {
-    point: number;
-    index: number;
-  }
-
   const handleSubmimtReivew = () => {
     console.log(reviewData);
     const testReview: ReviewSubmitProps = {
@@ -284,7 +302,7 @@ const CreateReview = () => {
 
   return (
     <>
-      <button onClick={handleSubmimtReivew}>리뷰하기</button>
+      {/* <button onClick={handleSubmimtReivew}>리뷰하기</button> */}
       <TitleWrapper>
         <Text fontSize="xl" fontWeight="bold">
           {show && titleParser(show).title}
