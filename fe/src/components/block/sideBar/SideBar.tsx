@@ -37,22 +37,22 @@ const SideBar = () => {
         <MenuTabContainer>
           <TabButton $isActive={tabType === 'Question'} onClick={() => handleClickTab('Question')}>
             <Text fontSize="lg" fontWeight="bold">
-              Question
+              질문하기
             </Text>
           </TabButton>
           <TabButton $isActive={tabType === 'Review'} onClick={() => handleClickTab('Review')}>
             <Text fontSize="lg" fontWeight="bold">
-              Review
+              리뷰하기
             </Text>
           </TabButton>
           <TabButton $isActive={tabType === 'Request'} onClick={() => handleClickTab('Request')}>
             <Text fontSize="lg" fontWeight="bold">
-              Request
+              요청된 리뷰
             </Text>
           </TabButton>
           <TabButton $isActive={tabType === 'Setting'} onClick={() => handleClickTab('Setting')}>
             <Text fontSize="lg" fontWeight="bold">
-              Setting
+              설정
             </Text>
           </TabButton>
           <TabButton
@@ -64,7 +64,7 @@ const SideBar = () => {
             }}
           >
             <Text fontSize="lg" fontWeight="bold">
-              SignOut
+              로그아웃
             </Text>
           </TabButton>
         </MenuTabContainer>

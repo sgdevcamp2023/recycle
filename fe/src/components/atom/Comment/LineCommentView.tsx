@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import GreyButton from '../Button/GreyButton';
 import Text from '../Text';
 import { reviewDataProps } from '@store/useReviewStore';
+import { useState } from 'react';
 
 const LineCommentViewBox = styled.div`
   width: 15.5rem;
@@ -57,32 +58,51 @@ interface LineCommentViewProps {
 
 const LineCommentView = ({ item }: LineCommentViewProps) => {
   console.log(item);
+
   function extractTextByIdAndIndices({ elementId, startIdx, endIdx }: any) {
     const element = document.getElementById(elementId);
-    console.log(elementId);
-    console.log(element);
     if (!element) return '';
 
     let extractedText = '';
-
     // 텍스트 노드일 경우
     if (element.nodeType === Node.TEXT_NODE) {
       const nodeText = element.textContent || '';
       extractedText = nodeText.substring(startIdx, endIdx);
     } else {
-      // 자식 노드 중에서 텍스트 노드만 선택
-      const childTextNodes = Array.from(element.childNodes).filter(
-        (childNode) => childNode.nodeType === Node.TEXT_NODE,
-      );
-
-      childTextNodes.forEach((childNode) => {
-        const nodeText = childNode.textContent || '';
-        extractedText += nodeText;
-      });
+      // 텍스트 노드가 아닌 경우, 자식 노드 중에서 텍스트를 추출하여 합침
+      extractedText = extractTextFromElement(element);
+      extractedText = extractedText.substring(startIdx, endIdx);
     }
-
+    console.log(extractedText);
     return extractedText;
   }
+
+  // 엘리먼트 내의 텍스트를 추출하는 함수
+  function extractTextFromElement(element) {
+    let text = '';
+    const treeWalker = document.createTreeWalker(
+      element,
+      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
+      null,
+    );
+    while (treeWalker.nextNode()) {
+      const node = treeWalker.currentNode;
+      if (node.nodeType === Node.TEXT_NODE) {
+        text += node.textContent || '';
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        text += extractTextFromElement(node);
+      }
+    }
+    return text;
+  }
+
+  const [sliceComment, setSliceComment] = useState(
+    extractTextByIdAndIndices({
+      elementId: item.reviewPoint,
+      startIdx: item.startIdx,
+      endIdx: item.endIdx,
+    }),
+  );
   return (
     <div>
       <LineCommentViewBox>
@@ -91,7 +111,7 @@ const LineCommentView = ({ item }: LineCommentViewProps) => {
             <Text fontSize="base">김현우</Text>
           </Name>
           <Date>
-            <Text fontSize="xxs">2024년 1월 3일</Text>
+            <Text fontSize="xxs">{item.createdAt}</Text>
           </Date>
           <GreyButton
             width={2.5}
@@ -105,17 +125,10 @@ const LineCommentView = ({ item }: LineCommentViewProps) => {
           </GreyButton>
         </UserInfoWrapper>
         <CommentContainer>
+          <LineCommentContent>
+            {item.reviewComment?.substring(item.startIdx, item.endIdx)}
+          </LineCommentContent>
           <LineCommentContent>{item.reviewText}</LineCommentContent>
-          <LineCommentContent>
-            {extractTextByIdAndIndices({
-              elementId: item.reviewId,
-              startIdx: item.startIdx,
-              endIdx: item.endIdx,
-            })}
-          </LineCommentContent>
-          <LineCommentContent>
-            {item.reviewId + ' ' + item.startIdx + ' ' + item.endIdx}
-          </LineCommentContent>
         </CommentContainer>
       </LineCommentViewBox>
     </div>

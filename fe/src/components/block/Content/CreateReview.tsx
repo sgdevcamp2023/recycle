@@ -25,9 +25,7 @@ interface PointProps {
 
 const CreateReview = () => {
   const { content } = useQuestionStore((state) => state);
-  const [show, setShow] = useState(
-    "## 대충 코드임\n안녕하세요\n\n저는 이규민입니다\n\n- 이건 코드입니다\n```js\nconst a = '규민'\nconsole.log(a)\n```\n\n- 이건 두번째 코드입니다\n```js\nconst b = '재진'\nconsole.log(b)\n```\n\n모든 코드를 전부 작성하였습니다",
-  );
+  const [show, setShow] = useState();
 
   const { reviewId } = useParams<{ reviewId: string }>();
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
@@ -50,19 +48,42 @@ const CreateReview = () => {
     setTarget(document.getElementById('wrapper'));
   }, []);
 
-  const { data } = useGetQuestion({ questionId: reviewId });
+  const { data } = useGetQuestion({ questionId: parseInt(reviewId) });
   console.log(reviewId);
-  const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: reviewId });
+  const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: parseInt(reviewId) });
   console.log(reviewResult);
 
   useEffect(() => {
     setShow(data?.data?.data?.content);
   }, [data]);
 
-  function extractTextByIdAndIndices(elementId, startIdx, endIdx) {
+  // function extractTextByIdAndIndices(elementId, startIdx, endIdx) {
+  //   const element = document.getElementById(elementId);
+  //   console.log(elementId);
+  //   console.log(element);
+  //   if (!element) return '';
+
+  //   let extractedText = '';
+
+  //   // 텍스트 노드일 경우
+  //   if (element.nodeType === Node.TEXT_NODE) {
+  //     const nodeText = element.textContent || '';
+  //     extractedText = nodeText.substring(startIdx, endIdx);
+  //   } else {
+  //     // 자식 노드 중에서 텍스트 노드만 선택
+  //     const childTextNodes = Array.from(element.childNodes).filter(
+  //       (childNode) => childNode.nodeType === Node.TEXT_NODE,
+  //     );
+
+  //     childTextNodes.forEach((childNode) => {
+  //       const nodeText = childNode.textContent || '';
+  //       extractedText += nodeText;
+  //     });
+  //   }
+  //   return extractedText;
+  // }
+  function extractTextByIdAndIndices({ elementId, startIdx, endIdx }: any) {
     const element = document.getElementById(elementId);
-    console.log(elementId);
-    console.log(element);
     if (!element) return '';
 
     let extractedText = '';
@@ -72,36 +93,52 @@ const CreateReview = () => {
       const nodeText = element.textContent || '';
       extractedText = nodeText.substring(startIdx, endIdx);
     } else {
-      // 자식 노드 중에서 텍스트 노드만 선택
-      const childTextNodes = Array.from(element.childNodes).filter(
-        (childNode) => childNode.nodeType === Node.TEXT_NODE,
-      );
-
-      childTextNodes.forEach((childNode) => {
-        const nodeText = childNode.textContent || '';
-        extractedText += nodeText;
-      });
+      // 텍스트 노드가 아닌 경우, 자식 노드 중에서 텍스트를 추출하여 합침
+      extractedText = extractTextFromElement(element);
+      extractedText = extractedText.substring(startIdx, endIdx);
     }
-
+    console.log(extractedText);
     return extractedText;
+  }
+
+  // 엘리먼트 내의 텍스트를 추출하는 함수
+  function extractTextFromElement(element) {
+    let text = '';
+    const treeWalker = document.createTreeWalker(
+      element,
+      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
+      null,
+    );
+    while (treeWalker.nextNode()) {
+      const node = treeWalker.currentNode;
+      if (node.nodeType === Node.TEXT_NODE) {
+        text += node.textContent || '';
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        text += extractTextFromElement(node);
+      }
+    }
+    return text;
   }
 
   useEffect(() => {
     const lineReviews = (reviewResult?.data?.data || []).filter((review) => review.tag === 'LINE');
-    console.log(lineReviews);
+    console.log('lineReviews', lineReviews);
     setData(
       lineReviews.map((review) => ({
-        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+        reviewId: review.questionId,
         startIdx: review.startPoint.index,
         endIdx: review.endPoint.index,
         reviewText: review.content,
-        reviewComment: extractTextByIdAndIndices(
-          review.startPoint.point,
-          review.startPoint.index,
-          review.endPoint.index,
-        ),
+        reviewPoint: review.startPoint.point,
+        reviewComment: extractTextByIdAndIndices({
+          elementId: review.startPoint.point,
+          startIdx: review.startPoint.index,
+          endIdx: review.endPoint.index,
+        }),
+        createdAt: review.createdAt,
       })),
     );
+    console.log('reviewData', reviewData);
     const codeReviews = (reviewResult?.data?.data || []).filter((review) => review.tag === 'CODE');
     console.log(codeReviews);
     setReview(
@@ -109,6 +146,7 @@ const CreateReview = () => {
         reviewId: review.reviewId != null ? review.reviewId.toString() : null,
         comment: review.content,
         id: review.startPoint.point,
+        createdAt: review.createdAt,
       })),
     );
   }, [reviewResult]);

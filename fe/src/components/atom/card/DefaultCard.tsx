@@ -100,7 +100,7 @@ const CardWrapper = styled.div<CardWrapperProps>`
   cursor: pointer;
   width: 100%;
   max-height: 25rem;
-  min-height: 12.5rem;
+  min-height: 15rem;
   background-color: ${({ theme }) => theme.backgroundColor.grey300};
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
