@@ -6,6 +6,8 @@ export interface reviewDataProps {
   endIdx?: number;
   reviewText?: string;
   reviewComment?: string;
+  createdAt?: string;
+  reviewPoint: number;
 }
 
 const useReviewStore = create((set) => ({
