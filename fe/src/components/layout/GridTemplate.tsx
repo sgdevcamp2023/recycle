@@ -27,6 +27,7 @@ const GridTemplate = () => {
     setReviewList: setInitialReviewList,
     setData,
     data,
+    setReview,
   } = useReviewStore();
 
   // 컴포넌트가 마운트될 때와 리뷰 목록이 변경될 때마다 실행되는 useEffect 설정
@@ -39,7 +40,7 @@ const GridTemplate = () => {
     setReviewData(data);
   }, [data]);
   const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: parseInt(reviewId) });
-  function extractTextByIdAndIndices(elementId, startIdx, endIdx) {
+  function extractTextByIdAndIndices({ elementId, startIdx, endIdx }: any) {
     const element = document.getElementById(elementId);
     console.log(elementId);
     console.log(element);
@@ -67,17 +68,32 @@ const GridTemplate = () => {
   }
 
   useEffect(() => {
+    const lineReviews = (reviewResult?.data?.data || []).filter((review) => review.tag === 'LINE');
+    console.log('lineReviews', lineReviews);
     setData(
-      reviewResult?.data?.data.map((review) => ({
-        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+      lineReviews.map((review) => ({
+        reviewId: review.questionId,
         startIdx: review.startPoint.index,
         endIdx: review.endPoint.index,
         reviewText: review.content,
-        reviewComment: extractTextByIdAndIndices(
-          review.startPoint.point,
-          review.startPoint.index,
-          review.endPoint.index,
-        ),
+        reviewPoint: review.startPoint.point,
+        reviewComment: extractTextByIdAndIndices({
+          elementId: review.startPoint.point,
+          startIdx: review.startPoint.index,
+          endIdx: review.endPoint.index,
+        }),
+        createdAt: review.createdAt,
+      })),
+    );
+    console.log('reviewData', reviewData);
+    const codeReviews = (reviewResult?.data?.data || []).filter((review) => review.tag === 'CODE');
+    console.log(codeReviews);
+    setReview(
+      codeReviews.map((review) => ({
+        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+        comment: review.content,
+        id: review.startPoint.point,
+        createdAt: review.createdAt,
       })),
     );
   }, [reviewResult]);
@@ -103,16 +119,15 @@ const GridTemplate = () => {
     const testReview: ReviewSubmitProps = {
       content: commentRef?.current?.value,
       startPoint: {
-        point: reviewData[0].reviewId,
+        point: item.reviewId,
         index: item.startIdx,
       },
       endPoint: {
-        point: reviewData[0].reviewId,
+        point: item.reviewId,
         index: item.endIdx,
       },
       tag: 'LINE',
     };
-    console.log(reviewId);
     mutate({ content: testReview, questionId: reviewId });
   };
 
