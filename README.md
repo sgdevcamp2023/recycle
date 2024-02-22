@@ -12,6 +12,7 @@
     - ReactQuery
     - Zustand
     - React-md-editor
+    - styled-components
 - BE
     - Spring Boot
     - MySQL
