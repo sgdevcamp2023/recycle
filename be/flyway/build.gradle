@@ -1,0 +1,13 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    // flyway
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
+    implementation 'org.flywaydb:flyway-mysql'
+}

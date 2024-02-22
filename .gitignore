@@ -203,3 +203,19 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,intellij,gradle
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+fe/node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch

@@ -1,0 +1,94 @@
+version: '3.1'
+services:
+  recycle-mysql:
+    container_name: recycle-mysql8
+    image: mysql/mysql-server:8.0.27
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+      - TZ=Asia/Seoul
+    command: [ "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--lower_case_table_names=1", "--max_connections=2048", "--wait_timeout=3600" ]
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./mysql-init.d:/docker-entrypoint-initdb.d
+
+  recycle-adminer: # mysql web admin
+    container_name: recycle-adminer
+    image: adminer:4
+    ports:
+      - "18080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=recycle-mysql8
+      - ADMINER_DESIGN=nette
+      - ADMINER_PLUGINS=tables-filter tinymce
+  redis:
+    image: redis:latest
+    container_name: redis
+    hostname: admin
+    ports:
+      - "16379:6379"
+  rabbitmq:
+    image: rabbitmq:3.7.14-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.2-arm64
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./elasticsearch:/usr/share/elasticsearch/data:rw
+    # Elastic search 계정정보
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+      discovery.type: single-node
+      ELASTIC_USERNAME: "elastic"
+      ELASTIC_PASSWORD: "MyPw123"
+    networks:
+      - elk
+    command: >
+      bash -c "
+      bin/elasticsearch-plugin install analysis-nori;
+      exec /usr/local/bin/docker-entrypoint.sh "
+
+  # Logstash 설정
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:7.10.1
+    platform: linux/amd64
+    ports:
+      - 5000:5000
+      - 9600:9600
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  # Kibana 설정
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana-oss:7.9.3
+    platform: linux/amd64
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge

@@ -1,0 +1,12 @@
+dependencies {
+    // database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java'
+
+    implementation 'org.hibernate:hibernate-envers'
+
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'javax.annotation:javax.annotation-api'
+
+    annotationProcessor("javax.persistence:javax.persistence-api")
+}

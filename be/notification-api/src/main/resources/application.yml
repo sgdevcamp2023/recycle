@@ -1,0 +1,14 @@
+server:
+  port: 8084
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - mysql
+      - flyway-notification
+      - security
+      - mail
+      - rabbit
+      - cookie
+      - log

@@ -1,0 +1,48 @@
+#! /bin/bash
+
+pid=$(lsof -ti :8082)
+
+if [ -z "$pid" ]; then
+  echo "사용중인 프로세스 X"
+else
+  # PID를 이용하여 프로세스 종료
+  kill -9 "$pid"
+  echo "포트 8082를 사용중인 프로세스 종료"
+fi
+
+pid=$(lsof -ti :8081)
+
+if [ -z "$pid" ]; then
+  echo "사용중인 프로세스 X"
+else
+  # PID를 이용하여 프로세스 종료
+  kill -9 "$pid"
+  echo "포트 8081를 사용중인 프로세스 종료"
+fi
+
+pid=$(lsof -ti :8083)
+
+if [ -z "$pid" ]; then
+  echo "사용중인 프로세스 X"
+else
+  # PID를 이용하여 프로세스 종료
+  kill -9 "$pid"
+  echo "포트 8083를 사용중인 프로세스 종료"
+fi
+
+pid=$(lsof -ti :8084)
+
+if [ -z "$pid" ]; then
+  echo "사용중인 프로세스 X"
+else
+  # PID를 이용하여 프로세스 종료
+  kill -9 "$pid"
+  echo "포트 8083를 사용중인 프로세스 종료"
+fi
+
+cd ../
+
+./gradlew :review-query-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :review-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :member-api:bootRun --args='--spring.profiles.active=local' &
+./gradlew :notification-api:bootRun --args='--spring.profiles.active=local' &

@@ -1,0 +1,25 @@
+server:
+  port: 8084
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - flyway-notification
+      - mysql-local
+      - security-local
+      - mail-local
+      - rabbit-local
+      - cookie-local
+      - log-local
+
+logging:
+  level:
+    root: DEBUG
+    com:
+      zzaug: DEBUG
+    org:
+      springframework:
+        transaction:
+          interceptor: DEBUG
+    sql: DEBUG

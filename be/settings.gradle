@@ -1,0 +1,12 @@
+rootProject.name = 'recycle'
+// api
+include 'member-api'
+include 'review-api'
+include 'review-query-api'
+include 'notification-api'
+
+// module
+include 'flyway'
+include 'security'
+include 'rabbitmq'
+include 'web'

@@ -1,0 +1,44 @@
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - flyway-security
+security:
+  jwt:
+    token:
+      validtime:
+        access: 21600000
+        refresh: 2073600000
+      secretkey: ${TOKEN_SECRETKEY}
+  cors:
+    path-patterns: ${CORS_PATH_PATTERNS}
+    origin-patterns: ${CORS_ORIGIN_PATTERNS}
+    allowed-methods: ${CORS_ALLOWED_METHODS}
+    allowed-headers: ${CORS_ALLOWED_HEADERS}
+    exposed-headers: ${CORS_EXPOSED_HEADERS}
+    allow-credentials: ${CORS_ALLOW_CREDENTIALS}
+    max-age: ${CORS_MAX_AGE}
+
+recycle:
+  security:
+    entity:
+      datasource:
+        jdbcUrl: ${DB_HOSTNAME}/security?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+        user: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        hibernate:
+          ddl-auto: validate
+        properties:
+          hibernate:
+            format_sql: true
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+logging:
+  level:
+    sql: debug

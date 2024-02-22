@@ -1,0 +1,19 @@
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    include:
+      - local
+token:
+  test: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6MSwiY2VydGlmaWNhdGlvbiI6InNhbXBsZSIsIm1lbWJlclJvbGUiOiJbUk9MRV9VU0VSXSIsImVtYWlsIjoic2FtcGxlQGVtYWlsLmNvbSIsImdpdGh1YiI6InNhbXBsZUdpdCIsImlhdCI6MTcwNjYyNTY5MH0.BKiUfu0k04f4WWYSFvA80g6PHGaGgnB0N5P39CD8ivA
+
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
