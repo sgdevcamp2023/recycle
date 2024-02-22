@@ -128,7 +128,7 @@ const CreateReview = () => {
         startIdx: start,
         endIdx: end,
         reviewText: text.substring(start, end),
-        reviewId: parseInt(startNode?.id),
+        reviewId: startNode?.id,
       };
       setReviewList([newData]);
     } else if (startNode && endNode) {
@@ -254,7 +254,7 @@ const CreateReview = () => {
       });
       const elements = markdownElement.querySelectorAll('*:not(code)'); // 코드 블록이 아닌 모든 요소를 선택합니다.
       elements.forEach((element, index) => {
-        const id = index + 1;
+        id = index + 1;
         element.id = `${id}`;
       });
     }

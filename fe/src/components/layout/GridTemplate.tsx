@@ -1,6 +1,6 @@
 import SideBar from '@components/block/sideBar/SideBar';
 import styled from 'styled-components';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import ContentTab from '@components/block/navbar/ContentTab';
 import ReviewWriteModal from '@components/block/modal/ReviewWriteModal';
 import { useMarkdownStore } from '@store/useMarkdownStore';
@@ -11,13 +11,16 @@ import LineCommentView from '@components/atom/Comment/LineCommentView';
 import ReviewShowModal from '@components/block/modal/ReviewShowModal';
 import value from '../../svg.d';
 import { reviewDataProps } from '../../store/useReviewStore';
+import useSaveReview from '@hooks/query/review/useSaveReview';
+import { ReviewSubmitProps } from '@components/block/Content/CreateReview';
+import useGetReviewsOnQuestion from '@hooks/query/question/useGetReviewsOnQuestion';
 
 const GridTemplate = () => {
   const { showCodeComment, setShowCodeComment } = useMarkdownStore();
   const [reviewList, setReviewList] = useState([]);
   const [reviewData, setReviewData] = useState([]);
   const commentRef = useRef(null);
-
+  const { reviewId } = useParams<{ reviewId: string }>();
   // useReviewStore 훅으로부터 리뷰 목록 가져오기
   const {
     reviewList: initialReviewList,
@@ -35,11 +38,56 @@ const GridTemplate = () => {
   useEffect(() => {
     setReviewData(data);
   }, [data]);
+  const { data: reviewResult } = useGetReviewsOnQuestion({ questionId: parseInt(reviewId) });
+  function extractTextByIdAndIndices(elementId, startIdx, endIdx) {
+    const element = document.getElementById(elementId);
+    console.log(elementId);
+    console.log(element);
+    if (!element) return '';
+
+    let extractedText = '';
+
+    // 텍스트 노드일 경우
+    if (element.nodeType === Node.TEXT_NODE) {
+      const nodeText = element.textContent || '';
+      extractedText = nodeText.substring(startIdx, endIdx);
+    } else {
+      // 자식 노드 중에서 텍스트 노드만 선택
+      const childTextNodes = Array.from(element.childNodes).filter(
+        (childNode) => childNode.nodeType === Node.TEXT_NODE,
+      );
+
+      childTextNodes.forEach((childNode) => {
+        const nodeText = childNode.textContent || '';
+        extractedText += nodeText;
+      });
+    }
+
+    return extractedText;
+  }
+
+  useEffect(() => {
+    setData(
+      reviewResult?.data?.data.map((review) => ({
+        reviewId: review.reviewId != null ? review.reviewId.toString() : null,
+        startIdx: review.startPoint.index,
+        endIdx: review.endPoint.index,
+        reviewText: review.content,
+        reviewComment: extractTextByIdAndIndices(
+          review.startPoint.point,
+          review.startPoint.index,
+          review.endPoint.index,
+        ),
+      })),
+    );
+  }, [reviewResult]);
 
   const handleCancelLineComment = (indexToDelete) => {
     const updatedReviewList = initialReviewList.filter((item, index) => index !== indexToDelete);
     setInitialReviewList(updatedReviewList);
   };
+
+  const { mutate } = useSaveReview();
 
   const handleAddLineComment = ({ item, index: indexToDelete }) => {
     console.log(item);
@@ -51,6 +99,21 @@ const GridTemplate = () => {
     console.log(commentRef?.current?.value);
     const updatedReviewList = initialReviewList.filter((item, index) => index !== indexToDelete);
     setInitialReviewList(updatedReviewList);
+    console.log(reviewData);
+    const testReview: ReviewSubmitProps = {
+      content: commentRef?.current?.value,
+      startPoint: {
+        point: reviewData[0].reviewId,
+        index: item.startIdx,
+      },
+      endPoint: {
+        point: reviewData[0].reviewId,
+        index: item.endIdx,
+      },
+      tag: 'LINE',
+    };
+    console.log(reviewId);
+    mutate({ content: testReview, questionId: reviewId });
   };
 
   const location = useLocation();
@@ -92,7 +155,7 @@ const GridTemplate = () => {
                   );
                 })}
               {reviewData &&
-                reviewData.map((item: reviewData, index) => {
+                reviewData.map((item, index) => {
                   return (
                     <>
                       <LineCommentView item={item} />

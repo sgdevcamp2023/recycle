@@ -56,6 +56,33 @@ interface LineCommentViewProps {
 }
 
 const LineCommentView = ({ item }: LineCommentViewProps) => {
+  console.log(item);
+  function extractTextByIdAndIndices({ elementId, startIdx, endIdx }: any) {
+    const element = document.getElementById(elementId);
+    console.log(elementId);
+    console.log(element);
+    if (!element) return '';
+
+    let extractedText = '';
+
+    // 텍스트 노드일 경우
+    if (element.nodeType === Node.TEXT_NODE) {
+      const nodeText = element.textContent || '';
+      extractedText = nodeText.substring(startIdx, endIdx);
+    } else {
+      // 자식 노드 중에서 텍스트 노드만 선택
+      const childTextNodes = Array.from(element.childNodes).filter(
+        (childNode) => childNode.nodeType === Node.TEXT_NODE,
+      );
+
+      childTextNodes.forEach((childNode) => {
+        const nodeText = childNode.textContent || '';
+        extractedText += nodeText;
+      });
+    }
+
+    return extractedText;
+  }
   return (
     <div>
       <LineCommentViewBox>
@@ -79,7 +106,16 @@ const LineCommentView = ({ item }: LineCommentViewProps) => {
         </UserInfoWrapper>
         <CommentContainer>
           <LineCommentContent>{item.reviewText}</LineCommentContent>
-          <LineCommentContent>{item.reviewComment}</LineCommentContent>
+          <LineCommentContent>
+            {extractTextByIdAndIndices({
+              elementId: item.reviewId,
+              startIdx: item.startIdx,
+              endIdx: item.endIdx,
+            })}
+          </LineCommentContent>
+          <LineCommentContent>
+            {item.reviewId + ' ' + item.startIdx + ' ' + item.endIdx}
+          </LineCommentContent>
         </CommentContainer>
       </LineCommentViewBox>
     </div>
