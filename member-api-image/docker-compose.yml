@@ -1,0 +1,176 @@
+version: '3.1'
+services:
+  member-api:
+    container_name: member-api
+    image: zzuag/member-api:latest
+    ports:
+      - "18081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: "new"
+      DB_HOSTNAME: "jdbc:mysql://recycle-mysql:3306"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "root"
+      REDIS_HOST: "redis"
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: "admin"
+      RABBITMQ_PASSWORD: "admin"
+      TOKEN_SECRETKEY: "thisissecretkeyidontknowwhyitistoolong"
+      CORS_PATH_PATTERNS: "/**"
+      CORS_ORIGIN_PATTERNS: "*"
+      CORS_ALLOWED_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
+      CORS_ALLOWED_HEADERS: "*"
+      CORS_EXPOSED_HEADERS: "Set-Cookie, Authorization, Content-Type, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin, Access-Control-Allow-Credentials"
+      CORS_ALLOW_CREDENTIALS: true
+      CORS_MAX_AGE: 1800
+      COOKIE_DOMAIN: "localhost"
+      COOKIE_PATH: "/"
+      COOKIE_MAX_AGE: 1800
+      TZ: "Asia/Seoul"
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+      LOGSTASH_URL: "logstash:5000"
+    networks:
+      - member
+
+  notification-api:
+    container_name: notification-api
+    image: zzuag/notification-api:latest
+    ports:
+      - "18084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: "new"
+      DB_HOSTNAME: "jdbc:mysql://recycle-mysql:3306"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "root"
+      REDIS_HOST: "redis"
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: "admin"
+      RABBITMQ_PASSWORD: "admin"
+      TOKEN_SECRETKEY: "thisissecretkeyidontknowwhyitistoolong"
+      CORS_PATH_PATTERNS: "/**"
+      CORS_ORIGIN_PATTERNS: "*"
+      CORS_ALLOWED_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
+      CORS_ALLOWED_HEADERS: "*"
+      CORS_EXPOSED_HEADERS: "Set-Cookie, Authorization, Content-Type, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin, Access-Control-Allow-Credentials"
+      CORS_ALLOW_CREDENTIALS: true
+      CORS_MAX_AGE: 1800
+      COOKIE_DOMAIN: "localhost"
+      COOKIE_PATH: "/"
+      COOKIE_MAX_AGE: 1800
+      TZ: "Asia/Seoul"
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+      LOGSTASH_URL: "logstash:5000"
+      MAIL_HOST: "smtp.gmail.com"
+      MAIL_PORT: 587
+      MAIL_USERNAME: "zzuag.dev@gmail.com"
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+    networks:
+      - member
+
+  recycle-mysql:
+    container_name: recycle-mysql8
+    image: mysql/mysql-server:8.0.27
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+      - TZ=Asia/Seoul
+    command: [ "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--lower_case_table_names=1", "--max_connections=2048", "--wait_timeout=3600" ]
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./mysql-init.d:/docker-entrypoint-initdb.d
+    networks:
+      - member
+  recycle-adminer: # mysql web admin
+    container_name: recycle-adminer
+    image: adminer:4
+    ports:
+      - "18080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=recycle-mysql8
+      - ADMINER_DESIGN=nette
+      - ADMINER_PLUGINS=tables-filter tinymce
+    networks:
+      - member
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    hostname: admin
+    ports:
+      - "16379:6379"
+    networks:
+      - member
+
+  rabbitmq:
+    image: rabbitmq:3.7.14-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - member
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2-arm64
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./elasticsearch:/usr/share/elasticsearch/data:rw
+    # Elastic search 계정정보
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+      discovery.type: single-node
+      ELASTIC_USERNAME: "elastic"
+      ELASTIC_PASSWORD: "MyPw123"
+    networks:
+      - member
+    command: >
+      bash -c "
+      bin/elasticsearch-plugin install analysis-nori;
+      exec /usr/local/bin/docker-entrypoint.sh "
+
+  # Logstash 설정
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:7.10.1
+    platform: linux/amd64
+    ports:
+      - 5000:5000
+      - 9600:9600
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - member
+
+  # Kibana 설정
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana-oss:7.9.3
+    platform: linux/amd64
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    networks:
+      - member
+
+networks:
+  member:
+    driver: bridge
